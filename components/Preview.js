@@ -13,12 +13,12 @@ function Preview({ type, items }) {
               'pt-2 border-t border-gray-300 dark:border-gray-500': index !== 0,
             })}
           >
-            <h2 className="font-bold">
+            <h2 className="text-lg font-bold">
               <Link href={`/${type}/${number}`}>
                 <a>{title}</a>
               </Link>
             </h2>
-            <p className="mt-1 text-xs">{bodyText.slice(0, 100)}...</p>
+            <p className="mt-1 text-sm">{bodyText.slice(0, 100)}...</p>
             <div
               className="mt-2 text-xs text-gray-600 dark:text-gray-300"
               title={`${fromNow(updatedAt)} 수정`}

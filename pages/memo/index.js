@@ -4,7 +4,7 @@ import gql from '../../lib/octokit'
 
 function Memos({ data }) {
   return (
-    <Layout title="메모">
+    <Layout title="Memo">
       <Preview type="memo" items={data} />
     </Layout>
   )

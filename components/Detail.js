@@ -3,6 +3,11 @@ function Detail({ body, comments }) {
 
   return (
     <>
+      <style jsx global>{`
+        .prose pre {
+          background-color: #212121;
+        }
+      `}</style>
       <div
         className="mt-6 prose prose-sm dark:prose-dark"
         dangerouslySetInnerHTML={{ __html: body }}
@@ -15,7 +20,7 @@ function Detail({ body, comments }) {
             {comments.map((comment) => (
               <div
                 key={comment.databaseId}
-                className="border-t border-dashed  border-gray-300 dark:border-gray-500 mt-4 text-xs"
+                className="border-t border-dashed  border-gray-300 dark:border-gray-500 mt-4"
                 dangerouslySetInnerHTML={{ __html: comment.bodyHTML }}
               ></div>
             ))}

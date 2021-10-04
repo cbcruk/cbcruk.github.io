@@ -2,7 +2,7 @@ import Layout from '../components/Layout'
 
 function Error({ statusCode }) {
   return (
-    <Layout>
+    <Layout title="">
       <h1 className="prose prose-xl">
         {statusCode
           ? `서버에서  오류가 발생했습니다.`

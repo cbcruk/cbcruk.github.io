@@ -27,7 +27,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400&display=swap"
           />
         </Head>
-        <body className="max-w-prose dark:bg-gray-800 dark:text-gray-300">
+        <body className="dark:bg-gray-800 dark:text-gray-300">
           <Main />
           <NextScript />
         </body>
