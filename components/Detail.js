@@ -1,5 +1,8 @@
 function Detail({ body, comments }) {
   const hasComment = comments.length > 0
+  const html = body.replace(/\[CODEPEN=(.+)\]/g, (_match, p1) => {
+    return `<iframe src="https://codepen.io/eunsoolee/embed/${p1}?default-tab=result" loading="lazy"></iframe>`
+  })
 
   return (
     <>
@@ -7,10 +10,23 @@ function Detail({ body, comments }) {
         .prose pre {
           background-color: #212121;
         }
+
+        .prose blockquote {
+          color: #e5e7eb;
+        }
       `}</style>
+      <style jsx>{`
+        .Detail-content :global(iframe) {
+          width: 100%;
+          aspect-ratio: 3/2;
+        }
+      `}</style>
+
       <div
-        className="mt-6 prose prose-sm dark:prose-dark"
-        dangerouslySetInnerHTML={{ __html: body }}
+        className="Detail-content mt-6 prose prose-sm dark:prose-dark"
+        dangerouslySetInnerHTML={{
+          __html: html,
+        }}
       ></div>
 
       {hasComment && (

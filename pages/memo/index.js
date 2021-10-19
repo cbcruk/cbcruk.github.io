@@ -15,13 +15,19 @@ export async function getServerSideProps() {
     `
       {
         repository(owner: "cbcruk", name: "issues") {
-          issues(last: 10, filterBy: { labels: "memo" }, orderBy: { direction: DESC, field: UPDATED_AT }) {
+          issues(last: 100, filterBy: { labels: "memo" }, orderBy: { direction: DESC, field: UPDATED_AT }) {
             nodes {
               number
               title
               bodyText
               createdAt
               updatedAt
+            } 
+            pageInfo {
+              startCursor
+              hasPreviousPage
+              hasNextPage
+              endCursor
             }
           }
         }

@@ -21,9 +21,9 @@ function Preview({ type, items }) {
             <p className="mt-1 text-sm">{bodyText.slice(0, 100)}...</p>
             <div
               className="mt-2 text-xs text-gray-600 dark:text-gray-300"
-              title={`${fromNow(updatedAt)} 수정`}
+              title={`opened ${fromNow(createdAt)}`}
             >
-              opened {fromNow(createdAt)}
+              updated {fromNow(updatedAt)}
             </div>
           </div>
         )
