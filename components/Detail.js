@@ -1,12 +1,15 @@
-function Detail({ body, comments }) {
-  const hasComment = comments.length > 0
-  const html = body
+function getHtml(html) {
+  return html
     .replace(/\[CODEPEN=(.+)\]/g, (_match, p1) => {
       return `<iframe src="https://codepen.io/eunsoolee/embed/${p1}?default-tab=result" loading="lazy"></iframe>`
     })
     .replace(/\[CODESANDBOX=(.+)\]/g, (_match, p1) => {
       return `<iframe src="https://codesandbox.io/embed/${p1}?fontsize=14&theme=dark&view=preview"></iframe>`
     })
+}
+
+function Detail({ body, comments }) {
+  const hasComment = comments.length > 0
 
   return (
     <>
@@ -27,21 +30,21 @@ function Detail({ body, comments }) {
       `}</style>
 
       <div
-        className="Detail-content mt-6 prose prose-sm dark:prose-dark"
+        className="Detail-content overflow-hidden mt-6 prose prose-sm dark:prose-dark"
         dangerouslySetInnerHTML={{
-          __html: html,
+          __html: getHtml(body),
         }}
       ></div>
 
       {hasComment && (
         <div className="mt-6">
-          <h2>코멘트</h2>
+          <h2 hidden>코멘트</h2>
           <div className="prose prose-sm dark:prose-dark mt-4">
             {comments.map((comment) => (
               <div
                 key={comment.databaseId}
-                className="border-t border-dashed  border-gray-300 dark:border-gray-500 mt-4"
-                dangerouslySetInnerHTML={{ __html: comment.bodyHTML }}
+                className="Detail-content overflow-hidden border-t border-dashed border-gray-300 dark:border-gray-500 mt-4"
+                dangerouslySetInnerHTML={{ __html: getHtml(comment.bodyHTML) }}
               ></div>
             ))}
           </div>

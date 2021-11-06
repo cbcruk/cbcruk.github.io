@@ -18,7 +18,7 @@ function Preview({ type, items }) {
                 <a>{title}</a>
               </Link>
             </h2>
-            <p className="mt-1 text-sm">{bodyText.slice(0, 100)}...</p>
+            <p className="mt-1 text-sm">{bodyText}</p>
             <div
               className="mt-2 text-xs text-gray-600 dark:text-gray-300"
               title={`opened ${fromNow(createdAt)}`}
