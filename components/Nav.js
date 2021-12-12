@@ -21,7 +21,7 @@ function Nav() {
   const router = useRouter()
 
   return (
-    <div className="sticky top-0 p-4 bg-gray-700">
+    <div className="sticky top-0 z-10 p-4 bg-gray-700">
       <nav className="flex items-center gap-2 text-sm">
         {links.map((link) => {
           const hasParam = router.asPath.includes('/') && link.href.length > 1
