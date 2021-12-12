@@ -51,4 +51,5 @@ module.exports = {
     },
   },
   plugins: [require('@tailwindcss/typography')],
+  mode: 'jit',
 }
