@@ -37,7 +37,14 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      data: repository.issues.nodes,
+      data: repository.issues.nodes.map((node) => {
+        const [bodyTextSummary] = node.bodyText.split('\n')
+
+        return {
+          ...node,
+          bodyText: bodyTextSummary,
+        }
+      }),
     },
   }
 }
