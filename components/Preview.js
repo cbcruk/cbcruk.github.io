@@ -5,26 +5,26 @@ import { fromNow } from '../lib/time'
 function Preview({ type, items }) {
   return (
     <div className="items mt-4">
-      {items.map(({ number, title, bodyText, createdAt, updatedAt }, index) => {
+      {items.map(({ number, title, bodyText, createdAt, updatedAt }) => {
         return (
           <div
             key={number}
-            className={clsx('mt-4 font-sans', {
-              'pt-2 border-t border-gray-300 dark:border-gray-500': index !== 0,
-            })}
+            className={clsx(
+              'p-2 hover:bg-gray-700 rounded-md hover:shadow-md mt-2 font-sans transition-all'
+            )}
           >
-            <h2 className="text-lg font-bold">
-              <Link href={`/${type}/${number}`}>
-                <a>{title}</a>
-              </Link>
-            </h2>
-            <p className="mt-1 text-sm">{bodyText}</p>
-            <div
-              className="mt-2 text-xs text-gray-600 dark:text-gray-300"
-              title={`opened ${fromNow(createdAt)}`}
-            >
-              updated {fromNow(updatedAt)}
-            </div>
+            <Link href={`/${type}/${number}`}>
+              <a>
+                <h2 className="text-lg font-bold">{title}</h2>
+                <p className="mt-1 text-sm">{bodyText}</p>
+                <div
+                  className="mt-2 text-xs text-gray-600 dark:text-gray-300"
+                  title={`opened ${fromNow(createdAt)}`}
+                >
+                  updated {fromNow(updatedAt)}
+                </div>
+              </a>
+            </Link>
           </div>
         )
       })}
