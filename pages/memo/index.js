@@ -1,6 +1,7 @@
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
 import gql from '../../lib/octokit'
+import { handler as memoHandler } from '../api/memo'
 
 function Memos({ data }) {
   return (
@@ -10,7 +11,19 @@ function Memos({ data }) {
   )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ query }) {
+  const { q } = query
+
+  if (q) {
+    const data = await memoHandler(q)
+
+    return {
+      props: {
+        data,
+      },
+    }
+  }
+
   const { repository } = await gql(
     `
       {

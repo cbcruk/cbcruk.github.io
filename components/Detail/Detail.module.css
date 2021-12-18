@@ -54,6 +54,10 @@
   margin-bottom: 0;
 }
 
+.content :global(.highlight) {
+  margin-bottom: 16px;
+}
+
 .content :global(pre) {
   background-color: #212121;
 }
