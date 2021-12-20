@@ -24,8 +24,9 @@
 }
 
 .content :global(.footnotes) {
+  padding-top: 16px;
   border-top: 1px solid #444c56;
-  padding-top: 1.1428571em;
+  margin-top: 16px;
   font-size: 10px;
 }
 
