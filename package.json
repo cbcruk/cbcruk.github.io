@@ -10,7 +10,7 @@
   "dependencies": {
     "@octokit/graphql": "^4.6.2",
     "@octokit/rest": "^18.5.6",
-    "@tailwindcss/typography": "^0.4.1",
+    "@tailwindcss/typography": "^0.5.0",
     "autoprefixer": "^10.2.6",
     "clsx": "^1.1.1",
     "dayjs": "^1.10.5",
@@ -22,6 +22,6 @@
     "postcss": "^8.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "tailwindcss": "^2.2.19"
+    "tailwindcss": "^3.0.7"
   }
 }
