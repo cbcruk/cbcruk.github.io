@@ -2,8 +2,8 @@ import clsx from 'clsx'
 import dayjs from 'dayjs'
 import Layout from '../components/Layout'
 
-function About({ data }) {
-  const { description, company } = data
+function About({ about, links }) {
+  const { description, company } = about
 
   return (
     <Layout title="자기소개">
@@ -41,17 +41,37 @@ function About({ data }) {
           }
         )}
       </ul>
+
+      <h2 className="mt-8">링크</h2>
+      <ul className="flex gap-2 mt-2 text-sm">
+        {links.map((link) => {
+          return (
+            <li key={link.name}>
+              <a href={link.url} target="_blank" rel="noreferrer">
+                {link.name}
+              </a>
+            </li>
+          )
+        })}
+      </ul>
     </Layout>
   )
 }
 
 export async function getStaticProps() {
-  const response = await fetch(process.env.GOOGLE_APPS_SCRIPT_URL)
-  const { data } = await response.json()
+  const types = ['about', 'links']
+  const [about, links] = await Promise.all(
+    types.map((type) =>
+      fetch(`${process.env.GOOGLE_APPS_SCRIPT_URL}?type=${type}`)
+        .then((response) => response.json())
+        .then(({ data }) => data)
+    )
+  )
 
   return {
     props: {
-      data,
+      about,
+      links,
     },
   }
 }
