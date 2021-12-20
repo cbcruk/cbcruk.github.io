@@ -5,7 +5,7 @@ import { handler as memoHandler } from '../api/memo'
 
 function Memos({ data }) {
   return (
-    <Layout title="Memo">
+    <Layout title="Memo" isShowTitle={false}>
       <Preview type="memo" items={data} />
     </Layout>
   )
@@ -35,6 +35,9 @@ export async function getServerSideProps({ query }) {
               bodyText
               createdAt
               updatedAt
+              comments {
+                totalCount
+              }
             } 
             pageInfo {
               startCursor
