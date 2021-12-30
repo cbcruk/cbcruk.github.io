@@ -5,14 +5,7 @@ function Preview({ type, items }) {
   return (
     <div className="items">
       {items.map(
-        ({
-          number,
-          title,
-          bodyText,
-          comments: { totalCount },
-          createdAt,
-          updatedAt,
-        }) => {
+        ({ number, title, bodyText, comments, createdAt, updatedAt }) => {
           return (
             <div
               key={number}
@@ -27,9 +20,11 @@ function Preview({ type, items }) {
                     <span className="hidden md:block">-</span>
                     <p className="mt-1 text-sm">
                       {bodyText}
-                      <span className="inline-block w-5 aspect-square p-1 rounded-lg bg-gray-600 ml-1 text-xs text-center leading-3">
-                        {totalCount}
-                      </span>
+                      {comments && (
+                        <span className="inline-block w-5 aspect-square p-1 rounded-lg bg-gray-600 ml-1 text-xs text-center leading-3">
+                          {comments.totalCount}
+                        </span>
+                      )}
                     </p>
                   </div>
                   <div
