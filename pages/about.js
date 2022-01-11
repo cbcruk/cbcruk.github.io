@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import dayjs from 'dayjs'
+import { HighlightLinks } from '../components/HighlightLinks'
 import Layout from '../components/Layout'
 
 function About({ about, links }) {
@@ -43,17 +44,22 @@ function About({ about, links }) {
       </ul>
 
       <h2 className="mt-8">링크</h2>
-      <ul className="flex gap-2 mt-2 text-sm">
+      <HighlightLinks>
         {links.map((link) => {
           return (
             <li key={link.name}>
-              <a href={link.url} target="_blank" rel="noreferrer">
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-gray-800 transition ease-out"
+              >
                 {link.name}
               </a>
             </li>
           )
         })}
-      </ul>
+      </HighlightLinks>
     </Layout>
   )
 }

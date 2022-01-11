@@ -17,8 +17,7 @@ function Preview({ type, items }) {
                     <h2 className="flex items-center gap-2 text-lg font-bold">
                       {title}
                     </h2>
-                    <span className="hidden md:block">-</span>
-                    <p className="mt-1 text-sm">
+                    <p className="mt-1 text-xs text-gray-400">
                       {bodyText}
                       {comments && (
                         <span className="inline-block w-5 aspect-square p-1 rounded-lg bg-gray-600 ml-1 text-xs text-center leading-3">
