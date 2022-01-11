@@ -6,4 +6,7 @@ export function getHtml(html) {
     .replace(/\[CODESANDBOX=(.+)\]/g, (_match, p1) => {
       return `<iframe src="https://codesandbox.io/embed/${p1}?fontsize=14&theme=dark&view=preview"></iframe>`
     })
+    .replace(/\[STACKBLITZ=(.+)\]/g, (_match, p1) => {
+      return `<button data-id="${p1}">StackBlitz</button><div id="${p1}"></div>`
+    })
 }

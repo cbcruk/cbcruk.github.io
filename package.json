@@ -10,6 +10,7 @@
   "dependencies": {
     "@octokit/graphql": "^4.6.2",
     "@octokit/rest": "^18.5.6",
+    "@stackblitz/sdk": "^1.5.3",
     "@tailwindcss/typography": "^0.5.0",
     "autoprefixer": "^10.2.6",
     "clsx": "^1.1.1",
