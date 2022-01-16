@@ -8,8 +8,6 @@ import {
   KBarSearch,
   useMatches,
   KBarResults,
-  ActionImpl,
-  ActionId,
 } from 'kbar'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -19,9 +17,9 @@ const ResultItem = React.forwardRef(
   /**
    *
    * @param {Object} props
-   * @param {ActionImpl} props.action
+   * @param {import('kbar').ActionImpl} props.action
    * @param {boolean} props.active
-   * @param {ActionId} props.currentRootActionId
+   * @param {import('kbar').ActionId} props.currentRootActionId
    * @param {React.Ref<HTMLDivElement>} ref
    */
   ({ action, active, currentRootActionId }, ref) => {
@@ -83,6 +81,7 @@ const ResultItem = React.forwardRef(
     )
   }
 )
+ResultItem.displayName = 'ResultItem'
 
 function RenderResults() {
   const { results, rootActionId } = useMatches()
