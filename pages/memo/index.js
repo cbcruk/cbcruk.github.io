@@ -1,9 +1,12 @@
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
+import { useRegister } from '../../hooks/useRegister'
 import gql from '../../lib/octokit'
 import { handler as memoHandler } from '../api/memo'
 
 function Memos({ data }) {
+  useRegister(data)
+
   return (
     <Layout title="Memo" isShowTitle={false}>
       <Preview type="memo" items={data} />
