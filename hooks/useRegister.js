@@ -21,7 +21,7 @@ export function useRegister(data) {
   })
 
   useEffect(() => {
-    if (currentActionsLength === DEFAULT_ACTIONS.length) {
+    if (currentActionsLength === Object.keys(DEFAULT_ACTIONS).length) {
       query.registerActions(actions)
     }
   }, [])
