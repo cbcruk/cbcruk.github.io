@@ -1,11 +1,16 @@
+// @ts-check
 import fetch from 'node-fetch'
 import { parse } from 'node-html-parser'
 
+/** @type {import('next').NextApiHandler} */
 async function md(req, res) {
-  const links = req.body
+  /** @type {string} */
+  const body = req.body
+  const links = body
     .split('\n')
     .filter(Boolean)
     .map((link) => link.replace('?utm_source=pocket_mylist', ''))
+  /** @type {Set<string>} */
   const set = new Set()
 
   for (const link of links) {
@@ -19,7 +24,7 @@ async function md(req, res) {
   }
 
   res.json({
-    data: [...set].join('\n'),
+    data: Array.from(set).join('\n'),
   })
 }
 

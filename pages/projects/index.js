@@ -1,7 +1,13 @@
+// @ts-check
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
 import gql from '../../lib/octokit'
 
+/**
+ *
+ * @param {object} props
+ * @param {import('@octokit/graphql-schema').Issue[]} props.data
+ */
 function Projects({ data }) {
   return (
     <Layout title="프로젝트">
@@ -10,7 +16,9 @@ function Projects({ data }) {
   )
 }
 
+/** @type {import('next').GetServerSideProps} */
 export async function getServerSideProps() {
+  /** @type {{ repository: import('@octokit/graphql-schema').Repository }} */
   const { repository } = await gql(
     `
       {

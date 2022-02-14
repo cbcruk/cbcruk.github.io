@@ -1,3 +1,4 @@
+// @ts-check
 import Layout from '../components/Layout'
 
 function Home() {

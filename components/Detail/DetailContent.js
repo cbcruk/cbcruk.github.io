@@ -1,8 +1,15 @@
+// @ts-check
 import clsx from 'clsx'
 import { getHtml } from './utils'
 import useFootnoteLabel from './useFootnoteLabel'
 import styles from './Detail.module.css'
 
+/**
+ *
+ * @param {object} props
+ * @param {import('@octokit/graphql-schema').IssueComment['bodyHTML']} props.body
+ * @param {string} props.className
+ */
 function DetailContent({ body, className = '' }) {
   const handleClick = useFootnoteLabel()
 

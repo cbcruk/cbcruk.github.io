@@ -1,9 +1,15 @@
+// @ts-check
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
 import { useRegister } from '../../hooks/useRegister'
 import gql from '../../lib/octokit'
 import { handler as memoHandler } from '../api/memo'
 
+/**
+ *
+ * @param {object} props
+ * @param {import('@octokit/graphql-schema').Issue[]} props.data
+ */
 function Memos({ data }) {
   useRegister(data)
 
@@ -14,11 +20,12 @@ function Memos({ data }) {
   )
 }
 
+/** @type {import('next').GetServerSideProps} */
 export async function getServerSideProps({ query }) {
   const { q } = query
 
   if (q) {
-    const data = await memoHandler(q)
+    const data = await memoHandler(/** @type {string} */ (q))
 
     return {
       props: {
@@ -27,6 +34,7 @@ export async function getServerSideProps({ query }) {
     }
   }
 
+  /** @type {{ repository: import('@octokit/graphql-schema').Repository }} */
   const { repository } = await gql(
     `
       {

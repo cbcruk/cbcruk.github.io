@@ -1,6 +1,13 @@
+// @ts-check
 import Link from 'next/link'
 import { day, fromNow } from '../lib/time'
 
+/**
+ *
+ * @param {object} props
+ * @param {string} props.type
+ * @param {import('@octokit/graphql-schema').Issue[]} props.items
+ */
 function Preview({ type, items }) {
   return (
     <div className="items">

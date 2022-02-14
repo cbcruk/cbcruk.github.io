@@ -1,8 +1,15 @@
+// @ts-check
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { HighlightLinks } from '../components/HighlightLinks'
 import Layout from '../components/Layout'
 
+/**
+ *
+ * @param {object} props
+ * @param {import('$lib/types').About} props.about
+ * @param {import('$lib/types').Links} props.links
+ */
 function About({ about, links }) {
   const { description, company } = about
 

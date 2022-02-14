@@ -1,6 +1,13 @@
+// @ts-check
 import DetailContent from './DetailContent'
 import useNewWindow from './useNewWindow'
 
+/**
+ *
+ * @param {object} props
+ * @param {import('@octokit/graphql-schema').Issue['body']} props.body
+ * @param {import('@octokit/graphql-schema').Issue['comments']['nodes']} props.comments
+ */
 function Detail({ body, comments }) {
   const hasComment = comments.length > 0
 

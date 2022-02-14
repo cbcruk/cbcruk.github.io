@@ -1,5 +1,10 @@
+// @ts-check
 import Layout from '../components/Layout'
 
+/**
+ *
+ * @param {import('next/error').ErrorProps} props
+ */
 function Error({ statusCode }) {
   return (
     <Layout title="">
@@ -12,6 +17,10 @@ function Error({ statusCode }) {
   )
 }
 
+/**
+ *
+ * @param {import('next').NextPageContext} props
+ */
 Error.getInitialProps = ({ res, err }) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404
   return { statusCode }

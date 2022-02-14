@@ -1,7 +1,13 @@
+// @ts-check
 import Detail from '../../components/Detail'
 import Layout from '../../components/Layout'
 import gql from '../../lib/octokit'
 
+/**
+ *
+ * @param {object} props
+ * @param {import('@octokit/graphql-schema').Issue} props.data
+ */
 function Project({ data }) {
   const { title, bodyHTML, comments } = data
 
@@ -12,9 +18,11 @@ function Project({ data }) {
   )
 }
 
+/** @type {import('next').GetServerSideProps} */
 export async function getServerSideProps({ params }) {
-  const id = parseInt(params.id, 10)
+  const id = parseInt(/** @type {string} */ (params.id), 10)
 
+  /** @type {{ repository: import('@octokit/graphql-schema').Repository }} */
   const { repository } = await gql(
     `
       {

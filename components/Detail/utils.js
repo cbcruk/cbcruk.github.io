@@ -1,3 +1,9 @@
+// @ts-check
+
+/**
+ *
+ * @param {string} html
+ */
 export function getHtml(html) {
   return html
     .replace(/\[CODEPEN=(.+)\]/g, (_match, p1) => {

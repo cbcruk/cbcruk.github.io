@@ -1,3 +1,4 @@
+// @ts-check
 export default function Custom404() {
   return null
 }

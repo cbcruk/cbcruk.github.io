@@ -1,5 +1,10 @@
+// @ts-check
 import { octokit } from '../../lib/octokit'
 
+/**
+ *
+ * @param {string} q
+ */
 export async function handler(q) {
   const { data } = await octokit.rest.search.issuesAndPullRequests({
     q: `is:issue repo:cbcruk/issues ${q}`,
@@ -13,9 +18,10 @@ export async function handler(q) {
   return items
 }
 
+/** @type {import('next').NextApiHandler} */
 async function memo(req, res) {
   const { q } = req.query
-  const data = await handler(q)
+  const data = await handler(/** @type {string} */ (q))
 
   res.json({
     data,

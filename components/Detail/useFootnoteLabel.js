@@ -1,3 +1,4 @@
+// @ts-check
 import { useCallback } from 'react'
 
 const ACTIVE_CLASSNAME = 'is-active'

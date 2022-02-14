@@ -1,3 +1,4 @@
+// @ts-check
 import Head from 'next/head'
 import Nav from './Nav'
 import { Title } from './Title'
@@ -13,7 +14,7 @@ function Layout({ title, isShowTitle = true, children }) {
       <Nav />
 
       <main className="max-w-prose p-4 mb-4">
-        {title && isShowTitle && <Title className="text-lg">{title}</Title>}
+        {title && isShowTitle && <Title>{title}</Title>}
         {children}
       </main>
     </>
