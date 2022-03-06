@@ -1,3 +1,5 @@
+declare var gtag: any
+
 export type About = {
   company: {
     end_date: string
