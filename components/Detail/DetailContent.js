@@ -17,7 +17,7 @@ function DetailContent({ body, className = '' }) {
     <div
       className={clsx([
         styles.content,
-        'overflow-hidden max-w-none p-4 bg-gray-900 rounded-md prose prose-sm dark:prose-dark',
+        'overflow-hidden max-w-none p-4 bg-gray-900 rounded-md prose prose-sm prose-dark',
         className,
       ])}
       dangerouslySetInnerHTML={{

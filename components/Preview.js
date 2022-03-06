@@ -34,7 +34,7 @@ function Preview({ type, items }) {
                     </p>
                   </div>
                   <div
-                    className="mt-2 text-xs text-gray-600 dark:text-gray-300"
+                    className="mt-2 text-xs text-gray-300"
                     title={`opened ${fromNow(createdAt)}`}
                   >
                     {day(updatedAt).format('YYYY-MM-DD HH:mm:ss')}

@@ -20,7 +20,7 @@ function Detail({ body, comments }) {
       {hasComment && (
         <div className="mt-10">
           <h2>📝 추가로 메모 했어요</h2>
-          <div className="prose prose-sm dark:prose-dark max-w-none mt-4">
+          <div className="prose prose-sm prose-dark max-w-none mt-4">
             {comments.map((comment) => (
               <DetailContent
                 key={comment.databaseId}
