@@ -3,7 +3,6 @@ import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
 import { useRegister } from '../../hooks/useRegister'
 import gql from '../../lib/octokit'
-import { handler as memoHandler } from '../api/memo'
 
 /**
  *
@@ -20,20 +19,8 @@ function Memos({ data }) {
   )
 }
 
-/** @type {import('next').GetServerSideProps} */
-export async function getServerSideProps({ query }) {
-  const { q } = query
-
-  if (q) {
-    const data = await memoHandler(/** @type {string} */ (q))
-
-    return {
-      props: {
-        data,
-      },
-    }
-  }
-
+/** @type {import('next').GetStaticProps} */
+export async function getStaticProps() {
   /** @type {{ repository: import('@octokit/graphql-schema').Repository }} */
   const { repository } = await gql(
     `
@@ -73,6 +60,7 @@ export async function getServerSideProps({ query }) {
         }
       }),
     },
+    revalidate: 60,
   }
 }
 
