@@ -12,7 +12,7 @@ export function MemoEmbedUrls({ embed }) {
   }
 
   return (
-    <div ref={ref} className="relative text-xs">
+    <div ref={ref} className="relative flex ml-auto text-xs">
       <button onClick={() => setState(true)}>
         <svg
           width="24"
