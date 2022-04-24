@@ -1,0 +1,24 @@
+.container [data-footnote-ref="true"],
+.container [data-footnote-backref="true"] {
+  @apply no-underline;
+}
+
+.container [data-footnote-ref="true"]::before {
+  content: "["
+}
+
+.container [data-footnote-ref="true"]::after {
+  content: "]"
+}
+
+.container [data-footnote-backref="true"] {
+  font-size: 10px;
+}
+
+.container :global(blockquote) {
+  @apply text-inherit;
+}
+
+.container :global(strong) {
+  @apply font-bold text-inherit;
+}

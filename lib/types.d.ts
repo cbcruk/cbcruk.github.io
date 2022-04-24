@@ -1,3 +1,5 @@
+import { MDXRemoteSerializeResult } from 'next-mdx-remote'
+
 declare var gtag: any
 
 export type About = {
@@ -15,3 +17,18 @@ export type Links = {
   name: string
   url: string
 }[]
+
+export type MemoRecord = {
+  id: string
+  createdTime: string
+  fields: {
+    index: number
+    body: string
+    linked_tags: string[]
+    updatedAt: string
+    createdAt: string
+    lastModified: string
+    tags: string[]
+    serialize: MDXRemoteSerializeResult
+  }
+}

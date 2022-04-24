@@ -1,3 +1,4 @@
+// @ts-check
 import clsx from 'clsx'
 import { useKBar } from 'kbar'
 
@@ -5,7 +6,7 @@ function Header({ children }) {
   const kbar = useKBar()
 
   return (
-    <div className="flex justify-between sticky top-0 z-10 p-4 bg-gray-700">
+    <div className="flex justify-between sticky top-0 z-10 p-4 bg-gray-800">
       {children}
 
       <button

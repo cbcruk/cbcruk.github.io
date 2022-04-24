@@ -1,50 +1,41 @@
 // @ts-check
-import Link from 'next/link'
-import { day, fromNow } from '../lib/time'
+import { MemoBody } from './Preview/MemoBody'
+import { MemoDate } from './Preview/MemoDate'
+import { MemoEmbedUrls } from './Preview/MemoEmbedUrls'
+import { MemoTags } from './Preview/MemoTags'
 
 /**
  *
  * @param {object} props
  * @param {string} props.type
- * @param {import('@octokit/graphql-schema').Issue[]} props.items
+ * @param {import('$lib/types').MemoRecord[]} props.items
  */
-function Preview({ type, items }) {
+function Preview({ items }) {
   return (
     <div className="items">
-      {items.map(
-        ({ number, title, bodyText, comments, createdAt, updatedAt }) => {
-          return (
-            <div
-              key={number}
-              className="p-2 hover:bg-gray-700 rounded-md hover:shadow-md mt-2 first:mt-0 font-sans transition-all"
-            >
-              <Link href={`/${type}/${number}`}>
-                <a>
-                  <div className="block md:flex items-center gap-2">
-                    <h2 className="flex items-center gap-2 text-lg font-bold">
-                      {title}
-                    </h2>
-                    <p className="mt-1 text-xs text-gray-400">
-                      {bodyText}
-                      {comments && (
-                        <span className="inline-block w-5 aspect-square p-1 rounded-lg bg-gray-600 ml-1 text-xs text-center leading-3">
-                          {comments.totalCount}
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                  <div
-                    className="mt-2 text-xs text-gray-300"
-                    title={`opened ${fromNow(createdAt)}`}
-                  >
-                    {day(updatedAt).format('YYYY-MM-DD HH:mm:ss')}
-                  </div>
-                </a>
-              </Link>
+      {items.map(({ id, fields }) => {
+        return (
+          <div
+            key={id}
+            className="border border-sky-900 rounded-md overflow-hidden mt-4 first:mt-0"
+          >
+            {Object.keys(fields.serialize.frontmatter).length > 0 && (
+              <div className="flex items-center justify-between p-4 py-2 text-sm bg-sky-900/40">
+                {fields.serialize.frontmatter.title}
+                <MemoEmbedUrls embed={fields.serialize.frontmatter.embed} />
+              </div>
+            )}
+            <MemoBody serialize={fields.serialize} />
+            <div className="flex justify-between items-center p-4 text-[10px] text-gray-300">
+              <MemoTags tags={fields.tags} />
+              <MemoDate
+                createdAt={fields.createdAt}
+                lastModified={fields.lastModified}
+              />
             </div>
-          )
-        }
-      )}
+          </div>
+        )
+      })}
     </div>
   )
 }
