@@ -16,6 +16,9 @@ const links = [
   {
     href: '/memo',
     text: 'Memo',
+    isActive(path) {
+      return /memo|tagged/.test(path)
+    },
   },
 ]
 
@@ -27,7 +30,9 @@ function Nav() {
       <nav className="flex items-center gap-2 text-sm">
         {links.map((link) => {
           const hasParam = router.asPath.includes('/') && link.href.length > 1
-          const isActive = hasParam
+          const isActive = link.isActive
+            ? link.isActive(router.asPath)
+            : hasParam
             ? router.asPath.startsWith(link.href)
             : router.asPath === link.href
           return (

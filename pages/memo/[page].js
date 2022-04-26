@@ -1,6 +1,4 @@
 // @ts-check
-import { serialize } from 'next-mdx-remote/serialize'
-import remarkGfm from 'remark-gfm'
 import { getAllMemo } from '$lib/airtable'
 import { getFile, writeFile } from '$lib/file'
 import Layout from '../../components/Layout'
@@ -8,7 +6,6 @@ import Preview from '../../components/Preview'
 import { Pagination } from 'components/Pagination'
 
 /**
- *
  * @param {object} props
  * @param {{ records, pagination }} props.data
  */
@@ -30,15 +27,6 @@ export async function getStaticProps({ params }) {
   const contents = await getFile({ fileName: `${params.page}` })
   const data = JSON.parse(contents)
 
-  for (const record of data.records) {
-    record.fields.serialize = await serialize(record.fields.body, {
-      mdxOptions: {
-        remarkPlugins: [remarkGfm],
-      },
-      parseFrontmatter: true,
-    })
-  }
-
   return {
     props: { data },
     revalidate: 60,
@@ -57,7 +45,7 @@ export async function getStaticPaths() {
     const pagination = [prev, next, total]
 
     await writeFile({
-      fileName: `${index}`,
+      fileName: `/[page]/${index}`,
       data: JSON.stringify({
         records: record,
         pagination,

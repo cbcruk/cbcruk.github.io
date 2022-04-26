@@ -32,3 +32,11 @@ export type MemoRecord = {
     serialize: MDXRemoteSerializeResult
   }
 }
+
+export type TagRecord = {
+  id: string
+  createdTime: string
+  fields: {
+    select: string
+  }
+}
