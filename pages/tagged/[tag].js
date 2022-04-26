@@ -1,6 +1,4 @@
 // @ts-check
-import { serialize } from 'next-mdx-remote/serialize'
-import remarkGfm from 'remark-gfm'
 import { getAllMemo, getAllTags } from '$lib/airtable'
 import { getFile, writeFile } from '$lib/file'
 import Layout from '../../components/Layout'
@@ -25,17 +23,8 @@ function Memos({ data }) {
 
 /** @type {import('next').GetStaticProps} */
 export async function getStaticProps({ params }) {
-  const contents = await getFile({ fileName: `/[tag]/${params.tag}` })
+  const contents = await getFile({ fileName: `/[tagged]/${params.tag}` })
   const records = JSON.parse(contents)
-
-  for (const record of records) {
-    record.fields.serialize = await serialize(record.fields.body, {
-      mdxOptions: {
-        remarkPlugins: [remarkGfm],
-      },
-      parseFrontmatter: true,
-    })
-  }
 
   return {
     props: {
@@ -60,7 +49,7 @@ export async function getStaticPaths() {
       .filter((memo) => memo.fields.tags.includes(tag.fields.select))
 
     await writeFile({
-      fileName: `/[tag]/${tag.fields.select}`,
+      fileName: `/[tagged]/${tag.fields.select}`,
       data: JSON.stringify(data),
     })
   }

@@ -24,7 +24,7 @@ function Memos({ data }) {
 
 /** @type {import('next').GetStaticProps} */
 export async function getStaticProps({ params }) {
-  const contents = await getFile({ fileName: `${params.page}` })
+  const contents = await getFile({ fileName: `/[page]/${params.page}` })
   const data = JSON.parse(contents)
 
   return {
