@@ -58,6 +58,11 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@cbcruk/airtable@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@cbcruk/airtable/-/airtable-0.0.5.tgz#f99c96efc5cee6e81e7c5500abdf12a7a8102ac3"
+  integrity sha512-aQOnBTvN3+2/BsJbZcU07x3GGUnPazeO1wY8Jhkt3Bq/472M3qHY7FEzF8KVCV938Pjk1pr4FpxDyp1IN4r5Wg==
+
 "@eslint/eslintrc@^0.4.2":
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.2.tgz#f63d0ef06f5c0c57d76c4ab5f63d3835c51b0179"
