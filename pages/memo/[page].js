@@ -1,6 +1,6 @@
 // @ts-check
-import { getAllMemo } from '$lib/airtable'
-import { getFile, writeFile } from '$lib/file'
+import { getAllMemo, setCacheAllMemo } from '$lib/airtable'
+import { getFile } from '$lib/file'
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
 import { Pagination } from 'components/Pagination'
@@ -35,25 +35,7 @@ export async function getStaticProps({ params }) {
 
 export async function getStaticPaths() {
   const records = await getAllMemo()
-  const paths = []
-
-  for (const record of records) {
-    const total = records.length
-    const index = paths.length + 1
-    const prev = index === 1 ? null : index - 1
-    const next = index === total ? null : index + 1
-    const pagination = [prev, next, total]
-
-    await writeFile({
-      fileName: `/[page]/${index}`,
-      data: JSON.stringify({
-        records: record,
-        pagination,
-      }),
-    })
-
-    paths.push(index)
-  }
+  const paths = await setCacheAllMemo(records)
 
   return {
     fallback: true,

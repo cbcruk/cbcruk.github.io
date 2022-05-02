@@ -1,6 +1,6 @@
 // @ts-check
-import { getAllMemo, getAllTags } from '$lib/airtable'
-import { getFile, writeFile } from '$lib/file'
+import { getAllTags, setCacheAllTags } from '$lib/airtable'
+import { getFile } from '$lib/file'
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
 
@@ -35,24 +35,9 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  const allMemo = await getAllMemo()
   const allTags = await getAllTags()
 
-  writeFile({
-    fileName: 'alltags',
-    data: JSON.stringify(allTags),
-  })
-
-  for (const tag of allTags) {
-    const data = allMemo
-      .flatMap((r) => r)
-      .filter((memo) => memo.fields.tags.includes(tag.fields.select))
-
-    await writeFile({
-      fileName: `/[tagged]/${tag.fields.select}`,
-      data: JSON.stringify(data),
-    })
-  }
+  await setCacheAllTags(allTags)
 
   return {
     fallback: true,
