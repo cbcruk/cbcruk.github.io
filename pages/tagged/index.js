@@ -13,7 +13,7 @@ function Tagged({ data }) {
         {data.map((tag) => {
           return (
             <Link key={tag.id} href={`/tagged/${tag.fields.select}`}>
-              <a className="p-1 px-2 border border-slate-600 hover:border-slate-500 rounded-2xl hover:bg-purple-800/50 text-xs">
+              <a className="p-1 px-2 border border-slate-600 hover:border-slate-500 rounded-2xl hover:bg-sky-800/50 text-xs">
                 {tag.fields.select}
               </a>
             </Link>
