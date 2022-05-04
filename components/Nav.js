@@ -17,7 +17,14 @@ const links = [
     href: '/memo',
     text: 'Memo',
     isActive(path) {
-      return /memo|tagged/.test(path)
+      return /memo|tagged\/./.test(path)
+    },
+  },
+  {
+    href: '/tagged',
+    text: 'Tag',
+    isActive(path) {
+      return /^\/tagged$/.test(path)
     },
   },
 ]
