@@ -6,9 +6,13 @@ import {
   setCacheAllTags,
 } from '$lib/airtable'
 
-export default () => null
+/** @type {import('next').NextApiHandler} */
+async function create(_req, res) {
+  if (process.env.NODE_ENV === 'production') {
+    res.send(500)
+    return
+  }
 
-export async function getStaticProps() {
   await fs.rm('.cached', { recursive: true, force: true })
   await fs.mkdir('.cached/[page]', { recursive: true })
   await fs.mkdir('.cached/[tagged]', { recursive: true })
@@ -18,7 +22,7 @@ export async function getStaticProps() {
   const allTags = await getAllTags()
   await setCacheAllTags(allTags)
 
-  return {
-    props: {},
-  }
+  res.send('✅')
 }
+
+export default create
