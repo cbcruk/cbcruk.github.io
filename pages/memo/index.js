@@ -1,29 +1,41 @@
 // @ts-check
+import {
+  getLastIndex,
+  getLastPage,
+  paginationFormula,
+} from '@cbcruk/next-utils'
 import { getMemo } from '$lib/airtable'
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
 import { Pagination } from 'components/Pagination'
 
 /**
- * @param {object} props
- * @param {import('$lib/types').MemoRecord[]} props.data
+ * @param {import('$lib/types').MemoPageProps} props
  */
 function Memos({ data }) {
   return (
     <Layout title="Memo" isShowTitle={false}>
-      <Preview type="memo" items={data} />
-      <Pagination pagination={[null, 2, null]} />
+      <Preview type="memo" items={data.records} />
+      <Pagination pagination={data.pagination} />
     </Layout>
   )
 }
 
 /** @type {import('next').GetStaticProps} */
 export async function getStaticProps() {
-  const { records } = await getMemo()
+  const [total, data] = await Promise.all([
+    getLastIndex('/memo'),
+    getMemo({
+      filterByFormula: paginationFormula({ start: 1, end: 20 }),
+    }),
+  ])
 
   return {
     props: {
-      data: records,
+      data: {
+        records: data.records,
+        pagination: [null, 2, getLastPage(total)],
+      },
     },
     revalidate: 60,
   }

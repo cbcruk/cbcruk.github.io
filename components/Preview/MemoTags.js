@@ -6,7 +6,7 @@ export function MemoTags({ tags }) {
     <div className="flex gap-2 overflow-x-auto">
       {tags.map((tag, index) => {
         return (
-          <Link key={index} href={`/tagged/${tag}`}>
+          <Link key={index} href={`/memo/search?tags=${tag}`}>
             <a className="border border-sky-800 rounded-full px-2 py-1 bg-sky-900/30 whitespace-nowrap">
               #{tag}
             </a>

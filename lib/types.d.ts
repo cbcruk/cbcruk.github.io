@@ -40,3 +40,10 @@ export type TagRecord = {
     select: string
   }
 }
+
+export type MemoPageProps = {
+  data: {
+    records: MemoRecord[]
+    pagination: (number | null)[]
+  }
+}

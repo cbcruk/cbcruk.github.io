@@ -1,13 +1,17 @@
 // @ts-check
-import { getAllMemo, setCacheAllMemo } from '$lib/airtable'
-import { getFile } from '$lib/file'
+import {
+  getLastIndex,
+  getLastPage,
+  getPagination,
+  paginationFormula,
+} from '@cbcruk/next-utils'
+import { getMemo } from '$lib/airtable'
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
 import { Pagination } from 'components/Pagination'
 
 /**
- * @param {object} props
- * @param {{ records, pagination }} props.data
+ * @param {import('$lib/types').MemoPageProps} props
  */
 function Memos({ data }) {
   if (!data) {
@@ -24,26 +28,52 @@ function Memos({ data }) {
 
 /** @type {import('next').GetStaticProps} */
 export async function getStaticProps({ params }) {
-  const contents = await getFile({ fileName: `/[page]/${params.page}` })
-  const data = JSON.parse(contents)
+  const { page, startIndex, endIndex } = getPagination(
+    /** @type {string} */ (params.page)
+  )
+  const [total, data] = await Promise.all([
+    getLastIndex('/memo'),
+    getMemo({
+      filterByFormula: paginationFormula({ start: startIndex, end: endIndex }),
+    }),
+  ])
+
+  if (!data) {
+    return {
+      notFound: true,
+    }
+  }
+
+  if (page === 1) {
+    return {
+      redirect: {
+        destination: '/memo',
+        permanent: false,
+      },
+    }
+  }
 
   return {
-    props: { data },
+    props: {
+      data: {
+        records: data.records,
+        pagination: [page - 1, page + 1, getLastPage(total)],
+      },
+    },
     revalidate: 60,
   }
 }
 
 export async function getStaticPaths() {
-  const records = await getAllMemo()
-  const paths = await setCacheAllMemo(records)
-
+  const total = await getLastIndex('/memo')
+  const paths = Array.from({ length: getLastPage(total) }).map((_, index) => {
+    return {
+      params: { page: `${index + 2}` },
+    }
+  })
   return {
-    fallback: true,
-    paths: paths.map((page) => {
-      return {
-        params: { page: `${page}` },
-      }
-    }),
+    fallback: 'blocking',
+    paths,
   }
 }
 

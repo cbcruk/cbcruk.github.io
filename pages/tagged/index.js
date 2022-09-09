@@ -12,7 +12,7 @@ function Tagged({ data }) {
       <div className="flex flex-wrap gap-2">
         {data.map((tag) => {
           return (
-            <Link key={tag.id} href={`/tagged/${tag.fields.select}`}>
+            <Link key={tag.id} href={`/memo/search?tags=${tag.fields.select}`}>
               <a className="p-1 px-2 border border-slate-600 hover:border-slate-500 rounded-2xl hover:bg-sky-800/50 text-xs">
                 {tag.fields.select}
               </a>

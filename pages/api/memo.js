@@ -1,31 +1,37 @@
 // @ts-check
-import { octokit } from '../../lib/octokit'
+import { getMemo } from '$lib/airtable'
+import { mdxSerialize } from '$lib/mdx'
+import { releaseFormula } from '@cbcruk/next-utils'
 
 /**
  *
- * @param {string} q
+ * @param {string} tags
  */
-export async function handler(q) {
-  const { data } = await octokit.rest.search.issuesAndPullRequests({
-    q: `is:issue repo:cbcruk/issues ${q}`,
-  })
-  const items = data.items.map(({ number, title, body }) => ({
-    number,
-    title,
-    bodyText: body ? body.slice(0, body.indexOf(`\r\n`)) : '',
-  }))
+export async function handler(tags) {
+  try {
+    const data = await getMemo({
+      filterByFormula: `AND(SEARCH('${tags}', {tags}), ${releaseFormula()})`,
+      pageSize: 100,
+    })
 
-  return items
+    await mdxSerialize(data.records)
+
+    return data
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 /** @type {import('next').NextApiHandler} */
 async function memo(req, res) {
-  const { q } = req.query
-  const data = await handler(/** @type {string} */ (q))
+  const { tags } = req.query
+  const data = await handler(/** @type {string} */ (tags))
 
-  res.json({
+  res.status(200).json({
     data,
   })
+
+  return
 }
 
 export default memo
