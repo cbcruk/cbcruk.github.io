@@ -27,6 +27,7 @@ async function memo(req, res) {
   const { tags } = req.query
   const data = await handler(/** @type {string} */ (tags))
 
+  res.setHeader('Cache-Control', 's-maxage=3600')
   res.status(200).json({
     data,
   })
