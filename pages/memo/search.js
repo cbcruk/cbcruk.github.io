@@ -31,8 +31,8 @@ function MemoSearch() {
   return (
     <Layout title="Memo" isShowTitle={false}>
       {(() => {
+        if (isLoading) return <p>불러오는 중...</p>
         if (!data) return null
-        if (isLoading) return null
         return <Preview type="memo" items={data.records} />
       })()}
     </Layout>
