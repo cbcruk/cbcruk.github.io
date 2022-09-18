@@ -26,7 +26,7 @@ export function MemoEmbedUrls({ embed }) {
       </button>
 
       {state && (
-        <div className="absolute right-0 flex flex-col gap-2 bg-gray-900 border border-gray-600 shadow-lg p-3 rounded-lg">
+        <div className="absolute right-0 flex flex-col gap-2 shadow-md p-3 rounded-md bg-[color:var(--solarized-background)]">
           {embed?.map((url, index) => {
             const { host, href } = new URL(url)
 

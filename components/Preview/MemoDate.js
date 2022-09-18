@@ -1,13 +1,17 @@
 // @ts-check
+import clsx from 'clsx'
 import { useState } from 'react'
 import { day } from '../../lib/time'
 
-export function MemoDate({ createdAt, lastModified }) {
+export function MemoDate({ createdAt, lastModified, className }) {
   const [state, setState] = useState(1)
 
   return (
     <span
-      className="px-2 text-ellipsis overflow-hidden text-gray-400 whitespace-nowrap cursor-pointer"
+      className={clsx([
+        className,
+        'px-2 text-ellipsis overflow-hidden whitespace-nowrap cursor-pointer hidden',
+      ])}
       onClick={() => setState((prev) => (prev === 0 ? 1 : 0))}
     >
       {(() => {

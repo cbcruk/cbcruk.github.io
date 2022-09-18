@@ -13,7 +13,7 @@ function Layout({ title, isShowTitle = true, children }) {
 
       <Nav />
 
-      <main className="max-w-prose p-4 mb-4">
+      <main className="max-w-3xl p-4 mb-4 mx-auto">
         {title && isShowTitle && <Title>{title}</Title>}
         {children}
       </main>

@@ -7,7 +7,7 @@ export function MemoTags({ tags }) {
       {tags.map((tag, index) => {
         return (
           <Link key={index} href={`/memo/search?tags=${tag}`}>
-            <a className="border border-sky-800 rounded-full px-2 py-1 bg-sky-900/30 whitespace-nowrap">
+            <a className="MemoTag px-2 py-1 rounded-lg bg-[color:var(--solarized-background-highlight)] whitespace-nowrap font-bold text-[11px] text-[color:var(--solarized-violet)]">
               #{tag}
             </a>
           </Link>

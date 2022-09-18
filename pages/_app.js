@@ -2,6 +2,7 @@
 import 'tailwindcss/tailwind.css'
 import '../styles/globals.css'
 import '../styles/github.css'
+import '../styles/solarized.css'
 import { Kbar } from '../components/Kbar/Kbar'
 import Analytics from '../components/Analytics'
 import { useGtag } from 'hooks/useGtag'

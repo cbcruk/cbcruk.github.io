@@ -8,7 +8,7 @@ function LinkButton({ page, className, children }) {
     <Link href={`/memo/${page}`}>
       <a
         className={clsx(
-          'inline-flex justify-center p-1 px-2 rounded-full border border-transparent hover:border-sky-900 text-xs text-center bg-sky-900/30 hover:bg-sky-900/60 rounded-full',
+          'inline-flex justify-center p-1 px-2 rounded-full border border-transparent hover:border-sky-900 text-xs text-center bg-sky-900/30 hover:bg-sky-900/60',
           className
         )}
       >
@@ -40,7 +40,7 @@ export function Pagination({ className, pagination = [] }) {
             이전 페이지
           </LinkButton>
         )}
-        {next && (
+        {current !== `${total}` && (
           <LinkButton page={next} className="">
             다음 페이지
           </LinkButton>

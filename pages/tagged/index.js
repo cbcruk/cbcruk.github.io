@@ -13,8 +13,8 @@ function Tagged({ data }) {
         {data.map((tag) => {
           return (
             <Link key={tag.id} href={`/memo/search?tags=${tag.fields.select}`}>
-              <a className="p-1 px-2 border border-slate-600 hover:border-slate-500 rounded-2xl hover:bg-sky-800/50 text-xs">
-                {tag.fields.select}
+              <a className="p-2 px-3 border border-slate-700 hover:border-transparent rounded-lg mb-[8px] text-xs hover:font-bold hover:bg-[color:var(--solarized-background-highlight)] hover:text-[color:var(--solarized-violet)] ease-out duration-300">
+                #{tag.fields.select}
               </a>
             </Link>
           )

@@ -1,0 +1,38 @@
+:root {
+  --solarized-base00: #657b83;
+  --solarized-base01: #586e75;
+  --solarized-base02: #073642;
+  --solarized-base03: #002b36;
+  --solarized-base0: #839496;
+  --solarized-base1: #93a1a1;
+  --solarized-base2: #eee8d5;
+  --solarized-base3: #fdf6e3;
+  --solarized-yellow: #b58900;
+  --solarized-orange: #cb4b16;
+  --solarized-red: #dc322f;
+  --solarized-magent: #d33682;
+  --solarized-violet: #6c71c4;
+  --solarized-blue: #268bd2;
+  --solarized-cyan: #2aa198;
+  --solarized-green: #859900;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --solarized-background: var(--solarized-base3);
+    --solarized-background-highlight: var(--solarized-base2);
+    --solarized-primary: var(--solarized-base00);
+    --solarized-secondary: var(--solarized-base1);
+    --solarized-emphasized: var(--solarized-base01);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --solarized-background: var(--solarized-base03);
+    --solarized-background-highlight: var(--solarized-base02);
+    --solarized-primary: var(--solarized-base0);
+    --solarized-secondary: var(--solarized-base01);
+    --solarized-emphasized: var(--solarized-base1);
+  }
+}
