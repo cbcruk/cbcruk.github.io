@@ -35,6 +35,7 @@ export async function getStaticProps({ params }) {
     getLastIndex('/memo'),
     getMemo({
       filterByFormula: paginationFormula({ start: startIndex, end: endIndex }),
+      sort: [{ field: 'index', direction: 'asc' }],
     }),
   ])
 
@@ -44,7 +45,7 @@ export async function getStaticProps({ params }) {
     }
   }
 
-  if (page === 1) {
+  if (page === 0) {
     return {
       redirect: {
         destination: '/memo',

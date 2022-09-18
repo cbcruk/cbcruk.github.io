@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-function LinkButton({ page, className, children }) {
+export function LinkButton({ page, className, children }) {
   return (
     <Link href={`/memo/${page}`}>
       <a
@@ -35,7 +35,7 @@ export function Pagination({ className, pagination = [] }) {
         </span>
       )}
       <div className="flex justify-end items-center gap-1 ml-auto">
-        {prev && (
+        {prev !== 0 && (
           <LinkButton page={prev} className="">
             이전 페이지
           </LinkButton>

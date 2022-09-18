@@ -1,13 +1,9 @@
 // @ts-check
-import {
-  getLastIndex,
-  getLastPage,
-  paginationFormula,
-} from '@cbcruk/next-utils'
+import { getLastIndex, getLastPage } from '@cbcruk/next-utils'
 import { getMemo } from '$lib/airtable'
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
-import { Pagination } from 'components/Pagination'
+import { PaginationLatest } from 'components/Pagination/PaginationLatest'
 
 /**
  * @param {import('$lib/types').MemoPageProps} props
@@ -16,7 +12,7 @@ function Memos({ data }) {
   return (
     <Layout title="Memo" isShowTitle={false}>
       <Preview type="memo" items={data.records} />
-      <Pagination pagination={data.pagination} />
+      <PaginationLatest />
     </Layout>
   )
 }
@@ -26,7 +22,7 @@ export async function getStaticProps() {
   const [total, data] = await Promise.all([
     getLastIndex('/memo'),
     getMemo({
-      filterByFormula: paginationFormula({ start: 1, end: 20 }),
+      sort: [{ field: 'lastModified', direction: 'desc' }],
     }),
   ])
 
