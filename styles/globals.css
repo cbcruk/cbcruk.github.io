@@ -4,3 +4,7 @@ body {
   font-family: 'Noto Sans KR', sans-serif;
   word-break: keep-all;
 }
+
+:target {
+  scroll-margin-top: calc(60px + 1em);
+}
