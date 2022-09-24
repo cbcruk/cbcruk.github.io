@@ -1,5 +1,6 @@
 // @ts-check
 import 'tailwindcss/tailwind.css'
+import 'highlight.js/styles/base16/tomorrow-night.css'
 import '../styles/globals.css'
 import '../styles/github.css'
 import '../styles/solarized.css'
