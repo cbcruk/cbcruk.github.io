@@ -4,6 +4,7 @@ import { getMemo } from '$lib/airtable'
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
 import { PaginationLatest } from 'components/Pagination/PaginationLatest'
+import 'highlight.js/styles/base16/tomorrow-night.css'
 
 /**
  * @param {import('$lib/types').MemoPageProps} props

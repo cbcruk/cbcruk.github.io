@@ -31,3 +31,9 @@
 .container :global(:where(thead th):not(:where([class~='not-prose'] *))) {
   color: inherit;
 }
+
+.container :global(.hljs) {
+  display: inline;
+  background-color: initial;
+  padding: 0;
+}
