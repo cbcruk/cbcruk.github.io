@@ -37,10 +37,10 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@cbcruk/next-utils@^0.0.13-alpha.4":
-  version "0.0.13-alpha.4"
-  resolved "https://registry.yarnpkg.com/@cbcruk/next-utils/-/next-utils-0.0.13-alpha.4.tgz#fa884cf9cda0a3c428ea47fab75dd67fb0a7f7e0"
-  integrity sha512-p/At7oOXhpK5uwX6ashH5tIVrQSSb6n8icrVaGeXMDZr9TperNUZ9936yDS9HNeWFNSTPNvZBpRNipuGTejlVA==
+"@cbcruk/next-utils@^0.0.13-alpha.6":
+  version "0.0.13-alpha.6"
+  resolved "https://registry.yarnpkg.com/@cbcruk/next-utils/-/next-utils-0.0.13-alpha.6.tgz#37c786d3d55de27cd3dbad2677cfe2555844f72d"
+  integrity sha512-tmvhCyme21R2HhElCHSWeW2n+KxrZILYqeA2Rh4bi2UGu1EM9ThyXJhFtbaFAx+/dj2DwcT8+u/5b4YBfAomfw==
 
 "@eslint/eslintrc@^0.4.2":
   version "0.4.2"
