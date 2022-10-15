@@ -37,3 +37,8 @@
   background-color: initial;
   padding: 0;
 }
+
+.container :global(:where(hr):not(:where([class~='not-prose'] *))) {
+  margin-top: 1.857143em;
+  margin-bottom: 1.857143em;
+}

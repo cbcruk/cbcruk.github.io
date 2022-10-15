@@ -8,6 +8,7 @@ import { Kbar } from '../components/Kbar/Kbar'
 import Analytics from '../components/Analytics'
 import { useGtag } from 'hooks/useGtag'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { SessionProvider } from 'next-auth/react'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,20 +18,18 @@ const queryClient = new QueryClient({
   },
 })
 
-/**
- *
- * @param {import('next/app').AppProps} props
- */
 function App({ Component, pageProps }) {
   useGtag()
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Analytics />
-      <Kbar>
-        <Component {...pageProps} />
-      </Kbar>
-    </QueryClientProvider>
+    <SessionProvider session={pageProps.session}>
+      <QueryClientProvider client={queryClient}>
+        <Analytics />
+        <Kbar>
+          <Component {...pageProps} />
+        </Kbar>
+      </QueryClientProvider>
+    </SessionProvider>
   )
 }
 

@@ -7,6 +7,7 @@ function MemoItemPage({ data }) {
   return (
     <Layout title="Memo" isShowTitle={false}>
       <MemoItem
+        id={data.id}
         serialize={data.fields.serialize}
         tags={data.fields.tags}
         createdAt={data.fields.createdAt}

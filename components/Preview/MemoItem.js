@@ -2,10 +2,11 @@ import clsx from 'clsx'
 import { MemoBody } from './MemoBody'
 import { MemoDate } from './MemoDate'
 import { MemoEmbedUrl } from './MemoEmbedUrl'
+import { MemoFooter } from './MemoFooter'
 import { MemoTags } from './MemoTags'
 
 export function MemoItem({
-  id = null,
+  id,
   serialize,
   tags,
   createdAt,
@@ -49,6 +50,7 @@ export function MemoItem({
         createdAt={createdAt}
         lastModified={lastModified}
       />
+      <MemoFooter id={id} lastModified={lastModified} />
     </div>
   )
 }
