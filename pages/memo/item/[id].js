@@ -1,5 +1,5 @@
 import { serializeHandler } from '$lib/mdx'
-import { getItem, getList, releaseFormula } from '@cbcruk/next-utils'
+import { getItem } from '@cbcruk/next-utils'
 import Layout from 'components/Layout'
 import { MemoItem } from 'components/Preview/MemoItem'
 
@@ -18,7 +18,7 @@ function MemoItemPage({ data }) {
   )
 }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const data = await getItem({ url: '/memo', id: params.id })
 
   data.fields.serialize = await serializeHandler({
@@ -30,29 +30,6 @@ export async function getStaticProps({ params }) {
     props: {
       data,
     },
-    revalidate: 60,
-  }
-}
-
-export async function getStaticPaths() {
-  const data = await getList({
-    url: '/memo',
-    params: {
-      filterByFormula: releaseFormula(),
-      sort: [{ field: 'lastModified', direction: 'desc' }],
-      fields: ['index'],
-      pageSize: 100,
-    },
-  })
-  const paths = data.records.map((item) => {
-    return {
-      params: { id: item.id },
-    }
-  })
-
-  return {
-    fallback: 'blocking',
-    paths,
   }
 }
 
