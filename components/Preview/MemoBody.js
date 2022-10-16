@@ -7,7 +7,7 @@ export function MemoBody({ serialize }) {
   return (
     <div
       className={clsx(styles.container, [
-        'prose prose-sm prose-dark max-w-full p-4 text-sm',
+        'prose prose-sm prose-dark max-w-full p-4 text-xs',
       ])}
     >
       <MDXRemote {...serialize} />
