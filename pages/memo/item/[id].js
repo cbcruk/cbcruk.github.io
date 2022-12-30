@@ -4,8 +4,14 @@ import Layout from 'components/Layout'
 import { MemoItem } from 'components/Preview/MemoItem'
 
 function MemoItemPage({ data }) {
+  const keywords = data.fields.tags.join(', ')
+
   return (
-    <Layout title="Memo" isShowTitle={false}>
+    <Layout
+      title={`메모`}
+      description={`메모 키워드 - ${keywords}`}
+      isShowTitle={false}
+    >
       <MemoItem
         id={data.id}
         serialize={data.fields.serialize}

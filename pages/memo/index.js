@@ -10,7 +10,7 @@ import { PaginationLatest } from 'components/Pagination/PaginationLatest'
  */
 function Memos({ data }) {
   return (
-    <Layout title="Memo" isShowTitle={false}>
+    <Layout title="메모 최근 리스트" isShowTitle={false}>
       <Preview type="memo" items={data.records} />
       <PaginationLatest />
     </Layout>

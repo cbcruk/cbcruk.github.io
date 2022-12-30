@@ -19,7 +19,7 @@ function Tagged({ data }) {
   const [refIndexes, setRefIndexes] = useState([])
 
   return (
-    <Layout title="Tagged" isShowTitle={false}>
+    <Layout title="메모 탐색하기" isShowTitle={false}>
       <label className="flex flex-col gap-1">
         <span>🔦</span>
         <input

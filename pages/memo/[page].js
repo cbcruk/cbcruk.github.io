@@ -9,17 +9,21 @@ import { getMemo } from '$lib/airtable'
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
 import { Pagination } from 'components/Pagination'
+import { useRouter } from 'next/router'
 
 /**
  * @param {import('$lib/types').MemoPageProps} props
  */
 function Memos({ data }) {
+  const router = useRouter()
+  const page = router.query.page
+
   if (!data) {
     return null
   }
 
   return (
-    <Layout title="Memo" isShowTitle={false}>
+    <Layout title={`메모 리스트 ${page}페이지`} isShowTitle={false}>
       <Preview type="memo" items={data.records} />
       <Pagination pagination={data.pagination} />
     </Layout>
