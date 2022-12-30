@@ -16,7 +16,7 @@ class MyDocument extends Document {
     return (
       <Html lang="ko">
         <Head>
-          <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+          <link rel="icon" type="image/x-icon" href="/favicon.ico" />
           <link
             rel="preconnect"
             href="https://fonts.gstatic.com"
