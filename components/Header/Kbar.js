@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { useKBar } from 'kbar'
 
-function Kbar() {
+export function Kbar() {
   const kbar = useKBar()
 
   return (
