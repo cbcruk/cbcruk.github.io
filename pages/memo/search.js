@@ -29,7 +29,7 @@ function MemoSearch() {
   const { data, tags, isLoading } = useMemoQuery()
 
   return (
-    <Layout title={`메모 검색 ${tags || ''}`} isShowTitle={false}>
+    <Layout title={`메모 검색 - ${tags || ''}`} isShowTitle={false}>
       {(() => {
         if (isLoading) return <p>불러오는 중...</p>
         if (!data) return null

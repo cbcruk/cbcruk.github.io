@@ -7,7 +7,7 @@ function Layout({ title, description = '', isShowTitle = true, children }) {
   return (
     <>
       <Head>
-        <title>{[title, 'eunsoolee'].join(' - ')}</title>
+        <title>{[title, 'eunsoolee'].join(' | ')}</title>
         <meta name="description" content={description} />
       </Head>
 
