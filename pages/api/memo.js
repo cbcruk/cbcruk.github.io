@@ -2,35 +2,44 @@
 import { getMemo } from '$lib/airtable'
 import { mdxSerialize } from '$lib/mdx'
 import { releaseFormula } from '@cbcruk/next-utils'
+import { match, P } from 'ts-pattern'
 
 /**
- *
  * @param {string} tags
  */
-export async function handler(tags) {
-  try {
-    const data = await getMemo({
-      filterByFormula: `AND(SEARCH('${tags}', {tags}), ${releaseFormula()})`,
-      pageSize: 100,
-    })
+export async function getMemoByTags(tags) {
+  const data = await getMemo({
+    filterByFormula: `AND(SEARCH('${tags}', {tags}), ${releaseFormula()})`,
+    pageSize: 100,
+  })
 
-    await mdxSerialize(data.records)
-
-    return data
-  } catch (error) {
-    console.log(error)
-  }
+  return data
 }
 
 /** @type {import('next').NextApiHandler} */
 async function memo(req, res) {
-  const { tags } = req.query
-  const data = await handler(/** @type {string} */ (tags))
+  try {
+    const data = await match(req.query)
+      .with({ tags: P.string }, ({ tags }) =>
+        getMemoByTags(/** @type {string} */ (tags))
+      )
+      .otherwise(() => null)
 
-  res.setHeader('Cache-Control', 's-maxage=3600')
-  res.status(200).json({
-    data,
-  })
+    if (!data) {
+      res.status(400).json({
+        message:
+          '잘못된 요청입니다. 요청이 유효하지 않거나 부적절합니다. 요청을 확인하고 다시 시도해주세요.',
+      })
+      return
+    }
+
+    await mdxSerialize(data.records)
+
+    res.setHeader('Cache-Control', 's-maxage=3600')
+    res.status(200).json(data)
+  } catch (error) {
+    res.status(500).end()
+  }
 
   return
 }
