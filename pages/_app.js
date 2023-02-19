@@ -9,6 +9,7 @@ import Analytics from '../components/Analytics'
 import { useGtag } from 'hooks/useGtag'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SessionProvider } from 'next-auth/react'
+import { Toaster } from 'components/Toaster'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,6 +29,7 @@ function App({ Component, pageProps }) {
         <Kbar>
           <Component {...pageProps} />
         </Kbar>
+        <Toaster />
       </QueryClientProvider>
     </SessionProvider>
   )
