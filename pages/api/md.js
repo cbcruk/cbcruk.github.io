@@ -5,7 +5,7 @@ import { parse } from 'node-html-parser'
 /** @type {import('next').NextApiHandler} */
 async function md(req, res) {
   /** @type {string} */
-  const body = req.body
+  const body = req.body.data
   const links = body
     .split('\n')
     .filter(Boolean)
@@ -23,9 +23,9 @@ async function md(req, res) {
     set.add(md)
   }
 
-  res.json({
-    data: Array.from(set).join('\n'),
-  })
+  res.json(Array.from(set).join('\n'))
+
+  return
 }
 
 export default md
