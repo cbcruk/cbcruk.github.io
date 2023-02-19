@@ -1,34 +1,45 @@
 import { Button } from 'components/Form/Button'
 import { useSession, signIn, signOut } from 'next-auth/react'
-import { match, P } from 'ts-pattern'
+import Head from 'next/head'
+import { match } from 'ts-pattern'
 
 function SessionDesc({ children }) {
   return <p>{children}</p>
 }
 
 function Session() {
-  const { data: session } = useSession()
+  const session = useSession()
 
   return (
-    <div className="p-4 text-xs">
-      {match(session)
-        .with({ user: { email: P.not(P.nullish) } }, () => {
-          return (
-            <SessionDesc>
-              Signed in as {session.user.email} <br />
-              <Button onClick={() => signOut()}>Sign out</Button>
-            </SessionDesc>
+    <>
+      <Head>
+        <title>{['세션', 'eunsoolee'].join(' | ')}</title>
+      </Head>
+      <div className="p-4 text-xs">
+        {match(session)
+          .with({ status: 'loading' }, () => <p>`loading`</p>)
+          .with(
+            { status: 'authenticated' },
+            ({
+              data: {
+                user: { email },
+              },
+            }) => (
+              <SessionDesc>
+                Signed in as {email} <br />
+                <Button onClick={() => signOut()}>Sign out</Button>
+              </SessionDesc>
+            )
           )
-        })
-        .otherwise(() => {
-          return (
+          .with({ status: 'unauthenticated' }, () => (
             <SessionDesc>
               Not signed in <br />
               <Button onClick={() => signIn()}>Sign in</Button>
             </SessionDesc>
-          )
-        })}
-    </div>
+          ))
+          .otherwise(() => null)}
+      </div>
+    </>
   )
 }
 
