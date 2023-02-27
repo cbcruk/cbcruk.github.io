@@ -47,15 +47,6 @@ function Links() {
         onSubmit={(e) => {
           e.preventDefault()
 
-          const hasInvalid = e.currentTarget.input.value
-            .split('\n')
-            .some((value) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-
-          if (hasInvalid) {
-            toastError('이메일 형식을 입력해주세요')
-            return
-          }
-
           mutation.mutate()
         }}
         className="mt-2"
