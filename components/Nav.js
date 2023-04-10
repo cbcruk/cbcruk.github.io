@@ -43,15 +43,15 @@ function Nav() {
             ? router.asPath.startsWith(link.href)
             : router.asPath === link.href
           return (
-            <Link key={link.href} href={link.href}>
-              <a
-                className={clsx({
-                  underline: isActive,
-                  'is-active': isActive,
-                })}
-              >
-                {link.text}
-              </a>
+            <Link
+              key={link.href}
+              href={link.href}
+              className={clsx({
+                underline: isActive,
+                'is-active': isActive,
+              })}
+            >
+              {link.text}
             </Link>
           )
         })}

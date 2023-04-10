@@ -36,20 +36,20 @@ function Tagged({ data }) {
       <div className="flex flex-wrap gap-0.5 mt-4">
         {data.map((tag, index) => {
           return (
-            <Link key={tag.id} href={`/memo/search?tags=${tag.fields.select}`}>
-              <a
-                className={clsx(
-                  'p-1 px-2 rounded-xl mb-[8px] hover:bg-[color:var(--solarized-background-highlight)] text-xs hover:text-[color:var(--solarized-violet)] ease-out duration-300',
-                  {
-                    'text-[color:var(--solarized-violet)]':
-                      refIndexes.includes(index),
-                    'bg-[color:var(--solarized-background-highlight)]':
-                      refIndexes.includes(index),
-                  }
-                )}
-              >
-                #{tag.fields.select}
-              </a>
+            <Link
+              key={tag.id}
+              href={`/memo/search?tags=${tag.fields.select}`}
+              className={clsx(
+                'p-1 px-2 rounded-xl mb-[8px] hover:bg-[color:var(--solarized-background-highlight)] text-xs hover:text-[color:var(--solarized-violet)] ease-out duration-300',
+                {
+                  'text-[color:var(--solarized-violet)]':
+                    refIndexes.includes(index),
+                  'bg-[color:var(--solarized-background-highlight)]':
+                    refIndexes.includes(index),
+                }
+              )}
+            >
+              #{tag.fields.select}
             </Link>
           )
         })}

@@ -44,11 +44,7 @@ export function MemoFooter({ id, lastModified }) {
           return `#${id}`
         }
 
-        return (
-          <Link href={`/memo/item/${id}`}>
-            <a>{shortId}</a>
-          </Link>
-        )
+        return <Link href={`/memo/item/${id}`}>{shortId}</Link>
       })()}{' '}
       modified on {new Date(lastModified).toLocaleDateString('ko-KR')}
     </div>

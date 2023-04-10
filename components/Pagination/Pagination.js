@@ -5,15 +5,14 @@ import { useRouter } from 'next/router'
 
 export function LinkButton({ page, className, children }) {
   return (
-    <Link href={`/memo/${page}`}>
-      <a
-        className={clsx(
-          'inline-flex justify-center p-1 px-2 rounded-full border border-transparent hover:border-sky-900 text-xs text-center bg-sky-900/30 hover:bg-sky-900/60',
-          className
-        )}
-      >
-        {children}
-      </a>
+    <Link
+      href={`/memo/${page}`}
+      className={clsx(
+        'inline-flex justify-center p-1 px-2 rounded-full border border-transparent hover:border-sky-900 text-xs text-center bg-sky-900/30 hover:bg-sky-900/60',
+        className
+      )}
+    >
+      {children}
     </Link>
   )
 }
