@@ -8,9 +8,10 @@ import {
   useMatches,
   KBarResults,
   ActionImpl,
+  KBarProviderProps,
 } from 'kbar'
 import { useRouter } from 'next/router'
-import React, { ReactNode } from 'react'
+import React, { PropsWithChildren, ReactNode } from 'react'
 import { actions } from './constants'
 
 type Props = {
@@ -102,7 +103,7 @@ function RenderResults() {
 }
 
 type KbarProps = {
-  children: ReactNode
+  children: PropsWithChildren<KBarProviderProps>['children']
 }
 
 export function Kbar({ children }: KbarProps) {
