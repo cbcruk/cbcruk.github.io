@@ -1,16 +1,19 @@
-// @ts-check
+import { NextApiRequest, NextApiResponse } from 'next'
 import fetch from 'node-fetch'
 import { parse } from 'node-html-parser'
 
-/** @type {import('next').NextApiHandler} */
-async function md(req, res) {
-  /** @type {string} */
+interface NextApiRequestExtended extends NextApiRequest {
+  body: {
+    data: string
+  }
+}
+
+async function md(req: NextApiRequestExtended, res: NextApiResponse) {
   const body = req.body.data
   const links = body
     .split('\n')
     .filter(Boolean)
     .map((link) => link.replace('?utm_source=pocket_mylist', ''))
-  /** @type {Set<string>} */
   const set = new Set()
 
   for (const link of links) {

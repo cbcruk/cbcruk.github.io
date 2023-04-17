@@ -1,4 +1,5 @@
-// @ts-check
+import { KBarProviderProps } from 'kbar'
+
 export const DEFAULT_ACTIONS = {
   home: {
     id: 'home',
@@ -17,10 +18,13 @@ export const DEFAULT_ACTIONS = {
   },
 }
 
-export const actions = ({ onPerform }) => {
-  /**
-   * @type {import('kbar').KBarProviderProps['actions']}
-   */
+type Params = {
+  onPerform: (path: string) => void
+}
+
+export const actions = ({
+  onPerform,
+}: Params): KBarProviderProps['actions'] => {
   const items = [
     {
       ...DEFAULT_ACTIONS['home'],

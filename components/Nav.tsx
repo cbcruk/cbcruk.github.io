@@ -1,4 +1,3 @@
-// @ts-check
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -16,14 +15,14 @@ const links = [
   {
     href: '/memo',
     text: 'Memo',
-    isActive(path) {
+    isActive(path: string) {
       return /memo|tagged\/./.test(path)
     },
   },
   {
     href: '/tagged',
     text: 'Tag',
-    isActive(path) {
+    isActive(path: string) {
       return /^\/tagged$/.test(path)
     },
   },

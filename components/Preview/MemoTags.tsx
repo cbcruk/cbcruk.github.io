@@ -1,7 +1,9 @@
-// @ts-check
+import { MemoRecord } from '@/lib/types'
 import Link from 'next/link'
 
-export function MemoTags({ tags }) {
+type Props = Pick<MemoRecord['fields'], 'tags'>
+
+export function MemoTags({ tags }: Props) {
   return (
     <div className="flex gap-2 overflow-x-auto">
       {tags.map((tag, index) => {

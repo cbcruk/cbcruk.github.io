@@ -1,13 +1,10 @@
-// @ts-check
+import { ErrorProps } from 'next/error'
 import Layout from '../components/Layout'
+import { NextPageContext } from 'next'
 
-/**
- *
- * @param {import('next/error').ErrorProps} props
- */
-function Error({ statusCode }) {
+function Error({ statusCode }: ErrorProps) {
   return (
-    <Layout title="">
+    <Layout>
       <h1 className="prose prose-xl">
         {statusCode
           ? `서버에서  오류가 발생했습니다.`
@@ -17,11 +14,7 @@ function Error({ statusCode }) {
   )
 }
 
-/**
- *
- * @param {import('next').NextPageContext} props
- */
-Error.getInitialProps = ({ res, err }) => {
+Error.getInitialProps = ({ res, err }: NextPageContext) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404
   return { statusCode }
 }

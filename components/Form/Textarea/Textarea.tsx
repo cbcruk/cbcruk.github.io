@@ -1,7 +1,6 @@
-/**
- * @param {JSX.IntrinsicElements['textarea']} props
- */
-export function Textarea(props) {
+type Props = JSX.IntrinsicElements['textarea']
+
+export function Textarea(props: Props) {
   return (
     <textarea
       rows={4}

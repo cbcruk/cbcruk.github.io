@@ -1,12 +1,13 @@
-// @ts-check
-import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentContext,
+} from 'next/document'
 
 class MyDocument extends Document {
-  /**
-   *
-   * @param {import('next/document').DocumentContext} ctx
-   */
-  static async getInitialProps(ctx) {
+  static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx)
 
     return { ...initialProps }
@@ -20,7 +21,7 @@ class MyDocument extends Document {
           <link
             rel="preconnect"
             href="https://fonts.gstatic.com"
-            crossOrigin="true"
+            crossOrigin=""
           />
           <link
             rel="preload"

@@ -1,16 +1,19 @@
-// @ts-check
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { HighlightLinks } from '../components/HighlightLinks'
 import Layout from '../components/Layout'
+import { About, Links } from '@/lib/types'
+import { GetStaticProps, InferGetStaticPropsType } from 'next'
 
-/**
- *
- * @param {object} props
- * @param {import('$lib/types').About} props.about
- * @param {import('$lib/types').Links} props.links
- */
-function About({ about, links }) {
+type Props = {
+  about: About
+  links: Links
+}
+
+function About({
+  about,
+  links,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const { description, company } = about
 
   return (
@@ -71,7 +74,7 @@ function About({ about, links }) {
   )
 }
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps<Props> = async () => {
   const types = ['about', 'links']
   const [about, links] = await Promise.all(
     types.map((type) =>

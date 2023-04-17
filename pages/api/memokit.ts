@@ -1,11 +1,7 @@
-// @ts-check
+import { NextApiRequest, NextApiResponse } from 'next'
 import { octokit } from '../../lib/octokit'
 
-/**
- *
- * @param {string} q
- */
-export async function handler(q) {
+export async function handler(q: string) {
   const { data } = await octokit.rest.search.issuesAndPullRequests({
     q: `is:issue repo:cbcruk/issues ${q}`,
   })
@@ -18,10 +14,9 @@ export async function handler(q) {
   return items
 }
 
-/** @type {import('next').NextApiHandler} */
-async function memo(req, res) {
+async function memo(req: NextApiRequest, res: NextApiResponse) {
   const { q } = req.query
-  const data = await handler(/** @type {string} */ (q))
+  const data = await handler(q as string)
 
   res.json({
     data,

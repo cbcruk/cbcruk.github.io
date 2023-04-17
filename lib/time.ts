@@ -1,21 +1,12 @@
-// @ts-check
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
 dayjs.extend(relativeTime)
 
-/**
- *
- * @param {string} time
- */
-export function day(time) {
+export function day(time: string) {
   return dayjs(time)
 }
 
-/**
- *
- * @param {string} time
- */
-export function fromNow(time) {
+export function fromNow(time: string) {
   return day(time).fromNow()
 }

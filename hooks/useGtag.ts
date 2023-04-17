@@ -1,4 +1,3 @@
-// @ts-check
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import * as gtag from '../lib/gtag'
@@ -8,11 +7,7 @@ export function useGtag() {
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') {
-      /**
-       *
-       * @param {string} url
-       */
-      const handleRouteChange = (url) => gtag.pageview(url)
+      const handleRouteChange = (url: string) => gtag.pageview(url)
 
       router.events.on('routeChangeComplete', handleRouteChange)
 

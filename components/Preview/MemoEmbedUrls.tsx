@@ -1,9 +1,12 @@
-// @ts-check
-import { useOnClickOutside } from 'hooks/useOnClickOutside'
+import { useOnClickOutside } from '@/hooks/useOnClickOutside'
 import { useRef, useState } from 'react'
 
-export function MemoEmbedUrls({ embed }) {
-  const ref = useRef()
+type Props = {
+  embed: string[]
+}
+
+export function MemoEmbedUrls({ embed }: Props) {
+  const ref = useRef<HTMLDivElement>(null)
   const [state, setState] = useState(false)
   useOnClickOutside(ref, () => setState(false))
 

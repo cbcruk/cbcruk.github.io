@@ -1,36 +1,37 @@
-// @ts-check
+import { Issue } from '@octokit/graphql-schema'
 import DetailContent from './DetailContent'
 import useNewWindow from './useNewWindow'
+import { match } from 'ts-pattern'
 
-/**
- *
- * @param {object} props
- * @param {import('@octokit/graphql-schema').Issue['body']} props.body
- * @param {import('@octokit/graphql-schema').Issue['comments']['nodes']} props.comments
- */
-function Detail({ body, comments }) {
-  const hasComment = comments.length > 0
+type Props = {
+  body: Issue['body']
+  comments: Issue[]
+}
 
+function Detail({ body, comments }: Props) {
   useNewWindow()
 
   return (
     <>
       <DetailContent className="mt-4" body={body} />
-
-      {hasComment && (
-        <div className="mt-10">
-          <h2>📝 추가로 메모 했어요</h2>
-          <div className="prose prose-sm prose-dark max-w-none mt-4">
-            {comments.map((comment) => (
-              <DetailContent
-                key={comment.databaseId}
-                className="mt-4"
-                body={comment.bodyHTML}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+      {match(comments.length)
+        .with(0, () => null)
+        .otherwise(() => {
+          return (
+            <div className="mt-10">
+              <h2>📝 추가로 메모 했어요</h2>
+              <div className="prose prose-sm prose-dark max-w-none mt-4">
+                {comments.map((comment) => (
+                  <DetailContent
+                    key={comment.databaseId}
+                    className="mt-4"
+                    body={comment.bodyHTML}
+                  />
+                ))}
+              </div>
+            </div>
+          )
+        })}
     </>
   )
 }

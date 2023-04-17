@@ -1,4 +1,8 @@
-export function MemoEmbedUrl({ url }) {
+type Props = {
+  url: string
+}
+
+export function MemoEmbedUrl({ url }: Props) {
   const { host, href } = new URL(url)
 
   return (

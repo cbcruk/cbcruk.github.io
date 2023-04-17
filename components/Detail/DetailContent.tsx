@@ -1,16 +1,14 @@
-// @ts-check
 import clsx from 'clsx'
 import { getHtml } from './utils'
 import useFootnoteLabel from './useFootnoteLabel'
 import styles from './Detail.module.css'
+import { Issue } from '@octokit/graphql-schema'
 
-/**
- *
- * @param {object} props
- * @param {import('@octokit/graphql-schema').IssueComment['bodyHTML']} props.body
- * @param {string} props.className
- */
-function DetailContent({ body, className = '' }) {
+type Props = {
+  body: Issue['body']
+} & JSX.IntrinsicElements['div']
+
+function DetailContent({ body, className = '' }: Props) {
   const handleClick = useFootnoteLabel()
 
   return (
@@ -24,7 +22,7 @@ function DetailContent({ body, className = '' }) {
         __html: getHtml(body),
       }}
       onClick={handleClick}
-    ></div>
+    />
   )
 }
 

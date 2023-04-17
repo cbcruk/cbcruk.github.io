@@ -4,19 +4,21 @@ import Fuse from 'fuse.js'
 import Layout from '../../components/Layout'
 import { useRef, useState } from 'react'
 import clsx from 'clsx'
+import { GetStaticProps } from 'next'
+import { TagRecord } from '@/lib/types'
 
-/**
- * @param {object} props
- * @param {import('$lib/types').TagRecord[]} props.data
- */
-function Tagged({ data }) {
+type Props = {
+  data: TagRecord[]
+}
+
+function Tagged({ data }: Props) {
   const fuse = useRef(
     new Fuse(data, {
       keys: ['fields.select'],
       minMatchCharLength: 3,
     })
   ).current
-  const [refIndexes, setRefIndexes] = useState([])
+  const [refIndexes, setRefIndexes] = useState<number[]>([])
 
   return (
     <Layout title="메모 탐색하기" isShowTitle={false}>
@@ -26,9 +28,11 @@ function Tagged({ data }) {
           type="search"
           className="p-2 px-3 rounded-xl bg-[color:var(--solarized-background-highlight)] text-[color:var(--solarized-green)] text-xs"
           onChange={(e) => {
-            setRefIndexes(
-              fuse.search(e.target.value).map((item) => item.refIndex)
-            )
+            const result = fuse
+              .search(e.target.value)
+              .map((item) => item.refIndex)
+
+            setRefIndexes(result)
           }}
         />
       </label>
@@ -58,8 +62,7 @@ function Tagged({ data }) {
   )
 }
 
-/** @type {import('next').GetStaticProps} */
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
   const data = await getAllTags()
 
   return {

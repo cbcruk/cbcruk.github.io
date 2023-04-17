@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
+import { MemoRecord } from '@/lib/types'
 
 function useAdmin() {
   const { data: session } = useSession()
@@ -11,7 +12,11 @@ function useAdmin() {
   }
 }
 
-function useId({ id }) {
+type UseIdParams = {
+  id: MemoRecord['id']
+}
+
+function useId({ id }: UseIdParams) {
   const router = useRouter()
   const isItemPage = Boolean(router.query.id)
   const shortId = `#${id.slice(0, 7)}`
@@ -22,7 +27,12 @@ function useId({ id }) {
   }
 }
 
-export function MemoFooter({ id, lastModified }) {
+type Props = {
+  id: MemoRecord['id']
+  lastModified: MemoRecord['fields']['lastModified']
+}
+
+export function MemoFooter({ id, lastModified }: Props) {
   const { isItemPage, shortId } = useId({ id })
   const { isAdmin } = useAdmin()
 

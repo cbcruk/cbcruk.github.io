@@ -4,6 +4,15 @@ import { MemoDate } from './MemoDate'
 import { MemoEmbedUrl } from './MemoEmbedUrl'
 import { MemoFooter } from './MemoFooter'
 import { MemoTags } from './MemoTags'
+import { MDXRemote } from 'next-mdx-remote'
+import { MemoRecord } from '@/lib/types'
+
+type Props = JSX.IntrinsicElements['div'] &
+  Pick<
+    MemoRecord['fields'],
+    'tags' | 'createdAt' | 'lastModified' | 'serialize'
+  > &
+  Pick<MemoRecord, 'id'>
 
 export function MemoItem({
   id,
@@ -12,7 +21,7 @@ export function MemoItem({
   createdAt,
   lastModified,
   className = '',
-}) {
+}: Props) {
   return (
     <div
       className={clsx(
@@ -38,11 +47,13 @@ export function MemoItem({
           transition: 0.3s all ease-out;
         }
       `}</style>
-      <MemoBody serialize={serialize} />
+      <MemoBody>
+        <MDXRemote {...serialize} />
+      </MemoBody>
       <div className="flex justify-between items-center p-4 text-[10px]">
         <MemoTags tags={tags} />
-        {serialize.frontmatter.embed && (
-          <MemoEmbedUrl url={serialize.frontmatter.embed} />
+        {'embed' in serialize.frontmatter && (
+          <MemoEmbedUrl url={serialize.frontmatter.embed as string} />
         )}
       </div>
       <MemoDate

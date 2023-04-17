@@ -1,9 +1,19 @@
-// @ts-check
 import Head from 'next/head'
 import Nav from './Nav'
 import { Title } from './Title'
 
-function Layout({ title, description = '', isShowTitle = true, children }) {
+type Porps = {
+  title?: string
+  description?: string
+  isShowTitle?: boolean
+} & JSX.IntrinsicElements['main']
+
+function Layout({
+  title,
+  description = '',
+  isShowTitle = true,
+  children,
+}: Porps) {
   return (
     <>
       <Head>

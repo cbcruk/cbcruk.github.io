@@ -1,4 +1,3 @@
-// @ts-check
 import {
   getLastIndex,
   getLastPage,
@@ -8,13 +7,14 @@ import {
 import { getMemo } from '$lib/airtable'
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
-import { Pagination } from 'components/Pagination'
+import { Pagination } from '@/components/Pagination'
 import { useRouter } from 'next/router'
+import { MemoPageProps } from '@/lib/types'
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 
-/**
- * @param {import('$lib/types').MemoPageProps} props
- */
-function Memos({ data }) {
+type Props = MemoPageProps
+
+function Memos({ data }: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter()
   const page = router.query.page
 
@@ -24,17 +24,14 @@ function Memos({ data }) {
 
   return (
     <Layout title={`메모 리스트 ${page}페이지`} isShowTitle={false}>
-      <Preview type="memo" items={data.records} />
+      <Preview items={data.records} />
       <Pagination pagination={data.pagination} />
     </Layout>
   )
 }
 
-/** @type {import('next').GetStaticProps} */
-export async function getStaticProps({ params }) {
-  const { page, startIndex, endIndex } = getPagination(
-    /** @type {string} */ (params.page)
-  )
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
+  const { page, startIndex, endIndex } = getPagination(params?.page as string)
   const [total, data] = await Promise.all([
     getLastIndex('/memo'),
     getMemo({
@@ -69,13 +66,14 @@ export async function getStaticProps({ params }) {
   }
 }
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const total = await getLastIndex('/memo')
   const paths = Array.from({ length: getLastPage(total) }).map((_, index) => {
     return {
       params: { page: `${index + 2}` },
     }
   })
+
   return {
     fallback: 'blocking',
     paths,

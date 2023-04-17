@@ -1,14 +1,17 @@
-// @ts-check
+import { Button } from '@/components/Form/Button'
+import { Textarea } from '@/components/Form/Textarea'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
-import { Button } from 'components/Form/Button'
-import { Textarea } from 'components/Form/Textarea'
 import { useRef } from 'react'
 
 function Revalidate() {
-  const formRef = useRef(null)
+  const formRef = useRef<HTMLFormElement>(null)
   const mutation = useMutation({
-    mutationFn: () => {
+    mutationFn: async () => {
+      if (!formRef.current) {
+        return
+      }
+
       const formData = new FormData(formRef.current)
 
       return axios.post('/api/revalidate', {
@@ -16,6 +19,10 @@ function Revalidate() {
       })
     },
     onSuccess: () => {
+      if (!formRef.current) {
+        return
+      }
+
       formRef.current.reset()
     },
   })

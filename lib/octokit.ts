@@ -1,4 +1,3 @@
-// @ts-check
 import { graphql } from '@octokit/graphql'
 import { Octokit } from '@octokit/rest'
 

@@ -1,9 +1,17 @@
 import { serializeHandler } from '$lib/mdx'
 import { getItem } from '@cbcruk/next-utils'
-import Layout from 'components/Layout'
-import { MemoItem } from 'components/Preview/MemoItem'
+import Layout from '@/components/Layout'
+import { MemoItem } from '@/components/Preview/MemoItem'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { MemoRecord } from '@/lib/types'
 
-function MemoItemPage({ data }) {
+type Props = {
+  data: MemoRecord
+}
+
+function MemoItemPage({
+  data,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const keywords = data.fields.tags.join(', ')
 
   return (
@@ -24,8 +32,13 @@ function MemoItemPage({ data }) {
   )
 }
 
-export async function getServerSideProps({ params }) {
-  const data = await getItem({ url: '/memo', id: params.id })
+export const getServerSideProps: GetServerSideProps<Props> = async ({
+  params,
+}) => {
+  const data = await getItem<MemoRecord>({
+    url: '/memo',
+    id: params?.id as Parameters<typeof getItem>[0]['id'],
+  })
 
   data.fields.serialize = await serializeHandler({
     source: data.fields.body,

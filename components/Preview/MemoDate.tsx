@@ -1,9 +1,12 @@
-// @ts-check
 import clsx from 'clsx'
 import { useState } from 'react'
 import { day } from '../../lib/time'
+import { MemoRecord } from '@/lib/types'
 
-export function MemoDate({ createdAt, lastModified, className }) {
+type Props = JSX.IntrinsicElements['span'] &
+  Pick<MemoRecord['fields'], 'createdAt' | 'lastModified'>
+
+export function MemoDate({ createdAt, lastModified, className }: Props) {
   const [state, setState] = useState(1)
 
   return (

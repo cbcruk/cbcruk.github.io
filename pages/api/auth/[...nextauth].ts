@@ -1,16 +1,16 @@
-import NextAuth from 'next-auth'
+import NextAuth, { AuthOptions } from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientId: process.env.GITHUB_ID || '',
+      clientSecret: process.env.GITHUB_SECRET || '',
     }),
   ],
   callbacks: {
     async jwt({ token }) {
-      if (process.env.ADMIN_EMAIL.includes(token.email)) {
+      if ((process.env.ADMIN_EMAIL || '').includes(token?.email || '')) {
         token.role = 'admin'
       }
 

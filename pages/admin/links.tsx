@@ -1,15 +1,18 @@
-// @ts-check
+import { Button } from '@/components/Form/Button'
+import { Textarea } from '@/components/Form/Textarea'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
-import { Button } from 'components/Form/Button'
-import { Textarea } from 'components/Form/Textarea'
 import { useRef } from 'react'
 import { match } from 'ts-pattern'
 
 function Links() {
-  const formRef = useRef(null)
+  const formRef = useRef<HTMLFormElement>(null)
   const mutation = useMutation({
     mutationFn: async () => {
+      if (!formRef.current) {
+        return
+      }
+
       const formData = new FormData(formRef.current)
       const data = formData.get('input')
 
@@ -21,6 +24,10 @@ function Links() {
     },
     onSuccess: async (data) => {
       await navigator.clipboard.writeText(data)
+
+      if (!formRef.current) {
+        return
+      }
 
       formRef.current.reset()
     },
@@ -45,7 +52,6 @@ function Links() {
         ref={formRef}
         onSubmit={(e) => {
           e.preventDefault()
-
           mutation.mutate()
         }}
         className="mt-2"

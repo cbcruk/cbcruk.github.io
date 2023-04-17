@@ -1,4 +1,3 @@
-// @ts-check
 import clsx from 'clsx'
 import {
   KBarProvider,
@@ -8,20 +7,19 @@ import {
   KBarSearch,
   useMatches,
   KBarResults,
+  ActionImpl,
 } from 'kbar'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { actions } from './constants'
 
-const ResultItem = React.forwardRef(
-  /**
-   *
-   * @param {Object} props
-   * @param {import('kbar').ActionImpl} props.action
-   * @param {boolean} props.active
-   * @param {import('kbar').ActionId} props.currentRootActionId
-   * @param {React.Ref<HTMLDivElement>} ref
-   */
+type Props = {
+  action: ActionImpl
+  active: boolean
+  currentRootActionId: ReturnType<typeof useMatches>['rootActionId']
+}
+
+const ResultItem = React.forwardRef<HTMLDivElement, Props>(
   ({ action, active, currentRootActionId }, ref) => {
     const ancestors = React.useMemo(() => {
       if (!currentRootActionId) {
@@ -68,10 +66,7 @@ const ResultItem = React.forwardRef(
         {action.shortcut?.length ? (
           <div aria-hidden className="grid gap-1">
             {action.shortcut.map((sc) => (
-              <kbd
-                key={sc}
-                className="px-1 px-2 rounded-sm text-xs bg-gray-900"
-              >
+              <kbd key={sc} className="px-2 rounded-sm text-xs bg-gray-900">
                 {sc}
               </kbd>
             ))}
@@ -89,22 +84,28 @@ function RenderResults() {
   return (
     <KBarResults
       items={results}
-      onRender={({ item, active }) =>
-        typeof item === 'string' ? (
-          <div className="p-2 text-sm uppercase opacity-50">{item}</div>
-        ) : (
+      onRender={({ item, active }) => {
+        if (typeof item === 'string') {
+          return <div className="p-2 text-sm uppercase opacity-50">{item}</div>
+        }
+
+        return (
           <ResultItem
             action={item}
             active={active}
             currentRootActionId={rootActionId}
           />
         )
-      }
+      }}
     />
   )
 }
 
-export function Kbar({ children }) {
+type KbarProps = {
+  children: ReactNode
+}
+
+export function Kbar({ children }: KbarProps) {
   const router = useRouter()
 
   return (
@@ -113,10 +114,6 @@ export function Kbar({ children }) {
         enableHistory: true,
       }}
       actions={actions({
-        /**
-         *
-         * @param {string} url
-         */
         onPerform(url) {
           router.push(url)
         },

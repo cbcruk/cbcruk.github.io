@@ -3,12 +3,18 @@ import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
 import rehypeHighlight from 'rehype-highlight'
 
-export async function serializeHandler({ source, id }) {
+type SerializeHandlerParams = {
+  source: Parameters<typeof serialize>[0]
+  id: string
+}
+
+export async function serializeHandler({ source, id }: SerializeHandlerParams) {
   return serialize(source, {
     mdxOptions: {
       remarkPlugins: [
         [remarkGfm],
         [
+          // @ts-ignore
           remarkRehype,
           {
             clobberPrefix: id,
@@ -21,7 +27,7 @@ export async function serializeHandler({ source, id }) {
   })
 }
 
-export async function mdxSerialize(records) {
+export async function mdxSerialize(records: any[]) {
   for (const record of records) {
     record.fields.serialize = await serializeHandler({
       source: record.fields.body,

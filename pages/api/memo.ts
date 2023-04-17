@@ -1,13 +1,10 @@
-// @ts-check
 import { getMemo } from '$lib/airtable'
 import { mdxSerialize } from '$lib/mdx'
 import { releaseFormula } from '@cbcruk/next-utils'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { match, P } from 'ts-pattern'
 
-/**
- * @param {string} tags
- */
-export async function getMemoByTags(tags) {
+export async function getMemoByTags(tags: string) {
   const data = await getMemo({
     filterByFormula: `AND(SEARCH('${tags}', {tags}), ${releaseFormula()})`,
     pageSize: 100,
@@ -16,13 +13,10 @@ export async function getMemoByTags(tags) {
   return data
 }
 
-/** @type {import('next').NextApiHandler} */
-async function memo(req, res) {
+async function memo(req: NextApiRequest, res: NextApiResponse) {
   try {
     const data = await match(req.query)
-      .with({ tags: P.string }, ({ tags }) =>
-        getMemoByTags(/** @type {string} */ (tags))
-      )
+      .with({ tags: P.string }, ({ tags }) => getMemoByTags(tags))
       .otherwise(() => null)
 
     if (!data) {

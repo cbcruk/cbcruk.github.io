@@ -1,13 +1,11 @@
-// @ts-check
+import { MemoRecord } from '@/lib/types'
 import { MemoItem } from './Preview/MemoItem'
 
-/**
- *
- * @param {object} props
- * @param {string} props.type
- * @param {import('$lib/types').MemoRecord[]} props.items
- */
-function Preview({ items }) {
+type Props = {
+  items: MemoRecord[]
+}
+
+function Preview({ items }: Props) {
   return (
     <div className="Preview items">
       {items.map(({ id, fields }) => {

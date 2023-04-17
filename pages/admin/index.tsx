@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export function Layout({ children }) {
+export function Layout({ children }: JSX.IntrinsicElements['div']) {
   return <div className="p-4 text-xs">{children}</div>
 }
 
