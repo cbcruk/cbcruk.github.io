@@ -28,13 +28,15 @@ function useMemoQuery() {
 }
 
 function MemoSearch() {
-  const { data, tags, isLoading, isError } = useMemoQuery()
+  const { data, tags, isLoading, isError, error } = useMemoQuery()
 
   return (
     <Layout title={`메모 검색 - ${tags || ''}`} isShowTitle={false}>
-      {match({ isLoading, isError, data })
+      {match({ isLoading, isError, data, error })
         .with({ isLoading: true }, () => <p>불러오는 중...</p>)
-        .with({ isError: true }, () => <p>에러가 발생했습니다.</p>)
+        .with({ isError: true }, ({ error }) => (
+          <p>{(error as Error)?.message || '에러가 발생했습니다.'}</p>
+        ))
         .with({ data: P.nullish }, () => null)
         .otherwise(() => (
           <Preview items={data.records} />

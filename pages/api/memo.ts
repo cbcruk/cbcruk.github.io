@@ -24,6 +24,15 @@ async function memo(req: NextApiRequest, res: NextApiResponse) {
         message:
           '잘못된 요청입니다. 요청이 유효하지 않거나 부적절합니다. 요청을 확인하고 다시 시도해주세요.',
       })
+
+      return
+    }
+
+    if (data.records.length === 0) {
+      res.status(404).json({
+        message: '검색 결과가 없습니다.',
+      })
+
       return
     }
 

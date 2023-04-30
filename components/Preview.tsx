@@ -1,5 +1,6 @@
 import { MemoRecord } from '@/lib/types'
 import { MemoItem } from './Preview/MemoItem'
+import { match } from 'ts-pattern'
 
 type Props = {
   items: MemoRecord[]
