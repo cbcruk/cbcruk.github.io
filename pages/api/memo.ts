@@ -1,5 +1,5 @@
 import { getMemo } from '$lib/airtable'
-import { mdxSerialize, serializeHandler } from '$lib/mdx'
+import { serializeHandler } from '$lib/mdx'
 import { releaseFormula } from '@cbcruk/next-utils'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { match, P } from 'ts-pattern'

@@ -10,6 +10,7 @@ import { SessionProvider } from 'next-auth/react'
 import { useGtag } from '@/hooks/useGtag'
 import { Toaster } from '@/components/Toaster'
 import { AppProps } from 'next/app'
+import { noto } from '@/fonts'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,9 +27,11 @@ function App({ Component, pageProps }: AppProps) {
     <SessionProvider session={pageProps.session}>
       <QueryClientProvider client={queryClient}>
         <Analytics />
-        <Kbar>
-          <Component {...pageProps} />
-        </Kbar>
+        <div className={noto.className}>
+          <Kbar>
+            <Component {...pageProps} />
+          </Kbar>
+        </div>
         <Toaster />
       </QueryClientProvider>
     </SessionProvider>

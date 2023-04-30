@@ -18,20 +18,6 @@ class MyDocument extends Document {
       <Html lang="ko">
         <Head>
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-          <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossOrigin=""
-          />
-          <link
-            rel="preload"
-            as="style"
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400&display=swap"
-          />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400&display=swap"
-          />
         </Head>
         <body>
           <Main />
