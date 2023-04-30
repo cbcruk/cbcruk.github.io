@@ -1,10 +1,10 @@
-import { getLastIndex, getLastPage } from '@cbcruk/next-utils'
 import { getMemo } from '$lib/airtable'
 import Layout from '../../components/Layout'
 import Preview from '../../components/Preview'
 import { PaginationLatest } from '@/components/Pagination/PaginationLatest'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import { MemoPageProps } from '@/lib/types'
+import { serializeHandler } from '@/lib/mdx'
 
 type Props = MemoPageProps
 
@@ -18,18 +18,26 @@ function Memos({ data }: InferGetStaticPropsType<typeof getStaticProps>) {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const [total, data] = await Promise.all([
-    getLastIndex('/memo'),
+  const [data] = await Promise.all([
     getMemo({
       sort: [{ field: 'lastModified', direction: 'desc' }],
+      pageSize: 10,
     }),
   ])
+
+  for (const record of data.records) {
+    record.fields.serialize = await serializeHandler({
+      source: record.fields.body,
+      id: record.id,
+    })
+
+    delete record.fields.body
+  }
 
   return {
     props: {
       data: {
         records: data.records,
-        pagination: [null, 2, getLastPage(total)],
       },
     },
     revalidate: 60,

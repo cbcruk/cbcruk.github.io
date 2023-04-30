@@ -1,5 +1,5 @@
 import { getMemo } from '$lib/airtable'
-import { mdxSerialize } from '$lib/mdx'
+import { mdxSerialize, serializeHandler } from '$lib/mdx'
 import { releaseFormula } from '@cbcruk/next-utils'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { match, P } from 'ts-pattern'
@@ -27,7 +27,14 @@ async function memo(req: NextApiRequest, res: NextApiResponse) {
       return
     }
 
-    await mdxSerialize(data.records)
+    for (const record of data.records) {
+      record.fields.serialize = await serializeHandler({
+        source: record.fields.body,
+        id: record.id,
+      })
+
+      delete record.fields.body
+    }
 
     res.setHeader('Cache-Control', 's-maxage=3600')
     res.status(200).json(data)

@@ -11,6 +11,7 @@ import { Pagination } from '@/components/Pagination'
 import { useRouter } from 'next/router'
 import { MemoPageProps } from '@/lib/types'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
+import { serializeHandler } from '@/lib/mdx'
 
 type Props = MemoPageProps
 
@@ -53,6 +54,15 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
         permanent: false,
       },
     }
+  }
+
+  for (const record of data.records) {
+    record.fields.serialize = await serializeHandler({
+      source: record.fields.body,
+      id: record.id,
+    })
+
+    delete record.fields.body
   }
 
   return {

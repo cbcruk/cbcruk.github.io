@@ -1,7 +1,6 @@
 import { serialize } from 'next-mdx-remote/serialize'
 import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
-import rehypeHighlight from 'rehype-highlight'
 
 type SerializeHandlerParams = {
   source: Parameters<typeof serialize>[0]
@@ -21,7 +20,6 @@ export async function serializeHandler({ source, id }: SerializeHandlerParams) {
           },
         ],
       ],
-      rehypePlugins: [rehypeHighlight],
     },
     parseFrontmatter: true,
   })

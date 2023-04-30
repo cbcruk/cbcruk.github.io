@@ -42,6 +42,6 @@ export type TagRecord = {
 export type MemoPageProps = {
   data: {
     records: MemoRecord[]
-    pagination: (number | null)[]
+    pagination?: (number | null)[]
   }
 }

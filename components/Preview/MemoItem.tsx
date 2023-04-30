@@ -6,6 +6,7 @@ import { MemoFooter } from './MemoFooter'
 import { MemoTags } from './MemoTags'
 import { MDXRemote } from 'next-mdx-remote'
 import { MemoRecord } from '@/lib/types'
+import { MemoHighlight } from './MemoHighlight'
 
 type Props = JSX.IntrinsicElements['div'] &
   Pick<
@@ -48,7 +49,9 @@ export function MemoItem({
         }
       `}</style>
       <MemoBody>
-        <MDXRemote {...serialize} />
+        <MemoHighlight>
+          <MDXRemote {...serialize} />
+        </MemoHighlight>
       </MemoBody>
       <div className="flex justify-between items-center p-4 text-[10px]">
         <MemoTags tags={tags} />

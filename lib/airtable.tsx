@@ -1,5 +1,4 @@
 import { getList, getListAll, releaseFormula } from '@cbcruk/next-utils'
-import { mdxSerialize } from './mdx'
 import { MemoRecord } from './types'
 
 export async function getMemo(params = {}) {
@@ -10,7 +9,6 @@ export async function getMemo(params = {}) {
       ...params,
     },
   })
-  await mdxSerialize(data.records)
 
   return data
 }
