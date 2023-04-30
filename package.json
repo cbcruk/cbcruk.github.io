@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint",
+    "prune": "ts-prune"
   },
   "dependencies": {
     "@cbcruk/next-utils": "^0.0.13-alpha.6",
@@ -14,33 +16,39 @@
     "@stackblitz/sdk": "^1.5.3",
     "@tailwindcss/typography": "^0.5.0",
     "@tanstack/react-query": "^4.2.3",
-    "autoprefixer": "^10.2.6",
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.34",
+    "@types/react-dom": "18.0.11",
+    "autoprefixer": "10.4.14",
     "axios": "^1.3.3",
     "clsx": "^1.1.1",
     "dayjs": "^1.10.5",
-    "eslint": "^7.28.0",
-    "eslint-plugin-react": "^7.24.0",
+    "eslint": "8.38.0",
+    "eslint-config-next": "13.3.0",
     "fuse.js": "^6.6.2",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.6.0",
     "kbar": "^0.1.0-beta.25",
-    "next": "^12.1.0",
-    "next-auth": "^4.19.2",
+    "next": "13.3.0",
+    "next-auth": "^4.22.0",
     "next-mdx-remote": "^4.0.2",
     "node-fetch": "^3.0.0",
     "node-html-parser": "^5.1.0",
-    "postcss": "^8.3.0",
-    "react": "^17.0.2",
+    "postcss": "8.4.21",
+    "react": "18.2.0",
     "react-aria": "^3.14.1",
-    "react-dom": "^17.0.2",
+    "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.0",
     "rehype-highlight": "^5.0.2",
     "remark-gfm": "^3.0.1",
     "remark-rehype": "^10.1.0",
-    "tailwindcss": "3.1.8",
-    "ts-pattern": "^4.1.4"
+    "tailwindcss": "3.3.1",
+    "ts-pattern": "^4.1.4",
+    "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@octokit/graphql-schema": "^10.73.0"
+    "@octokit/graphql-schema": "^10.73.0",
+    "@types/gtag.js": "^0.0.12",
+    "ts-prune": "^0.10.3"
   }
 }

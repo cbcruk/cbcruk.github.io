@@ -1,7 +1,5 @@
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 
-declare var gtag: any
-
 export type About = {
   company: {
     end_date: string
