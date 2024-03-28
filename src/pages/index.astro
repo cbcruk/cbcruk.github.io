@@ -1,0 +1,30 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import Layout from '@layouts/Layout.astro'
+import { MemoLayout } from '@components/MemoLayout/MemoLayout'
+import { Memo } from '@components/Memo/Memo'
+import { PaginationLatest } from '@components/Pagination/PaginationLatest'
+import { getRandomMemoCollection } from '@collection/memo'
+
+export const prerender = true
+
+const memoCollection = await getRandomMemoCollection()
+
+const PAGE_TITLE = '메모 최근 리스트 | eunsoolee'
+const PAGE_DESCRIPTION = ''
+---
+
+<Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+	<MemoLayout>
+		{memoCollection.map(async memo => {
+			const { Content } = await memo.render()
+
+			return (
+				<Memo memo={memo}>
+					<Content />
+				</Memo>
+			)
+		})}
+	</MemoLayout>
+	<PaginationLatest />
+</Layout>
