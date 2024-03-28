@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap'
 import tailwind from '@astrojs/tailwind'
 import react from '@astrojs/react'
 import partytown from '@astrojs/partytown'
+import vercel from '@astrojs/vercel/serverless'
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,4 +19,6 @@ export default defineConfig({
     '/memos': '/memos/1',
     '/memo': '/memos/1',
   },
+  output: 'server',
+  adapter: vercel(),
 })
