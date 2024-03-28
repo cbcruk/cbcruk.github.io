@@ -16,5 +16,6 @@ export default defineConfig({
   },
   redirects: {
     '/memos': '/memos/1',
+    '/memo': '/memos/1',
   },
 })
