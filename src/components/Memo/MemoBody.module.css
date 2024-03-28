@@ -1,0 +1,79 @@
+.root > * {
+  @apply my-4;
+}
+
+.root > *:first-child {
+  @apply mt-0;
+}
+
+.root > *:last-child {
+  @apply mb-0;
+}
+
+.root code,
+.root pre {
+  @apply font-mono;
+}
+
+.root code:not(pre > code) {
+  @apply text-[--solarized-green] text-[10px];
+}
+
+.root code::before {
+  content: '`';
+}
+
+.root code::after {
+  content: '`';
+}
+
+.root pre {
+  @apply p-2 text-[10px];
+}
+
+.root pre code::before,
+.root pre code::after {
+  content: none;
+}
+
+.root hr {
+  @apply border-[--solarized-background-highlight];
+}
+
+.root ul,
+.root ol {
+  @apply flex flex-col gap-2 pl-[14px];
+}
+
+.root ul ul,
+.root ol ol {
+  @apply pt-2;
+}
+
+.root ul {
+  @apply list-disc;
+}
+
+.root ol {
+  @apply list-decimal;
+}
+
+.root [data-footnote-ref]::before {
+  content: '[';
+}
+
+.root [data-footnote-ref]::after {
+  content: ']';
+}
+
+.root a:not([data-footnote-backref]) {
+  @apply underline;
+}
+
+.root strong {
+  @apply text-[--solarized-magenta];
+}
+
+.root [data-footnotes] {
+  @apply text-[--solarized-base01];
+}

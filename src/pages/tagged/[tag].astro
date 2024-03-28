@@ -1,0 +1,46 @@
+---
+import { type CollectionEntry, getCollection, getEntries } from 'astro:content';
+import Layout from '@layouts/Layout.astro'
+import { MemoLayout } from '@components/MemoLayout/MemoLayout'
+import { Memo } from '@components/Memo/Memo'
+import { getReleaseMemoCollection } from '@collection/memo'
+
+export async function getStaticPaths() {
+	const memoCollection = await getReleaseMemoCollection();
+  const tags = Array.from(new Set(memoCollection.map(memo => memo.data.tags).flat()));
+	const paths = Promise.all(
+		tags.map(async (tag) => {
+			return {
+				params: { tag },
+				props: {
+					memos: memoCollection.filter(memo => memo.data.tags.includes(tag))
+				},
+			}
+		})
+	)
+	
+	return paths;
+}
+
+export const prerender = true
+
+const { memos } = Astro.props;
+const { tag } = Astro.params
+
+const PAGE_TITLE = `#${tag}로 태그된 메모 | eunsoolee`
+const PAGE_DESCRIPTION = ''
+---
+
+<Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+	<MemoLayout>
+		{memos.map(async memo => {
+			const { Content } = await memo.render()
+
+			return (
+				<Memo memo={memo}>
+					<Content />
+				</Memo>
+			)
+		})}
+	</MemoLayout>
+</Layout>
