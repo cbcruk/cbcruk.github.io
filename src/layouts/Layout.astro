@@ -19,7 +19,7 @@ const { pathname } = Astro.url
   </head>
   <body>
     <Header>
-      <Nav client:idle pathname={pathname} />
+      <Nav pathname={pathname} />
     </Header>
     <main class="max-w-3xl p-4 mb-4 mx-auto">
       <slot />

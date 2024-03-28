@@ -10,13 +10,13 @@ export function Nav({ pathname }: Props) {
     <NavPrimitive>
       <NavLink
         href={MENUS.home.pathname}
-        data-is-active={pathname === MENUS.home.pathname}
+        data-is-active={isMatch([MENUS.home.pathname])}
       >
         {MENUS.home.label}
       </NavLink>
       <NavLink
         href={MENUS.about.pathname}
-        data-is-active={pathname === MENUS.about.pathname}
+        data-is-active={isMatch([MENUS.about.pathname])}
       >
         {MENUS.about.label}
       </NavLink>
