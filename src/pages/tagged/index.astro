@@ -1,19 +1,17 @@
 ---
-import { type CollectionEntry, getCollection, getEntries } from 'astro:content';
 import Layout from '@layouts/Layout.astro'
-import { Memo } from '@components/Memo/Memo'
 import { getReleaseMemoCollection } from '@collection/memo'
 import { Tags } from '@components/Tag/Tags'
 
 export const prerender = true
 
 const memos = await getReleaseMemoCollection()
-const tags = Array.from(new Set(memos.map(memo => memo.data.tags).flat()));
+const tags = Array.from(new Set(memos.map((memo) => memo.data.tags).flat()))
 
 const PAGE_TITLE = `태그 모음 페이지 | eunsoolee`
 const PAGE_DESCRIPTION = ''
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
-	<Tags client:load tags={tags} />
+  <Tags client:load tags={tags} />
 </Layout>

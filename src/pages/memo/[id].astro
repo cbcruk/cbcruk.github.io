@@ -1,43 +1,42 @@
 ---
-import { type CollectionEntry, getCollection, getEntry } from 'astro:content';
+import { type CollectionEntry, getEntry } from 'astro:content'
 import Layout from '@layouts/Layout.astro'
 import { Memo } from '@components/Memo/Memo'
-import { MemoContent } from '@components/Memo/MemoContent'
-import { MemoBody } from '@components/Memo/MemoBody'
-import { MemoTags, MemoTag } from '@components/Memo/MemoPrimitive'
 import { getReleaseMemoCollection } from '@collection/memo'
 
-type Props = CollectionEntry<'memo'>;
+type Props = {
+  memo: CollectionEntry<'memo'>
+}
 
 export async function getStaticPaths() {
-	const memos = await getReleaseMemoCollection();
-	const paths = Promise.all(
-		memos.map(async (memo) => {
-			const memoEntry = await getEntry('memo', memo.slug)
+  const memos = await getReleaseMemoCollection()
+  const paths = Promise.all(
+    memos.map(async (memo) => {
+      const memoEntry = await getEntry('memo', memo.slug)
 
-			return {
-				params: { id: memo.slug },
-				props: {
-					memo: memoEntry
-				},
-			}
-		})
-	)
-	
-	return paths;
+      return {
+        params: { id: memo.slug },
+        props: {
+          memo: memoEntry,
+        },
+      }
+    })
+  )
+
+  return paths
 }
 
 export const prerender = true
 
-const { memo } = Astro.props;
-const { Content } = await memo.render();
+const { memo } = Astro.props
+const { Content } = await memo.render()
 
 const PAGE_TITLE = `메모 #${memo.slug} | eunsoolee`
 const PAGE_DESCRIPTION = ''
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
-	<Memo memo={memo}>
-		<Content />
-	</Memo>
+  <Memo memo={memo}>
+    <Content />
+  </Memo>
 </Layout>

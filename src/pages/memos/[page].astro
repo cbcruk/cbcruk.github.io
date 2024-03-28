@@ -1,11 +1,15 @@
 ---
 import type { Page } from 'astro'
-import { getCollection, type CollectionEntry } from 'astro:content'
-import { match, P } from 'ts-pattern'
+import { type CollectionEntry } from 'astro:content'
 import Layout from '@layouts/Layout.astro'
 import { MemoLayout } from '@components/MemoLayout/MemoLayout'
 import { Memo } from '@components/Memo/Memo'
-import { Pagination, PaginationLabel, PaginationLinkGroup, PaginationLink } from '@components/Pagination/PaginationPrimitive'
+import {
+  Pagination,
+  PaginationLabel,
+  PaginationLinkGroup,
+  PaginationLink,
+} from '@components/Pagination/PaginationPrimitive'
 import { getReleaseMemoCollection } from '@collection/memo'
 
 type Props = {
@@ -15,7 +19,12 @@ type Props = {
 export async function getStaticPaths({ paginate }) {
   const memoCollection = await getReleaseMemoCollection()
 
-  return paginate(memoCollection.sort((a, b) => a.slug - b.slug).reverse(), { pageSize: 10 })
+  return paginate(
+    memoCollection.sort((a, b) => Number(a.slug) - Number(b.slug)).reverse(),
+    {
+      pageSize: 10,
+    }
+  )
 }
 
 export const prerender = true
@@ -28,24 +37,34 @@ const PAGE_DESCRIPTION = ''
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
   <MemoLayout>
-		{page.data.map(async memo => {
-			const { Content } = await memo.render()
+    {
+      page.data.map(async (memo) => {
+        const { Content } = await memo.render()
 
-			return (
-				<Memo memo={memo}>
-          <Content />
-				</Memo>
-			)
-		})}
-	</MemoLayout>
+        return (
+          <Memo memo={memo}>
+            <Content />
+          </Memo>
+        )
+      })
+    }
+  </MemoLayout>
 
   <Pagination>
     <PaginationLabel>
       {`${page.lastPage} 중 ${page.currentPage}페이지`}
     </PaginationLabel>
     <PaginationLinkGroup>
-      {page.url.prev && <PaginationLink href={page.url.prev}>이전 페이지</PaginationLink>}
-      {page.url.next && <PaginationLink href={page.url.next}>다음 페이지</PaginationLink>}
+      {
+        page.url.prev && (
+          <PaginationLink href={page.url.prev}>이전 페이지</PaginationLink>
+        )
+      }
+      {
+        page.url.next && (
+          <PaginationLink href={page.url.next}>다음 페이지</PaginationLink>
+        )
+      }
     </PaginationLinkGroup>
   </Pagination>
 </Layout>

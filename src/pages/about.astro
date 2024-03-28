@@ -1,16 +1,23 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
+import { getCollection } from 'astro:content'
 import Layout from '@layouts/Layout.astro'
 import { HighlightLink } from '@components/HighlightLink/HighlightLink'
-import { AboutSection, AboutSectionTitle, AboutSectionBody, AboutCompanyList, AboutCompanyItem } from '@components/About/AboutPrimitive'
-import FormattedDate from '@components/FormattedDate.astro'
+import {
+  AboutSection,
+  AboutSectionTitle,
+  AboutSectionBody,
+  AboutCompanyList,
+  AboutCompanyItem,
+} from '@components/About/AboutPrimitive'
 import { format } from '@formkit/tempo'
 import { match } from 'ts-pattern'
 
 export const prerender = true
 
 const companyCollection = await getCollection('company')
-const companies = companyCollection.toSorted((a, b) => b.data.start_date.valueOf() - a.data.start_date.valueOf())
+const companies = companyCollection.toSorted(
+  (a, b) => b.data.start_date.valueOf() - a.data.start_date.valueOf()
+)
 const linkCollection = await getCollection('links')
 
 const PAGE_TITLE = '자기소개 | eunsoolee'
@@ -18,37 +25,52 @@ const PAGE_DESCRIPTION = '안녕하세요 저는 이은수입니다.'
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
-	<p class="mt-2 mb-4 whitespace-pre-line text-sm">{PAGE_DESCRIPTION}</p>
+  <p class="mt-2 mb-4 whitespace-pre-line text-sm">{PAGE_DESCRIPTION}</p>
 
-	<div class="flex flex-col gap-[20px]">
-		<AboutSection>
-			<AboutSectionTitle>다녀본 회사들</AboutSectionTitle>
-			<AboutSectionBody>
-				<AboutCompanyList>
-					{companies.map(({ data }) => {
-						return <AboutCompanyItem
-							data-is-working={Boolean(data.is_working)}
-							data-is-freelancer={Boolean(data.is_freelancer)}
-						>
-							{match(data.is_freelancer).with(true, () => '(계약직) ').otherwise(() => '')}{data.name} <span class="text-xs">{[
-								data.start_date,
-								data.end_date,
-							].map(date => format(new Date(date), 'YYYY.MM')).join(' ~ ')}</span>
-						</AboutCompanyItem>
-					})}
-				</AboutCompanyList>
-			</AboutSectionBody>
-		</AboutSection>
+  <div class="flex flex-col gap-[20px]">
+    <AboutSection>
+      <AboutSectionTitle>다녀본 회사들</AboutSectionTitle>
+      <AboutSectionBody>
+        <AboutCompanyList>
+          {
+            companies.map(({ data }) => {
+              return (
+                <AboutCompanyItem
+                  data-is-working={Boolean(data.is_working)}
+                  data-is-freelancer={Boolean(data.is_freelancer)}
+                >
+                  {match(data.is_freelancer)
+                    .with(true, () => '(계약직) ')
+                    .otherwise(() => '')}
+                  {data.name}{' '}
+                  <span class="text-xs">
+                    {[data.start_date, data.end_date]
+                      .map((date) => format(new Date(date), 'YYYY.MM'))
+                      .join(' ~ ')}
+                  </span>
+                </AboutCompanyItem>
+              )
+            })
+          }
+        </AboutCompanyList>
+      </AboutSectionBody>
+    </AboutSection>
 
-		<AboutSection>
-			<AboutSectionTitle>링크</AboutSectionTitle>
-			<AboutSectionBody>
-				<div class="flex gap-2 text-sm">
-				{linkCollection.map(({ data }) => {
-					return <HighlightLink href={data.url} target="_blank">{data.name}</HighlightLink>
-				})}
-				</div>
-			</AboutSectionBody>
-		</AboutSection>
-	</div>
+    <AboutSection>
+      <AboutSectionTitle>링크</AboutSectionTitle>
+      <AboutSectionBody>
+        <div class="flex gap-2 text-sm">
+          {
+            linkCollection.map(({ data }) => {
+              return (
+                <HighlightLink href={data.url} target="_blank">
+                  {data.name}
+                </HighlightLink>
+              )
+            })
+          }
+        </div>
+      </AboutSectionBody>
+    </AboutSection>
+  </div>
 </Layout>
