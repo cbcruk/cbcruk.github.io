@@ -7,7 +7,7 @@ import partytown from '@astrojs/partytown'
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://https://cbcruk.githu.io/',
+  site: 'https://cbcruk.github.io/',
   integrations: [mdx(), sitemap(), tailwind(), react(), partytown()],
   markdown: {
     shikiConfig: {
