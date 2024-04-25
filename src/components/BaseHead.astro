@@ -62,7 +62,8 @@ const { title, description, image = '/blog-placeholder-2.jpg' } = Astro.props
 <script
   type="text/partytown"
   async
-  {`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
+  src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+></script>
 <script
   type="text/partytown"
   set:html={`
