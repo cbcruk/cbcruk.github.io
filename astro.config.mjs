@@ -12,7 +12,11 @@ export default defineConfig({
     mdx(),
     sitemap(),
     tailwind(),
-    react(),
+    react({
+      babel: {
+        plugins: [['babel-plugin-react-compiler']],
+      },
+    }),
     partytown({
       config: {
         forward: ['dataLayer.push'],

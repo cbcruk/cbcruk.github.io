@@ -2,20 +2,13 @@ import { useDeferredValue, useMemo, useRef, useState } from 'react'
 import Fuse from 'fuse.js'
 
 export function Tags({ tags }) {
-  const fuse = useRef(
-    new Fuse(tags, {
-      minMatchCharLength: 2,
-    })
-  ).current
+  const [fuse] = useState(() => new Fuse(tags, { minMatchCharLength: 2 }))
   const [query, setQuery] = useState('')
   const deferredQuery = useDeferredValue(query)
-  const refIndexes = useMemo(
-    () => fuse.search(deferredQuery).map((item) => item.refIndex),
-    [deferredQuery]
-  )
+  const refIndexes = fuse.search(deferredQuery).map((item) => item.refIndex)
 
   return (
-    <div>
+    <main>
       <label className="flex items-center gap-2">
         <span className="text-sm">🔦</span>
         <input
@@ -38,6 +31,6 @@ export function Tags({ tags }) {
           </a>
         ))}
       </div>
-    </div>
+    </main>
   )
 }
