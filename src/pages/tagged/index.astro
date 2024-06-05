@@ -13,5 +13,5 @@ const PAGE_DESCRIPTION = ''
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
-  <Tags client:load tags={tags} />
+  <Tags client:only="react" tags={tags} />
 </Layout>

@@ -14,7 +14,7 @@
   "dependencies": {
     "@astrojs/mdx": "^2.2.0",
     "@astrojs/partytown": "^2.1.0",
-    "@astrojs/react": "^3.1.0",
+    "@astrojs/react": "^3.4.0",
     "@astrojs/rss": "^4.0.5",
     "@astrojs/sitemap": "^3.1.1",
     "@astrojs/tailwind": "^5.1.0",
@@ -24,24 +24,28 @@
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
     "@testing-library/user-event": "latest",
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc",
     "@vitest/ui": "latest",
-    "astro": "^4.5.4",
+    "astro": "4.9.3",
+    "babel-plugin-react-compiler": "0.0.0-experimental-938cd9a-20240601",
     "clsx": "^2.1.0",
     "fuse.js": "^7.0.0",
     "jsdom": "latest",
     "path-to-regexp": "^6.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "19.0.0-rc-1df34bdf62-20240605",
+    "react-dom": "19.0.0-rc-1df34bdf62-20240605",
     "react-twc": "^1.4.1",
     "tailwindcss": "^3.4.1",
     "ts-pattern": "^5.0.8",
-    "vite": "^5.1.6",
     "vitest": "latest"
   },
   "devDependencies": {
     "fast-glob": "^3.3.2"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc"
   },
   "packageManager": "pnpm@8.13.1"
 }
