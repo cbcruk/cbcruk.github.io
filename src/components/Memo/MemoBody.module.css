@@ -77,3 +77,7 @@
 .root [data-footnotes] {
   @apply text-[--solarized-base01];
 }
+
+.root [data-footnotes] a {
+  @apply no-underline;
+}
