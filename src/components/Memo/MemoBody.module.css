@@ -70,6 +70,10 @@
   @apply underline;
 }
 
+.root a:not([data-footnote-backref]):has(code) {
+  @apply no-underline;
+}
+
 .root strong {
   @apply text-[--solarized-magenta];
 }
