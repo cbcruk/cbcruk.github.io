@@ -7,7 +7,7 @@ import partytown from '@astrojs/partytown'
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://cbcruk.github.io/',
+  site: 'https://cbcruk.github.io',
   integrations: [
     mdx(),
     sitemap(),
