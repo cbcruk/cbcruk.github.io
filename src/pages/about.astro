@@ -45,7 +45,7 @@ const PAGE_DESCRIPTION = '안녕하세요 저는 이은수입니다.'
                   {data.name}{' '}
                   <span class="text-xs">
                     {[data.start_date, data.end_date]
-                      .map((date) => format(new Date(date), 'YYYY.MM'))
+                      .map((date) => (date ? format(date, 'YYYY.MM') : ''))
                       .join(' ~ ')}
                   </span>
                 </AboutCompanyItem>
