@@ -9,11 +9,11 @@ export function Tags({ tags }) {
 
   return (
     <main>
-      <label className="flex items-center gap-2">
-        <span className="text-sm">🔦</span>
+      <label className="relative flex items-center gap-2">
+        <span className="absolute left-2 text-sm">🔦</span>
         <input
           type="search"
-          className="p-2 px-3 rounded-xl bg-[--solarized-background-highlight] text-[--solarized-green] text-xs"
+          className="p-2 pl-7 px-3 rounded-xl bg-[--solarized-background-highlight] text-[--solarized-green] text-xs"
           onChange={(e) => {
             setQuery(e.target.value)
           }}
