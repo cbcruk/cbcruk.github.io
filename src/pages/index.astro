@@ -1,31 +1,24 @@
 ---
+import { Code } from 'astro:components'
 import Layout from '@layouts/Layout.astro'
-import { MemoLayout } from '@components/MemoLayout/MemoLayout'
-import { Memo } from '@components/Memo/Memo'
-import { PaginationLatest } from '@components/Pagination/PaginationLatest'
-import { getRandomMemoCollection } from '@collection/memo'
 
-const memoCollection = await getRandomMemoCollection()
-
-const PAGE_TITLE = '메모 최근 리스트 | eunsoolee'
-const PAGE_DESCRIPTION = ''
+const PAGE_TITLE = '홈 | eunsoolee'
+const PAGE_DESCRIPTION = '개발, 만화, 음악, 등등등'
 
 export const prerender = true
+
+const code = `graph TD;
+  A[메모] -->|링크| B(https://cbcruk.github.io/memos/1/)
+  C[텀블러] -->|링크| D(https://cbcruk.tumblr.com/)
+  E[만화] -->|링크| F(https://managn.vercel.app/)
+  G[음악] -->|링크| H(https://open.spotify.com/user/eou1bmdn9z0w370rz3o4zkf35/playlists)`
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
-  <MemoLayout>
-    {
-      memoCollection.map(async (memo) => {
-        const { Content } = await memo.render()
-
-        return (
-          <Memo memo={memo}>
-            <Content />
-          </Memo>
-        )
-      })
-    }
-  </MemoLayout>
-  <PaginationLatest />
+  <Code
+    {code}
+    lang="mermaid"
+    theme="one-dark-pro"
+    class="p-4 text-xs rounded-md"
+  />
 </Layout>
