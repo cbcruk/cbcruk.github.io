@@ -1,24 +1,37 @@
 ---
 import { Code } from 'astro:components'
 import Layout from '@layouts/Layout.astro'
+import { getReleaseMemoCollection } from '@collection/memo'
 
 const PAGE_TITLE = '홈 | eunsoolee'
 const PAGE_DESCRIPTION = '개발, 만화, 음악, 등등등'
 
-export const prerender = true
+const memoCollection = await getReleaseMemoCollection()
+const tags = Array.from(
+  new Set(memoCollection.map((memo) => memo.data.tags).flat())
+)
 
-const code = `graph TD;
-  A[메모] -->|링크| B(https://cbcruk.github.io/memos/1/)
-  C[텀블러] -->|링크| D(https://cbcruk.tumblr.com/)
-  E[만화] -->|링크| F(https://managn.vercel.app/)
-  G[음악] -->|링크| H(https://open.spotify.com/user/eou1bmdn9z0w370rz3o4zkf35/playlists)`
+const code = `${JSON.stringify(
+  {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    memos: memoCollection.length,
+    tags: tags.length,
+  },
+  null,
+  2
+)}`
+
+export const prerender = true
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+  <h1 class="mb-4 text-sm">안녕하세요 저는 이은수입니다.</h1>
+
   <Code
     {code}
-    lang="mermaid"
+    lang="json"
     theme="one-dark-pro"
-    class="p-4 text-xs rounded-md"
+    class="p-4 rounded-md mb-4 text-xs"
   />
 </Layout>
