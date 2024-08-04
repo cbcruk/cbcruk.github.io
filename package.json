@@ -9,7 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "vitest"
+    "test": "vitest",
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "@astrojs/mdx": "^3.1.2",
@@ -43,6 +44,10 @@
     "vitest": "latest"
   },
   "devDependencies": {
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.8.0",
+    "eslint-plugin-astro": "^1.2.3",
+    "eslint-plugin-jsx-a11y": "^6.9.0",
     "fast-glob": "^3.3.2"
   },
   "overrides": {
