@@ -15,4 +15,8 @@ export const MENUS = {
     pathname: '/tagged',
     label: 'Tag',
   },
+  search: {
+    pathname: '/search',
+    label: 'Search',
+  },
 } as const

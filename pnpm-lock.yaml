@@ -65,6 +65,9 @@ dependencies:
   fuse.js:
     specifier: ^7.0.0
     version: 7.0.0
+  history:
+    specifier: ^5.3.0
+    version: 5.3.0
   jsdom:
     specifier: latest
     version: 24.0.0
@@ -3427,6 +3430,12 @@ packages:
       space-separated-tokens: 2.0.2
     dev: false
 
+  /history@5.3.0:
+    resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
+    dependencies:
+      '@babel/runtime': 7.21.0
+    dev: false
+
   /html-encoding-sniffer@4.0.0:
     resolution: {integrity: sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ==}
     engines: {node: '>=18'}
@@ -5235,7 +5244,7 @@ packages:
       '@types/mdast': 4.0.3
       mdast-util-from-markdown: 2.0.0
       micromark-util-types: 2.0.0
-      unified: 11.0.4
+      unified: 11.0.5
     transitivePeerDependencies:
       - supports-color
     dev: false

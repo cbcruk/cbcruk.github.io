@@ -27,10 +27,10 @@ export function Nav({ pathname }: Props) {
         {MENUS.memo.label}
       </NavLink>
       <NavLink
-        href={MENUS.tag.pathname}
-        data-is-active={isMatch(['/tagged/:tag?'])}
+        href={MENUS.search.pathname}
+        data-is-active={isMatch([MENUS.search.pathname, '/tagged/:tag?'])}
       >
-        {MENUS.tag.label}
+        {MENUS.search.label}
       </NavLink>
     </NavPrimitive>
   )

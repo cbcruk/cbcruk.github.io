@@ -1,5 +1,5 @@
 .root > * {
-  @apply my-4;
+  @apply my-4 rounded-md;
 }
 
 .root > *:first-child {

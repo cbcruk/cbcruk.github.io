@@ -1,36 +1,35 @@
-import { useDeferredValue, useMemo, useRef, useState } from 'react'
-import Fuse from 'fuse.js'
+import { useSearchParamsQuery } from '@components/Search/hooks/useSearchParamsQuery'
+import type { Props } from './Tags.types'
+import clsx from 'clsx'
+import type { CSSProperties } from 'react'
+import { getRandomColor } from './Tags.utils'
 
-export function Tags({ tags }) {
-  const [fuse] = useState(() => new Fuse(tags, { minMatchCharLength: 2 }))
-  const [query, setQuery] = useState('')
-  const deferredQuery = useDeferredValue(query)
-  const refIndexes = fuse.search(deferredQuery).map((item) => item.refIndex)
+export function Tags({ tags }: Props) {
+  const q = useSearchParamsQuery()
+
+  if (q) {
+    return null
+  }
 
   return (
-    <main>
-      <label className="relative flex items-center gap-2">
-        <span className="absolute left-2 text-sm">🔦</span>
-        <input
-          type="search"
-          className="p-2 pl-7 px-3 rounded-xl bg-[--solarized-background-highlight] text-[--solarized-green] text-xs"
-          onChange={(e) => {
-            setQuery(e.target.value)
-          }}
-        />
-      </label>
-      <div className="flex flex-wrap gap-1 mt-4 text-xs">
-        {tags.map((tag, index) => (
-          <a
-            data-is-includes={refIndexes.includes(index)}
-            key={tag}
-            href={`/tagged/${tag}`}
-            className="p-1 rounded-lg hover:bg-[--solarized-background-highlight] hover:text-[--solarized-violet] data-[is-includes='true']:bg-[--solarized-background-highlight] data-[is-includes='true']:text-[--solarized-violet]"
-          >
-            #{tag}
-          </a>
-        ))}
-      </div>
-    </main>
+    <div className="flex flex-wrap gap-2 mt-4 text-xs">
+      {tags.map((tag) => (
+        <a
+          key={tag}
+          href={`/tagged/${tag}`}
+          style={
+            {
+              '--highlight': getRandomColor(),
+            } as CSSProperties
+          }
+          className={clsx([
+            'p-1 rounded-lg bg-[--solarized-background-highlight] hover:bg-[--highlight] hover:text-[--solarized-background-highlight] transition',
+            ``,
+          ])}
+        >
+          #{tag}
+        </a>
+      ))}
+    </div>
   )
 }

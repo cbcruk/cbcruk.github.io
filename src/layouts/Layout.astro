@@ -2,6 +2,7 @@
 import BaseHead from '@components/BaseHead.astro'
 import { Header } from '@components/Header/Header'
 import { Nav } from '@components/Nav/Nav'
+import { ViewTransitions } from 'astro:transitions'
 
 type Props = {
   title: string
@@ -16,6 +17,7 @@ const { pathname } = Astro.url
 <html lang="ko">
   <head>
     <BaseHead title={title} description={description} />
+    <ViewTransitions />
   </head>
   <body>
     <Header>
