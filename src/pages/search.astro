@@ -20,9 +20,11 @@ const PAGE_DESCRIPTION = ''
       <span class="relative text-sm z-[1]" aria-label="검색">🔦</span>
       <SearchFormField client:only="react" />
     </label>
-
-    <Tags client:only="react" tags={tags} />
-
-    <SearchForm client:only="react" />
+    <div class="mt-0">
+      <SearchForm client:only="react" />
+    </div>
+  </div>
+  <div class="mt-4">
+    <Tags tags={tags} />
   </div>
 </Layout>
