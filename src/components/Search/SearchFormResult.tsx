@@ -15,6 +15,10 @@ function SearchFormResult({ q }) {
   const fuse = useFuse()
   const result = fuse.search(q)
 
+  if (q && result.length === 0) {
+    return <p className="text-xs font-bold">🤔 검색결과값이 없습니다.</p>
+  }
+
   return (
     <MemoLayout>
       {result.map((memo) => {
