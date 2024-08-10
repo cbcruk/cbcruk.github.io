@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Fuse from 'fuse.js'
-import memos from '../memos_fts.json'
+import memos from '@data/memos_fts.json'
 
 export function useFuse() {
   const [fuse] = useState(

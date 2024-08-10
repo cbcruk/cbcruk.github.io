@@ -10,7 +10,8 @@
       "@layouts/*": ["src/layouts/*"],
       "@content/*": ["src/content/*"],
       "@test/*": ["src/test/*"],
-      "@collection/*": ["src/collection/*"]
+      "@collection/*": ["src/collection/*"],
+      "@data/*": ["src/data/*"]
     }
   }
 }
