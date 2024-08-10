@@ -31,8 +31,8 @@ export const prerender = true
 const { memo } = Astro.props
 const { Content } = await memo.render()
 
-const PAGE_TITLE = `메모 #${memo.slug} | eunsoolee`
-const PAGE_DESCRIPTION = ''
+const PAGE_TITLE = `메모 ${memo.data.title || ''} #${memo.slug} | eunsoolee`
+const PAGE_DESCRIPTION = memo.data.description || ''
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
