@@ -42,7 +42,7 @@
 
 .root ul,
 .root ol {
-  @apply flex flex-col gap-2 pl-[14px];
+  @apply flex flex-col gap-2 pl-[14px] break-words;
 }
 
 .root ul ul,
