@@ -58,6 +58,10 @@
   @apply list-decimal;
 }
 
+.root blockquote {
+  @apply p-4 bg-slate-800 italic;
+}
+
 .root [data-footnote-ref]::before {
   content: '[';
 }
