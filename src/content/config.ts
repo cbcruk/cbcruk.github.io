@@ -15,7 +15,7 @@ const memo = defineCollection({
 })
 
 const company = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './company' }),
   schema: z.object({
     name: z.string(),
     start_date: z.coerce.date(),
@@ -26,7 +26,7 @@ const company = defineCollection({
 })
 
 const link = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './links' }),
   schema: z.object({
     name: z.string(),
     url: z.string(),
