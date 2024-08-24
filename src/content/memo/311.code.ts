@@ -1,21 +1,9 @@
----
-tags: ['react']
-status: release
-ctime: 2024-08-13
-mtime: 2024-08-13
----
-
-> Avoiding premature abstraction with Unstyled React Components ([buildui.com](https://buildui.com/posts/avoiding-premature-abstraction-with-unstyled-react-components))
-
-React 컴포넌트를 작성할 때, 불필요한 추상화를 피하고 컴포넌트의 유연성을 유지하는 방법. 특히 스타일이 없는 컴포넌트를 통해 어떻게 컴포넌트의 기능에 집중할 수 있는지를 설명.
-
-```tsx
-import React, { ComponentProps, FC, ReactNode } from 'react'
+export const code = `import React, { ComponentProps, FC, ReactNode } from 'react'
 
 function Spinner() {
   return (
     <span className="absolute inset-0 flex items-center justify-center">
-      `<Spinner />`
+      \`<Spinner />\`
     </span>
   )
 }
@@ -40,7 +28,7 @@ function LoadingButton({
   ...rest
 }: LoadingButtonProps) {
   return (
-    <button {...rest} className={`${className} relative`} disabled={disabled}>
+    <button {...rest} className={\`\${className} relative\`} disabled={disabled}>
       {typeof children === 'function' ? (
         children({})
       ) : (
@@ -54,7 +42,4 @@ function LoadingButton({
 }
 
 LoadingButton.Spinner = Spinner
-LoadingButton.Label = Label
-```
-
-이 패턴은 컴포넌트를 작성할 때 불필요한 스타일링이나 구조를 미리 정의하지 않고, 각 컴포넌트가 자신의 역할에 충실할 수 있도록 도와줍니다. 이를 통해 코드의 유연성을 유지하고, 필요에 따라 컴포넌트를 확장하거나 수정할 수 있는 여지를 남겨두게 됩니다.
+LoadingButton.Label = Label`
