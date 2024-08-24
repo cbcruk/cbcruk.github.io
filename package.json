@@ -29,7 +29,7 @@
     "@types/react": "npm:types-react@rc",
     "@types/react-dom": "npm:types-react-dom@rc",
     "@vitest/ui": "latest",
-    "astro": "4.11.3",
+    "astro": "4.14.5",
     "babel-plugin-react-compiler": "0.0.0-experimental-938cd9a-20240601",
     "clsx": "^2.1.0",
     "fuse.js": "^7.0.0",

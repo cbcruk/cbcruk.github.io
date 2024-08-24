@@ -32,4 +32,8 @@ export default defineConfig({
     '/memos': '/memos/1',
     '/memo': '/memos/1',
   },
+  experimental: {
+    contentLayer: true,
+    contentIntellisense: true,
+  },
 })
