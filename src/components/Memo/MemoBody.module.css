@@ -59,7 +59,7 @@
 }
 
 .root blockquote {
-  @apply p-4 bg-slate-800 italic;
+  @apply p-2 bg-[var(--solarized-base02)] italic text-[10px];
 }
 
 .root [data-footnote-ref]::before {
