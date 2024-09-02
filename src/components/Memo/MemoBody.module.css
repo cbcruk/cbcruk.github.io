@@ -28,12 +28,21 @@
 }
 
 .root pre {
-  @apply p-2 text-[10px];
+  @apply py-2 text-[10px];
 }
 
 .root pre code::before,
 .root pre code::after {
   content: none;
+}
+
+.root pre :global(.line) {
+  @apply pl-2;
+}
+
+.root pre :global(.highlighted) {
+  @apply inline-block w-full;
+  background-color: hsl(210 12% 20% / 1);
 }
 
 .root hr {
