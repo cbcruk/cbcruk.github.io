@@ -1,0 +1,42 @@
+---
+tags: ['date', 'test']
+status: release
+ctime: 2024-09-03
+mtime: 2024-09-03
+---
+
+import { transformerMetaHighlight } from '@shikijs/transformers'
+import { Code } from 'astro:components'
+
+vitest와 jest에서 가짜 타이머를 사용하는 방법. 내부적으로는 [@sinonjs/fake-timers](https://github.com/sinonjs/fake-timers)를 사용.
+vitest와 jest 모두 시스템 시간을 조작할 수 있도록 하여 테스트가 일관되게 실행되도록 하고 다양한 시간과 날짜를 시뮬레이션하여 다양한 조건에서 코드가 예상대로 작동하는지 확인할 수 있음.
+
+<Code
+  code={`describe('isSameDate', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+    vi.setSystemTime('2024-07-20')
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('현재 날짜와 동일한 날짜를 전달하면 true를 반환한다', () => {
+    expect(isSameDate('2024-07-20')).toBe(true)
+  })
+
+  it('현재 날짜와 다른 날짜를 전달하면 false를 반환한다', () => {
+    expect(isSameDate('2024-07-19')).toBe(false)
+    expect(isSameDate('2024-07-21')).toBe(false)
+  })
+})`}
+  lang="tsx"
+  transformers={[transformerMetaHighlight()]}
+  meta="{3,4,8}"
+/>
+
+---
+
+- https://jestjs.io/blog/2020/05/05/jest-26#new-fake-timers
+- https://vitest.dev/guide/mocking#dates
