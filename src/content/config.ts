@@ -19,7 +19,7 @@ const company = defineCollection({
   schema: z.object({
     name: z.string(),
     start_date: z.coerce.date(),
-    end_date: z.coerce.date().optional(),
+    end_date: z.coerce.date().nullable(),
     is_working: z.boolean(),
     is_freelancer: z.boolean(),
   }),

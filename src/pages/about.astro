@@ -31,24 +31,34 @@ const PAGE_DESCRIPTION = '안녕하세요 저는 이은수입니다.'
       <AboutSectionBody>
         <AboutCompanyList>
           {
-            companies.map(({ data }) => {
-              return (
-                <AboutCompanyItem
-                  data-is-working={Boolean(data.is_working)}
-                  data-is-freelancer={Boolean(data.is_freelancer)}
-                >
-                  {match(data.is_freelancer)
-                    .with(true, () => '(계약직) ')
-                    .otherwise(() => '')}
-                  {data.name}{' '}
-                  <span class="text-xs">
-                    {[data.start_date, data.end_date]
-                      .map((date) => (date ? format(date, 'YYYY.MM') : ''))
-                      .join(' ~ ')}
-                  </span>
-                </AboutCompanyItem>
-              )
-            })
+            companies
+              .filter(({ data }) => {
+                return !data.is_freelancer
+              })
+              .map(({ data }) => {
+                return (
+                  <AboutCompanyItem
+                    data-is-working={Boolean(data.is_working)}
+                    data-is-freelancer={Boolean(data.is_freelancer)}
+                  >
+                    {match(data.is_freelancer)
+                      .with(true, () => '(계약직) ')
+                      .otherwise(() => '')}
+                    {data.name}{' '}
+                    <span class="text-xs">
+                      {[data.start_date, data.end_date]
+                        .map((date) => {
+                          return date
+                            ? format(date, 'YYYY.MM')
+                            : data.is_working
+                              ? '재직중'
+                              : ''
+                        })
+                        .join(' ~ ')}
+                    </span>
+                  </AboutCompanyItem>
+                )
+              })
           }
         </AboutCompanyList>
       </AboutSectionBody>
