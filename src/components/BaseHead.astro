@@ -59,10 +59,12 @@ const { title, description, image } = Astro.props
 
 <!-- Analytics -->
 <script
+  is:inline
   async
   src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
 ></script>
 <script
+  is:inline
   set:html={`
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
