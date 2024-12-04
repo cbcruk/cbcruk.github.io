@@ -7,7 +7,9 @@ import { Tags } from '@components/Tag/Tags'
 import Layout from '@layouts/Layout.astro'
 
 const memos = await getReleaseMemoCollection()
-await fs.writeFile('src/data/memos_fts.json', JSON.stringify(memos))
+
+await fs.writeFile('scripts/search-db.json', JSON.stringify(memos))
+
 const tags = Array.from(new Set(memos.map((memo) => memo.data.tags).flat()))
 
 const PAGE_TITLE = `메모 검색 | eunsoolee`

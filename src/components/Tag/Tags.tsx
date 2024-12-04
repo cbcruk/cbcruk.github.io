@@ -1,7 +1,7 @@
-import type { Props } from './Tags.types'
 import clsx from 'clsx'
 import type { CSSProperties } from 'react'
 import { getRandomColor } from './Tags.utils'
+import type { Props } from './Tags.types'
 
 export function Tags({ tags }: Props) {
   return (

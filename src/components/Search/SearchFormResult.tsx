@@ -9,43 +9,62 @@ import {
 import { MemoTag } from '@components/Memo/MemoTag'
 import { MemoId } from '@components/Memo/MemoId'
 import { MemoDate } from '@components/Memo/MemoDate'
-import { useFuse } from './hooks/useFuse'
+import useSWR from 'swr'
+import { useSearchWorker } from './hooks/useSearchWorker'
+import type { CollectionEntry } from 'astro:content'
+
+type Memo = CollectionEntry<'memo'>
+type MemoData = Memo['data']
+type SearchResult = {
+  slug: Memo['slug']
+  body: Memo['body']
+  tags: MemoData['tags'][number]
+  ctime: MemoData['ctime']
+  mtime: MemoData['mtime']
+}
 
 function SearchFormResult({ q }) {
-  const fuse = useFuse()
-  const result = fuse.search(q)
+  const { data: worker } = useSearchWorker()
+  const { data } = useSWR(
+    q || null,
+    () => {
+      return worker?.db.query(
+        `SELECT * FROM memo WHERE body MATCH "${q}" ORDER BY mtime DESC`
+      ) as Promise<SearchResult[]>
+    },
+    { suspense: true }
+  )
 
-  if (q && result.length === 0) {
+  if (!data) {
+    return null
+  }
+
+  if (q && data.length === 0) {
     return <p className="text-xs font-bold">🤔 검색결과값이 없습니다.</p>
   }
 
   return (
     <MemoLayout>
-      {result.map((memo) => {
+      {data.map((memo) => {
         return (
-          <Memo key={memo.refIndex} data-score={memo.score}>
+          <Memo key={memo.slug}>
             <MemoBody>
               <pre
                 className="p-2 overflow-auto rounded-md text-[10px] line-clamp-6 bg-slate-800"
                 dangerouslySetInnerHTML={{
-                  __html: memo.item.body
-                    .trim()
-                    .replaceAll(q, `<mark>${q}</mark>`),
+                  __html: memo.body.trim().replaceAll(q, `<mark>${q}</mark>`),
                 }}
               />
             </MemoBody>
             <MemoFooter className="mt-4">
               <MemoTags>
-                {memo.item.data.tags.map((tag) => (
+                {JSON.parse(memo.tags).map((tag) => (
                   <MemoTag key={tag} tag={tag} />
                 ))}
               </MemoTags>
               <MemoIdAndDate>
-                <MemoId id={memo.item.slug} />
-                <MemoDate
-                  ctime={memo.item.data.ctime}
-                  mtime={memo.item.data.mtime}
-                />
+                <MemoId id={memo.slug} />
+                <MemoDate ctime={memo.ctime} mtime={memo.mtime} />
               </MemoIdAndDate>
             </MemoFooter>
           </Memo>
