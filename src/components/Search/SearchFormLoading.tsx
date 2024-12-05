@@ -1,3 +1,11 @@
+import { useSearchParamsQuery } from './hooks/useSearchParamsQuery'
+
 export function SearchFormLoading() {
-  return <p className="text-sm font-mono">로딩중...</p>
+  const q = useSearchParamsQuery()
+
+  if (!q) {
+    return null
+  }
+
+  return <p className="text-sm font-mono">검색중...</p>
 }

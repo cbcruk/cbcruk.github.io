@@ -12,6 +12,9 @@ import { MemoDate } from '@components/Memo/MemoDate'
 import useSWR from 'swr'
 import { useSearchWorker } from './hooks/useSearchWorker'
 import type { CollectionEntry } from 'astro:content'
+import { useSearchParamsQuery } from './hooks/useSearchParamsQuery'
+import { Suspense } from 'react'
+import { SearchFormLoading } from './SearchFormLoading'
 
 type Memo = CollectionEntry<'memo'>
 type MemoData = Memo['data']
@@ -23,7 +26,8 @@ type SearchResult = {
   mtime: MemoData['mtime']
 }
 
-function SearchFormResult({ q }) {
+function SearchFormResult() {
+  const q = useSearchParamsQuery()
   const { data: worker } = useSearchWorker()
   const { data } = useSWR(
     q || null,
@@ -32,7 +36,10 @@ function SearchFormResult({ q }) {
         `SELECT * FROM memo WHERE body MATCH "${q}" ORDER BY mtime DESC`
       ) as Promise<SearchResult[]>
     },
-    { suspense: true }
+    {
+      suspense: true,
+      revalidateOnFocus: false,
+    }
   )
 
   if (!data) {
@@ -71,6 +78,14 @@ function SearchFormResult({ q }) {
         )
       })}
     </MemoLayout>
+  )
+}
+
+export function SearchFromResultWithSuspense() {
+  return (
+    <Suspense fallback={<SearchFormLoading />}>
+      <SearchFormResult />
+    </Suspense>
   )
 }
 

@@ -25,6 +25,10 @@ body {
   scroll-margin-top: calc(60px + 1em);
 }
 
+::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

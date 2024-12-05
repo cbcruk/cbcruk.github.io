@@ -28,7 +28,7 @@ export function SearchFormField() {
 
         url.searchParams.set('q', q)
 
-        history.push(url.toString())
+        history.replace(url.toString())
       }}
     >
       <Input />

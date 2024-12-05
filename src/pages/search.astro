@@ -3,14 +3,11 @@ import fs from 'node:fs/promises'
 import { getReleaseMemoCollection } from '@collection/memo'
 import { SearchForm } from '@components/Search/SearchForm'
 import { SearchFormField } from '@components/Search/SearchFormField'
-import { Tags } from '@components/Tag/Tags'
 import Layout from '@layouts/Layout.astro'
 
 const memos = await getReleaseMemoCollection()
 
 await fs.writeFile('scripts/search-db.json', JSON.stringify(memos))
-
-const tags = Array.from(new Set(memos.map((memo) => memo.data.tags).flat()))
 
 const PAGE_TITLE = `메모 검색 | eunsoolee`
 const PAGE_DESCRIPTION = ''
@@ -27,8 +24,5 @@ const PAGE_DESCRIPTION = ''
     <div class="mt-0">
       <SearchForm client:only="react" />
     </div>
-  </div>
-  <div class="mt-4">
-    <Tags tags={tags} />
   </div>
 </Layout>
