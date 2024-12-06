@@ -23,7 +23,7 @@ export function Memo({ memo, children }: Props) {
           {memo.data.embed && <MemoEmbedLink url={memo.data.embed} />}
         </MemoTags>
         <MemoIdAndDate>
-          <MemoId id={memo.slug} />
+          <MemoId id={memo.id} />
           <MemoDate ctime={memo.data.ctime} mtime={memo.data.mtime} />
         </MemoIdAndDate>
       </MemoFooter>

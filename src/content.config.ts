@@ -2,7 +2,7 @@ import { glob } from 'astro/loaders'
 import { defineCollection, z } from 'astro:content'
 
 const memo = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './memo' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/memo' }),
   schema: z.object({
     title: z.string().optional(),
     description: z.string().optional(),
@@ -15,7 +15,7 @@ const memo = defineCollection({
 })
 
 const company = defineCollection({
-  loader: glob({ pattern: '**/*.json', base: './company' }),
+  loader: glob({ pattern: '**/*.json', base: './src/content/company' }),
   schema: z.object({
     name: z.string(),
     start_date: z.coerce.date(),
@@ -26,7 +26,7 @@ const company = defineCollection({
 })
 
 const link = defineCollection({
-  loader: glob({ pattern: '**/*.json', base: './links' }),
+  loader: glob({ pattern: '**/*.json', base: './src/content/links' }),
   schema: z.object({
     name: z.string(),
     url: z.string(),

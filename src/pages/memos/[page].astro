@@ -1,6 +1,6 @@
 ---
 import type { Page } from 'astro'
-import { type CollectionEntry } from 'astro:content'
+import { type CollectionEntry, render } from 'astro:content'
 import Layout from '@layouts/Layout.astro'
 import { MemoLayout } from '@components/MemoLayout/MemoLayout'
 import { Memo } from '@components/Memo/Memo'
@@ -20,7 +20,7 @@ export async function getStaticPaths({ paginate }) {
   const memoCollection = await getReleaseMemoCollection()
 
   return paginate(
-    memoCollection.sort((a, b) => Number(a.slug) - Number(b.slug)).reverse(),
+    memoCollection.sort((a, b) => Number(a.id) - Number(b.id)).reverse(),
     {
       pageSize: 10,
     }
@@ -39,7 +39,7 @@ const PAGE_DESCRIPTION = ''
   <MemoLayout>
     {
       page.data.map(async (memo) => {
-        const { Content } = await memo.render()
+        const { Content } = await render(memo)
 
         return (
           <Memo memo={memo}>

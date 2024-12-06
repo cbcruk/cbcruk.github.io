@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getEntry } from 'astro:content'
+import { type CollectionEntry, getEntry, render } from 'astro:content'
 import Layout from '@layouts/Layout.astro'
 import { Memo } from '@components/Memo/Memo'
 import { getReleaseMemoCollection } from '@collection/memo'
@@ -12,10 +12,10 @@ export async function getStaticPaths() {
   const memos = await getReleaseMemoCollection()
   const paths = Promise.all(
     memos.map(async (memo) => {
-      const memoEntry = await getEntry('memo', memo.slug)
+      const memoEntry = await getEntry('memo', memo.id)
 
       return {
-        params: { id: memo.slug },
+        params: { id: memo.id },
         props: {
           memo: memoEntry,
         },
@@ -29,9 +29,9 @@ export async function getStaticPaths() {
 export const prerender = true
 
 const { memo } = Astro.props
-const { Content } = await memo.render()
+const { Content } = await render(memo)
 
-const PAGE_TITLE = `메모 ${memo.data.title || ''} #${memo.slug} | eunsoolee`
+const PAGE_TITLE = `메모 ${memo.data.title || ''} #${memo.id} | eunsoolee`
 const PAGE_DESCRIPTION = memo.data.description || ''
 ---
 

@@ -13,23 +13,21 @@
     "lint:fix": "eslint --fix ."
   },
   "dependencies": {
-    "@astrojs/mdx": "^3.1.2",
-    "@astrojs/partytown": "^2.1.1",
-    "@astrojs/react": "^3.6.0",
-    "@astrojs/rss": "^4.0.7",
-    "@astrojs/sitemap": "^3.1.6",
-    "@astrojs/tailwind": "^5.1.0",
-    "@astrojs/vercel": "^7.7.2",
+    "@astrojs/mdx": "^4.0.1",
+    "@astrojs/partytown": "^2.1.2",
+    "@astrojs/react": "^4.0.0",
+    "@astrojs/rss": "^4.0.10",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^5.1.3",
+    "@astrojs/vercel": "^8.0.0",
     "@formkit/tempo": "^0.0.16",
     "@shikijs/transformers": "^1.10.0",
     "@tailwindcss/typography": "^0.5.10",
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
     "@testing-library/user-event": "latest",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
     "@vitest/ui": "latest",
-    "astro": "4.14.5",
+    "astro": "5.0.3",
     "babel-plugin-react-compiler": "0.0.0-experimental-938cd9a-20240601",
     "better-sqlite3": "^11.6.0",
     "clsx": "^2.1.0",
@@ -50,14 +48,12 @@
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.12",
     "@typescript-eslint/parser": "^8.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "eslint": "^9.8.0",
     "eslint-plugin-astro": "^1.2.3",
     "eslint-plugin-jsx-a11y": "^6.9.0",
     "fast-glob": "^3.3.2"
-  },
-  "overrides": {
-    "@types/react": "npm:types-react@rc",
-    "@types/react-dom": "npm:types-react-dom@rc"
   },
   "packageManager": "pnpm@9.7.0"
 }

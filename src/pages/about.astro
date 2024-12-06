@@ -18,7 +18,7 @@ const companyCollection = await getCollection('company')
 const companies = companyCollection.toSorted(
   (a, b) => b.data.start_date.valueOf() - a.data.start_date.valueOf()
 )
-const linkCollection = await getCollection('links')
+const linkCollection = await getCollection('link')
 
 const PAGE_TITLE = '자기소개 | eunsoolee'
 const PAGE_DESCRIPTION = '안녕하세요 저는 이은수입니다.'

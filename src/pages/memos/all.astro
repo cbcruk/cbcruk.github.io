@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content'
+import { getCollection, render } from 'astro:content'
 import Layout from '@layouts/Layout.astro'
 import { MemoLayout } from '@components/MemoLayout/MemoLayout'
 import { Memo } from '@components/Memo/Memo'
@@ -17,7 +17,7 @@ const PAGE_DESCRIPTION = ''
   <MemoLayout>
     {
       memoCollection.map(async (memo) => {
-        const { Content } = await memo.render()
+        const { Content } = await render(memo)
 
         return (
           <Memo memo={memo}>

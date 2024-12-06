@@ -10,8 +10,8 @@ export async function GET(context) {
     description: SITE_DESCRIPTION,
     site: context.site,
     items: memoCollection.map((memo) => ({
-      title: `#${memo.slug} 메모`,
-      link: `/memo/${memo.slug}/`,
+      title: `#${memo.id} 메모`,
+      link: `/memo/${memo.id}/`,
       pubDate: memo.data.ctime,
     })),
   })

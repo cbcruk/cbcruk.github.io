@@ -1,7 +1,7 @@
 import { MemoLayout } from '@components/MemoLayout/MemoLayout'
 import { MemoBody } from '@components/Memo/MemoBody'
 import {
-  Memo,
+  Memo as MemoEntry,
   MemoFooter,
   MemoIdAndDate,
   MemoTags,
@@ -17,11 +17,11 @@ import { Suspense } from 'react'
 import { SearchFormLoading } from './SearchFormLoading'
 import { ErrorBoundary } from 'react-error-boundary'
 
-type Memo = CollectionEntry<'memo'>
-type MemoData = Memo['data']
+type MemoEntry = CollectionEntry<'memo'>
+type MemoData = MemoEntry['data']
 type SearchResult = {
-  slug: Memo['slug']
-  body: Memo['body']
+  id: MemoEntry['id']
+  body: MemoEntry['body']
   tags: MemoData['tags'][number]
   ctime: MemoData['ctime']
   mtime: MemoData['mtime']
@@ -59,27 +59,29 @@ function SearchFormResult() {
     <MemoLayout>
       {data.map((memo) => {
         return (
-          <Memo key={memo.slug}>
+          <MemoEntry key={memo.id}>
             <MemoBody>
               <pre
                 className="p-2 overflow-auto rounded-md text-[10px] line-clamp-6 bg-slate-800"
                 dangerouslySetInnerHTML={{
-                  __html: memo.body.trim().replaceAll(q, `<mark>${q}</mark>`),
+                  __html: (memo.body || '')
+                    .trim()
+                    .replaceAll(q, `<mark>${q}</mark>`),
                 }}
               />
             </MemoBody>
             <MemoFooter className="mt-4">
               <MemoTags>
-                {JSON.parse(memo.tags).map((tag) => (
+                {JSON.parse(memo.tags).map((tag: string) => (
                   <MemoTag key={tag} tag={tag} />
                 ))}
               </MemoTags>
               <MemoIdAndDate>
-                <MemoId id={memo.slug} />
+                <MemoId id={memo.id} />
                 <MemoDate ctime={memo.ctime} mtime={memo.mtime} />
               </MemoIdAndDate>
             </MemoFooter>
-          </Memo>
+          </MemoEntry>
         )
       })}
     </MemoLayout>
