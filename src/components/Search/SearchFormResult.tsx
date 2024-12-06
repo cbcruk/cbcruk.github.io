@@ -15,6 +15,7 @@ import type { CollectionEntry } from 'astro:content'
 import { useSearchParamsQuery } from './hooks/useSearchParamsQuery'
 import { Suspense } from 'react'
 import { SearchFormLoading } from './SearchFormLoading'
+import { ErrorBoundary } from 'react-error-boundary'
 
 type Memo = CollectionEntry<'memo'>
 type MemoData = Memo['data']
@@ -32,9 +33,13 @@ function SearchFormResult() {
   const { data } = useSWR(
     q || null,
     () => {
-      return worker?.db.query(
-        `SELECT * FROM memo WHERE body MATCH "${q}" ORDER BY mtime DESC`
-      ) as Promise<SearchResult[]>
+      try {
+        return worker?.db.query(
+          `SELECT * FROM memo WHERE body MATCH '"${q}"' ORDER BY mtime DESC`
+        ) as Promise<SearchResult[]>
+      } catch (error) {
+        throw error
+      }
     },
     {
       suspense: true,
@@ -83,9 +88,15 @@ function SearchFormResult() {
 
 export function SearchFromResultWithSuspense() {
   return (
-    <Suspense fallback={<SearchFormLoading />}>
-      <SearchFormResult />
-    </Suspense>
+    <ErrorBoundary
+      fallbackRender={({ error, resetErrorBoundary }) => (
+        <p className="p-2 text-xs font-mono rounded-md">{error?.message}</p>
+      )}
+    >
+      <Suspense fallback={<SearchFormLoading />}>
+        <SearchFormResult />
+      </Suspense>
+    </ErrorBoundary>
   )
 }
 
