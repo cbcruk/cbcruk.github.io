@@ -15,7 +15,7 @@ import type { CollectionEntry } from 'astro:content'
 import { Suspense } from 'react'
 import { SearchFormLoading } from './SearchFormLoading'
 import { ErrorBoundary } from 'react-error-boundary'
-import { useQueryState } from 'nuqs'
+import { useSearchParamsQuery } from './hooks/useSearchParamsQuery'
 
 type MemoEntry = CollectionEntry<'memo'>
 type MemoData = MemoEntry['data']
@@ -28,14 +28,15 @@ type SearchResult = {
 }
 
 function SearchFormResult() {
-  const [q] = useQueryState('q')
+  const q = useSearchParamsQuery()
   const { data: worker } = useSearchWorker()
+
   const { data } = useSWR(
     q || null,
     () => {
       try {
         return worker?.db.query(
-          `SELECT * FROM memo WHERE body MATCH '"${q}"' ORDER BY mtime DESC`
+          `SELECT * FROM memo WHERE body MATCH '"${q}"*' ORDER BY mtime DESC`
         ) as Promise<SearchResult[]>
       } catch (error) {
         throw error

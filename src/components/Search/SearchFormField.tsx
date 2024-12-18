@@ -1,12 +1,14 @@
 import history from 'history/browser'
 import { useFormStatus } from 'react-dom'
 import { useQueryState } from 'nuqs'
+import { useTransition } from 'react'
 
 function Input() {
+  const [, startTransition] = useTransition()
   const status = useFormStatus()
   const [q, setQuery] = useQueryState('q', {
     shallow: false,
-    throttleMs: 1000
+    startTransition,
   })
 
   return (
@@ -17,7 +19,7 @@ function Input() {
       placeholder="본문내용 또는 태그를 검색해주세요."
       defaultValue={q ?? ''}
       disabled={status.pending}
-      onChange={e => setQuery(e.target.value)}
+      onChange={(e) => setQuery(e.target.value)}
     />
   )
 }
