@@ -1,12 +1,6 @@
 ---
-import fs from 'node:fs/promises'
-import { getReleaseMemoCollection } from '@collection/memo'
 import { SearchFormNuqsAdapter } from '@components/Search/SearchFormNuqsAdapter'
 import Layout from '@layouts/Layout.astro'
-
-const memos = await getReleaseMemoCollection()
-
-await fs.writeFile('scripts/search-db.json', JSON.stringify(memos))
 
 const PAGE_TITLE = `메모 검색 | eunsoolee`
 const PAGE_DESCRIPTION = ''
