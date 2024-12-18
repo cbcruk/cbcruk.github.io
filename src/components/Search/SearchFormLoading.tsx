@@ -7,5 +7,5 @@ export function SearchFormLoading() {
     return null
   }
 
-  return <p className="text-sm font-mono">검색중...</p>
+  return <p className="text-xs font-mono">요청중...</p>
 }

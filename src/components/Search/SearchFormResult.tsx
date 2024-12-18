@@ -12,10 +12,10 @@ import { MemoDate } from '@components/Memo/MemoDate'
 import useSWR from 'swr'
 import { useSearchWorker } from './hooks/useSearchWorker'
 import type { CollectionEntry } from 'astro:content'
-import { useSearchParamsQuery } from './hooks/useSearchParamsQuery'
 import { Suspense } from 'react'
 import { SearchFormLoading } from './SearchFormLoading'
 import { ErrorBoundary } from 'react-error-boundary'
+import { useQueryState } from 'nuqs'
 
 type MemoEntry = CollectionEntry<'memo'>
 type MemoData = MemoEntry['data']
@@ -28,7 +28,7 @@ type SearchResult = {
 }
 
 function SearchFormResult() {
-  const q = useSearchParamsQuery()
+  const [q] = useQueryState('q')
   const { data: worker } = useSearchWorker()
   const { data } = useSWR(
     q || null,

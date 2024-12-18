@@ -1,8 +1,7 @@
 ---
 import fs from 'node:fs/promises'
 import { getReleaseMemoCollection } from '@collection/memo'
-import { SearchForm } from '@components/Search/SearchForm'
-import { SearchFormField } from '@components/Search/SearchFormField'
+import { SearchFormNuqsAdapter } from '@components/Search/SearchFormNuqsAdapter'
 import Layout from '@layouts/Layout.astro'
 
 const memos = await getReleaseMemoCollection()
@@ -14,15 +13,5 @@ const PAGE_DESCRIPTION = ''
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
-  <div class="flex flex-col gap-4">
-    <label
-      class="relative flex h-9 w-full p-2 px-3 rounded-xl bg-[--solarized-background-highlight] text-[--solarized-green] text-xs"
-    >
-      <span class="relative text-sm z-[1]" aria-label="검색">🔦</span>
-      <SearchFormField client:only="react" />
-    </label>
-    <div class="mt-0">
-      <SearchForm client:only="react" />
-    </div>
-  </div>
+  <SearchFormNuqsAdapter client:only="react" />
 </Layout>

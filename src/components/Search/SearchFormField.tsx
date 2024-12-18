@@ -1,10 +1,13 @@
 import history from 'history/browser'
-import { useSearchParamsQuery } from './hooks/useSearchParamsQuery'
 import { useFormStatus } from 'react-dom'
+import { useQueryState } from 'nuqs'
 
 function Input() {
-  const q = useSearchParamsQuery()
   const status = useFormStatus()
+  const [q, setQuery] = useQueryState('q', {
+    shallow: false,
+    throttleMs: 1000
+  })
 
   return (
     <input
@@ -12,8 +15,9 @@ function Input() {
       name="q"
       className="absolute top-0 left-0 w-full h-9 pl-8 pr-3 rounded-xl bg-transparent font-bold placeholder:font-normal"
       placeholder="본문내용 또는 태그를 검색해주세요."
-      defaultValue={q}
+      defaultValue={q ?? ''}
       disabled={status.pending}
+      onChange={e => setQuery(e.target.value)}
     />
   )
 }
