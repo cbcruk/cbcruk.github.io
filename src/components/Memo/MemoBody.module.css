@@ -1,5 +1,5 @@
 .root > * {
-  @apply my-4 rounded-md;
+  @apply my-4;
 }
 
 .root > *:first-child {
@@ -28,7 +28,7 @@
 }
 
 .root pre {
-  @apply py-2 text-[10px];
+  @apply py-2 text-[10px] rounded-md;
 }
 
 .root pre code::before,
@@ -58,8 +58,8 @@
   @apply flex flex-col gap-2 pl-[14px] break-words;
 }
 
-.root ul ul,
-.root ol ol {
+.root li ul,
+.root li ol {
   @apply pt-2;
 }
 
