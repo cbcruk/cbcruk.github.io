@@ -1,28 +1,67 @@
 ---
-tags: ['date', 'random']
+tags: ['date', 'random', 'test', 'flaky']
 status: release
 ctime: 2024-09-01
-mtime: 2024-09-01
+mtime: 2024-01-09
 ---
 
-import { transformerMetaHighlight } from '@shikijs/transformers'
-import { Code } from 'astro:components'
-import { Today } from './314.components.tsx'
+## 핵심 요점
 
-> Never Call `new Date()` Inside Your Components
-> [never-call-new-date-inside-your-components](https://kyleshevlin.com/never-call-new-date-inside-your-components/)
+1. **비순수한 컴포넌트**
 
-<Code
-  code={`function Today({ date = formatDate(new Date()) }) {
-  return <label>{date}</label>
-}`}
-  lang="tsx"
-  transformers={[transformerMetaHighlight()]}
-  meta="{1}"
-/>
+   - `new Date()`와 같은 비순수한 함수는 호출할 때마다 다른 결과를 선택하므로, 테스트 결과의 일관성이 없음
 
-컴포넌트 내에서 `new Date()`와 같은 비순수한 함수를 호출하면, 호출할 때마다 결과가 달라집니다. 이는 테스트에서 일관된 결과를 기대할 수 없게 만들어, 테스트가 불안정해질 수 있습니다. 코드 변경 없이도 테스트가 때로는 통과하고, 때로는 실패하는 *Flaky Test*를 유발할 수 있습니다.
+2. **해결책 - 의존성 주입**
 
-순수하지 않은 함수의 결과나 함수를 `prop`으로 전달함으로써 컴포넌트가 더 예측 가능해지고, 테스트하기 쉬워집니다. 이렇게 하면 테스트 시 특정 날짜를 제어할 수 있어, 일관적이고 신뢰할 수 있는 테스트 결과를 얻을 수 있습니다.
+   - 비순수한 함수의 결과를 prop으로 전달하여 컴포넌트를 예측 가능하게 만들고, 테스트 시 특정 날짜를 제어
 
-기본 매개변수를 사용하면 개발자 경험이 향상됩니다. 기본 동작(`new Date()`로 오늘 날짜를 얻는 것)을 유지하면서도, 테스트 중 특정 값을 제공할 수 있는 유연성을 유지할 수 있습니다.
+3. **기본 매개변수**
+   - 기본 매개변수 사용으로 오늘 날짜의 기본 동작을 유지하면서, 테스트에서 유연성을 제공
+
+## 개선된 예시
+
+```js
+function Date({ date = new Date() }) {
+  const [date, setDate] = React.useState(date)
+
+  return (
+    <input
+      type="date"
+      onChange={(e) => setDate(e.target.value)}
+      defaultValue={date}
+    />
+  )
+}
+
+function Random({ randomizer = Math.random }) {
+  const [state, setState] = React.useState(randomizer())
+
+  return <div>{state}</div>
+}
+```
+
+## 테스트
+
+```tsx
+describe('Date Component', () => {
+  it('should update state on date change', () => {
+    render(<Date date={new Date('2023-01-01')} />)
+
+    const input = screen.getByRole('textbox')
+
+    expect(input.value).toBe('2023-01-01')
+  })
+})
+
+describe('Random Component', () => {
+  it('should render a random number', () => {
+    const mockRandomizer = () => 0.5
+
+    render(<Random randomizer={mockRandomizer} />)
+
+    const div = screen.getByText('0.5')
+
+    expect(div).toBeInTheDocument()
+  })
+})
+```
