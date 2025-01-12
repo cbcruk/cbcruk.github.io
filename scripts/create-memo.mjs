@@ -4,7 +4,14 @@ import fg from 'fast-glob'
 
 async function getNextIndex() {
   const entries = await fg.glob('./src/content/memo/*.{md,mdx}')
-  const nextIndex = entries.length + 1
+  const [latest] = entries
+    .map((entry) => {
+      const [, id] = entry.match(/\/(\d+)\.(md|mdx)$/)
+      return id
+    })
+    .toSorted((a, b) => b - a)
+
+  const nextIndex = parseInt(latest, 10) + 1
 
   return nextIndex
 }
@@ -16,20 +23,25 @@ function getFormattedTime() {
 }
 
 async function main() {
-  const nextIndex = await getNextIndex()
-  const formattedTime = getFormattedTime()
+  try {
+    const nextIndex = await getNextIndex()
+    const formattedTime = getFormattedTime()
 
-  await fs.writeFile(
-    `src/content/memo/${nextIndex}.md`,
-    `---
+    await fs.writeFile(
+      `src/content/memo/${nextIndex}.md`,
+      `---
 tags: []
 status: release
 ctime: ${formattedTime}
 mtime: ${formattedTime}
 ---
 
+      `
+    )
 
-  `
-  )
+    console.log(`${nextIndex}.md`)
+  } catch (error) {
+    console.error(error)
+  }
 }
 main()
