@@ -13,23 +13,23 @@ vitest와 jest 모두 시스템 시간을 조작할 수 있도록 하여 테스�
 
 <Code
   code={`describe('isSameDate', () => {
-  beforeEach(() => {
-    vi.useFakeTimers()
-    vi.setSystemTime('2024-07-20')
-  })
+    beforeEach(() => {
+      vi.useFakeTimers()
+      vi.setSystemTime('2024-07-20')
+    })
 
-  afterEach(() => {
-    vi.useRealTimers()
-  })
+    afterEach(() => {
+      vi.useRealTimers()
+    })
 
-  it('현재 날짜와 동일한 날짜를 전달하면 true를 반환한다', () => {
-    expect(isSameDate('2024-07-20')).toBe(true)
-  })
+    it('현재 날짜와 동일한 날짜를 전달하면 true를 반환한다', () => {
+      expect(isSameDate('2024-07-20')).toBe(true)
+    })
 
-  it('현재 날짜와 다른 날짜를 전달하면 false를 반환한다', () => {
-    expect(isSameDate('2024-07-19')).toBe(false)
-    expect(isSameDate('2024-07-21')).toBe(false)
-  })
+    it('현재 날짜와 다른 날짜를 전달하면 false를 반환한다', () => {
+      expect(isSameDate('2024-07-19')).toBe(false)
+      expect(isSameDate('2024-07-21')).toBe(false)
+    })
 })`}
   lang="tsx"
   transformers={[transformerMetaHighlight()]}
