@@ -31,7 +31,7 @@ async function main() {
       `src/content/memo/${nextIndex}.md`,
       `---
 tags: []
-status: release
+status: draft
 ctime: ${formattedTime}
 mtime: ${formattedTime}
 ---
