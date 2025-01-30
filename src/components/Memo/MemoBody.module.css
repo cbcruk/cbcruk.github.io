@@ -72,7 +72,7 @@
 }
 
 .root blockquote {
-  @apply p-2 bg-[var(--solarized-base02)] italic text-[10px];
+  @apply p-2 bg-[var(--solarized-base02)] italic text-[10px] rounded-md;
 }
 
 .root [data-footnote-ref]::before {
@@ -101,4 +101,17 @@
 
 .root [data-footnotes] a {
   @apply no-underline;
+}
+
+.root h1,
+.root h2,
+.root h3 {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.root h4,
+.root h5,
+.root h6 {
+  font-size: 12px;
 }
