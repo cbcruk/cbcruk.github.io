@@ -11,6 +11,7 @@ import {
   PaginationLink,
 } from '@components/Pagination/PaginationPrimitive'
 import { getReleaseMemoCollection } from '@collection/memo'
+import fs from 'node:fs/promises'
 
 type Props = {
   page: Page<CollectionEntry<'memo'>>
@@ -18,6 +19,8 @@ type Props = {
 
 export async function getStaticPaths({ paginate }) {
   const memoCollection = await getReleaseMemoCollection()
+
+  await fs.writeFile('public/search-db.json', JSON.stringify(memoCollection))
 
   return paginate(
     memoCollection.sort((a, b) => Number(a.id) - Number(b.id)).reverse(),

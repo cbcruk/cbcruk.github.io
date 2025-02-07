@@ -1,5 +1,5 @@
 import Database from 'better-sqlite3'
-import memoData from './search-db.json' assert { type: 'json' }
+import memoData from '../public/search-db.json' assert { type: 'json' }
 
 const db = new Database('public/search.db', { verbose: console.log })
 

@@ -38,3 +38,4 @@ yarn-error.log*
 
 dist
 .astro
+public/search-db.json
