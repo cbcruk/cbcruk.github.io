@@ -16,7 +16,7 @@
 }
 
 .root code:not(pre > code) {
-  @apply text-[--solarized-green] text-[10px];
+  @apply p-1 rounded-lg text-[10px] bg-[--flexoki-900];
 }
 
 .root code::before {
@@ -28,7 +28,7 @@
 }
 
 .root pre {
-  @apply py-2 text-[10px] rounded-md;
+  @apply py-2 text-[10px] rounded-md !bg-[--flexoki-950];
 }
 
 .root pre code::before,
@@ -50,7 +50,7 @@
 }
 
 .root hr {
-  @apply border-[--solarized-background-highlight];
+  @apply border-[--flexoki-950];
 }
 
 .root ul,
@@ -72,7 +72,7 @@
 }
 
 .root blockquote {
-  @apply p-2 bg-[var(--solarized-base02)] italic text-[10px] rounded-md;
+  @apply p-2 bg-[--flexoki-950] italic text-[10px] rounded-md;
 }
 
 .root [data-footnote-ref]::before {
@@ -92,11 +92,11 @@
 }
 
 .root strong {
-  @apply text-[--solarized-magenta];
+  @apply text-[--flexoki-green-400];
 }
 
 .root [data-footnotes] {
-  @apply text-[--solarized-base01];
+  @apply text-[--flexoki-400];
 }
 
 .root [data-footnotes] a {

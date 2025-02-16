@@ -9,7 +9,7 @@ export function MemoEmbedLink({ url }: Props) {
     <a
       href={href}
       target="_blank"
-      className="inline-flex justify-center py-1 px-3 rounded-full bg-[--solarized-background-highlight] text-[--solarized-cyan]"
+      className="inline-flex justify-center py-1 px-3 rounded-lg bg-[--flexoki-950] text-[--flexoki-cyan-600] hover:text-[--flexoki-cyan-400]"
     >
       {host}
     </a>

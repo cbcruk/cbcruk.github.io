@@ -15,9 +15,9 @@
 }
 
 body {
-  background-color: var(--solarized-background);
+  background-color: var(--flexoki-black);
   font-family: 'Noto Sans KR', sans-serif;
-  color: var(--solarized-primary);
+  color: var(--flexoki-200);
   word-break: keep-all;
 }
 
