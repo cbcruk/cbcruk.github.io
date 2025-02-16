@@ -1,0 +1,18 @@
+---
+interface Props {
+  url: string
+}
+
+const { url } = Astro.props
+---
+
+<div class="flex">
+  <a
+    href={url}
+    target="_blank"
+    class="inline-flex flex-col gap-1 p-2 rounded-lg bg-[--flexoki-950] hover:bg-[--flexoki-900] font-bold transition-all"
+  >
+    <span class="text-lg">📎</span>
+    <slot />
+  </a>
+</div>
