@@ -1,12 +1,12 @@
-.root>* {
+.root > * {
   @apply my-4;
 }
 
-.root>*:first-of-type {
+.root > *:first-of-type {
   @apply mt-0;
 }
 
-.root>*:last-child {
+.root > *:last-child {
   @apply mb-0;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .root blockquote {
-  @apply p-2 bg-[--flexoki-blue-950] text-[10px] rounded-md;
+  @apply p-2 bg-[--flexoki-purple-950] text-[10px] rounded-md;
 }
 
 .root [data-footnote-ref]::before {

@@ -1,4 +1,4 @@
-import { ComponentProps, PropsWithChildren } from 'react'
+import type { ComponentProps, PropsWithChildren } from 'react'
 
 type Cite = {
   url?: string
@@ -13,9 +13,11 @@ type LinkOrNotProps = ComponentProps<'a'>
 
 function LinkOrNot({ href, children }: LinkOrNotProps) {
   if (href) {
+    const url = new URL(href)
+
     return (
       <a href={href} target="_blank">
-        {children}
+        {children} ({url.host})
       </a>
     )
   }
@@ -30,7 +32,7 @@ export function Blockquote({
   return (
     <blockquote cite={cite.url} className="flex flex-col gap-1">
       {children}
-      <footer class="italic">
+      <footer className="italic">
         <LinkOrNot href={cite.url} target="_blank">
           <cite>-{cite.title}</cite>
         </LinkOrNot>
