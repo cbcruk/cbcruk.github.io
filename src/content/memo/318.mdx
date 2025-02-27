@@ -1,0 +1,28 @@
+---
+tags: ['blob', 'script']
+status: release
+ctime: 2024-09-16
+mtime: 2024-09-16
+---
+
+import Blockquote from '@components/Blockquote.tsx'
+
+<Blockquote 
+  cite={{
+    url: "https://violentmonkey.github.io/posts/inject-scripts-with-blob-urls/",
+    title: "Inject scripts with Blob URLs"
+  }}
+>
+Blob URL 방식은 Firefox 58+에서 CSP 제한이 있는 페이지에서도 스크립트를 주입할 수 있는 방법입니다.
+이 방식을 사용할 때, 비동기성 때문에 발생할 수 있는 문제를 방지하려면 초기화 코드가 준비된 후 스크립트를 전달해야 합니다.
+</Blockquote>
+
+```ts
+const b = new Blob([script], { type: 'text/javascript' })
+const u = URL.createObjectURL(b)
+const s = document.createElement('script')
+s.src = u
+document.body.appendChild(s)
+document.body.removeChild(s)
+URL.revokeObjectURL(u)
+```
