@@ -5,9 +5,18 @@ ctime: 2024-09-17
 mtime: 2024-09-17
 ---
 
-> 그런데 이 패턴이 "상태 머신"처럼 들린다면 놀랄 일도 아닙니다. 선택은 실제로 상태 머신을 구축하느냐 마느냐가 아니라 암시적으로 구축하느냐 명시적으로 구축하느냐의 문제입니다.
+import { Blockquote } from '@components/Blockquote'
+
+<Blockquote
+  cite={{
+    url: 'https://massimilianomirra.com/notes/expressive-components-in-vanilla-react-part-1-type-states',
+    title: 'Expressive components in vanilla React, part 1: TypeStates',
+  }}
 >
-> https://massimilianomirra.com/notes/expressive-components-in-vanilla-react-part-1-type-states
+  이 패턴이 "상태 머신"처럼 들린다면, 그리 놀랄 일도 아닙니다. 결국, 선택의
+  문제는 상태 머신을 구축할지 말지가 아니라, 그것을 암시적으로 구축할지
+  명시적으로 구축할지에 달려 있습니다.
+</Blockquote>
 
 ```mermaid
 stateDiagram-v2

@@ -5,9 +5,13 @@ ctime: 2025-01-28
 mtime: 2025-01-28
 ---
 
-https://blog.jez.io/intro-elim/
+import QuoteLink from '@components/QuoteLink.astro'
 
-> Every type is defined by its intro and elim forms
+<QuoteLink url="https://blog.jez.io/intro-elim/">
+Every type is defined by its intro and elim forms
+</QuoteLink>
+
+_Every type is defined by its intro and elim forms_
 
 - **Intro forms**: 타입의 인스턴스를 어떻게 "생성"하는지 정의.
 - **Elim forms**: 생성된 타입 인스턴스를 어떻게 "사용"하거나 "해체"할지 정의.
@@ -40,7 +44,7 @@ if (rect) {
 
 ---
 
-> Types are not their elim forms
+_Types are not their elim forms_
 
 - `interface`와 `class`를 통해 **Intro/Elim 모두를 명시적으로 정의**
 - 팩토리 메서드 같은 패턴을 활용해 생성 방식을 추상화

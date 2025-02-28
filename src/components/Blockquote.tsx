@@ -31,8 +31,9 @@ export function Blockquote({
 }: PropsWithChildren<BlockquoteProps>) {
   return (
     <blockquote cite={cite.url} className="relative">
-      <div className="flex flex-col gap-1 p-2">
-        <span className="font-black select-none">&gt;</span>{children}
+      <div className="flex flex-col gap-1">
+        <span className="text-lg select-none">💡</span>
+        {children}
         <footer className="italic">
           <LinkOrNot href={cite.url} target="_blank">
             <cite>-{cite.title}</cite>

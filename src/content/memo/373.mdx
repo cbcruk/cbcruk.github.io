@@ -5,7 +5,11 @@ ctime: 2025-01-18
 mtime: 2025-01-18
 ---
 
-https://programmingarehard.com/2025/01/13/maybe-dont-navigate-1.html/
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://programmingarehard.com/2025/01/13/maybe-dont-navigate-1.html/">
+Maybe don't navigate(-1) in Remix/React Router
+</QuoteLink>
 
 - `navigate(-1)`의 위험성: 브라우저 히스토리에서 이전 위치로 이동, 앱 내부 네비게이션과 혼란을 초래할 수 있음
 - 대신 `Link` 컴포넌트의 [`state`](https://api.reactrouter.com/v7/interfaces/react_router.LinkProps.html#state) 속성을 활용하여 안전하게 앱 내에서의 "Back" 네비게이션 구현 가능
