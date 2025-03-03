@@ -111,3 +111,7 @@
 .root h6 {
   font-size: 12px;
 }
+
+.root a:not([class*=]) {
+  text-decoration: underline;
+}

@@ -1,7 +1,9 @@
 import { getCollection } from 'astro:content'
 
 export const getReleaseMemoCollection = () =>
-  getCollection('memo', ({ data }) => data.status === 'release')
+  getCollection('memo', ({ data }) =>
+    import.meta.env.DEV ? true : data.status === 'release'
+  )
 
 export const getRandomMemoCollection = async () => {
   const memoCollection = await getReleaseMemoCollection()
