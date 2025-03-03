@@ -1,7 +1,7 @@
 ---
 import Layout from '@layouts/Layout.astro'
 
-export const prerender = false
+export const prerender = import.meta.env.DEV ? false : true
 
 const PAGE_TITLE = `실험실 | eunsoolee`
 const PAGE_DESCRIPTION = ''
