@@ -1,0 +1,55 @@
+---
+import Layout from '@layouts/Layout.astro'
+
+export const prerender = false
+
+const PAGE_TITLE = `실험실 | eunsoolee`
+const PAGE_DESCRIPTION = ''
+
+const response = {
+  data: '',
+  error: '',
+}
+
+if (Astro.request.method === 'POST') {
+  try {
+    const data = await Astro.request.formData()
+    const contents = data.get('contents') as string
+
+    const set = new Set()
+
+    for (const url of contents.split('\n')) {
+      const html = await fetch(url).then((r) => r.text())
+      const match = html.match(/<title.*?>(.*?)<\/title>/i)
+      const title = match ? match[1] : null
+
+      set.add([url.replace(/\r|\n/g, ''), title])
+    }
+
+    response.data = [...set.values()]
+      .map(([url, title]) => `- [${title}](${url})`)
+      .join('\n')
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message)
+      response.error = error.message
+    }
+  }
+}
+---
+
+<Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+  <div class="flex gap-4">
+    <form method="POST" class="flex-1 flex flex-col gap-2">
+      <textarea
+        name="contents"
+        class="h-[200px] p-2 bg-[--flexoki-900] rounded-lg text-xs"></textarea>
+      <button class="p-2 px-3 rounded-lg bg-[--flexoki-purple-950] text-xs"
+        >전송</button
+      >
+    </form>
+
+    <pre
+      class="flex-1 text-xs p-2 border border-[--flexoki-900] rounded-lg overflow-auto">{response.data}</pre>
+  </div>
+</Layout>
