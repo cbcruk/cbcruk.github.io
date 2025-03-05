@@ -26,4 +26,5 @@ export default defineConfig({
     '/memos': '/memos/1',
     '/memo': '/memos/1',
   },
+  output: import.meta.env.DEV ? 'server' : 'static',
 })
