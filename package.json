@@ -6,12 +6,12 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "prebuild": "node scripts/search-db.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.1",
@@ -55,7 +55,8 @@
     "eslint": "^9.8.0",
     "eslint-plugin-astro": "^1.2.3",
     "eslint-plugin-jsx-a11y": "^6.9.0",
-    "fast-glob": "^3.3.2"
+    "fast-glob": "^3.3.2",
+    "husky": "^9.1.7"
   },
   "packageManager": "pnpm@9.7.0"
 }
