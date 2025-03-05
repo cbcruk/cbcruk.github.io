@@ -88,7 +88,7 @@
 }
 
 .root strong {
-  @apply text-[--flexoki-green-400];
+  @apply text-[--flexoki-100];
 }
 
 .root [data-footnotes] {

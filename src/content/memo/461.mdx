@@ -1,0 +1,30 @@
+---
+tags: ['formData', 'File']
+status: release
+ctime: 2025-03-04
+mtime: 2025-03-04
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://developer.mozilla.org/ko/docs/Web/API/File">
+  File
+</QuoteLink>
+
+```ts
+const emptyCsvFile = new File([''], 'default.csv', { type: 'text/csv' })
+const emptyPngFile = new File([''], 'default.png', { type: 'image/png' })
+
+formData.append('product_coupons', emptyCsvFile)
+formData.append('product_imgs', emptyPngFile)
+
+console.assert(emptyCsvFile.size === 0)
+```
+
+빈 파일을 FormData에 첨부하여 전송하는 방법
+
+- `File` 객체를 사용하여 빈 파일을 생성할 수 있다.
+- 파일의 `MIME` 타입을 지정하여 타입에 맞는 빈 파일을 만들 수 있다.
+- 생성된 빈 파일을 `FormData` 객체에 추가하여 전송할 수 있다.
+
+이는 서버에 빈 형태의 파일을 전송할 때 유용하며, API 테스트 및 디폴트 값 설정에 활용될 수 있다.
