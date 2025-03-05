@@ -1,1 +1,2 @@
 node scripts/search-db.mjs
+git commit -am "update search.db"
