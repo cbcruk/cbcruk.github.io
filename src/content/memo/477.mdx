@@ -1,0 +1,29 @@
+---
+tags: ['emoji']
+status: draft
+ctime: 2025-03-05
+mtime: 2025-03-05
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://github.com/ealush/emoji-picker-react/blob/master/src/dataUtils/parseNativeEmoji.ts#L1">
+  parseNativeEmoji.ts
+</QuoteLink>
+
+```ts
+export function parseNativeEmoji(unified: string): string {
+  return unified
+    .split('-')
+    .map((hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .join('')
+}
+```
+
+- `unified` 문자열을 `-`로 분리하여 개별 유니코드 코드 포인트를 얻는다.
+- 각 16진수 코드 포인트를 정수로 변환하고, 그에 해당하는 캐릭터를 반환한다.
+- 최종적으로 변환된 캐릭터들을 연결하여 하나의 문자열로 생성한다.
+
+---
+
+- [GitHub - iamcal/emoji-data: Easy to parse data and spritesheets for emoji](https://github.com/iamcal/emoji-data)
