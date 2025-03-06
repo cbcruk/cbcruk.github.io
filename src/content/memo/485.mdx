@@ -1,0 +1,72 @@
+---
+tags: ['parallel', 'serial']
+status: release
+ctime: 2025-03-05
+mtime: 2025-03-05
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://stackblitz.com/edit/vitest-dev-vitest-jtqzu5sy?file=test%2Fbasic.test.ts">
+  TaskRunner Test
+</QuoteLink>
+
+```ts
+type Task = (callback: (result: string) => void) => void
+
+type TasksCallback = (results: string[]) => void
+
+class TaskRunner {
+  protected tasks: Task[] = []
+
+  protected results: Set<string> = new Set()
+
+  addTask(task: Task) {
+    this.tasks.push(task)
+  }
+}
+
+class ParallelTaskRunner extends TaskRunner {
+  run(callback: TasksCallback) {
+    const totalTasks = this.tasks.length
+
+    this.tasks.forEach((task) => {
+      task((result) => {
+        this.results.add(result)
+
+        if (this.results.size === totalTasks) {
+          callback([...this.results])
+        }
+      })
+    })
+  }
+}
+
+class SerialTaskRunner extends TaskRunner {
+  index = 0
+
+  run(callback: TasksCallback) {
+    const executeTask = () => {
+      if (this.index >= this.tasks.length) {
+        callback([...this.results])
+        return
+      }
+
+      this.tasks[this.index]((result) => {
+        this.results.add(result)
+        this.index++
+
+        executeTask()
+      })
+    }
+
+    executeTask()
+  }
+}
+```
+
+- [Node.js script to run multiple commands in parallel · Muffin Man](https://muffinman.io/blog/node-script-to-run-multiple-commands-in-parallel/)[^485-1]
+
+---
+
+[^485-1]: [concurrently](https://github.com/open-cli-tools/concurrently)
