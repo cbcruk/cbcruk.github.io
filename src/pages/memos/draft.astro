@@ -1,0 +1,34 @@
+---
+import { getCollection, render } from 'astro:content'
+import Layout from '@layouts/Layout.astro'
+import { MemoLayout } from '@components/MemoLayout/MemoLayout'
+import { Memo } from '@components/Memo/Memo'
+
+export const prerender = true
+
+const memoCollection = await getCollection(
+  'memo',
+  ({ data }) => data.status === 'draft'
+)
+
+const PAGE_TITLE = `메모 리스트 | eunsoolee`
+const PAGE_DESCRIPTION = ''
+---
+
+<Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+  <MemoLayout>
+    {
+      (import.meta.env.DEV ? memoCollection : [])
+        .toReversed()
+        .map(async (memo) => {
+          const { Content } = await render(memo)
+
+          return (
+            <Memo memo={memo}>
+              <Content />
+            </Memo>
+          )
+        })
+    }
+  </MemoLayout>
+</Layout>
