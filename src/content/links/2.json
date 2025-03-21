@@ -1,4 +1,5 @@
 {
   "name": "Twitter",
-  "url": "https://twitter.com/cbcruk"
+  "url": "https://twitter.com/cbcruk",
+  "is_private": true
 }

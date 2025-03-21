@@ -1,22 +1,22 @@
 export const MENUS = {
   home: {
     pathname: '/',
-    label: 'Home',
+    label: '홈',
   },
   about: {
     pathname: '/about',
-    label: 'About',
+    label: '소개',
   },
   memo: {
     pathname: '/memos/1',
-    label: 'Memo',
+    label: '목록',
   },
   tag: {
     pathname: '/tagged',
-    label: 'Tag',
+    label: '태그',
   },
   search: {
     pathname: '/search',
-    label: 'Search',
+    label: '검색',
   },
 } as const

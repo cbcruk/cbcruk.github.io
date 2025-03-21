@@ -10,15 +10,15 @@ export function Nav({ pathname }: Props) {
     <NavPrimitive>
       <NavLink
         href={MENUS.home.pathname}
+        title={MENUS.home.label}
         data-is-active={isMatch([MENUS.home.pathname])}
       >
-        {MENUS.home.label}
-      </NavLink>
-      <NavLink
-        href={MENUS.about.pathname}
-        data-is-active={isMatch([MENUS.about.pathname])}
-      >
-        {MENUS.about.label}
+        <img
+          src="/favicon-32x32.png"
+          alt={MENUS.home.label}
+          width={16}
+          height={16}
+        />
       </NavLink>
       <NavLink
         href={MENUS.memo.pathname}

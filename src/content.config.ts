@@ -30,6 +30,7 @@ const link = defineCollection({
   schema: z.object({
     name: z.string(),
     url: z.string(),
+    is_private: z.boolean(),
   }),
 })
 

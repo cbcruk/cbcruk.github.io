@@ -2,10 +2,12 @@
 import { Code } from 'astro:components'
 import Layout from '@layouts/Layout.astro'
 import { getReleaseMemoCollection } from '@collection/memo'
+import { getCollection } from 'astro:content'
 
 const PAGE_TITLE = '홈 | eunsoolee'
 const PAGE_DESCRIPTION = '개발, 만화, 음악, 등등등'
 
+const linkCollection = await getCollection('link')
 const memoCollection = await getReleaseMemoCollection()
 const tags = Array.from(
   new Set(memoCollection.map((memo) => memo.data.tags).flat())
@@ -26,19 +28,44 @@ export const prerender = true
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
-  <h1 class="mb-4 text-sm">안녕하세요 저는 이은수입니다.</h1>
+  <h1>안녕하세요 저는 이은수입니다.</h1>
 
-  <Code
-    {code}
-    lang="json"
-    theme="one-dark-pro"
-    class="p-4 rounded-md mb-4 text-xs !bg-[--flexoki-950]"
-  />
+  <div class="py-2">
+    <Code
+      {code}
+      lang="json"
+      theme="one-dark-pro"
+      class="p-4 rounded-md text-xs !bg-[--flexoki-950]"
+    />
+  </div>
 
-  <h2 class="mb-2 text-xs">최근 재생한 음악</h2>
-  <iframe
-    width="240"
-    height="58"
-    class="bg-[--flexoki-950] rounded-lg"
-    src="https://apix-twin.vercel.app/api/spotify/playing"></iframe>
+  <div class="py-2">
+    <h2 class="mb-2 text-sm">최근 재생한 음악</h2>
+    <iframe
+      width="240"
+      height="58"
+      class="bg-[--flexoki-950] rounded-lg"
+      src="https://apix-twin.vercel.app/api/spotify/playing"></iframe>
+  </div>
+
+  <div class="py-2">
+    <h2 class="mb-2 text-sm">링크</h2>
+    <ul class="flex flex-col gap-1 text-xs text-gray-400 list-disc pl-4">
+      {
+        linkCollection.map(({ data }) => {
+          if (data.is_private) {
+            return null
+          }
+
+          return (
+            <li>
+              <a href={data.url} target="_blank" class="hover:text-gray-100">
+                {data.name}
+              </a>
+            </li>
+          )
+        })
+      }
+    </ul>
+  </div>
 </Layout>
