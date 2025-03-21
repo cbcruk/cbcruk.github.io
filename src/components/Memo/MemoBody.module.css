@@ -1,3 +1,7 @@
+.root {
+  @apply leading-relaxed;
+}
+
 .root > * {
   @apply my-4;
 }
@@ -16,7 +20,7 @@
 }
 
 .root code:not(pre > code) {
-  @apply p-1 rounded-lg text-[10px] bg-[--flexoki-900];
+  @apply p-1 rounded-lg text-xs bg-[--flexoki-900];
 }
 
 .root code::before {
@@ -28,7 +32,7 @@
 }
 
 .root pre {
-  @apply py-2 text-[10px] rounded-md !bg-[--flexoki-950];
+  @apply py-2 text-xs rounded-md !bg-[--flexoki-950] leading-relaxed;
 }
 
 .root pre code::before,
@@ -101,15 +105,23 @@
 
 .root h1,
 .root h2,
+.root h3,
+.root h4,
+.root h5,
+.root h6 {
+  @apply font-bold;
+}
+
+.root h1,
+.root h2,
 .root h3 {
-  font-size: 13px;
-  font-weight: 500;
+  @apply text-[13px];
 }
 
 .root h4,
 .root h5,
 .root h6 {
-  font-size: 12px;
+  @apply text-[12px];
 }
 
 .root a:not([class*=]) {
