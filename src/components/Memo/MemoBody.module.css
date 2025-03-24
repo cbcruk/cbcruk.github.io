@@ -75,6 +75,14 @@
   @apply list-decimal;
 }
 
+.root li {
+  @apply text-gray-400;
+}
+
+.root li a {
+  @apply hover:text-gray-100 transition-all;
+}
+
 .root blockquote {
   @apply p-2 bg-[--flexoki-950] text-[10px] rounded-md;
 }
