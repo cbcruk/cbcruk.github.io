@@ -1,0 +1,57 @@
+---
+tags: ['visibilityState']
+status: release
+ctime: 2025-03-25
+mtime: 2025-03-25
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://github.com/nkzw-tech/use-visibility-state/">
+  use-visibility-state
+</QuoteLink>
+
+```ts
+const isVisible = document.visibilityState === 'visible'
+const isHidden = document.visibilityState === 'hidden'
+
+document.addEventListener('visibilitychange', onChange)
+```
+
+---
+
+```ts
+/**
+ * `visibilitychange` 이벤트는 정상적인 탭 전환 시에는 잘 작동하지만, 시스템 슬립, 화면 잠금, 또는 브라우저가 백그라운드에서 복귀할 때는 누락될 수 있다.
+ * 그래서 수동으로 처리되는 부분이 필요
+ */
+document.addEventListener('mousemove', setVisible)
+document.addEventListener('keydown', setVisible)
+```
+
+---
+
+```ts
+const [isVisible, setIsVisible] = useState(true)
+
+useEffect(() => {
+  const onChange = () => {
+    const newState = document.visibilityState !== 'hidden'
+
+    if (newState !== isVisible) {
+      setIsVisible(newState)
+    }
+  }
+
+  // addEventListener
+
+  return () => {
+    // removeEventListener
+  }
+}, [isVisible])
+```
+
+---
+
+- [`document.visibilityState`](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilityState)
+- [visibilitychange event](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event)
