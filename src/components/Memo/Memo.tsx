@@ -11,7 +11,7 @@ import { MemoId } from '@components/Memo/MemoId'
 import { MemoEmbedLink } from '@components/Memo/MemoEmbedLink'
 import type { Props } from './Memo.types'
 
-export function Memo({ memo, children }: Props) {
+export function Memo({ type = 'memo', memo, children }: Props) {
   return (
     <MemoPrimitive>
       <MemoBody>{children}</MemoBody>
@@ -23,7 +23,7 @@ export function Memo({ memo, children }: Props) {
           {memo.data.embed && <MemoEmbedLink url={memo.data.embed} />}
         </MemoTags>
         <MemoIdAndDate>
-          <MemoId id={memo.id} />
+          <MemoId id={memo.id} type={type} />
           <MemoDate ctime={memo.data.ctime} mtime={memo.data.mtime} />
         </MemoIdAndDate>
       </MemoFooter>

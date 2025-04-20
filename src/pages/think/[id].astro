@@ -1,0 +1,42 @@
+---
+import { type CollectionEntry, getEntry, render } from 'astro:content'
+import Layout from '@layouts/Layout.astro'
+import { Memo } from '@components/Memo/Memo'
+import { getReleaseThinkCollection } from '@collection/memo'
+
+type Props = {
+  memo: CollectionEntry<'memo'>
+}
+
+export async function getStaticPaths() {
+  const memos = await getReleaseThinkCollection()
+  const paths = Promise.all(
+    memos.map(async (memo) => {
+      const memoEntry = await getEntry('think', memo.id)
+
+      return {
+        params: { id: memo.id },
+        props: {
+          memo: memoEntry,
+        },
+      }
+    })
+  )
+
+  return paths
+}
+
+export const prerender = true
+
+const { memo } = Astro.props
+const { Content } = await render(memo)
+
+const PAGE_TITLE = `생각 ${memo.data.title || ''} #${memo.id} | eunsoolee`
+const PAGE_DESCRIPTION = memo.data.description || ''
+---
+
+<Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+  <Memo type="think" memo={memo}>
+    <Content />
+  </Memo>
+</Layout>
