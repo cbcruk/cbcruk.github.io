@@ -10,24 +10,14 @@ import {
   PaginationLinkGroup,
   PaginationLink,
 } from '@components/Pagination/PaginationPrimitive'
-import {
-  getReleaseMemoCollection,
-  getReleaseThinkCollection,
-} from '@collection/memo'
-import fs from 'node:fs/promises'
+import { getReleaseThinkCollection } from '@collection/memo'
 
 type Props = {
-  page: Page<CollectionEntry<'memo'>>
+  page: Page<CollectionEntry<'think'>>
 }
 
 export async function getStaticPaths({ paginate }) {
-  const memoCollection = await getReleaseMemoCollection()
-  const thinkCollection = await getReleaseThinkCollection()
-
-  await fs.writeFile(
-    'public/search-db.json',
-    JSON.stringify([...memoCollection, ...thinkCollection])
-  )
+  const memoCollection = await getReleaseThinkCollection()
 
   return paginate(
     memoCollection.sort((a, b) => Number(a.id) - Number(b.id)).reverse(),
@@ -41,7 +31,7 @@ export const prerender = true
 
 const { page } = Astro.props
 
-const PAGE_TITLE = `메모 ${page.currentPage}페이지 | eunsoolee`
+const PAGE_TITLE = `생각 ${page.currentPage}페이지 | eunsoolee`
 const PAGE_DESCRIPTION = ''
 ---
 

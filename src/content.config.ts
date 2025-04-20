@@ -14,6 +14,19 @@ const memo = defineCollection({
   }),
 })
 
+const think = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/think' }),
+  schema: z.object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+    tags: z.array(z.string()),
+    status: z.enum(['release', 'draft']),
+    ctime: z.coerce.date(),
+    mtime: z.coerce.date(),
+    embed: z.string().optional(),
+  }),
+})
+
 const company = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/company' }),
   schema: z.object({
@@ -34,4 +47,4 @@ const link = defineCollection({
   }),
 })
 
-export const collections = { memo, company, link }
+export const collections = { memo, company, link, think }

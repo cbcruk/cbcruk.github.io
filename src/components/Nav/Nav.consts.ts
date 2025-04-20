@@ -9,7 +9,11 @@ export const MENUS = {
   },
   memo: {
     pathname: '/memos/1',
-    label: '목록',
+    label: '메모',
+  },
+  think: {
+    pathname: '/thinks/1',
+    label: '생각',
   },
   tag: {
     pathname: '/tagged',
