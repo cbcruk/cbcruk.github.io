@@ -4,13 +4,8 @@ import { type CollectionEntry, render } from 'astro:content'
 import Layout from '@layouts/Layout.astro'
 import { MemoLayout } from '@components/MemoLayout/MemoLayout'
 import { Memo } from '@components/Memo/Memo'
-import {
-  Pagination,
-  PaginationLabel,
-  PaginationLinkGroup,
-  PaginationLink,
-} from '@components/Pagination/PaginationPrimitive'
 import { getReleaseThinkCollection } from '@collection/memo'
+import { PaginationDefault } from '@components/Pagination/PaginationDefault'
 
 type Props = {
   page: Page<CollectionEntry<'think'>>
@@ -50,21 +45,5 @@ const PAGE_DESCRIPTION = ''
     }
   </MemoLayout>
 
-  <Pagination>
-    <PaginationLabel>
-      {`${page.lastPage} 중 ${page.currentPage}페이지`}
-    </PaginationLabel>
-    <PaginationLinkGroup>
-      {
-        page.url.prev && (
-          <PaginationLink href={page.url.prev}>이전 페이지</PaginationLink>
-        )
-      }
-      {
-        page.url.next && (
-          <PaginationLink href={page.url.next}>다음 페이지</PaginationLink>
-        )
-      }
-    </PaginationLinkGroup>
-  </Pagination>
+  <PaginationDefault {...page} />
 </Layout>
