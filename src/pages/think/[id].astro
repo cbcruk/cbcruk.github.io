@@ -1,8 +1,10 @@
 ---
 import { type CollectionEntry, getEntry, render } from 'astro:content'
 import Layout from '@layouts/Layout.astro'
-import { Memo } from '@components/Memo/Memo'
 import { getReleaseThinkCollection } from '@collection/memo'
+import { Memo, MemoFooter } from '@components/Memo/MemoPrimitive'
+import { MemoDate } from '@components/Memo/MemoDate'
+import { MemoBody } from '@components/Memo/MemoBody'
 
 type Props = {
   memo: CollectionEntry<'memo'>
@@ -31,12 +33,20 @@ export const prerender = true
 const { memo } = Astro.props
 const { Content } = await render(memo)
 
-const PAGE_TITLE = `생각 ${memo.data.title || ''} #${memo.id} | eunsoolee`
+const PAGE_TITLE = `생각 - ${memo.data.title || ''} | eunsoolee`
 const PAGE_DESCRIPTION = memo.data.description || ''
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
-  <Memo type="think" memo={memo}>
-    <Content />
+  <Memo>
+    <h2 class="font-bold text-base">{memo.data.title}</h2>
+    <div class="mt-4">
+      <MemoBody>
+        <Content />
+      </MemoBody>
+    </div>
+    <MemoFooter>
+      <MemoDate ctime={memo.data.ctime} mtime={memo.data.mtime} />
+    </MemoFooter>
   </Memo>
 </Layout>

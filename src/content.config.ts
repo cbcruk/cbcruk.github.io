@@ -19,6 +19,7 @@ const think = defineCollection({
   schema: z.object({
     title: z.string().optional(),
     description: z.string().optional(),
+    summary: z.string().optional(),
     tags: z.array(z.string()),
     status: z.enum(['release', 'draft']),
     ctime: z.coerce.date(),

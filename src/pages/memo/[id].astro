@@ -31,7 +31,7 @@ export const prerender = true
 const { memo } = Astro.props
 const { Content } = await render(memo)
 
-const PAGE_TITLE = `메모 ${memo.data.title || ''} #${memo.id} | eunsoolee`
+const PAGE_TITLE = `메모 - ${memo.data.title || ''} #${memo.id} | eunsoolee`
 const PAGE_DESCRIPTION = memo.data.description || ''
 ---
 

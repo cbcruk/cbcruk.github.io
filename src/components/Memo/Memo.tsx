@@ -10,10 +10,16 @@ import { MemoTag } from '@components/Memo/MemoTag'
 import { MemoId } from '@components/Memo/MemoId'
 import { MemoEmbedLink } from '@components/Memo/MemoEmbedLink'
 import type { Props } from './Memo.types'
+import { match, P } from 'ts-pattern'
 
 export function Memo({ type = 'memo', memo, children }: Props) {
   return (
     <MemoPrimitive>
+      {match(memo.data.title)
+        .with(P.string.minLength(1), (title) => (
+          <h2 className="font-bold text-base mb-4">{title}</h2>
+        ))
+        .otherwise(() => null)}
       <MemoBody>{children}</MemoBody>
       <MemoFooter className="mt-4">
         <MemoTags>

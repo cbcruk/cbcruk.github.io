@@ -1,11 +1,12 @@
 ---
 import type { Page } from 'astro'
-import { type CollectionEntry, render } from 'astro:content'
+import { type CollectionEntry } from 'astro:content'
 import Layout from '@layouts/Layout.astro'
 import { MemoLayout } from '@components/MemoLayout/MemoLayout'
-import { Memo } from '@components/Memo/Memo'
 import { getReleaseThinkCollection } from '@collection/memo'
 import { PaginationDefault } from '@components/Pagination/PaginationDefault'
+import { Memo, MemoFooter } from '@components/Memo/MemoPrimitive'
+import { MemoDate } from '@components/Memo/MemoDate'
 
 type Props = {
   page: Page<CollectionEntry<'think'>>
@@ -33,12 +34,16 @@ const PAGE_DESCRIPTION = ''
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
   <MemoLayout>
     {
-      page.data.map(async (memo) => {
-        const { Content } = await render(memo)
-
+      page.data.map(async (think) => {
         return (
-          <Memo type="think" memo={memo}>
-            <Content />
+          <Memo>
+            <a href={`/think/${think.id}`} class="block">
+              <h2 class="font-bold text-base">{think.data.title}</h2>
+              <p class="mt-4 text-sm">{think.data.summary}</p>
+              <MemoFooter>
+                <MemoDate ctime={think.data.ctime} mtime={think.data.mtime} />
+              </MemoFooter>
+            </a>
           </Memo>
         )
       })
