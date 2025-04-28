@@ -78,7 +78,7 @@ function SearchFormResult() {
                 ))}
               </MemoTags>
               <MemoIdAndDate>
-                <MemoId id={memo.id} />
+                <MemoId type="memo" id={memo.id} />
                 <MemoDate ctime={memo.ctime} mtime={memo.mtime} />
               </MemoIdAndDate>
             </MemoFooter>

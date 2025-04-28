@@ -4,10 +4,7 @@ import { type CollectionEntry, render } from 'astro:content'
 import Layout from '@layouts/Layout.astro'
 import { MemoLayout } from '@components/MemoLayout/MemoLayout'
 import { Memo } from '@components/Memo/Memo'
-import {
-  getReleaseMemoCollection,
-  getReleaseThinkCollection,
-} from '@collection/memo'
+import { getReleaseMemoCollection } from '@collection/memo'
 import fs from 'node:fs/promises'
 import { PaginationDefault } from '@components/Pagination/PaginationDefault'
 
@@ -17,11 +14,10 @@ type Props = {
 
 export async function getStaticPaths({ paginate }) {
   const memoCollection = await getReleaseMemoCollection()
-  const thinkCollection = await getReleaseThinkCollection()
 
   await fs.writeFile(
     'public/search-db.json',
-    JSON.stringify([...memoCollection, ...thinkCollection])
+    JSON.stringify([...memoCollection])
   )
 
   return paginate(
