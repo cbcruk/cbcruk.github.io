@@ -1,22 +1,5 @@
-@font-face {
-  font-family: 'Noto Sans KR';
-  src: url('/fonts/noto-sans-kr-v27-korean_latin-700.woff2') format('woff2');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Noto Sans KR';
-  src: url('/fonts/noto-sans-kr-v27-korean_latin-regular.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 body {
   background-color: var(--flexoki-black);
-  font-family: 'Noto Sans KR', sans-serif;
   color: var(--flexoki-200);
   word-break: keep-all;
 }
