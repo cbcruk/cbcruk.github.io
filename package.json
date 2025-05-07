@@ -14,7 +14,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.0.1",
+    "@astrojs/mdx": "^4.2.6",
     "@astrojs/partytown": "^2.1.2",
     "@astrojs/react": "^4.0.0",
     "@astrojs/rss": "^4.0.10",
@@ -28,8 +28,8 @@
     "@testing-library/react": "latest",
     "@testing-library/user-event": "latest",
     "@vitest/ui": "latest",
-    "astro": "5.0.3",
-    "babel-plugin-react-compiler": "0.0.0-experimental-938cd9a-20240601",
+    "astro": "5.7.11",
+    "babel-plugin-react-compiler": "19.1.0-rc.1",
     "better-sqlite3": "^11.6.0",
     "clsx": "^2.1.0",
     "fuse.js": "^7.0.0",

@@ -7,16 +7,7 @@ import react from '@astrojs/react'
 // https://astro.build/config
 export default defineConfig({
   site: 'https://cbcruk.github.io',
-  integrations: [
-    mdx(),
-    sitemap(),
-    tailwind(),
-    react({
-      babel: {
-        plugins: [['babel-plugin-react-compiler']],
-      },
-    }),
-  ],
+  integrations: [mdx(), sitemap(), tailwind(), react()],
   markdown: {
     shikiConfig: {
       theme: 'one-dark-pro',
