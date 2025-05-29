@@ -19,7 +19,7 @@ type TasksCallback = (results: string[]) => void
 class TaskRunner {
   protected tasks: Task[] = []
 
-  protected results: Set<string> = new Set()
+  protected results: Array<string> = []
 
   addTask(task: Task) {
     this.tasks.push(task)
@@ -32,7 +32,7 @@ class ParallelTaskRunner extends TaskRunner {
 
     this.tasks.forEach((task) => {
       task((result) => {
-        this.results.add(result)
+        this.results.push(result)
 
         if (this.results.size === totalTasks) {
           callback([...this.results])
@@ -53,7 +53,8 @@ class SerialTaskRunner extends TaskRunner {
       }
 
       this.tasks[this.index]((result) => {
-        this.results.add(result)
+        this.results.push(result)
+
         this.index++
 
         executeTask()
