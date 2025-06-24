@@ -1,4 +1,4 @@
-export const prerender = false
+export const prerender = process.env.VERCEL ? false : true
 
 import { getReleaseMemoCollection } from '@collection/memo'
 import type { APIRoute } from 'astro'
