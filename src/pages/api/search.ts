@@ -4,9 +4,6 @@ import { getReleaseMemoCollection } from '@collection/memo'
 import type { APIRoute } from 'astro'
 
 export const GET: APIRoute = async ({ request }) => {
-  request.headers.set('Access-Control-Allow-Origin', '*')
-  request.headers.set('Access-Control-Allow-Methods', 'GET')
-
   const url = new URL(request.url)
   const q = url.searchParams.get('q')
   const memoCollection = await getReleaseMemoCollection()
