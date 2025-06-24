@@ -10,38 +10,28 @@ import { MemoTag } from '@components/Memo/MemoTag'
 import { MemoId } from '@components/Memo/MemoId'
 import { MemoDate } from '@components/Memo/MemoDate'
 import useSWR from 'swr'
-import { useSearchWorker } from './hooks/useSearchWorker'
 import type { CollectionEntry } from 'astro:content'
 import { Suspense } from 'react'
 import { SearchFormLoading } from './SearchFormLoading'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useSearchParamsQuery } from './hooks/useSearchParamsQuery'
+import type { getReleaseMemoCollection } from '@collection/memo'
 
 type MemoEntry = CollectionEntry<'memo'>
-type MemoData = MemoEntry['data']
-type SearchResult = {
-  id: MemoEntry['id']
-  body: MemoEntry['body']
-  tags: MemoData['tags'][number]
-  ctime: MemoData['ctime']
-  mtime: MemoData['mtime']
-}
+
+type SearchResult = Awaited<ReturnType<typeof getReleaseMemoCollection>>
 
 function SearchFormResult() {
   const q = useSearchParamsQuery()
-  const { data: worker } = useSearchWorker()
 
   const { data } = useSWR(
     q || null,
-    () => {
-      try {
-        return worker?.db.query(
-          `SELECT * FROM memo WHERE body MATCH '"${q}"*' ORDER BY mtime DESC`
-        ) as Promise<SearchResult[]>
-      } catch (error) {
-        throw error
-      }
-    },
+    () =>
+      fetch(
+        `${
+          import.meta.env.PROD ? 'https://cbcruk-github-io.vercel.app' : ''
+        }/api/search?q=${q}`
+      ).then((r) => r.json()) as Promise<SearchResult>,
     {
       suspense: true,
       revalidateOnFocus: false,
@@ -73,13 +63,13 @@ function SearchFormResult() {
             </MemoBody>
             <MemoFooter className="mt-4">
               <MemoTags>
-                {JSON.parse(memo.tags).map((tag: string) => (
+                {memo.data.tags.map((tag) => (
                   <MemoTag key={tag} tag={tag} />
                 ))}
               </MemoTags>
               <MemoIdAndDate>
                 <MemoId type="memo" id={memo.id} />
-                <MemoDate ctime={memo.ctime} mtime={memo.mtime} />
+                <MemoDate ctime={memo.data.ctime} mtime={memo.data.mtime} />
               </MemoIdAndDate>
             </MemoFooter>
           </MemoEntry>
@@ -92,7 +82,7 @@ function SearchFormResult() {
 export function SearchFromResultWithSuspense() {
   return (
     <ErrorBoundary
-      fallbackRender={({ error, resetErrorBoundary }) => (
+      fallbackRender={({ error }) => (
         <p className="p-2 text-xs font-mono rounded-md">{error?.message}</p>
       )}
     >
