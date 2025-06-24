@@ -3,9 +3,11 @@ import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import tailwind from '@astrojs/tailwind'
 import react from '@astrojs/react'
+import vercel from '@astrojs/vercel'
 
 // https://astro.build/config
 export default defineConfig({
+  adapter: process.env.VERCEL ? vercel() : undefined,
   site: 'https://cbcruk.github.io',
   integrations: [mdx(), sitemap(), tailwind(), react()],
   markdown: {
@@ -17,7 +19,7 @@ export default defineConfig({
     '/memos': '/memos/1',
     '/memo': '/memos/1',
   },
-  output: import.meta.env.DEV ? 'server' : 'static',
+  output: process.env.VERCEL || import.meta.env.DEV ? 'server' : 'static',
   experimental: {
     fonts: [
       {
