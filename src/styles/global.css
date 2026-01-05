@@ -22,3 +22,43 @@ body {
   word-wrap: normal;
   border: 0;
 }
+
+.markdown-alert {
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  border-left: 4px solid;
+  border-radius: 0 0.375rem 0.375rem 0;
+}
+
+.markdown-alert-title {
+  display: none;
+}
+
+.markdown-alert > p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-alert-note {
+  background-color: var(--flexoki-blue-950);
+  border-color: var(--flexoki-blue-400);
+}
+
+.markdown-alert-tip {
+  background-color: var(--flexoki-green-950);
+  border-color: var(--flexoki-green-400);
+}
+
+.markdown-alert-important {
+  background-color: var(--flexoki-purple-950);
+  border-color: var(--flexoki-purple-400);
+}
+
+.markdown-alert-warning {
+  background-color: var(--flexoki-yellow-950);
+  border-color: var(--flexoki-yellow-400);
+}
+
+.markdown-alert-caution {
+  background-color: var(--flexoki-red-950);
+  border-color: var(--flexoki-red-400);
+}

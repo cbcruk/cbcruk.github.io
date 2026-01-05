@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap'
 import tailwind from '@astrojs/tailwind'
 import react from '@astrojs/react'
 import vercel from '@astrojs/vercel'
+import remarkGithubAlerts from 'remark-github-blockquote-alert'
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,6 +12,7 @@ export default defineConfig({
   site: 'https://cbcruk.github.io',
   integrations: [mdx(), sitemap(), tailwind(), react()],
   markdown: {
+    remarkPlugins: [remarkGithubAlerts],
     shikiConfig: {
       theme: 'one-dark-pro',
     },
