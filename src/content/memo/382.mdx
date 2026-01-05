@@ -1,5 +1,5 @@
 ---
-tags: ['DSL']
+tags: ['dsl', 'permissions', 'typescript']
 status: release
 ctime: 2025-01-29
 mtime: 2025-01-29
@@ -11,61 +11,21 @@ import QuoteLink from '@components/QuoteLink.astro'
 How we built a custom permissions DSL at Figma
 </QuoteLink>
 
-## 권한관리 문제점
+Figma의 권한 관리 DSL - JSON 직렬화 가능한 DSL로 정책 표현, TypeScript 기반 평가 엔진 구현.
 
-1. 불필요한 복잡성과 디버깅의 어려움
-2. 계층적 권한의 비효율성
-3. 데이터베이스 부하
-4. 여러 개의 진실 소스(Sources of Truth)
-
-## 해결 방법
-
-- **JSON** 직렬화 가능한 **DSL**을 정의하여 정책을 표현.
-- **TypeScript** 기반 평가 엔진을 구현하여 데이터를 기반으로 정책을 평가.
-- 기존 AST 기반보다 단순한 구조를 가진다.
-
----
+기존 문제: 불필요한 복잡성, 계층적 권한 비효율, DB 부하, 여러 진실 소스
 
 ```ts
-type FieldName = string
-
-type Value = string | boolean | number | Date | null
-
-type ExpressionArgumentRef = {
-  type: 'field'
-  ref: FieldName
-}
-
-type BinaryExpressionDef = [
-  FieldName,
-  '=' | '<>' | '>' | '<' | '>=' | '<=',
-  Value | ExpressionArgumentRef
-]
-
-type OrExpressionDef = {
-  or: ExpressionDef[]
-}
-
-type AndExpressionDef = {
-  and: ExpressionDef[]
-}
-
 type ExpressionDef = BinaryExpressionDef | OrExpressionDef | AndExpressionDef
 
+// 바이너리 표현식: [필드, 연산자, 값]
 const binaryExpression = ['file.id', '<>', null] satisfies ExpressionDef
 
+// AND/OR 조합
 const andExpression = {
   and: [
     ['file.id', '<>', null],
     ['team.permission', '=', 'open'],
-    ['project.deleted_at', '<>', null],
-  ],
-} satisfies ExpressionDef
-
-const orExpression = {
-  or: [
-    ['team.id', '<>', null],
-    ['file.id', '=', { type: 'field', ref: 'team.id' }],
   ],
 } satisfies ExpressionDef
 ```
