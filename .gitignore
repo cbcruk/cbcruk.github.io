@@ -39,3 +39,6 @@ yarn-error.log*
 dist
 .astro
 public/search-db.json
+
+# claude code local settings
+.claude/settings.local.json
