@@ -52,8 +52,25 @@ ctime: YYYY-MM-DD       # 필수, 생성일
 mtime: YYYY-MM-DD       # 필수, 수정일
 title: 제목              # 선택
 description: 설명        # 선택
+parent: '307'           # 선택, 이 메모가 이어지는/대체하는 부모 메모 ID
+relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
 ---
 ```
+
+### 메모 연결 (계보)
+
+메모 간 관계는 세 레이어로 표면화됨:
+
+| 레이어 | 필드 | 의미 |
+|---|---|---|
+| 자동 유사도 | (없음) | 공유 태그 IDF 가중 → "관련 메모" 자동 노출 |
+| 방향 계보 | `parent` | 이 메모가 어떤 메모에서 이어졌는지 (시간/계보) |
+| 관계 종류 | `relation` | `continues`(이어짐) / `supersedes`(부모를 대체) |
+
+- **thread**: `parent` 체인을 따라가면 도출됨
+- **branch**: 같은 `parent`를 가진 메모가 2개 이상 = 자동 분기 (별도 표기 불필요)
+- **supersedes**: `relation: supersedes`면 부모 페이지에 "대체됨" 경고 표시
+- `parent`는 `release` 메모만 해석됨 (draft는 공개되지 않음)
 
 ### Status 기준
 

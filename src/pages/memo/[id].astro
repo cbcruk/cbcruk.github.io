@@ -2,7 +2,13 @@
 import { type CollectionEntry, getEntry, render } from 'astro:content'
 import Layout from '@layouts/Layout.astro'
 import { Memo } from '@components/Memo/Memo'
-import { getReleaseMemoCollection } from '@collection/memo'
+import { RelatedMemos } from '@components/Memo/RelatedMemos'
+import { MemoLineage } from '@components/Memo/MemoLineage'
+import {
+  getReleaseMemoCollection,
+  getRelatedMemos,
+  getLineage,
+} from '@collection/memo'
 
 type Props = {
   memo: CollectionEntry<'memo'>
@@ -30,6 +36,8 @@ export const prerender = true
 
 const { memo } = Astro.props
 const { Content } = await render(memo)
+const relatedMemos = await getRelatedMemos(memo)
+const lineage = await getLineage(memo)
 
 const PAGE_TITLE = `메모 - ${memo.data.title || ''} #${memo.id} | eunsoolee`
 const PAGE_DESCRIPTION = memo.data.description || ''
@@ -39,4 +47,10 @@ const PAGE_DESCRIPTION = memo.data.description || ''
   <Memo memo={memo}>
     <Content />
   </Memo>
+  <MemoLineage
+    ancestors={lineage.ancestors}
+    descendants={lineage.children}
+    supersededBy={lineage.supersededBy}
+  />
+  <RelatedMemos memos={relatedMemos} />
 </Layout>
