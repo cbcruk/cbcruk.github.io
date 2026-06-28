@@ -1,3 +1,5 @@
+@reference "tailwindcss";
+
 .root {
   @apply leading-relaxed;
 }
@@ -20,7 +22,7 @@
 }
 
 .root code:not(pre > code) {
-  @apply p-1 rounded-lg text-xs bg-[--flexoki-900];
+  @apply p-1 rounded-lg text-xs bg-(--flexoki-900);
 }
 
 .root code::before {
@@ -32,7 +34,7 @@
 }
 
 .root pre {
-  @apply py-2 text-xs rounded-md !bg-[--flexoki-950] leading-relaxed;
+  @apply py-2 text-xs rounded-md bg-(--flexoki-950)! leading-relaxed;
 }
 
 .root pre code::before,
@@ -54,7 +56,7 @@
 }
 
 .root hr {
-  @apply border-[--flexoki-950];
+  @apply border-(--flexoki-950);
 }
 
 .root ul,
@@ -84,7 +86,7 @@
 }
 
 .root blockquote {
-  @apply p-2 bg-[--flexoki-950] text-[10px] rounded-md;
+  @apply p-2 bg-(--flexoki-950) text-[10px] rounded-md;
 }
 
 .root [data-footnote-ref]::before {
@@ -100,11 +102,11 @@
 }
 
 .root strong {
-  @apply text-[--flexoki-100];
+  @apply text-(--flexoki-100);
 }
 
 .root [data-footnotes] {
-  @apply text-[--flexoki-400];
+  @apply text-(--flexoki-400);
 }
 
 .root [data-footnotes] a {
@@ -132,6 +134,6 @@
   @apply text-[12px];
 }
 
-.root a:not([class*=]) {
+.root a:not([class]) {
   text-decoration: underline;
 }

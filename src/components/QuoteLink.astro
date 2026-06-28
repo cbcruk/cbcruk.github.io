@@ -11,7 +11,7 @@ const { hostname } = new URL(url)
   <a
     href={url}
     target="_blank"
-    class="inline-flex flex-col gap-1 p-2 rounded-lg bg-[--flexoki-blue-950] hover:bg-[--flexoki-blue-900] font-bold transition-all"
+    class="inline-flex flex-col gap-1 p-2 rounded-lg bg-(--flexoki-blue-950) hover:bg-(--flexoki-blue-900) font-bold transition-all"
   >
     <span class="text-lg">{hostname === 'stackblitz.com' ? '⌨️' : '📎'}</span>
     <slot />

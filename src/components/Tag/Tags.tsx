@@ -16,7 +16,7 @@ export function Tags({ tags }: Props) {
             } as CSSProperties
           }
           className={clsx([
-            'p-1 rounded-lg bg-[--flexoki-950] hover:text-[--highlight] transition-all',
+            'p-1 rounded-lg bg-(--flexoki-950) hover:text-(--highlight) transition-all',
             ``,
           ])}
         >
