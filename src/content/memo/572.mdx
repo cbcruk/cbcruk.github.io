@@ -1,0 +1,23 @@
+---
+tags: ['lean', 'formal-verification', 'http', 'abort', 'cancellation']
+status: release
+ctime: 2026-06-23
+mtime: 2026-06-27
+---
+
+import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
+
+**HTTP 요청 취소는 클라이언트 측 사건이다.** 취소 시각 `tA`가 요청 lifecycle의 어느 구간이냐가 promise reject·서버 도달·서버 처리를 가르지만 — 취소는 이미 전송된 byte를 회수하지도, 진행 중인 서버 처리를 멈추지도 못한다.
+
+뿌리는 한 정의 등식: **`Reached = Processed`**(둘 다 `tSendDone ≤ tA`) — 전송이 취소 전 끝났으면 서버는 처리하고, 취소는 그걸 못 멈춘다. 따라서:
+
+- reject된 promise는 _완전히 처리된_ 서버와 양립한다(구간 `[tSendDone, tResp)`에서 둘 다 참). 취소 ≠ 서버에서의 무사건.
+- 절약되는 건 클라이언트 측(응답 처리)뿐 — 도달했다면 서버 작업은 안 절약됨.
+- 경계는 `tSendDone` — 취소 시각이 고정이어도 네트워크가 느려 `tSendDone`이 그 시각을 넘으면 도달 판정이 참→거짓으로 뒤집힌다(네트워크 속도가 도달 여부를 좌우).
+
+<AutoIframe
+  src="/iframe/request_abort_race_sim.html"
+  title="request abort race — 취소 시각 tA 위치에 따른 reject·서버 도달·서버 처리"
+/>
+
+형식 닻: `no_server_cancellation`(Reached→Processed), `reachability_monotone_in_send_time`(네트워크 속도가 도달 뒤집음). 곁가지: 캡슐화돼 반환 안 된 취소 핸들은 도달 불가 → 노출된 signal만 취소 가능.

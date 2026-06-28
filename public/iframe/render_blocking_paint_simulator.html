@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>render-blocking paint simulator</title>
+<style>
+  :root{
+    --font-mono:ui-monospace,"SF Mono",Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+    --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;
+    --color-page:#0a0a0f;
+    --color-background-primary:#0f1117;
+    --color-background-secondary:#141823;
+    --color-background-info:#0c1d33;
+    --color-text-primary:#e2e8f0;
+    --color-text-secondary:#94a3b8;
+    --color-text-tertiary:#64748b;
+    --color-text-info:#60a5fa;
+    --color-border-tertiary:#1e293b;
+    --color-border-secondary:#334155;
+    --border-radius-md:8px;
+    --border-radius-lg:12px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px;background:var(--color-page);color:var(--color-text-primary);
+       font-family:var(--font-sans);line-height:1.5}
+  .wrap{margin:0 auto}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  input[type=range]{accent-color:var(--color-text-info)}
+
+  .seg { display:flex; gap:6px; margin:0 0 14px; }
+  .seg button { flex:1; padding:8px 6px; font-size:13px; line-height:1.3; border:0.5px solid var(--color-border-secondary); background:transparent; border-radius:var(--border-radius-md); cursor:pointer; color:var(--color-text-secondary); font-family:inherit; }
+  .seg button.on { border-color:var(--color-text-info); background:var(--color-background-info); color:var(--color-text-info); }
+  .chrome { background:var(--color-background-secondary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg) var(--border-radius-lg) 0 0; padding:9px 12px; display:flex; align-items:center; gap:10px; }
+  .dot { width:10px; height:10px; border-radius:50%; }
+  .urlbar { flex:1; font-size:12px; color:var(--color-text-tertiary); background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:6px; padding:3px 10px; }
+  .viewport { position:relative; min-height:206px; background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-top:none; border-radius:0 0 var(--border-radius-lg) var(--border-radius-lg); padding:14px 16px; overflow:hidden; }
+  .navbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; padding:10px; border-radius:var(--border-radius-md); border:1px dashed transparent; }
+  .navbar.broken { border-color:#ef4444; background:#2a1213; }
+  .pill { font-size:13px; padding:5px 11px; border-radius:999px; background:var(--color-background-secondary); border:0.5px solid var(--color-border-tertiary); color:var(--color-text-primary); white-space:nowrap; }
+  .pill.more { background:var(--color-background-info); border-color:transparent; color:var(--color-text-info); }
+  .tag { display:inline-flex; align-items:center; gap:5px; font-size:12px; padding:3px 9px; border-radius:999px; margin-bottom:10px; }
+  .track { position:relative; height:58px; margin:18px 0 6px; }
+  .lane { position:absolute; left:0; right:0; top:14px; height:14px; }
+  .pbar { position:absolute; top:0; height:14px; background:#475569; border-radius:3px; }
+  .pbar.dark { background:#64748b; }
+  .mk { position:absolute; top:-4px; width:2px; height:26px; transform:translateX(-1px); }
+  .mk .flag { position:absolute; top:-4px; left:1px; width:0; height:0; border-top:5px solid transparent; border-bottom:5px solid transparent; border-left:11px solid; }
+  .mk .sq { position:absolute; top:-2px; left:-3px; width:8px; height:8px; }
+  .mklbl { position:absolute; top:30px; font-size:11px; transform:translateX(-50%); color:var(--color-text-tertiary); white-space:nowrap; }
+  .head { position:absolute; top:-4px; width:2px; height:34px; background:var(--color-text-primary); transform:translateX(-1px); }
+  .head::after { content:''; position:absolute; top:-5px; left:-4px; width:10px; height:10px; border-radius:50%; background:var(--color-text-primary); }
+  .ctrl { display:flex; align-items:center; gap:12px; margin-top:14px; }
+  .ctrl button.play { padding:8px 16px; border-radius:var(--border-radius-md); border:0.5px solid var(--color-border-secondary); background:transparent; cursor:pointer; font-size:14px; color:var(--color-text-primary); display:inline-flex; align-items:center; gap:6px; font-family:inherit; }
+  .verdict { display:flex; gap:10px; margin-top:14px; }
+  .vcard { flex:1; padding:10px 12px; border-radius:var(--border-radius-md); background:var(--color-background-secondary); }
+  .vcard .vlbl { font-size:12px; color:var(--color-text-secondary); }
+  .vcard .vval { font-size:15px; font-weight:500; margin-top:2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2 class="sr-only">세 가지 스크립트 로딩 전략에서 브라우저가 실제로 그리는 화면을 시간순으로 재생하는 시뮬레이터. 사용자가 깨진 레이아웃(flash)을 보는 순간을 시각화한다.</h2>
+
+<div class="seg" id="seg">
+  <button data-k="nonblocking" class="on">Non-blocking<br>async / defer</button>
+  <button data-k="parserblocking">Parser-blocking<br>&lt;script&gt; 동기</button>
+  <button data-k="blockingrender">blocking=render<br>&lt;head&gt; module</button>
+</div>
+
+<div class="chrome">
+  <span class="dot" style="background:#f09595"></span>
+  <span class="dot" style="background:#fac775"></span>
+  <span class="dot" style="background:#9fe1cb"></span>
+  <span class="urlbar">example.com/dashboard</span>
+</div>
+<div class="viewport" id="vp"></div>
+
+<div class="track" id="track"></div>
+
+<div class="ctrl">
+  <button class="play" id="play"><span id="playico">▶</span><span id="playlbl">재생</span></button>
+  <input type="range" id="scrub" min="0" max="100" value="0" step="1" style="flex:1;" />
+  <span id="tout" style="font-size:13px; min-width:38px; text-align:right; color:var(--color-text-secondary);">0 ms</span>
+</div>
+
+<div class="verdict">
+  <div class="vcard"><div class="vlbl">지금 화면</div><div class="vval" id="now">—</div></div>
+  <div class="vcard"><div class="vlbl">깨진 프레임을 봤나?</div><div class="vval" id="flash">아니오</div></div>
+</div>
+
+</div>
+
+<script>
+(function(){
+  const NAV = ['Home','Products','Solutions','Pricing','Docs','Blog','Contact'];
+  const VIS = ['Home','Products','Solutions','Pricing'];
+  const STRAT = {
+    nonblocking:   { parserEnd:30, events:[{p:20,c:'#f87171',t:'flag',l:'paint'},{p:70,c:'#a78bfa',t:'sq',l:'JS'},{p:73,c:'#34d399',t:'flag',l:'repaint'}],
+                     paint:t=> t<20?'blank': t<73?'broken':'correct' },
+    parserblocking:{ parserEnd:60, stall:38, events:[{p:30,c:'#fbbf24',t:'flag',l:'paint?'},{p:38,c:'#a78bfa',t:'sq',l:'script'},{p:48,c:'#34d399',t:'flag',l:'paint'}],
+                     paint:t=> t<30?'blank': t<48?'broken':'correct' },
+    blockingrender:{ parserEnd:42, events:[{p:42,c:'#a78bfa',t:'sq',l:'JS'},{p:50,c:'#34d399',t:'flag',l:'paint'}],
+                     paint:t=> t<50?'blank':'correct' }
+  };
+
+  let strat='nonblocking', t=0, playing=false, raf=null, last=0, sawBroken=false;
+
+  const vp=document.getElementById('vp'), track=document.getElementById('track');
+  const scrub=document.getElementById('scrub'), tout=document.getElementById('tout');
+  const now=document.getElementById('now'), flash=document.getElementById('flash');
+  const playBtn=document.getElementById('play'), playLbl=document.getElementById('playlbl');
+  const playico=document.getElementById('playico');
+
+  function hero(){
+    return '<div style="height:14px;width:55%;background:var(--color-background-secondary);border-radius:5px;margin:16px 0 10px"></div>'
+         + '<div style="height:10px;width:90%;background:var(--color-background-secondary);border-radius:5px;margin:7px 0"></div>'
+         + '<div style="height:10px;width:80%;background:var(--color-background-secondary);border-radius:5px;margin:7px 0"></div>';
+  }
+  function renderVP(state){
+    if(state==='blank'){
+      vp.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:178px;color:var(--color-text-tertiary);font-size:13px;gap:8px">⟳ 아직 paint 안 됨 (빈 화면)</div>';
+      return;
+    }
+    if(state==='broken'){
+      const items=NAV.map(n=>'<span class="pill">'+n+'</span>').join('');
+      vp.innerHTML='<div class="tag" style="background:#2a1213;color:#fca5a5">⚠ FOUC · overflow 미계산, default 레이아웃 노출</div>'
+        +'<div class="navbar broken">'+items+'</div>'+hero();
+      return;
+    }
+    const items=VIS.map(n=>'<span class="pill">'+n+'</span>').join('')+'<span class="pill more">More ▾</span>';
+    vp.innerHTML='<div class="tag" style="background:#0c2a20;color:#6ee7b7">✓ 측정 완료 · priority-plus 레이아웃</div>'
+      +'<div class="navbar">'+items+'</div>'+hero();
+  }
+
+  function renderTrack(){
+    const s=STRAT[strat];
+    let html='<div class="lane">';
+    html+='<div class="pbar" style="left:0;width:'+s.parserEnd+'%"></div>';
+    html+='</div>';
+    s.events.forEach(e=>{
+      if(e.t==='flag'){
+        html+='<div class="mk" style="left:'+e.p+'%;background:'+e.c+'"><span class="flag" style="border-left-color:'+e.c+'"></span></div>';
+      } else {
+        html+='<div class="mk" style="left:'+e.p+'%;background:'+e.c+'"><span class="sq" style="background:'+e.c+'"></span></div>';
+      }
+      html+='<div class="mklbl" style="left:'+e.p+'%">'+e.l+'</div>';
+    });
+    html+='<div class="head" id="head" style="left:'+t+'%"></div>';
+    track.innerHTML=html;
+  }
+
+  function update(){
+    const s=STRAT[strat];
+    const state=s.paint(t);
+    if(state==='broken') { sawBroken=true; }
+    renderVP(state);
+    const head=document.getElementById('head'); if(head) head.style.left=t+'%';
+    scrub.value=t; tout.textContent=Math.round(t)+' ms';
+    now.textContent = state==='blank'?'빈 화면':(state==='broken'?'깨진 레이아웃':'올바른 레이아웃');
+    now.style.color = state==='broken'?'#fca5a5':(state==='correct'?'#6ee7b7':'var(--color-text-primary)');
+    flash.textContent = sawBroken?'예 — flash 발생':'아니오';
+    flash.style.color = sawBroken?'#fca5a5':'#6ee7b7';
+  }
+
+  function loop(ts){
+    if(!playing) return;
+    if(!last) last=ts;
+    const dt=ts-last; last=ts;
+    t+=dt/3800*100;
+    if(t>=100){ t=100; playing=false; playLbl.textContent='다시 재생'; playico.textContent='↻'; }
+    update();
+    if(playing) raf=requestAnimationFrame(loop);
+  }
+  function startPlay(){
+    if(t>=100){ t=0; sawBroken=false; }
+    playing=true; last=0; playLbl.textContent='일시정지'; playico.textContent='⏸';
+    raf=requestAnimationFrame(loop);
+  }
+  function pausePlay(){ playing=false; cancelAnimationFrame(raf); playLbl.textContent='재생'; playico.textContent='▶'; }
+
+  playBtn.onclick=()=>{ playing?pausePlay():startPlay(); };
+  scrub.oninput=()=>{ pausePlay(); t=+scrub.value; if(t===0) sawBroken=false; update(); };
+  document.querySelectorAll('#seg button').forEach(b=>{
+    b.onclick=()=>{
+      document.querySelectorAll('#seg button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); strat=b.dataset.k; pausePlay(); t=0; sawBroken=false;
+      renderTrack(); update();
+    };
+  });
+
+  renderTrack(); update();
+})();
+</script>
+</body>
+</html>

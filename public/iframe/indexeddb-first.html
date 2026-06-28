@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IndexedDB-first — 같은 읽기, 다른 경로</title>
+<style>
+  :root{
+    --bg:#0a0a0f; --panel:#0f1117; --panel2:#141823;
+    --border:#1e293b; --border2:#334155;
+    --text:#e2e8f0; --muted:#94a3b8; --dim:#64748b;
+    --green:#34d399; --green-bg:#0c2a20;
+    --amber:#fbbf24; --amber-bg:#2a2207;
+    --blue:#60a5fa; --blue-bg:#0c1d33;
+    --red:#f87171; --red-bg:#2a1213;
+    --mono:ui-monospace,"SF Mono",Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5;
+       padding:20px 16px}
+  .wrap{margin:0 auto}
+  h1{font-size:15px;font-weight:600;margin:0 0 2px;font-family:var(--mono)}
+  .sub{font-size:12px;color:var(--dim);margin:0 0 16px}
+
+  .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 16px}
+  .btn{padding:7px 14px;font-size:13px;font-family:inherit;border:1px solid var(--border2);
+       border-radius:8px;background:var(--panel2);color:var(--text);cursor:pointer}
+  .btn:hover:not(:disabled){background:#1b2233}
+  .btn:disabled{opacity:.5;cursor:default}
+  .switch{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);cursor:pointer;
+          padding:6px 12px;border:1px solid var(--border);border-radius:8px;user-select:none}
+  .switch input{accent-color:var(--red);width:15px;height:15px;margin:0}
+  .switch[data-on="1"]{color:var(--red);border-color:#5b2526;background:var(--red-bg)}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 14px}
+  @media(max-width:560px){.cols{grid-template-columns:1fr}}
+
+  .col{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--panel)}
+  .col h3{margin:0 0 12px;font-size:13px;font-family:var(--mono);font-weight:600}
+  .col h3 .tag{font-size:10px;color:var(--dim);font-weight:400}
+
+  .pipe{display:flex;flex-direction:column;gap:0}
+  .stage{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);
+         border-radius:8px;background:var(--panel2);font-size:12px;font-family:var(--mono);
+         transition:all .25s;opacity:.55}
+  .stage .ico{width:7px;height:7px;border-radius:50%;background:var(--dim);flex:none}
+  .stage .lbl{flex:1}
+  .stage .meta{font-size:10px;color:var(--dim)}
+  .stage.on{opacity:1;border-color:var(--border2);background:#1b2233}
+  .stage.ok{opacity:1;border-color:#1f5641;background:var(--green-bg)}
+  .stage.ok .ico{background:var(--green)}
+  .stage.warn{opacity:1;border-color:#5a4a12;background:var(--amber-bg)}
+  .stage.warn .ico{background:var(--amber)}
+  .stage.err{opacity:1;border-color:#5b2526;background:var(--red-bg)}
+  .stage.err .ico{background:var(--red)}
+  .stage.busy .ico{background:var(--blue);animation:pulse 1s infinite}
+  .stage.dashed{border-style:dashed}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+  .arrow{text-align:center;color:var(--dim);font-size:11px;line-height:14px;height:14px}
+
+  .render{margin-top:12px;border:1px solid var(--border);border-radius:8px;min-height:64px;
+          display:flex;align-items:center;justify-content:center;text-align:center;
+          font-size:12px;color:var(--dim);background:#0b0e16;padding:10px}
+  .render.ok{color:var(--green);border-color:#1f5641;background:var(--green-bg)}
+  .render.err{color:var(--red);border-color:#5b2526;background:var(--red-bg)}
+  .render b{font-family:var(--mono);font-weight:600}
+  .render .ms{display:block;font-size:10px;color:var(--dim);margin-top:3px}
+
+  .spin{width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--blue);
+        border-radius:50%;display:inline-block;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .note{font-size:12px;color:var(--muted);line-height:1.6;border:1px solid var(--border);
+        border-radius:10px;padding:12px 14px;background:#080b12}
+  .note b{color:var(--text)}
+  .k{font-family:var(--mono);font-size:11px;color:var(--blue);background:var(--blue-bg);
+     padding:1px 5px;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>같은 읽기, 다른 경로</h1>
+  <p class="sub">component가 데이터를 읽을 때 — 무엇을 "source of truth"로 보는가</p>
+
+  <div class="controls">
+    <button class="btn" id="req">데이터 요청 ▶</button>
+    <label class="switch" id="offlineWrap"><input type="checkbox" id="offline"> 오프라인</label>
+  </div>
+
+  <div class="cols">
+    <div class="col" id="col-fetch">
+      <h3>fetch-first <span class="tag">network = source of truth</span></h3>
+      <div class="pipe">
+        <div class="stage" data-s="comp"><span class="ico"></span><span class="lbl">component</span><span class="meta">render 요청</span></div>
+        <div class="arrow">↓</div>
+        <div class="stage" data-s="net"><span class="ico"></span><span class="lbl">network → server</span><span class="meta" data-meta>대기</span></div>
+      </div>
+      <div class="render" id="render-fetch">유휴</div>
+    </div>
+
+    <div class="col" id="col-idb">
+      <h3>IndexedDB-first <span class="tag">local = source of truth</span></h3>
+      <div class="pipe">
+        <div class="stage" data-s="comp"><span class="ico"></span><span class="lbl">component</span><span class="meta">render 요청</span></div>
+        <div class="arrow">↓</div>
+        <div class="stage" data-s="idb"><span class="ico"></span><span class="lbl">IndexedDB (로컬)</span><span class="meta" data-meta>대기</span></div>
+        <div class="arrow">↓ sync</div>
+        <div class="stage dashed" data-s="sync"><span class="ico"></span><span class="lbl">server 동기화</span><span class="meta" data-meta>대기</span></div>
+      </div>
+      <div class="render" id="render-idb">유휴</div>
+    </div>
+  </div>
+
+  <p class="note" id="note">
+    <b>버튼을 눌러보세요.</b> 온라인이면 둘 다 데이터를 보여주지만 경로가 다릅니다.
+    <span class="k">오프라인</span>을 켜고 다시 누르면 — fetch-first는 멈추고, IndexedDB-first는 그대로 렌더됩니다.
+  </p>
+</div>
+
+<script>
+(() => {
+  const $ = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+
+  const btn = $('#req');
+  const offline = $('#offline');
+  const offlineWrap = $('#offlineWrap');
+  const note = $('#note');
+
+  const fetchCol = $('#col-fetch');
+  const idbCol = $('#col-idb');
+  const rFetch = $('#render-fetch');
+  const rIdb = $('#render-idb');
+
+  const stage = (col, name) => $(`.stage[data-s="${name}"]`, col);
+  const setMeta = (col, name, txt) => { const m = $('[data-meta]', stage(col, name)); if (m) m.textContent = txt; };
+  const cls = (el, ...c) => { el.className = 'stage' + (el.classList.contains('dashed') ? ' dashed' : '') + (c.length ? ' ' + c.join(' ') : ''); };
+
+  let running = false;
+  const timers = [];
+  const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+  const clearAll = () => { timers.forEach(clearTimeout); timers.length = 0; };
+
+  offline.addEventListener('change', () => {
+    offlineWrap.dataset.on = offline.checked ? '1' : '0';
+  });
+
+  function reset() {
+    clearAll();
+    [fetchCol, idbCol].forEach(col => $$('.stage', col).forEach(s => {
+      cls(s);
+      const m = $('[data-meta]', s); if (m) m.textContent = s.dataset.s === 'comp' ? 'render 요청' : '대기';
+    }));
+    rFetch.className = 'render'; rFetch.textContent = '유휴';
+    rIdb.className = 'render'; rIdb.textContent = '유휴';
+  }
+
+  function run() {
+    if (running) return;
+    running = true;
+    btn.disabled = true;
+    reset();
+    const off = offline.checked;
+
+    // ── fetch-first ──
+    cls(stage(fetchCol, 'comp'), 'on');
+    at(150, () => {
+      cls(stage(fetchCol, 'comp'), 'ok');
+      cls(stage(fetchCol, 'net'), 'busy');
+      setMeta(fetchCol, 'net', off ? '도달 시도…' : '요청 중…');
+      rFetch.innerHTML = '<span class="spin"></span>';
+    });
+    if (off) {
+      at(1700, () => {
+        cls(stage(fetchCol, 'net'), 'err');
+        setMeta(fetchCol, 'net', '도달 불가');
+        rFetch.className = 'render err';
+        rFetch.innerHTML = '✕ 빈 화면<span class="ms">네트워크 없음 → 보여줄 게 없음</span>';
+      });
+    } else {
+      at(950, () => {
+        cls(stage(fetchCol, 'net'), 'ok');
+        setMeta(fetchCol, 'net', '200 OK · 800ms');
+        rFetch.className = 'render ok';
+        rFetch.innerHTML = '<b>데이터 ✓</b><span class="ms">네트워크 왕복 ~800ms</span>';
+      });
+    }
+
+    // ── IndexedDB-first ──
+    cls(stage(idbCol, 'comp'), 'on');
+    at(150, () => {
+      cls(stage(idbCol, 'comp'), 'ok');
+      cls(stage(idbCol, 'idb'), 'ok');
+      setMeta(idbCol, 'idb', 'hit · 0ms');
+      rIdb.className = 'render ok';
+      rIdb.innerHTML = '<b>데이터 ✓</b><span class="ms">로컬 즉시 · 0ms</span>';
+    });
+    // sync는 렌더와 무관하게 백그라운드에서
+    at(450, () => { cls(stage(idbCol, 'sync'), 'busy'); setMeta(idbCol, 'sync', off ? 'outbox 적재' : '백그라운드…'); });
+    at(off ? 900 : 1500, () => {
+      if (off) { cls(stage(idbCol, 'sync'), 'warn'); setMeta(idbCol, 'sync', 'outbox 대기 (UI 무관)'); }
+      else { cls(stage(idbCol, 'sync'), 'ok'); setMeta(idbCol, 'sync', '동기화 완료'); }
+    });
+
+    const done = off ? 1900 : 1700;
+    at(done, () => {
+      note.innerHTML = off
+        ? '<b>오프라인.</b> fetch-first는 네트워크가 곧 데이터라 보여줄 게 없다. IndexedDB-first는 로컬이 본진이라 그대로 렌더되고, 쓰기/동기화만 <span class="k">outbox</span>에 쌓였다가 복귀 시 흘러나간다.'
+        : '<b>온라인이어도 차이는 분명하다.</b> fetch-first는 매 읽기가 네트워크 왕복(체감 지연). IndexedDB-first는 읽기가 항상 0ms이고, server는 <span class="k">동기화 대상</span>으로 뒤에서만 오간다.';
+      btn.disabled = false;
+      running = false;
+    });
+  }
+
+  btn.addEventListener('click', run);
+})();
+</script>
+</body>
+</html>

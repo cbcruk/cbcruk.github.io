@@ -1,0 +1,33 @@
+---
+tags: ['navigation-api', 'router', 'lean']
+status: release
+ctime: 2026-06-15
+mtime: 2026-06-28
+---
+
+import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
+
+Navigation API에서 `traverse`(뒤/앞 이동)만 `preventDefault()`로 막을 수 없다. push·replace·reload는 취소 가능, traverse는 취소 정의역 밖.
+
+그래서 traverse blocker는 *사전 차단*이 아니라 *사후 롤백*이다 — 이동은 이미 일어났으니 되돌린다:
+
+```js
+// traverse가 이미 go(n)을 일으킴 → blocker는 go(-n)으로 원위치
+onNavigate(e) {
+  if (blocked) history.go(-delta) // 관측상 항등 ("리스트 + 커서" 모델이라)
+}
+```
+
+정의역 조건(`0 ≤ idx + n`) 안에서만 항등. 형식 닻: `go_rollback_id` — `go n` 다음 `go (-n) = h`.
+
+<AutoIframe
+  src="/iframe/traverse-rollback-explorer.html"
+  title="traverse rollback explorer — 블로커를 켜면 push·replace·reload는 안 움직이고 traverse만 움직였다 go(-delta)로 되돌아온다"
+/>
+
+---
+
+곁가지 (같은 list+cursor 모델의 다른 비대칭):
+
+- navigationType에서 `reload`·`traverse`가 **같은 POP**으로 뭉개짐(정보 손실) → idx 변화량 `delta`로 구분.
+- 내부 호출이 쏜 navigate 이벤트는 `info` 태그로 흡수 → 재진입 종료.

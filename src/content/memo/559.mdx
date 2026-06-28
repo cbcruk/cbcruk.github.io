@@ -1,0 +1,24 @@
+---
+tags: ['javascript', 'event-loop', 'microtask']
+status: release
+ctime: 2026-06-18
+mtime: 2026-06-27
+---
+
+import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
+
+`queueMicrotask`·`Promise.then`이 `setTimeout(0)`·동기 코드와 얽히는 걸 한 스텝씩 보는 시각화. 핵심: **마이크로태스크 큐는 매 턴 끝까지 비워진다** → then/queueMicrotask는 항상 `setTimeout(0)`보다 먼저고, 드레인 도중 추가된 중첩 마이크로태스크까지 같은 턴에 처리된다(중첩이 유한한 한 starvation 없음).
+
+한 이벤트 루프 턴 = 네 단계:
+
+1. task queue에서 가장 오래된 매크로태스크 1개 실행
+2. **microtask checkpoint — 큐가 빌 때까지 전부 드레인** (드레인 중 추가된 것 포함)
+3. 렌더링 갱신 (필요 시)
+4. 1로 복귀
+
+그래서 한 턴의 트레이스 = `[micro들] ++ [macro 하나]` — 매크로는 맨 끝, 드레인 도중 끼어들 수 없다.
+
+<AutoIframe
+  src="/iframe/event-loop-sim.html"
+  title="queueMicrotask 이벤트 루프 시뮬레이터"
+/>

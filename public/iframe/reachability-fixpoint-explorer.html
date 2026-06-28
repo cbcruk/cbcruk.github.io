@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>knip 도달 가능성 explorer — 미사용 = entry에서 도달 못 하는 것</title>
+<style>
+  :root{
+    --font-mono:ui-monospace,"SF Mono",Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+    --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;
+    --page:#0a0a0f; --panel:#0f1117; --panel2:#141823;
+    --border:#1e293b; --border2:#334155;
+    --text:#e2e8f0; --muted:#94a3b8; --dim:#64748b;
+    --green:#34d399; --green-bg:#0c2a20; --green-bd:#1f5641;
+    --red:#f87171; --red-bg:#2a1213; --red-bd:#5b2526;
+    --amber:#fbbf24; --blue:#60a5fa; --blue-bd:#2d4a73;
+    --radius:8px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px;background:var(--page);color:var(--text);font-family:var(--font-sans);line-height:1.5}
+  .wrap{margin:0 auto}
+  h1{font-size:15px;font-weight:600;margin:0 0 2px}
+  .sub{font-size:12px;color:var(--dim);margin:0 0 14px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 8px}
+  .lbl{font-size:11px;color:var(--muted)}
+  button{font-family:inherit;font-size:12.5px;padding:6px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--panel2);color:var(--text);cursor:pointer}
+  button:hover{background:#222a3a}
+  button:disabled{opacity:.4;cursor:default}
+  .chip{font-family:var(--font-mono);font-size:12px;padding:5px 10px;border:1px solid var(--border2);border-radius:999px;background:var(--panel2);color:var(--dim);cursor:pointer}
+  .chip.on{border-color:var(--green-bd);background:var(--green-bg);color:var(--green)}
+  .chip .x{opacity:.6;font-size:10px}
+
+  svg{display:block;width:100%;height:auto;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);margin:0 0 6px}
+  .nd{cursor:pointer}
+  .nd rect{stroke-width:1.5}
+  .nd text{font-family:var(--font-mono);font-size:11px;fill:var(--text);dominant-baseline:central;text-anchor:middle}
+  .nd .ent{font-size:8.5px;fill:var(--green)}
+  .nd.r rect{fill:var(--green-bg);stroke:var(--green-bd)}
+  .nd.r text{fill:var(--green)}
+  .nd.e rect{stroke:var(--green);stroke-width:2}
+  .nd.p rect{fill:#141016;stroke:var(--amber);stroke-dasharray:3 3}
+  .nd.p text{fill:var(--amber)}
+  .nd.d rect{fill:var(--red-bg);stroke:var(--red-bd)}
+  .nd.d text{fill:var(--red)}
+  .nd.fp rect{fill:var(--red-bg);stroke:var(--red);stroke-width:2}
+  .nd.fp text{fill:var(--red)}
+  .nd.sel rect{stroke:var(--blue);stroke-width:2.5}
+  .ed{stroke:#2a3346;stroke-width:1.4}
+  .ed.on{stroke:#1f5641;stroke-width:1.6}
+  .ed.path{stroke:var(--blue);stroke-width:2.6}
+  .hint{font-size:11px;color:var(--dim);margin:0 0 12px}
+
+  .deriv{background:var(--panel);border:1px solid var(--blue-bd);border-radius:var(--radius);padding:11px 13px;margin:0 0 12px;font-family:var(--font-mono);font-size:12px}
+  .deriv .head{color:var(--blue);font-weight:600;margin-bottom:7px;font-family:var(--font-sans);font-size:12px}
+  .dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;align-items:baseline}
+  .dl .rule{color:var(--amber)}
+  .dl .rule.refl{color:var(--green)}
+  .dl .node{color:var(--text)}
+  .dl .tag{grid-column:2;font-family:var(--font-sans);font-size:10.5px;color:var(--dim);margin:-2px 0 4px}
+  .deriv .qed{margin-top:7px;padding-top:7px;border-top:1px solid var(--border);color:var(--green)}
+  .deriv.dead{border-color:var(--red-bd)} .deriv.dead .head{color:var(--red)} .deriv.dead .qed{color:var(--red)}
+  .deriv.fp{border-color:var(--red)} .deriv.fp .head{color:var(--red)}
+
+  .thms{display:grid;gap:6px}
+  .t{border:1px solid var(--border);background:var(--panel);border-radius:var(--radius);padding:7px 11px;font-size:11.5px;color:var(--muted)}
+  .t b{color:var(--text);font-family:var(--font-mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>knip 도달 가능성 explorer</h1>
+<p class="sub">knip은 entry에서 도달 가능한 것의 여집합을 미사용으로 본다. 노드를 누르면 entry → 그 노드까지의 import 도달 경로가 펼쳐진다</p>
+<h2 class="sr-only">모듈 import 그래프에서 노드를 선택하면 entry로부터의 import 도달 경로를 보여주고, entry를 끄면 경로가 사라져 멀쩡한 코드가 거짓 미사용으로 잡힘을 드러내는 explorer.</h2>
+
+<div class="row">
+  <span class="lbl">entry E:</span>
+  <span class="chip" data-entry="index" role="button" tabindex="0" aria-pressed="true">index</span>
+  <span class="chip" data-entry="plugin" role="button" tabindex="0" aria-pressed="true">plugin <span class="x">(config)</span></span>
+  <span class="lbl" style="margin-left:auto">깊이 ▸</span>
+  <button id="back">◀</button>
+  <span class="lbl" id="roundlbl" style="font-family:var(--font-mono)"></span>
+  <button id="fwd">▶</button>
+  <button id="reset">↻</button>
+</div>
+
+<svg id="g" viewBox="0 0 540 340" role="img" aria-label="모듈 import 그래프"></svg>
+<p class="hint">노드 클릭 = 도달 경로 보기 · 깊이 = entry에서 import를 따라간 단계 수 · entry를 끄면 경로가 끊긴다</p>
+
+<div class="deriv" id="deriv"></div>
+
+<div class="thms">
+  <div class="t"><b>판정</b> 미사용 = 전체 \ R — entry에서 도달 못 하는 모듈</div>
+  <div class="t"><b>도달</b> entry에서 출발 → import를 한 줄씩 따라가며 R을 넓힌다</div>
+  <div class="t"><b>깊이</b> import를 몇 단계 따라갔나 (entry에서의 거리)</div>
+  <div class="t"><b>함정</b> entry를 빠뜨리면 R이 줄어 멀쩡한 코드가 거짓 미사용으로 잡힌다</div>
+</div>
+</div>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const SVG='http://www.w3.org/2000/svg';
+
+  const NODES=[
+    {id:'index',  x:95, y:54,  label:'index',    entry:true},
+    {id:'plugin', x:405,y:54,  label:'plugin',   entry:true},
+    {id:'routes', x:95, y:132, label:'routes'},
+    {id:'api',    x:405,y:132, label:'api'},
+    {id:'home',   x:42, y:212, label:'home'},
+    {id:'about',  x:178,y:212, label:'about'},
+    {id:'helpers',x:318,y:212, label:'helpers'},
+    {id:'utils',  x:110,y:290, label:'utils'},
+    {id:'legacy', x:480,y:170, label:'legacy'},
+    {id:'deadc',  x:480,y:258, label:'deadComp'},
+  ];
+  const EDGES=[
+    ['index','routes'],['plugin','api'],
+    ['routes','home'],['routes','about'],
+    ['home','utils'],['about','utils'],
+    ['utils','helpers'],['api','helpers'],
+    ['legacy','helpers'],['deadc','helpers'],
+  ];
+  const ALL_ENTRIES=['index','plugin'];
+  const N=Object.fromEntries(NODES.map(n=>[n.id,n]));
+  const LB=id=>N[id].label;
+  const adj={}; NODES.forEach(n=>adj[n.id]=[]); EDGES.forEach(([a,b])=>adj[a].push(b));
+  const HH=15;
+  const hwOf=n=>Math.max(58, n.label.length*7.2+18)/2;   // 노드 라벨 기준 반너비
+
+  let entries=new Set(ALL_ENTRIES);
+  let r=99, sel=null;   // 기본은 정착된 고정점(전부 색칠); ◀로 깊이를 벗겨본다
+
+  // BFS: 최단 도달 경로의 parent + depth. depth = entry에서 import를 따라간 단계 수.
+  function bfs(E){
+    const parent={}, depth={}, q=[];
+    [...E].forEach(e=>{ if(e in N){ parent[e]=null; depth[e]=0; q.push(e);} });
+    for(let i=0;i<q.length;i++){
+      const m=q[i];
+      adj[m].forEach(t=>{ if(!(t in depth)){ depth[t]=depth[m]+1; parent[t]=m; q.push(t);} });
+    }
+    let max=0; for(const k in depth) max=Math.max(max,depth[k]);
+    return {parent, depth, max};
+  }
+  function pathOf(parent, m){ const p=[]; let c=m; while(c!=null){ p.unshift(c); c=parent[c]; } return p; }
+
+  function rectEdge(from,to){
+    const dx=to.x-from.x, dy=to.y-from.y;
+    const hwT=hwOf(to), hwF=hwOf(from);
+    const sT=Math.min(dx?hwT/Math.abs(dx):Infinity, dy?HH/Math.abs(dy):Infinity);
+    const sF=Math.min(dx?hwF/Math.abs(dx):Infinity, dy?HH/Math.abs(dy):Infinity);
+    return {x:to.x-dx*sT, y:to.y-dy*sT, fx:from.x+dx*sF, fy:from.y+dy*sF};
+  }
+
+  function buildSvg(){
+    const svg=$('g'); svg.innerHTML='';
+    const defs=document.createElementNS(SVG,'defs');
+    defs.innerHTML=
+      '<marker id="ah" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2a3346"/></marker>'+
+      '<marker id="ahon" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1f5641"/></marker>'+
+      '<marker id="ahpath" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#60a5fa"/></marker>';
+    svg.appendChild(defs);
+    EDGES.forEach(([a,b])=>{
+      const p=rectEdge(N[a],N[b]);
+      const ln=document.createElementNS(SVG,'line');
+      ln.setAttribute('x1',p.fx);ln.setAttribute('y1',p.fy);ln.setAttribute('x2',p.x);ln.setAttribute('y2',p.y);
+      ln.setAttribute('class','ed');ln.setAttribute('marker-end','url(#ah)');
+      ln.dataset.from=a;ln.dataset.to=b;svg.appendChild(ln);
+    });
+    NODES.forEach(n=>{
+      const g=document.createElementNS(SVG,'g');
+      g.setAttribute('class','nd');g.dataset.id=n.id;
+      g.setAttribute('tabindex','0');g.setAttribute('role','button');
+      g.setAttribute('aria-label',`${n.label}${n.entry?' (entry)':''} — 도달 경로 보기`);
+      g.setAttribute('transform',`translate(${n.x},${n.y})`);
+      const w=hwOf(n)*2;
+      const rc=document.createElementNS(SVG,'rect');
+      rc.setAttribute('x',-w/2);rc.setAttribute('y',-15);rc.setAttribute('width',w);rc.setAttribute('height',30);rc.setAttribute('rx',7);
+      const tx=document.createElementNS(SVG,'text');tx.textContent=n.label;
+      g.appendChild(rc);g.appendChild(tx);
+      if(n.entry){ const et=document.createElementNS(SVG,'text');et.setAttribute('class','ent');et.setAttribute('y',-24);et.textContent='entry';g.appendChild(et); }
+      const pick=()=>{ sel=n.id; render(); };
+      g.onclick=pick;
+      g.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } };
+      svg.appendChild(g);
+    });
+  }
+
+  function render(){
+    const cur=bfs(entries);
+    const base=bfs(new Set(ALL_ENTRIES));
+    r=Math.min(r, cur.max);
+    const inR=id=>id in cur.depth;
+    const shown=id=>inR(id) && cur.depth[id]<=r;          // 이번 깊이까지 도달 표시
+    const fp=id=>!inR(id) && (id in base.depth);          // 거짓 미사용
+
+    document.querySelectorAll('.nd').forEach(g=>{
+      const id=g.dataset.id; g.className.baseVal='nd';
+      if(shown(id)){ g.classList.add('r'); if(N[id].entry&&entries.has(id)) g.classList.add('e'); }
+      else if(inR(id)) g.classList.add('p');
+      else if(fp(id)) g.classList.add('fp');
+      else g.classList.add('d');
+      if(id===sel) g.classList.add('sel');
+    });
+
+    // 선택 노드의 witness 경로 edge 강조
+    let pathPairs=new Set();
+    if(sel){
+      const pm = inR(sel)?cur.parent : (sel in base.depth ? base.parent : null);
+      if(pm){ const p=pathOf(pm, sel); for(let i=0;i<p.length-1;i++) pathPairs.add(p[i]+'>'+p[i+1]); }
+    }
+    document.querySelectorAll('.ed').forEach(l=>{
+      const key=l.dataset.from+'>'+l.dataset.to, onPath=pathPairs.has(key);
+      l.className.baseVal = 'ed'+(onPath?' path':(shown(l.dataset.from)?' on':''));
+      l.setAttribute('marker-end', onPath?'url(#ahpath)':(shown(l.dataset.from)?'url(#ahon)':'url(#ah)'));
+    });
+
+    document.querySelectorAll('.chip').forEach(c=>{ const on=entries.has(c.dataset.entry); c.classList.toggle('on', on); c.setAttribute('aria-pressed', on); });
+    $('roundlbl').textContent=`깊이 ${r}/${cur.max}`;
+    $('back').disabled=r<=0; $('fwd').disabled=r>=cur.max;
+
+    renderDeriv(cur, base);
+  }
+
+  function renderDeriv(cur, base){
+    const box=$('deriv');
+    if(!sel){ box.className='deriv'; box.innerHTML='<div class="head">노드를 클릭하면 entry에서 그 모듈까지의 import 도달 경로(또는 미사용 판정)가 여기 펼쳐집니다.</div>'; return; }
+    const inR = sel in cur.depth;
+    const isFp = !inR && (sel in base.depth);
+
+    if(!inR && !isFp){   // 진짜 미사용
+      box.className='deriv dead';
+      box.innerHTML=`<div class="head">${LB(sel)} — 미사용 (entry에서 도달 불가)</div>`+
+        `<div class="dl"><span class="rule">✕</span><span class="node">entry → … → ${LB(sel)} 경로 없음</span>`+
+        `<span class="tag">어떤 entry에서도 import를 타고 닿을 수 없다.</span></div>`+
+        `<div class="qed">→ dead. (자기는 남을 import하지만, 아무도 이걸 import하지 않아 도달 불가)</div>`;
+      return;
+    }
+    const pm = inR ? cur.parent : base.parent;
+    const path = pathOf(pm, sel);
+    const e0 = path[0];
+    let rows = `<div class="dl">`+
+      `<span class="rule refl">entry</span><span class="node">${LB(e0)}</span>`+
+      `<span class="tag">도달 시작점 — entry ${LB(e0)}는 그 자체로 "쓰임"</span>`;
+    for(let i=1;i<path.length;i++){
+      rows += `<span class="rule">import</span><span class="node">→ ${LB(path[i])}  ⟨${LB(path[i-1])} → ${LB(path[i])}⟩</span>`+
+              `<span class="tag">${LB(path[i-1])}가 ${LB(path[i])}를 import → 도달 확장</span>`;
+    }
+    rows += `</div>`;
+
+    if(isFp){
+      box.className='deriv fp';
+      box.innerHTML=`<div class="head">${LB(sel)} — 거짓 미사용</div>`+rows+
+        `<div class="qed" style="color:var(--red)">이 경로는 entry <b>${LB(e0)}</b>에서만 출발 → 그 entry를 빠뜨리면 도달 집합이 줄어 ${LB(sel)}가 미사용으로 오판. 실제론 도달 가능.</div>`;
+    } else {
+      box.className='deriv';
+      const depth=cur.depth[sel];
+      box.innerHTML=`<div class="head">${LB(sel)} — entry에서 도달 가능 (import ${depth}단계)</div>`+rows+
+        `<div class="qed">→ ${LB(sel)}는 도달 집합 R에 속한다 = 쓰임. 미사용 아님.</div>`;
+    }
+  }
+
+  document.querySelectorAll('.chip').forEach(c=>{
+    const toggle=()=>{
+      const e=c.dataset.entry;
+      if(entries.has(e)) entries.delete(e); else entries.add(e);
+      render();
+    };
+    c.onclick=toggle;
+    c.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } };
+  });
+  $('back').onclick=()=>{ if(r>0){r--;render();} };
+  $('fwd').onclick=()=>{ r++; render(); };
+  $('reset').onclick=()=>{ entries=new Set(ALL_ENTRIES); r=99; sel=null; render(); };
+
+  buildSvg();
+  sel='utils';
+  render();
+})();
+</script>
+</body>
+</html>

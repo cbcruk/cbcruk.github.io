@@ -5,6 +5,8 @@ import tailwind from '@astrojs/tailwind'
 import react from '@astrojs/react'
 import vercel from '@astrojs/vercel'
 import remarkGithubAlerts from 'remark-github-blockquote-alert'
+import remarkMath from 'remark-math'
+import rehypeKatex from 'rehype-katex'
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,7 +14,8 @@ export default defineConfig({
   site: 'https://cbcruk.github.io',
   integrations: [mdx(), sitemap(), tailwind(), react()],
   markdown: {
-    remarkPlugins: [remarkGithubAlerts],
+    remarkPlugins: [remarkGithubAlerts, remarkMath],
+    rehypePlugins: [rehypeKatex],
     shikiConfig: {
       theme: 'one-dark-pro',
     },

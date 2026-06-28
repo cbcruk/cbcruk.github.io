@@ -1,0 +1,50 @@
+---
+tags: ['javascript', 'iterator', 'lazy-evaluation', 'generator']
+status: release
+ctime: 2026-06-22
+mtime: 2026-06-22
+---
+
+import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
+
+**필요한 만큼만 일한다 — lazy, pull-based.** array 메서드(`filter`/`map`/`slice`)는 매 단계 중간 배열을 새로 할당하고(eager), 10개만 필요해도 전부 처리한다. Iterator Helpers는 iterator 위에 붙는 chainable 메서드로 같은 체인을 lazy하게 돈다.
+
+<AutoIframe
+  src="/iframe/lazy_iterator_pull_pipeline.html"
+  title="lazy iterator pull pipeline — take가 채워지면 소스가 멈춘다"
+/>
+
+```js
+async function* fetchPages() {
+  let page = 1
+  while (true) {
+    // 무한 루프지만 안전
+    const res = await fetch(`/api/items?page=${page++}`)
+    if (!res.ok) return
+    yield* await res.json()
+  }
+}
+
+const firstTen = await fetchPages().filter(isValid).take(10).toArray()
+```
+
+흐름은 소비자가 당기는 **pull**: `toArray()`가 값을 당기면 `take`→`filter`→`fetchPages()`로 거슬러 올라가 한 개씩 요청한다. filter 탈락이면 그 자리서 다음 값을 다시 당기고(중간 배열 없음), `take(N)`이 N개를 채우는 순간 iterator가 종료된다 → **아직 안 본 페이지는 fetch 요청 자체가 안 나간다.** `while (true)`가 안전한 이유.
+
+> 멘탈 모델: iterator는 *이미 가진 데이터*가 아니라 *아직 일어나지 않은 작업(work)*이다.
+
+요점:
+
+- iterator로 변환: `.values()` / `.keys()` / `.entries()` 또는 generator. `slice(0,n)` → `take(n)`, `slice(n)` → `drop(n)`.
+- `reduce`는 전체를 봐야 해서 eager하게 소비(예외).
+- RxJS가 **push**(값이 밀려옴 · 이벤트/시간)라면 이쪽은 **pull**(소비자가 당김) → 구조적으로 backpressure가 걸린다.
+
+함정:
+
+- **lazy 실행**: `toArray()`/`for await` 전엔 side effect(fetch 포함)가 안 일어난다 → "왜 요청이 안 나가지?"
+- **one-shot**: 한 번 소비한 iterator는 재사용·random access(`items[5]`) 불가. `console.log`로 찍으면 값이 소모돼 동작이 바뀐다.
+
+모던 브라우저 + Node 22+.
+
+---
+
+- 출처: Matt Smith, "Stop turning everything into arrays (and do less work instead)" (2026.01)

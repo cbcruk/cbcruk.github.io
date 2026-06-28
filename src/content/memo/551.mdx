@@ -1,0 +1,72 @@
+---
+tags: ['dnd-kit', 'tanstack-query', 'optimistic-update', 'race-condition', 'react', 'debug']
+status: release
+ctime: 2026-06-07
+mtime: 2026-06-28
+---
+
+import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
+
+dnd-kit Sortable + react-query에서 drop 직후 튕김(flicker) = **렌더를 react-query 캐시로 하면, dnd-kit의 drop 측정이 의존하는 React commit phase(setState)를 안 타기 때문.** → 렌더는 local state, 캐시는 부수효과로 격리.
+
+## 현상
+
+drop 직후 1~2프레임 동안 아이템이 원래 위치로 돌아갔다가 새 위치로 점프. `onDragEnd`에서 `setQueryData`로 즉시 캐시를 갱신해도 발생하고, DragOverlay에서 더 두드러진다. (내 코드 문제 아님 — dnd-kit 알려진 동작)
+
+## 원인
+
+dnd-kit의 drop 애니메이션이 destination을 ASAP 측정하는데, react-query 캐시 직접 업데이트는 dnd-kit이 의존하는 **React commit 사이클을 안 탄다** → reorder 적용 전 프레임을 catch해 원위치로 애니메이션 후 점프. (#833·#921·#1522 — 답변자들도 결국 별도 local state로 우회)
+
+## 해결
+
+렌더 source-of-truth를 local state로 두고, 캐시 갱신은 서버 동기화 부수효과로 분리한다.
+
+```tsx
+function SortableList() {
+  const { data: serverItems = [] } = useQuery({ queryKey: ['items'], queryFn: fetchItems })
+  const [items, setItems] = useState<Item[]>(serverItems) // 렌더용 source of truth
+
+  // 드래그 직후 refetch가 옛 순서로 덮어쓰는 race 가드
+  const isReorderingRef = useRef(false)
+  useEffect(() => {
+    if (!isReorderingRef.current) setItems(serverItems)
+  }, [serverItems])
+
+  const reorderMutation = useMutation({
+    mutationFn: reorderItems,
+    onSettled: () => {
+      isReorderingRef.current = false
+      queryClient.invalidateQueries({ queryKey: ['items'] })
+    },
+  })
+
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    if (!over || active.id === over.id) return
+    const next = arrayMove(items, idxOf(active.id), idxOf(over.id))
+    isReorderingRef.current = true
+    setItems(next)               // 1) local state 먼저 — dnd-kit이 이걸 보고 측정
+    reorderMutation.mutate(next) // 2) 서버 동기화는 별개
+  }
+  // <DndContext onDragEnd={handleDragEnd}> <SortableContext items={items.map(i=>i.id)}> ...
+}
+```
+
+<AutoIframe
+  src="/iframe/dnd-sortable-flicker.html"
+  title="dnd-kit flicker — 캐시 렌더는 옛 순서를 측정해 튕기고, local state는 commit을 타 바로 정착하는 걸 drop 직후 프레임 단위로 비교"
+/>
+
+주의:
+
+- **invalidate race** — `isReorderingRef` 없으면 mutation 직후 refetch가 옛 순서를 들고 와 useEffect가 local을 덮음(또 다른 튕김). 가장 깔끔한 변형: `mutationFn`이 새 순서를 반환 → `onSuccess`에서 `setItems(data)`, invalidate 제거.
+- **stable id** — `SortableContext`·자식 `key`·`useSortable({ id })`가 모두 같은 id. 인덱스 key 금지.
+- **DragOverlay 잔여 flicker** — `dropAnimation={null}`로 제거(겸 진단: 사라지면 #833 확정).
+
+## 교훈
+
+라이브러리가 React commit lifecycle에 암묵적으로 의존하면, 그 옆 채널(캐시 직접 변경)로 상태를 바꿀 때 어긋난다 — 렌더의 source-of-truth를 commit을 타는 한 곳으로 모은다.
+
+## 참고
+
+- [dnd-kit#833](https://github.com/clauderic/dnd-kit/issues/833) · [#921](https://github.com/clauderic/dnd-kit/issues/921) · [Discussions#1522](https://github.com/clauderic/dnd-kit/discussions/1522)
+- v6.3.1 기준. v10+는 `OptimisticSortingPlugin` 기본 활성화로 메커니즘이 다름 → 재검증 필요.

@@ -33,6 +33,8 @@ export const getExcerpt = (body: string | undefined): string => {
       line.length === 0 ||
       line.startsWith('---') ||
       line.startsWith('|') ||
+      line.startsWith('import ') ||
+      line.startsWith('export ') ||
       /^\[\^/.test(line)
     ) {
       continue

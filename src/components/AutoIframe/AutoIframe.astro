@@ -1,0 +1,54 @@
+---
+type Props = {
+  src: string
+  title: string
+  height?: number
+}
+
+const { src, title, height = 300 } = Astro.props
+---
+
+<iframe
+  src={src}
+  title={title}
+  loading="lazy"
+  data-auto-iframe
+  style={`width:100%;height:${height}px;border:0;display:block;`}></iframe>
+
+<script>
+  function fit(frame: HTMLIFrameElement): void {
+    const doc = frame.contentDocument
+    if (!doc) return // cross-origin: 측정 불가 → fallback height 유지
+
+    let pending = false
+    const measure = (): void => {
+      if (pending) return
+      pending = true
+      requestAnimationFrame(() => {
+        pending = false
+        // 측정 전 뷰포트를 잠깐 접는다: 내부가 100vh류로 자기 높이를 iframe 높이에
+        // 묶어두면 scrollHeight가 매 틱 커지는 피드백 루프가 생긴다. 0으로 접고 재면
+        // vh 기여가 사라져 '실제 콘텐츠 높이'만 잡혀 수렴한다(paint는 최종값만 반영).
+        frame.style.height = '0'
+        frame.style.height = `${doc.documentElement.scrollHeight}px`
+      })
+    }
+
+    measure()
+    new ResizeObserver(measure).observe(doc.documentElement)
+  }
+
+  function wire(): void {
+    document
+      .querySelectorAll<HTMLIFrameElement>('iframe[data-auto-iframe]')
+      .forEach((frame) => {
+        if (frame.dataset.autoFitWired) return
+        frame.dataset.autoFitWired = '1'
+
+        if (frame.contentDocument?.readyState === 'complete') fit(frame)
+        frame.addEventListener('load', () => fit(frame))
+      })
+  }
+
+  document.addEventListener('astro:page-load', wire)
+</script>

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>로딩 flicker 탐색기 — 두 엣지 + useMinimumLoading</title>
+<style>
+  :root{
+    --font-mono:ui-monospace,"SF Mono",Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+    --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;
+    --color-page:#0a0a0f;
+    --color-background-primary:#0f1117;
+    --color-background-secondary:#141823;
+    --color-background-tertiary:#1b2233;
+    --color-background-info:#0c1d33;
+    --color-background-warning:#2a2207;
+    --color-background-success:#0c2a20;
+    --color-background-danger:#2a1213;
+    --color-text-primary:#e2e8f0;
+    --color-text-secondary:#94a3b8;
+    --color-text-tertiary:#64748b;
+    --color-text-info:#60a5fa;
+    --color-text-warning:#fbbf24;
+    --color-text-success:#6ee7b7;
+    --color-text-danger:#fca5a5;
+    --color-border-primary:#334155;
+    --color-border-secondary:#334155;
+    --color-border-tertiary:#1e293b;
+    --color-border-info:#3b82f6;
+    --border-radius-md:8px;
+    --border-radius-lg:12px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px;background:var(--color-page);color:var(--color-text-primary);font-family:var(--font-sans);line-height:1.5}
+  .wrap{margin:0 auto}
+  button{font-family:inherit;cursor:pointer;background:var(--color-background-tertiary);color:var(--color-text-primary);border:1px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:7px 12px}
+  button:hover{background:var(--color-background-secondary)}
+  input[type=range]{accent-color:#a78bfa}
+  input[type=range]:disabled{accent-color:#475569;opacity:.5}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .spin{animation:spin 1s linear infinite;display:inline-block}
+  code.k{font-family:var(--font-mono);font-size:12px;background:var(--color-background-secondary);padding:1px 5px;border-radius:4px}
+  .pbtn{font-size:13px}
+  .row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .row label{font-size:14px;color:var(--color-text-secondary);min-width:150px}
+  .row .val{font-size:13px;font-weight:500;min-width:54px;text-align:right}
+  .mlrow{background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;margin:4px 0 14px}
+  .sw{display:inline-flex;align-items:center;gap:7px;font-size:14px;color:var(--color-text-info);min-width:150px;cursor:pointer}
+  .sw input{accent-color:#60a5fa;width:15px;height:15px;margin:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2 class="sr-only">로딩 flicker 탐색기. delay D, duration P, resolve τ, 그리고 useMinimumLoading(minLoad)을 조절하면 leading 억제·trailing 깜빡임·min-duration이 τ를 미는 동작이 바뀐다.</h2>
+<div style="padding:.5rem 0;">
+  <div class="row"><label>지연 D · delay</label><input id="dIn" type="range" min="0" max="600" step="10" value="300" style="flex:1;min-width:0;"><span class="val" id="dOut">300 ms</span></div>
+  <div class="row"><label>지속 P · duration</label><input id="pIn" type="range" min="50" max="800" step="10" value="200" style="flex:1;min-width:0;"><span class="val" id="pOut">200 ms</span></div>
+  <div class="row"><label>응답 τ · resolve</label><input id="tIn" type="range" min="0" max="1500" step="10" value="420" style="flex:1;min-width:0;"><span class="val" id="tOut">420 ms</span></div>
+
+  <div class="mlrow">
+    <div class="row" style="margin:0;">
+      <label class="sw"><input type="checkbox" id="mlOn"> useMinimumLoading</label>
+      <input id="mlIn" type="range" min="0" max="1200" step="10" value="600" style="flex:1;min-width:0;" disabled><span class="val" id="mlOut">600 ms</span>
+    </div>
+    <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:6px;">켜면 unmount를 <code class="k">max(resolve, minLoad)</code>로 민다 — 스피너가 떴으면 최소 minLoad는 보장(trailing edge).</div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+    <button class="pbtn" onclick="preset(300,200,200)">빠른 응답 (억제)</button>
+    <button class="pbtn" onclick="preset(300,200,420)">페이드 중 컷</button>
+    <button class="pbtn" onclick="preset(300,200,900)">완전 표시 후 컷</button>
+    <button class="pbtn" onclick="preset(0,300,250)">@starting-style (D=0)</button>
+    <button class="pbtn" onclick="preset(300,200,420,700)">min-duration으로 깜빡임 제거</button>
+  </div>
+
+  <svg id="plot" viewBox="0 0 640 260" style="width:100%;height:auto;display:block;"></svg>
+
+  <div style="font-size:12px;color:var(--color-text-tertiary);margin:6px 2px 14px;">
+    굵은 선 = φ(t) opacity · 굵은 컬러 구간 = 실제로 보이는 부분 ·
+    <span style="color:#fbbf24;">주황 D</span> = 페이드 시작 ·
+    <span style="color:#fca5a5;">빨강 τ</span> = unmount(하드컷) ·
+    <span style="color:#64748b;">회색 점선</span> = resolve(밀리기 전)
+  </div>
+
+  <div id="statusBox" style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;"></div>
+
+  <div id="metricBox" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:14px;"></div>
+
+  <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:14px;display:flex;align-items:center;gap:12px;margin-top:14px;">
+    <div style="font-size:13px;color:var(--color-text-secondary);min-width:96px;">실제 보이는 것</div>
+    <div style="flex:1;min-width:0;height:48px;display:flex;align-items:center;">
+      <div id="spinnerBox" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);">
+        <span class="spin" aria-hidden="true">⟳</span><span style="font-size:13px;">로딩…</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+const X0=44,X1=624,Y0=16,Y1=224,MAXT=1500;
+const $=id=>document.getElementById(id);
+const dIn=$('dIn'),pIn=$('pIn'),tIn=$('tIn'),mlIn=$('mlIn'),mlOn=$('mlOn');
+const dOut=$('dOut'),pOut=$('pOut'),tOut=$('tOut'),mlOut=$('mlOut');
+const plot=$('plot'),statusBox=$('statusBox'),metricBox=$('metricBox'),spinner=$('spinnerBox');
+let D=300,P=200,tauR=420,tauEff=420,minLoad=600,on=false;
+const smooth=x=>x*x*(3-2*x);
+function phi(t,D,P){if(t<D)return 0;if(t>=D+P)return 1;return smooth((t-D)/P);}
+const px=t=>X0+(Math.min(t,MAXT)/MAXT)*(X1-X0);
+const py=o=>Y1-o*(Y1-Y0);
+const STATE={
+  suppressed:{hex:'#6ee7b7',tint:'#0c2a20',name:'억제됨 — 한 번도 안 보임',cond:'τ ≤ D',thm:'leading_edge_suppressed',icon:'🚫',note:'빠른 응답: 스피너가 아예 안 뜸. CSS delay(D)가 잡는 leading edge.'},
+  flicker:{hex:'#fca5a5',tint:'#2a1213',name:'페이드 도중 컷 — 깜빡임',cond:'D < τ < D+P',thm:'트레일링 엣지',icon:'⚠',note:'φ(τ⁻)>0 인데 unmount → 번쩍. (D,P)로는 못 잡고 τ를 미뤄야 함 → useMinimumLoading.'},
+  shown:{hex:'#93c5fd',tint:'#0c1d33',name:'완전히 표시 후 컷',cond:'τ ≥ D+P',thm:'—',icon:'👁',note:'페이드인 완료 후 노출. 깜빡임 없음.'}
+};
+function draw(cut,s){
+  let g=[];
+  [0,0.5,1].forEach(o=>{g.push(`<line x1="${X0}" y1="${py(o)}" x2="${X1}" y2="${py(o)}" style="stroke:var(--color-border-tertiary)" stroke-width="1"/><text x="${X0-6}" y="${py(o)+3}" text-anchor="end" style="fill:var(--color-text-tertiary);font-size:11px">${o}</text>`);});
+  [[0,'0'],[500,'0.5s'],[1000,'1.0s'],[1500,'1.5s']].forEach(([t,l])=>{g.push(`<text x="${px(t)}" y="${Y1+18}" text-anchor="middle" style="fill:var(--color-text-tertiary);font-size:11px">${l}</text>`);});
+  if(tauEff>0)g.push(`<rect x="${px(0)}" y="${Y0}" width="${px(Math.min(tauEff,MAXT))-px(0)}" height="${Y1-Y0}" fill="#64748b" opacity="0.12"/>`);
+  if(D+P<=MAXT)g.push(`<line x1="${px(D+P)}" y1="${Y0}" x2="${px(D+P)}" y2="${Y1}" style="stroke:var(--color-border-secondary)" stroke-width="1" stroke-dasharray="2 4"/>`);
+  g.push(`<line x1="${px(D)}" y1="${Y0}" x2="${px(D)}" y2="${Y1}" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${px(D)-3}" y="11" text-anchor="end" fill="#fbbf24" style="font-size:11px">D</text>`);
+  let pts=[];for(let t=0;t<=MAXT;t+=4)pts.push(px(t).toFixed(1)+','+py(phi(t,D,P)).toFixed(1));
+  g.push(`<polyline points="${pts.join(' ')}" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-linejoin="round"/>`);
+  if(tauEff>D){let vp=[];for(let t=D;t<=Math.min(tauEff,MAXT);t+=4)vp.push(px(t).toFixed(1)+','+py(phi(t,D,P)).toFixed(1));g.push(`<polyline points="${vp.join(' ')}" fill="none" stroke="${s.hex}" stroke-width="4" stroke-linejoin="round" opacity="0.9"/>`);}
+  // resolve marker (밀리기 전), useMinimumLoading이 τ를 밀었을 때만 별도 표시
+  if(on && tauEff>tauR && tauR<=MAXT){g.push(`<line x1="${px(tauR)}" y1="${Y0}" x2="${px(tauR)}" y2="${Y1}" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3 4"/><text x="${px(tauR)-3}" y="11" text-anchor="end" fill="#64748b" style="font-size:11px">resolve</text>`);}
+  if(tauEff<=MAXT){g.push(`<line x1="${px(tauEff)}" y1="${Y0}" x2="${px(tauEff)}" y2="${Y1}" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${px(tauEff)+3}" y="11" text-anchor="start" fill="#ef4444" style="font-size:11px">τ</text>`);
+    let ly=Math.max(py(cut)-9,Y0+10);
+    g.push(`<circle cx="${px(tauEff)}" cy="${py(cut)}" r="5" fill="${s.hex}" style="stroke:var(--color-background-primary)" stroke-width="1.5"/><text x="${px(tauEff)}" y="${ly}" text-anchor="middle" style="fill:var(--color-text-secondary);font-size:11px">φ(τ⁻)=${cut.toFixed(2)}</text>`);}
+  return g.join('');
+}
+function metric(l,v){return `<div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px;"><div style="font-size:13px;color:var(--color-text-secondary);">${l}</div><div style="font-size:22px;font-weight:500;margin-top:2px;">${v}</div></div>`;}
+function update(){
+  D=+dIn.value;P=+pIn.value;tauR=+tIn.value;minLoad=+mlIn.value;on=mlOn.checked;
+  mlIn.disabled=!on;
+  tauEff=on?Math.max(tauR,minLoad):tauR;
+  dOut.textContent=D+' ms';pOut.textContent=P+' ms';tOut.textContent=tauR+' ms';mlOut.textContent=minLoad+' ms';
+  const vis=Math.max(0,tauEff-D);
+  const cut=tauEff<=D?0:phi(tauEff,D,P);
+  const key=tauEff<=D?'suppressed':(tauEff<D+P?'flicker':'shown');
+  const s=STATE[key];
+  plot.innerHTML=draw(cut,s);
+  const pushed=on && tauEff>tauR;
+  const rescued=on && tauR<D+P && tauEff>=D+P && tauR>D; // flicker였는데 min-duration이 구제
+  statusBox.innerHTML=`<div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:38px;height:38px;border-radius:50%;background:${s.tint};display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:18px;color:${s.hex}" aria-hidden="true">${s.icon}</div><div style="flex:1;min-width:0;"><div style="font-size:15px;font-weight:500;">${s.name}</div><div style="font-size:13px;color:var(--color-text-secondary);margin-top:3px;">조건 <code class="k">${s.cond}</code> · 정리 <code class="k">${s.thm}</code></div><div style="font-size:13px;color:var(--color-text-secondary);margin-top:6px;">${s.note}</div>`
+    +(pushed?`<div style="margin-top:8px;display:inline-block;background:var(--color-background-success);color:var(--color-text-success);font-size:12px;padding:4px 10px;border-radius:var(--border-radius-md);">useMinimumLoading: unmount ${tauR}→${tauEff} ms · 가시 ≥ minLoad(${minLoad}) — visible_ge_minLoad${rescued?' · 깜빡임 제거됨':''}</div>`:'')
+    +(D===0 && !on?`<div style="margin-top:8px;display:inline-block;background:var(--color-background-danger);color:var(--color-text-danger);font-size:12px;padding:4px 10px;border-radius:var(--border-radius-md);">@starting-style 모드 (D=0): 억제 불가 — no_suppression_without_delay</div>`:'')
+    +`</div></div>`;
+  metricBox.innerHTML=metric('가시 시간',vis+' ms')+metric('φ(τ⁻) · 컷 시점 opacity',cut.toFixed(2))+metric(on?'unmount τ (밀린 후)':'delay 여유 (D−τ)',on?`${tauEff} ms`:`${D-tauR} ms`);
+}
+function preset(d,p,t,ml){dIn.value=d;pIn.value=p;tIn.value=t;if(ml!==undefined){mlOn.checked=true;mlIn.value=ml;}else{mlOn.checked=false;}update();}
+[dIn,pIn,tIn,mlIn].forEach(e=>e.addEventListener('input',update));
+mlOn.addEventListener('change',update);
+update();
+let t0=performance.now();
+function frame(now){const period=tauEff+700;let e=(now-t0)%period;let op=e<tauEff?phi(e,D,P):0;spinner.style.opacity=op.toFixed(3);requestAnimationFrame(frame);}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>queueMicrotask 이벤트 루프 시뮬레이터</title>
+<style>
+  /* ── 디자인 토큰: 원래 호스트 환경이 주입하던 CSS 변수들을 여기서 직접 정의 ── */
+  :root {
+    --color-background-primary:   #ffffff;
+    --color-background-secondary: #f5f5f3;
+    --color-text-primary:         #1a1a18;
+    --color-text-secondary:       #57564f;
+    --color-text-tertiary:        #9a988f;
+    --color-border-primary:       #d2d1cb;
+    --color-border-secondary:     #c2c1ba;
+    --color-border-tertiary:      #e4e3dd;
+    --color-background-warning:   #fbf1d2;
+    --color-text-warning:         #8a6a00;
+    --color-background-info:      #e4effb;
+    --color-text-info:            #1d5fa8;
+    --color-background-success:   #e2f4e7;
+    --color-text-success:         #1f7a3d;
+    --border-radius-md:           8px;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, "Cascadia Code", Consolas, monospace;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo",
+                 "Noto Sans KR", Roboto, sans-serif;
+    --color-page: #faf9f7;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background-primary:   #1f1e1c;
+      --color-background-secondary: #2a2927;
+      --color-text-primary:         #e8e6e1;
+      --color-text-secondary:       #a8a6a0;
+      --color-text-tertiary:        #6f6d68;
+      --color-border-primary:       #3a3937;
+      --color-border-secondary:     #46443f;
+      --color-border-tertiary:      #333230;
+      --color-background-warning:   #3d3417;
+      --color-text-warning:         #e8c25a;
+      --color-background-info:      #16304a;
+      --color-text-info:            #7db8f0;
+      --color-background-success:   #173524;
+      --color-text-success:         #6fcf8e;
+      --color-page: #161513;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 24px 16px;
+    background: var(--color-page);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  .qmt-wrap {
+    margin: 0 auto;
+  }
+
+  .qmt-wrap > h1 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 1.25rem;
+  }
+
+  /* 스크린리더 전용 (시각적으로 숨김) */
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .qmt-tabs { display: flex; gap: 4px; flex-wrap: wrap; margin: 0 0 1rem; }
+  .qmt-tab { padding: 6px 12px; font-size: 13px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); background: transparent; cursor: pointer; color: var(--color-text-primary); font-family: inherit; }
+  .qmt-tab.active { background: var(--color-background-secondary); border-color: var(--color-border-primary); font-weight: 500; }
+  .qmt-code { font-family: var(--font-mono); font-size: 13px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 4px; margin: 0 0 1rem; }
+  .qmt-line { padding: 3px 12px; border-radius: 4px; white-space: pre; line-height: 1.6; transition: background 120ms; }
+  .qmt-line.active { background: var(--color-background-warning); color: var(--color-text-warning); font-weight: 500; }
+  .qmt-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 0 1rem; }
+  .qmt-col { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px; min-height: 160px; background: var(--color-background-primary); }
+  .qmt-col h4 { font-size: 12px; font-weight: 500; margin: 0 0 8px 0; color: var(--color-text-secondary); }
+  .qmt-stack { display: flex; flex-direction: column-reverse; gap: 4px; }
+  .qmt-queue { display: flex; flex-direction: column; gap: 4px; }
+  .qmt-item { font-family: var(--font-mono); font-size: 11px; padding: 5px 8px; border-radius: 4px; word-break: break-word; line-height: 1.4; }
+  .qmt-stack-item { background: var(--color-background-secondary); color: var(--color-text-primary); }
+  .qmt-mq-item { background: var(--color-background-info); color: var(--color-text-info); }
+  .qmt-tq-item { background: var(--color-background-success); color: var(--color-text-success); }
+  .qmt-empty { font-size: 11px; color: var(--color-text-tertiary); font-style: italic; }
+  .qmt-console { background: var(--color-background-secondary); font-family: var(--font-mono); font-size: 13px; padding: 10px 14px; min-height: 50px; margin: 0 0 1rem; color: var(--color-text-primary); border-left: 2px solid var(--color-border-secondary); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; }
+  .qmt-console-line { line-height: 1.7; }
+  .qmt-controls { display: flex; align-items: center; gap: 6px; margin: 0 0 0.75rem; flex-wrap: wrap; }
+  .qmt-controls button { padding: 6px 12px; font-size: 13px; border: 0.5px solid var(--color-border-primary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); cursor: pointer; font-family: inherit; }
+  .qmt-controls button:hover { background: var(--color-background-secondary); }
+  .qmt-progress { font-size: 12px; color: var(--color-text-tertiary); margin-left: auto; font-family: var(--font-mono); }
+  .qmt-step-info { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; padding: 10px 14px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); }
+  .qmt-step-info code { font-family: var(--font-mono); font-size: 12px; padding: 1px 5px; background: var(--color-background-primary); border-radius: 3px; color: var(--color-text-primary); }
+</style>
+</head>
+<body>
+<div class="qmt-wrap">
+<h1 hidden>queueMicrotask 이벤트 루프 시뮬레이터</h1>
+<h2 class="sr-only">queueMicrotask가 동기 코드, setTimeout, Promise.then과 어떻게 상호작용하는지 보여주는 인터랙티브 이벤트 루프 시각화.</h2>
+
+<div class="qmt-tabs" id="qmt-tabs">
+  <button class="qmt-tab active" data-ex="basic">기본 동작</button>
+  <button class="qmt-tab" data-ex="timer">vs setTimeout(0)</button>
+  <button class="qmt-tab" data-ex="promise">vs Promise.then</button>
+  <button class="qmt-tab" data-ex="nested">중첩 마이크로태스크</button>
+</div>
+
+<div class="qmt-code" id="qmt-code"></div>
+
+<div class="qmt-grid">
+  <div class="qmt-col"><h4>Call stack</h4><div class="qmt-stack" id="qmt-stack"></div></div>
+  <div class="qmt-col"><h4>Microtask queue</h4><div class="qmt-queue" id="qmt-mq"></div></div>
+  <div class="qmt-col"><h4>Macrotask queue</h4><div class="qmt-queue" id="qmt-tq"></div></div>
+</div>
+
+<div class="qmt-console" id="qmt-console"></div>
+
+<div class="qmt-controls">
+  <button id="qmt-prev">◀ 이전</button>
+  <button id="qmt-play">▶ 자동</button>
+  <button id="qmt-next">다음 ▶</button>
+  <button id="qmt-reset">처음으로</button>
+  <span class="qmt-progress" id="qmt-progress">0/0</span>
+</div>
+
+<div class="qmt-step-info" id="qmt-info">탭으로 시나리오를 골라보세요.</div>
+</div>
+
+<script>
+  const examples = {
+    basic: {
+      code: [
+        "console.log('A');",
+        "queueMicrotask(() => log('B'));",
+        "console.log('C');"
+      ],
+      steps: [
+        {line:-1,s:['script'],mq:[],tq:[],o:[],d:'스크립트 실행 시작. 콜 스택에 메인 프레임이 올라가 있다.'},
+        {line:0,s:['script',"console.log('A')"],mq:[],tq:[],o:[],d:'1번째 줄: <code>console.log</code> 호출.'},
+        {line:0,s:['script'],mq:[],tq:[],o:['A'],d:'"A" 출력 후 <code>console.log</code> 반환.'},
+        {line:1,s:['script','queueMicrotask(fn)'],mq:[],tq:[],o:['A'],d:'2번째 줄: <code>queueMicrotask</code> 호출.'},
+        {line:1,s:['script'],mq:["() => log('B')"],tq:[],o:['A'],d:'콜백이 마이크로태스크 큐에 등록됨. 지금 실행되는 게 아니다.'},
+        {line:2,s:['script',"console.log('C')"],mq:["() => log('B')"],tq:[],o:['A'],d:'3번째 줄: 동기 코드는 그대로 진행.'},
+        {line:2,s:['script'],mq:["() => log('B')"],tq:[],o:['A','C'],d:'"C" 출력. B는 아직 큐에서 대기 중.'},
+        {line:-1,s:[],mq:["() => log('B')"],tq:[],o:['A','C'],d:'동기 코드 종료, 콜 스택이 비었다 → <em>마이크로태스크 드레인</em> 시작.'},
+        {line:-1,s:["() => log('B')"],mq:[],tq:[],o:['A','C'],d:'마이크로태스크가 큐에서 빠져나와 스택에 올라감.'},
+        {line:-1,s:[],mq:[],tq:[],o:['A','C','B'],d:'"B" 출력. 최종 순서: A → C → B.'}
+      ]
+    },
+    timer: {
+      code: [
+        "setTimeout(() => log('timer'), 0);",
+        "queueMicrotask(() => log('micro'));",
+        "console.log('sync');"
+      ],
+      steps: [
+        {line:-1,s:['script'],mq:[],tq:[],o:[],d:'스크립트 시작.'},
+        {line:0,s:['script','setTimeout(fn,0)'],mq:[],tq:[],o:[],d:'1번째 줄: <code>setTimeout</code> 호출 (delay 0).'},
+        {line:0,s:['script'],mq:[],tq:["() => log('timer')"],o:[],d:'타이머 콜백이 매크로태스크 큐(timer task source)에 등록됨.'},
+        {line:1,s:['script','queueMicrotask(fn)'],mq:[],tq:["() => log('timer')"],o:[],d:'2번째 줄: <code>queueMicrotask</code> 호출.'},
+        {line:1,s:['script'],mq:["() => log('micro')"],tq:["() => log('timer')"],o:[],d:'마이크로태스크 큐에 등록.'},
+        {line:2,s:['script',"console.log('sync')"],mq:["() => log('micro')"],tq:["() => log('timer')"],o:[],d:'3번째 줄 동기 출력 호출.'},
+        {line:2,s:['script'],mq:["() => log('micro')"],tq:["() => log('timer')"],o:['sync'],d:'"sync" 출력.'},
+        {line:-1,s:[],mq:["() => log('micro')"],tq:["() => log('timer')"],o:['sync'],d:'스크립트 종료. 매크로태스크보다 마이크로태스크가 먼저 처리됨.'},
+        {line:-1,s:["() => log('micro')"],mq:[],tq:["() => log('timer')"],o:['sync'],d:'마이크로태스크 실행.'},
+        {line:-1,s:[],mq:[],tq:["() => log('timer')"],o:['sync','micro'],d:'"micro" 출력. 마이크로태스크 큐가 빈 뒤에야 매크로태스크 차례.'},
+        {line:-1,s:["() => log('timer')"],mq:[],tq:[],o:['sync','micro'],d:'타이머 콜백 dequeue.'},
+        {line:-1,s:[],mq:[],tq:[],o:['sync','micro','timer'],d:'"timer" 출력. 순서: sync → micro → timer. <code>setTimeout(0)</code>은 항상 microtask보다 늦다.'}
+      ]
+    },
+    promise: {
+      code: [
+        "queueMicrotask(() => log('1'));",
+        "Promise.resolve().then(() => log('2'));",
+        "queueMicrotask(() => log('3'));"
+      ],
+      steps: [
+        {line:-1,s:['script'],mq:[],tq:[],o:[],d:'스크립트 시작.'},
+        {line:0,s:['script'],mq:["() => log('1')"],tq:[],o:[],d:'<code>queueMicrotask</code>로 #1 등록.'},
+        {line:1,s:['script'],mq:["() => log('1')","() => log('2')"],tq:[],o:[],d:'<code>Promise.then</code>은 같은 마이크로태스크 큐에 reaction을 등록함.'},
+        {line:2,s:['script'],mq:["() => log('1')","() => log('2')","() => log('3')"],tq:[],o:[],d:'<code>queueMicrotask</code>로 #3 등록.'},
+        {line:-1,s:[],mq:["() => log('1')","() => log('2')","() => log('3')"],tq:[],o:[],d:'스크립트 종료. FIFO로 드레인.'},
+        {line:-1,s:["() => log('1')"],mq:["() => log('2')","() => log('3')"],tq:[],o:[],d:'첫 번째 콜백 실행.'},
+        {line:-1,s:[],mq:["() => log('2')","() => log('3')"],tq:[],o:['1'],d:'"1" 출력.'},
+        {line:-1,s:["() => log('2')"],mq:["() => log('3')"],tq:[],o:['1'],d:'Promise reaction 실행.'},
+        {line:-1,s:[],mq:["() => log('3')"],tq:[],o:['1','2'],d:'"2" 출력.'},
+        {line:-1,s:["() => log('3')"],mq:[],tq:[],o:['1','2'],d:'세 번째 콜백 실행.'},
+        {line:-1,s:[],mq:[],tq:[],o:['1','2','3'],d:'"3" 출력. 두 API는 큐를 공유 — 등록 순서대로 실행된다.'}
+      ]
+    },
+    nested: {
+      code: [
+        "setTimeout(() => log('timer'), 0);",
+        "queueMicrotask(() => {",
+        "  console.log('A');",
+        "  queueMicrotask(() => log('B'));",
+        "});"
+      ],
+      steps: [
+        {line:-1,s:['script'],mq:[],tq:[],o:[],d:'스크립트 시작.'},
+        {line:0,s:['script'],mq:[],tq:["() => log('timer')"],o:[],d:'타이머가 매크로태스크 큐에 등록.'},
+        {line:1,s:['script'],mq:['outer microtask'],tq:["() => log('timer')"],o:[],d:'외부 마이크로태스크 등록.'},
+        {line:-1,s:[],mq:['outer microtask'],tq:["() => log('timer')"],o:[],d:'스크립트 종료. 마이크로태스크 드레인 시작.'},
+        {line:2,s:['outer microtask'],mq:[],tq:["() => log('timer')"],o:[],d:'외부 마이크로태스크 실행 진입.'},
+        {line:2,s:['outer microtask',"console.log('A')"],mq:[],tq:["() => log('timer')"],o:[],d:'외부 콜백 안에서 <code>console.log("A")</code>.'},
+        {line:2,s:['outer microtask'],mq:[],tq:["() => log('timer')"],o:['A'],d:'"A" 출력.'},
+        {line:3,s:['outer microtask','queueMicrotask(fn)'],mq:[],tq:["() => log('timer')"],o:['A'],d:'드레인 도중에 <code>queueMicrotask</code>가 다시 호출됨.'},
+        {line:3,s:['outer microtask'],mq:["() => log('B')"],tq:["() => log('timer')"],o:['A'],d:'새 마이크로태스크가 같은 큐에 추가됨.'},
+        {line:-1,s:[],mq:["() => log('B')"],tq:["() => log('timer')"],o:['A'],d:'외부 마이크로태스크 종료. 큐가 비지 않았으니 드레인 계속.'},
+        {line:-1,s:["() => log('B')"],mq:[],tq:["() => log('timer')"],o:['A'],d:'중첩된 마이크로태스크 실행.'},
+        {line:-1,s:[],mq:[],tq:["() => log('timer')"],o:['A','B'],d:'"B" 출력. 큐가 비고 나서야 매크로태스크 차례.'},
+        {line:-1,s:["() => log('timer')"],mq:[],tq:[],o:['A','B'],d:'타이머 콜백이 드디어 dequeue.'},
+        {line:-1,s:[],mq:[],tq:[],o:['A','B','timer'],d:'"timer" 출력. 무한 중첩 시 매크로태스크(렌더, 타이머, I/O)가 starvation에 빠진다.'}
+      ]
+    }
+  };
+
+  let current = 'basic';
+  let stepIdx = 0;
+  let timer = null;
+
+  function escapeHtml(s){return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+  function render(){
+    const ex = examples[current];
+    const step = ex.steps[stepIdx];
+    document.getElementById('qmt-code').innerHTML = ex.code.map((line, i) =>
+      `<div class="qmt-line${i===step.line?' active':''}">${escapeHtml(line)}</div>`
+    ).join('');
+    document.getElementById('qmt-stack').innerHTML = step.s.length
+      ? step.s.map(f=>`<div class="qmt-item qmt-stack-item">${escapeHtml(f)}</div>`).join('')
+      : '<div class="qmt-empty">empty</div>';
+    document.getElementById('qmt-mq').innerHTML = step.mq.length
+      ? step.mq.map(f=>`<div class="qmt-item qmt-mq-item">${escapeHtml(f)}</div>`).join('')
+      : '<div class="qmt-empty">empty</div>';
+    document.getElementById('qmt-tq').innerHTML = step.tq.length
+      ? step.tq.map(f=>`<div class="qmt-item qmt-tq-item">${escapeHtml(f)}</div>`).join('')
+      : '<div class="qmt-empty">empty</div>';
+    document.getElementById('qmt-console').innerHTML = step.o.length
+      ? step.o.map(o=>`<div class="qmt-console-line">&gt; ${escapeHtml(o)}</div>`).join('')
+      : '<div class="qmt-empty">// console</div>';
+    document.getElementById('qmt-info').innerHTML = step.d;
+    document.getElementById('qmt-progress').textContent = `${stepIdx+1}/${ex.steps.length}`;
+  }
+
+  function setExample(key){
+    current = key;
+    stepIdx = 0;
+    stopAuto();
+    document.querySelectorAll('.qmt-tab').forEach(t=>{
+      t.classList.toggle('active', t.dataset.ex === key);
+    });
+    render();
+  }
+
+  function next(){
+    const max = examples[current].steps.length - 1;
+    if(stepIdx < max) stepIdx++;
+    else stopAuto();
+    render();
+  }
+  function prev(){ if(stepIdx > 0) stepIdx--; render(); }
+  function reset(){ stepIdx = 0; stopAuto(); render(); }
+  function stopAuto(){
+    if(timer){ clearInterval(timer); timer=null; document.getElementById('qmt-play').textContent='▶ 자동'; }
+  }
+  function toggleAuto(){
+    if(timer){ stopAuto(); return; }
+    timer = setInterval(() => {
+      const max = examples[current].steps.length - 1;
+      if(stepIdx >= max){ stopAuto(); return; }
+      stepIdx++;
+      render();
+    }, 1100);
+    document.getElementById('qmt-play').textContent='⏸ 일시정지';
+  }
+
+  document.querySelectorAll('.qmt-tab').forEach(t=>{
+    t.addEventListener('click', ()=>setExample(t.dataset.ex));
+  });
+  document.getElementById('qmt-prev').addEventListener('click', prev);
+  document.getElementById('qmt-next').addEventListener('click', next);
+  document.getElementById('qmt-play').addEventListener('click', toggleAuto);
+  document.getElementById('qmt-reset').addEventListener('click', reset);
+
+  render();
+</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>React Fiber — child / sibling / return 순회</title>
+<style>
+  :root{
+    --font-mono:ui-monospace,"SF Mono",Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+    --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;
+    --page:#0a0a0f; --panel:#0f1117; --panel2:#141823;
+    --border:#1e293b; --border2:#334155;
+    --text:#e2e8f0; --muted:#94a3b8; --dim:#64748b;
+    --child:#34d399; --sibling:#fbbf24; --return:#94a3b8; --begin:#60a5fa;
+    --radius:8px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px;background:var(--page);color:var(--text);font-family:var(--font-sans);line-height:1.5}
+  .wrap{margin:0 auto}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  svg{width:100%;height:auto;display:block}
+  .status{font-size:13px;color:var(--text);min-height:40px;padding:10px 12px;background:var(--panel2);border-radius:var(--radius);margin:12px 0 12px;border-left:2px solid var(--border2)}
+  .status b{font-family:var(--font-mono)}
+  .ctrl{display:flex;gap:8px;align-items:center}
+  button{font-family:inherit;font-size:13px;padding:7px 12px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--panel2);color:var(--text);cursor:pointer}
+  button:hover:not(:disabled){background:#1b2233}
+  button:disabled{opacity:.45;cursor:default}
+  .step{flex:1}
+  .count{font-size:12px;color:var(--dim);font-family:var(--font-mono);margin-left:auto}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:12px}
+  .legend i{display:inline-block;width:16px;height:0;border-top:2px solid;margin-right:5px;vertical-align:middle}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2 class="sr-only">React Fiber 트리를 child·sibling·return 세 포인터로 순회하는 step-through 시각화. beginWork(내려감)와 completeWork(올라옴)를 한 스텝씩 보여준다.</h2>
+
+<svg id="plot" viewBox="0 0 460 240" role="img" aria-label="fiber 트리 순회"></svg>
+
+<div class="status" id="status"></div>
+
+<div class="ctrl">
+  <button id="prev">◀ 이전</button>
+  <button id="next" class="step">다음 ▶</button>
+  <button id="play" aria-label="자동 재생">▶</button>
+  <button id="reset" aria-label="초기화">↻</button>
+  <span class="count" id="count">0/0</span>
+</div>
+
+<div class="legend">
+  <span><i style="border-color:var(--child)"></i>child ↓ (beginWork)</span>
+  <span><i style="border-color:var(--sibling)"></i>sibling →</span>
+  <span><i style="border-color:var(--return);border-top-style:dashed"></i>return ↑ (completeWork)</span>
+</div>
+</div>
+
+<script>
+(function(){
+  const N = {
+    App:    {x:245, y:34,  t:'App'},
+    Header: {x:110, y:112, t:'Header'},
+    Main:   {x:250, y:112, t:'Main'},
+    Footer: {x:380, y:112, t:'Footer'},
+    h1:     {x:70,  y:190, t:'h1'},
+    nav:    {x:165, y:190, t:'nav'},
+    p:      {x:250, y:190, t:'p'},
+  };
+  // 구조 간선 (항상 옅게): child(부모→첫 자식), sibling(형제 체인)
+  const CHILD  = [['App','Header'],['Header','h1'],['Main','p']];
+  const SIBLING= [['Header','Main'],['Main','Footer'],['h1','nav']];
+
+  // beginWork(내려감)/completeWork(올라옴) 워크 루프 — 각 스텝: 현재 노드, 위상, 도착 간선
+  const S = [
+    {n:'App',    ph:'begin', via:'start',  from:null,    d:'<b>beginWork(App)</b> — 순회 시작. workInProgress = App.'},
+    {n:'Header', ph:'begin', via:'child',  from:'App',   d:'App에 <b>child</b> 있음 → 내려간다.'},
+    {n:'h1',     ph:'begin', via:'child',  from:'Header',d:'Header에 <b>child</b> 있음 → 내려간다.'},
+    {n:'h1',     ph:'comp',  via:null,     from:null,    d:'h1은 child 없음 → <b>completeWork(h1)</b>.'},
+    {n:'nav',    ph:'begin', via:'sibling',from:'h1',    d:'h1에 <b>sibling</b> 있음 → 옆으로 (beginWork).'},
+    {n:'nav',    ph:'comp',  via:null,     from:null,    d:'nav child 없음 → <b>completeWork(nav)</b>.'},
+    {n:'Header', ph:'comp',  via:'return', from:'nav',   d:'nav sibling 없음 → <b>return</b>(부모 Header), completeWork.'},
+    {n:'Main',   ph:'begin', via:'sibling',from:'Header',d:'Header에 <b>sibling</b> 있음 → 옆으로.'},
+    {n:'p',      ph:'begin', via:'child',  from:'Main',  d:'Main에 <b>child</b> 있음 → 내려간다.'},
+    {n:'p',      ph:'comp',  via:null,     from:null,    d:'p child 없음 → <b>completeWork(p)</b>.'},
+    {n:'Main',   ph:'comp',  via:'return', from:'p',     d:'p sibling 없음 → <b>return</b>(Main), completeWork.'},
+    {n:'Footer', ph:'begin', via:'sibling',from:'Main',  d:'Main에 <b>sibling</b> 있음 → 옆으로.'},
+    {n:'Footer', ph:'comp',  via:null,     from:null,    d:'Footer child 없음 → <b>completeWork(Footer)</b>.'},
+    {n:'App',    ph:'comp',  via:'return', from:'Footer',d:'Footer sibling 없음 → <b>return</b>(App). root 도달 → <b>종료</b>.'},
+  ];
+  const COL = {child:'var(--child)', sibling:'var(--sibling)', return:'var(--return)'};
+
+  let i=0, timer=null;
+  const $=id=>document.getElementById(id);
+  const plot=$('plot'), status=$('status'), count=$('count');
+  const W=64, H=24;
+
+  function edge(a,b,color,dash,wide){
+    const A=N[a],B=N[b];
+    return `<line x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}" stroke="${color}" stroke-width="${wide?2.5:1}"${dash?' stroke-dasharray="4 3"':''}/>`;
+  }
+  function node(k,opts){
+    const n=N[k]; const o=opts||{};
+    const stroke=o.cur?(o.ph==='begin'?'var(--begin)':'var(--child)'):'var(--border2)';
+    const bg=o.cur?(o.ph==='begin'?'#0c1d33':'#0c2a20'):(o.done?'#11161f':'var(--panel)');
+    const fill=o.cur?'var(--text)':(o.done?'var(--muted)':'var(--text)');
+    return `<rect x="${n.x-W/2}" y="${n.y-H/2}" width="${W}" height="${H}" rx="6" fill="${bg}" stroke="${stroke}" stroke-width="${o.cur?2:1}"/>`
+         + `<text x="${n.x}" y="${n.y+1}" text-anchor="middle" dominant-baseline="middle" font-family="var(--font-mono)" font-size="12" fill="${fill}">${n.t}</text>`;
+  }
+
+  function render(){
+    const s=S[i];
+    const done=new Set(); // completeWork 끝난 노드
+    for(let k=0;k<=i;k++) if(S[k].ph==='comp') done.add(S[k].n);
+    let g='';
+    // 구조 간선 (옅게)
+    CHILD.forEach(([a,b])=>g+=edge(a,b,'var(--border)',false,false));
+    SIBLING.forEach(([a,b])=>g+=edge(a,b,'var(--border)',false,false));
+    // 활성 간선 (도착에 쓰인 포인터) — 강조
+    if(s.from && s.via && COL[s.via]) g+=edge(s.from,s.n,COL[s.via],s.via==='return',true);
+    // 노드
+    for(const k in N) g+=node(k,{cur:k===s.n,ph:s.ph,done:done.has(k)&&k!==s.n});
+    plot.innerHTML=g;
+    status.innerHTML=s.d;
+    count.textContent=(i+1)+'/'+S.length;
+    $('prev').disabled=i===0; $('next').disabled=i===S.length-1;
+  }
+  function stop(){if(timer){clearInterval(timer);timer=null;$('play').textContent='▶';}}
+  $('next').onclick=()=>{if(i<S.length-1){i++;render();}};
+  $('prev').onclick=()=>{if(i>0){i--;render();}};
+  $('reset').onclick=()=>{stop();i=0;render();};
+  $('play').onclick=()=>{
+    if(timer){stop();return;}
+    if(i>=S.length-1)i=0;
+    $('play').textContent='⏸'; render();
+    timer=setInterval(()=>{if(i<S.length-1){i++;render();}else stop();},1200);
+  };
+  render();
+})();
+</script>
+</body>
+</html>

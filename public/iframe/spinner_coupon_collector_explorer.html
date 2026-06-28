@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spinner — coupon collector explorer</title>
+<style>
+  :root{
+    --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;
+    --color-page:#0a0a0f;
+    --color-background-secondary:#141823;
+    --color-text-primary:#e2e8f0;
+    --color-text-secondary:#94a3b8;
+    --border-radius-md:8px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px;background:var(--color-page);color:var(--color-text-primary);
+       font-family:var(--font-sans);line-height:1.5}
+  .wrap{margin:0 auto}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  input[type=range]{accent-color:#a78bfa}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2 class="sr-only">Interactive explorer of the Claude Code spinner as a coupon collector problem: expected number of unique words seen over time as the word pool size changes.</h2>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 0 0 1.25rem;">
+  <label style="font-size: 14px; color: var(--color-text-secondary); min-width: 120px;">커스텀 단어 |U|</label>
+  <input type="range" min="0" max="110" value="0" step="1" id="extra" style="flex: 1;" />
+  <span style="font-size: 14px; font-weight: 500; min-width: 28px; text-align: right;" id="extra-out">0</span>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 1.5rem;">
+  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+    <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;">풀 크기 n</p>
+    <p style="font-size: 24px; font-weight: 500; margin: 0;" id="m-n">90</p>
+  </div>
+  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+    <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;">전부 보기까지 (기대)</p>
+    <p style="font-size: 24px; font-weight: 500; margin: 0;" id="m-all">457s</p>
+  </div>
+  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+    <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;">절반 보기까지</p>
+    <p style="font-size: 24px; font-weight: 500; margin: 0;" id="m-half">62s</p>
+  </div>
+  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+    <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;">단어당 확률 1/n</p>
+    <p style="font-size: 24px; font-weight: 500; margin: 0;" id="m-p">1.11%</p>
+  </div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 8px; font-size: 12px; color: var(--color-text-secondary);">
+  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 16px; height: 3px; border-radius: 2px; background: #a78bfa;"></span>기대 누적 unique 단어</span>
+  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 16px; height: 0; border-top: 2px dashed #9f9d96;"></span>점근선 n (총 단어 수)</span>
+</div>
+
+<div style="position: relative; width: 100%; height: 300px;">
+  <canvas id="cc" role="img" aria-label="Curve showing expected unique spinner words seen versus seconds of work, approaching the total pool size asymptotically.">기대 누적 unique 단어 곡선: 시간이 지날수록 총 단어 수 n에 점근적으로 수렴.</canvas>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+  Chart.defaults.color = '#94a3b8';
+  Chart.defaults.font.family = '-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif';
+  var GRID = 'rgba(148,163,184,0.12)';
+
+  var BASE = 90;
+  var MAXT = 900;
+  function Hn(n){ var s=0; for(var k=1;k<=n;k++) s+=1/k; return s; }
+  function expectedUnique(n,t){ return n*(1-Math.pow(1-1/n,t)); }
+  function timeToFraction(n,f){ return Math.log(1-f)/Math.log(1-1/n); }
+
+  var labels=[]; for(var t=0;t<=MAXT;t+=10) labels.push(t);
+
+  var ctx=document.getElementById('cc');
+  var chart=new Chart(ctx,{
+    type:'line',
+    data:{labels:labels,datasets:[
+      {label:'기대 unique',data:[],borderColor:'#a78bfa',borderWidth:2,pointRadius:0,tension:0.1,fill:false},
+      {label:'점근선 n',data:[],borderColor:'#9f9d96',borderWidth:2,borderDash:[6,4],pointRadius:0,fill:false}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{
+        title:function(it){return it[0].label+'초';},
+        label:function(it){return it.dataset.label+': '+it.parsed.y.toFixed(1);}
+      }}},
+      scales:{
+        x:{title:{display:true,text:'작업 시간 (초, tick=1s)'},ticks:{maxTicksLimit:10},grid:{color:GRID}},
+        y:{title:{display:true,text:'서로 다른 단어 수'},beginAtZero:true,grid:{color:GRID}}
+      }
+    }
+  });
+
+  function update(extra){
+    var n=BASE+extra;
+    var uni=[],asym=[];
+    for(var i=0;i<labels.length;i++){uni.push(expectedUnique(n,labels[i]));asym.push(n);}
+    chart.data.datasets[0].data=uni;
+    chart.data.datasets[1].data=asym;
+    chart.options.scales.y.max=n*1.08;
+    chart.update('none');
+
+    var allTicks=n*Hn(n);
+    var halfTicks=timeToFraction(n,0.5);
+    document.getElementById('m-n').textContent=n;
+    document.getElementById('m-all').textContent=Math.round(allTicks)+'s';
+    document.getElementById('m-half').textContent=Math.round(halfTicks)+'s';
+    document.getElementById('m-p').textContent=(100/n).toFixed(2)+'%';
+  }
+
+  var slider=document.getElementById('extra');
+  var out=document.getElementById('extra-out');
+  slider.addEventListener('input',function(){out.textContent=slider.value;update(parseInt(slider.value,10));});
+  update(0);
+
+  // 부모 AutoIframe이 로드 후 iframe 높이를 측정·조정하는데, 그 리사이즈와 Chart.js
+  // responsive 렌더가 레이스를 일으켜 라인이 누락될 수 있다. 문서 크기 변화에 맞춰 재렌더.
+  if (window.ResizeObserver) {
+    new ResizeObserver(function(){ chart.resize(); }).observe(document.documentElement);
+  }
+})();
+</script>
+</body>
+</html>

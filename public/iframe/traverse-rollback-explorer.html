@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>traverse rollback explorer — 못 막아서 되돌린다</title>
+<style>
+  :root{
+    --font-mono:ui-monospace,"SF Mono",Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+    --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;
+    --page:#0a0a0f; --panel:#0f1117; --panel2:#141823;
+    --border:#1e293b; --border2:#334155;
+    --text:#e2e8f0; --muted:#94a3b8; --dim:#64748b;
+    --green:#34d399; --green-bg:#0c2a20; --green-bd:#1f5641;
+    --red:#f87171; --red-bg:#2a1213; --red-bd:#5b2526;
+    --amber:#fbbf24; --blue:#60a5fa; --blue-bd:#2d4a73;
+    --radius:8px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px;background:var(--page);color:var(--text);font-family:var(--font-sans);line-height:1.5}
+  .wrap{margin:0 auto}
+  h1{font-size:15px;font-weight:600;margin:0 0 2px}
+  .sub{font-size:12px;color:var(--dim);margin:0 0 14px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  .tape{display:flex;gap:8px;align-items:stretch;margin:0 0 4px;min-height:58px}
+  .cell{flex:1;border:1px solid var(--border);background:var(--panel);border-radius:var(--radius);padding:8px 6px;text-align:center;transition:background .15s,border-color .15s,transform .15s}
+  .cell .u{font-family:var(--font-mono);font-size:13px}
+  .cell .k{font-size:10px;color:var(--dim);margin-top:2px}
+  .cell.cur{border-color:var(--blue);border-width:2px;box-shadow:0 0 0 1px var(--blue-bd) inset}
+  .cell.cur .u{color:var(--blue)}
+  .cell.moved{border-color:var(--red);background:var(--red-bg);transform:translateY(-3px)}
+  .cell.moved .u{color:var(--red)}
+  .cell.rolled{border-color:var(--green);background:var(--green-bg)}
+  .cell.rolled .u{color:var(--green)}
+  .idxline{font-family:var(--font-mono);font-size:11px;color:var(--dim);margin:0 0 12px;text-align:center}
+  .idxline b{color:var(--text)}
+
+  .controls{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px}
+  button{font-family:inherit;font-size:12.5px;padding:7px 11px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--panel2);color:var(--text);cursor:pointer}
+  button:hover:not(:disabled){background:#222a3a}
+  button:disabled{opacity:.4;cursor:default}
+  button.trav{border-color:var(--blue-bd);color:var(--blue)}
+  .blk{margin-left:auto;font-family:var(--font-mono);font-size:12px;padding:6px 11px;border-radius:999px;border:1px solid var(--border2);background:var(--panel2);color:var(--dim);cursor:pointer}
+  .blk.on{border-color:var(--red-bd);background:var(--red-bg);color:var(--red)}
+
+  .cancel{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0 12px}
+  .c{border:1px solid var(--border);border-radius:var(--radius);padding:7px 6px;text-align:center;font-size:11.5px}
+  .c .ty{font-family:var(--font-mono);color:var(--text)}
+  .c .can{margin-top:3px;font-size:11px}
+  .c.ok{border-color:var(--green-bd)} .c.ok .can{color:var(--green)}
+  .c.no{border-color:var(--red-bd)} .c.no .can{color:var(--red)}
+
+  .log{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;font-family:var(--font-mono);font-size:11.5px;min-height:96px;max-height:170px;overflow:auto}
+  .log .ln{padding:2px 0;border-bottom:1px solid #161b27;color:var(--muted);white-space:pre-wrap}
+  .log .ln:last-child{border-bottom:0}
+  .log .blue{color:var(--blue)} .log .red{color:var(--red)} .log .green{color:var(--green)} .log .amber{color:var(--amber)} .log .dim{color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>traverse rollback explorer</h1>
+<p class="sub">블로커를 켜고 눌러보세요 — push·replace·reload는 preventDefault로 안 움직이고, traverse(◀▶)만 움직였다 되돌아온다</p>
+<h2 class="sr-only">Navigation API의 네 nav 타입을 블로커가 켜진 상태에서 실행하며, traverse만 사전 취소가 불가해 사후 롤백(go(-delta))으로 처리됨을 히스토리 리스트+커서로 보여주는 explorer.</h2>
+
+<div class="tape" id="tape" role="img" aria-label="히스토리 엔트리 리스트와 현재 커서"></div>
+<div class="idxline" id="idx"></div>
+
+<div class="controls">
+  <button data-nav="push">push</button>
+  <button data-nav="replace">replace</button>
+  <button data-nav="reload">reload</button>
+  <button class="trav" data-nav="back" id="back">◀ back</button>
+  <button class="trav" data-nav="forward" id="fwd">forward ▶</button>
+  <span class="blk" id="blk" role="button" tabindex="0" aria-pressed="false">blocker: off</span>
+</div>
+
+<div class="cancel">
+  <div class="c ok"><div class="ty">push</div><div class="can">취소 ✓</div></div>
+  <div class="c ok"><div class="ty">replace</div><div class="can">취소 ✓</div></div>
+  <div class="c ok"><div class="ty">reload</div><div class="can">취소 ✓</div></div>
+  <div class="c no"><div class="ty">traverse</div><div class="can">취소 ✗</div></div>
+</div>
+
+<div class="log" id="log" aria-live="polite"></div>
+</div>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  let entries, idx, key, blocker=false, busy=false;
+
+  function init(){
+    entries=[{u:'/a',k:1},{u:'/b',k:2},{u:'/c',k:3}];
+    idx=1; key=4; blocker=false; busy=false;
+    $('log').innerHTML='';
+    log('초기 상태 · idx=1 (/b)', 'dim');
+    render();
+  }
+
+  function render(extra){
+    const tape=$('tape'); tape.innerHTML='';
+    entries.forEach((e,i)=>{
+      const c=document.createElement('div');
+      c.className='cell'+(i===idx?' cur':'')+(extra&&extra.i===i?(' '+extra.cls):'');
+      c.innerHTML=`<div class="u">${e.u}</div><div class="k">key ${e.k}</div>`;
+      tape.appendChild(c);
+    });
+    $('idx').innerHTML=`idx = <b>${idx}</b> / ${entries.length-1}　·　현재 <b>${entries[idx].u}</b>`;
+    $('back').disabled=busy||idx<=0;
+    $('fwd').disabled=busy||idx>=entries.length-1;
+    document.querySelectorAll('[data-nav]').forEach(b=>{ if(b.dataset.nav==='push'||b.dataset.nav==='replace'||b.dataset.nav==='reload') b.disabled=busy; });
+    $('blk').classList.toggle('on',blocker);
+    $('blk').textContent='blocker: '+(blocker?'on':'off');
+    $('blk').setAttribute('aria-pressed',blocker);
+  }
+
+  function log(html,cls){
+    const ln=document.createElement('div');
+    ln.className='ln'+(cls?' '+cls:'');
+    ln.innerHTML=html;
+    $('log').appendChild(ln);
+    $('log').scrollTop=$('log').scrollHeight;
+  }
+
+  // push/replace/reload — 사전 취소 가능
+  function cancellableNav(type){
+    if(blocker){
+      log(`navigate <b>${type}</b> · cancellable ✓ · <span class="green">preventDefault()</span> → 차단 (이동 없음)`,'');
+      return;
+    }
+    if(type==='push'){ entries=entries.slice(0,idx+1); entries.push({u:'/n'+key,k:key}); key++; idx=entries.length-1; }
+    else if(type==='replace'){ entries[idx]={u:entries[idx].u+'~',k:entries[idx].k}; }
+    // reload: 상태 변화 없음
+    log(`navigate <b>${type}</b> · 적용 → idx=${idx} (${entries[idx].u})`,'blue');
+    render();
+  }
+
+  // traverse — 사전 취소 불가 → 사후 롤백
+  function traverse(delta){
+    const from=idx, to=idx+delta;
+    if(to<0||to>=entries.length) return;
+    if(!blocker){
+      idx=to; log(`navigate <b>traverse</b> · 적용 → idx=${from}→${to} (${entries[idx].u})`,'blue'); render(); return;
+    }
+    // blocker on: preventDefault 불가 → 이동이 먼저 일어난다
+    busy=true;
+    idx=to;
+    log(`navigate <b>traverse</b> · cancellable <span class="red">✗</span> · preventDefault 불가 → 이동 발생 idx=${from}→${to}`,'red');
+    render({i:to, cls:'moved'});
+    setTimeout(()=>{
+      idx=from;                       // go(-delta) 롤백
+      busy=false;
+      log(`<span class="amber">go(${-delta})</span> 롤백 → idx=${to}→${from} · 관측상 항등 (떴다 사라진 두 프레임)`,'green');
+      render({i:from, cls:'rolled'});
+      setTimeout(render,450);
+    },750);
+  }
+
+  document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{
+    if(busy) return;
+    const n=b.dataset.nav;
+    if(n==='back') traverse(-1);
+    else if(n==='forward') traverse(1);
+    else cancellableNav(n);
+  });
+  const toggleBlk=()=>{ blocker=!blocker; log('blocker '+(blocker?'ON — 이제 nav를 막으려 시도':'OFF'),'dim'); render(); };
+  $('blk').onclick=toggleBlk;
+  $('blk').onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggleBlk(); } };
+
+  init();
+})();
+</script>
+</body>
+</html>

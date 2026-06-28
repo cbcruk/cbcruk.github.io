@@ -1,0 +1,17 @@
+---
+tags: ['probability', 'coupon-collector', 'math']
+status: release
+ctime: 2026-06-23
+mtime: 2026-06-27
+---
+
+import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
+
+spinner 메시지가 매 틱 **셔플이 아니라 독립 균등추출(복원)**이면, 체감 "다양함"의 한계는 coupon collector 꼬리다 — 풀 n(≈90)을 다 보려면 평균 `nH_n` ≈ **7.6분**, 마지막 한 단어가 제일 오래 걸린다. 셔플이었다면 정확히 n틱에 끝났을 것 — 복원추출이라 꼬리가 생긴다.
+
+<AutoIframe
+  src="/iframe/spinner_coupon_collector_explorer.html"
+  title="spinner coupon collector explorer — 풀 크기에 따른 기대 누적 unique 곡선"
+/>
+
+탐색기: 풀 크기 슬라이더로 기대 누적 unique 곡선 — 커스텀 단어를 append할수록 분모가 커져 빌트인 단어 확률이 희석된다.

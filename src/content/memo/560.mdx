@@ -1,0 +1,32 @@
+---
+tags: ['react', 'fiber', 'algorithm', 'dfs']
+status: release
+ctime: 2026-06-21
+mtime: 2026-06-27
+---
+
+import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
+
+<AutoIframe
+  src="/iframe/fiber-traversal.html"
+  title="React Fiber — 링크드 리스트 트리 순회"
+/>
+
+**재귀(콜 스택) 대신 `child` / `sibling` / `return` 세 포인터로 트리를 순회한다 → 스택 없이 DFS pre-order, 언제든 중단·재개 가능.** Fiber가 렌더링을 쪼갤 수 있는 이유.
+
+재귀로 짜면 진행 상태가 JS 콜 스택에 쌓이는데, `requestIdleCallback`으로 도중에 yield하면 그 스택을 버리게 된다. 재개하려면 스택을 다시 쌓아야 해서 "어디까지 했는지"를 외부에서 들고 있어야 한다.
+
+그 상태를 `workInProgress` 포인터 하나로 환원한다. 노드마다 걸린 세 링크를 직접 따라가므로 호출 스택이 필요 없다.
+
+```
+1. child 있으면?      → 내려간다
+2. root에 도달했으면? → 종료
+3. sibling 없으면?    → return(부모)으로 올라가며 반복
+4. sibling 있으면?    → 옆으로 간다
+```
+
+내려가는 길 = `beginWork`, 올라오는 길 = `completeWork`. 한 노드를 두 번(하강·상승) 지나는 흐름이 그대로 두 단계로 갈린다.
+
+---
+
+- 참고: [React Fiber Architecture — facebook/react#7942](https://github.com/facebook/react/issues/7942)

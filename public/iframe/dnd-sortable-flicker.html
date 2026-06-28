@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dnd-kit sortable flicker — 캐시 렌더 vs local state</title>
+<style>
+  :root{
+    --font-mono:ui-monospace,"SF Mono",Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+    --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;
+    --page:#0a0a0f; --panel:#0f1117; --panel2:#141823;
+    --border:#1e293b; --border2:#334155;
+    --text:#e2e8f0; --muted:#94a3b8; --dim:#64748b;
+    --green:#34d399; --green-bg:#0c2a20; --green-bd:#1f5641;
+    --red:#f87171; --red-bg:#2a1213; --red-bd:#5b2526;
+    --amber:#fbbf24; --amber-bg:#241c06; --amber-bd:#5a4a12;
+    --blue:#60a5fa; --blue-bd:#2d4a73;
+    --radius:8px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px;background:var(--page);color:var(--text);font-family:var(--font-sans);line-height:1.5}
+  .wrap{margin:0 auto}
+  h1{font-size:15px;font-weight:600;margin:0 0 2px}
+  .sub{font-size:12px;color:var(--dim);margin:0 0 12px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  .controls{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 12px}
+  button{font-family:inherit;font-size:12.5px;padding:7px 11px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--panel2);color:var(--text);cursor:pointer}
+  button:hover:not(:disabled){background:#222a3a}
+  button:disabled{opacity:.4;cursor:default}
+  button.go{border-color:var(--blue-bd);color:var(--blue)}
+  .seg{display:flex;border:1px solid var(--border2);border-radius:999px;overflow:hidden;margin-left:auto}
+  .seg span{font-family:var(--font-mono);font-size:11.5px;padding:6px 11px;cursor:pointer;color:var(--dim)}
+  .seg span.on{background:#0e1f33;color:var(--blue)}
+
+  .list{display:flex;flex-direction:column;gap:6px;margin:0 0 4px}
+  .item{display:flex;align-items:center;gap:8px;border:1px solid var(--border2);background:var(--panel2);border-radius:var(--radius);padding:9px 12px;font-family:var(--font-mono);font-size:13px;will-change:transform}
+  .item .g{color:var(--dim);font-size:13px}
+  .item.moved{border-color:var(--blue-bd)}
+  .item.meas{border-color:var(--red);background:var(--red-bg);color:var(--red)}
+  .item.flick{border-color:var(--amber);background:var(--amber-bg);color:var(--amber)}
+  .item.settled{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+  .tag{margin-left:auto;font-size:10px;color:var(--dim)}
+  .item.meas .tag{color:var(--red)} .item.flick .tag{color:var(--amber)} .item.settled .tag{color:var(--green)}
+
+  .cap{margin:10px 2px 0;font-size:12.5px;min-height:40px;font-family:var(--font-mono);color:var(--muted)}
+  .cap b{color:var(--text)} .cap .bad{color:var(--red)} .cap .ok{color:var(--green)}
+  .legend{font-size:11px;color:var(--dim);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>dnd-kit sortable flicker — 캐시 렌더 vs local state</h1>
+<p class="sub">B를 맨 아래로 옮긴다. ▶로 drop 직후 프레임을 밟아보세요 — 캐시 렌더는 옛 순서를 측정해 튕기고, local state는 바로 정착한다</p>
+<h2 class="sr-only">dnd-kit Sortable에서 항목을 옮길 때, 렌더 source-of-truth가 react-query 캐시면 dnd-kit 측정이 의존하는 commit을 안 타 옛 순서를 잡아 한 프레임 튕기고(flicker), local state면 commit을 타 새 순서로 바로 정착함을 drop 직후 프레임 단위로 비교하는 explorer.</h2>
+
+<div class="controls">
+  <button class="go" id="step">▶ drop 실행</button>
+  <button id="reset">↻ reset</button>
+  <div class="seg" role="tablist" aria-label="렌더 source">
+    <span data-mode="cache" class="on" role="tab">캐시 렌더 (flicker)</span>
+    <span data-mode="state" role="tab">local state (fixed)</span>
+  </div>
+</div>
+
+<div class="list" id="list" role="list" aria-label="정렬 리스트"></div>
+<p class="cap" id="cap"></p>
+<p class="legend">B = 옮기는 항목 · <span style="color:var(--red)">빨강</span> dnd-kit이 측정한 위치(옛 순서) · <span style="color:var(--amber)">노랑</span> 튕김(점프) · <span style="color:var(--green)">초록</span> 정착</p>
+</div>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const OLD=['A','B','C','D'], NEW=['A','C','D','B'], MOVED='B';
+  const nodes={};
+  let mode='cache', frame=0, order=OLD.slice();
+
+  function build(){
+    const L=$('list'); L.innerHTML='';
+    ['A','B','C','D'].forEach(id=>{
+      const d=document.createElement('div');
+      d.className='item'+(id===MOVED?' moved':'');
+      d.dataset.id=id; d.setAttribute('role','listitem');
+      d.innerHTML=`<span class="g">⠿</span> item ${id}<span class="tag"></span>`;
+      nodes[id]=d;
+    });
+    applyOrder(OLD, false);
+  }
+
+  function applyOrder(newOrder, flip){
+    const L=$('list');
+    const firsts={}; L.querySelectorAll('.item').forEach(el=>firsts[el.dataset.id]=el.getBoundingClientRect().top);
+    newOrder.forEach(id=>L.appendChild(nodes[id]));
+    order=newOrder.slice();
+    if(flip){
+      L.querySelectorAll('.item').forEach(el=>{
+        const last=el.getBoundingClientRect().top, dy=firsts[el.dataset.id]-last;
+        if(dy){ el.style.transition='none'; el.style.transform=`translateY(${dy}px)`;
+          requestAnimationFrame(()=>{ el.style.transition='transform .4s cubic-bezier(.2,.7,.3,1)'; el.style.transform=''; }); }
+      });
+    }
+  }
+  function hi(map){ ['A','B','C','D'].forEach(id=>{ nodes[id].classList.remove('meas','flick','settled'); nodes[id].querySelector('.tag').textContent=''; });
+    for(const id in map){ nodes[id].classList.add(map[id].cls); nodes[id].querySelector('.tag').textContent=map[id].tag; } }
+
+  const steps=()=> mode==='cache' ? [
+    {order:OLD, flip:false, hi:{[MOVED]:{cls:'meas',tag:'측정: 옛 위치'}},
+     cap:'① drop — dnd-kit이 ASAP 측정. <b>setQueryData는 commit을 안 타</b> 아직 옛 순서 → drop 애니메이션이 B를 <span class="bad">옛 위치</span>로.'},
+    {order:NEW, flip:true, hi:{[MOVED]:{cls:'flick',tag:'점프!'}},
+     cap:'② 캐시가 결국 반영 → B가 새 위치로 <span class="bad">툭 점프 = flicker 👁</span>'},
+  ] : [
+    {order:NEW, flip:true, hi:{[MOVED]:{cls:'settled',tag:'정착'}},
+     cap:'① drop + setItems → <b>React commit</b> → dnd-kit이 새 순서를 측정 → 바로 정착. <span class="ok">flicker 없음 ✓</span>'},
+  ];
+
+  function render(){
+    $('step').disabled = frame>=steps().length;
+    $('step').textContent = frame===0 ? '▶ drop 실행' : (frame>=steps().length?'완료':'▶ 다음 프레임');
+    document.querySelectorAll('.seg span').forEach(sp=>sp.classList.toggle('on',sp.dataset.mode===mode));
+    if(frame===0){ $('cap').innerHTML = mode==='cache'
+      ? '렌더 source = react-query 캐시. ▶ drop을 밟아보세요.'
+      : '렌더 source = local state. ▶ drop을 밟아보세요.'; }
+  }
+  function step(){ const s=steps(); if(frame>=s.length) return; const st=s[frame]; applyOrder(st.order, st.flip); hi(st.hi); $('cap').innerHTML=st.cap; frame++; render(); }
+  function reset(){ frame=0; hi({}); applyOrder(OLD,false); render(); }
+
+  $('step').onclick=step; $('reset').onclick=reset;
+  document.querySelectorAll('.seg span').forEach(sp=>{
+    const pick=()=>{ mode=sp.dataset.mode; reset(); };
+    sp.onclick=pick; sp.setAttribute('tabindex','0');
+    sp.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } };
+  });
+
+  build(); reset();
+})();
+</script>
+</body>
+</html>

@@ -2,9 +2,11 @@
 tags: ['tunneling', 'websocket', 'vercel-sandbox', 'networking']
 status: release
 ctime: 2026-06-07
-mtime: 2026-06-07
+mtime: 2026-06-28
 title: vgrok - 터널링의 핵심은 역방향 영속 연결
 ---
+
+import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
 localhost는 inbound 연결을 못 받는다(NAT/방화벽 뒤). 터널링의 원리는 **공개 머신에서 로컬로 향하는 영속 연결을 미리 깔아두고, 외부 요청을 그 연결 위로 거꾸로 흘려보내는 것**.
 
@@ -15,6 +17,11 @@ vgrok에서 그 영속 연결은 WebSocket이다. local → sandbox 방향으로
                                           │ WebSocket (local이 미리 연결해둠)
                           localhost ◀──HTTP── [local] client.js ◀──┘
 ```
+
+<AutoIframe
+  src="/iframe/vgrok-reverse-tunnel.html"
+  title="vgrok 역방향 터널 — 직접(NAT 차단) vs 터널(local이 outbound WS를 깔고 외부 요청을 거꾸로 흘림) 단계별 비교"
+/>
 
 ## 요청/응답 매칭
 

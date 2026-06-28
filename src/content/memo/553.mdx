@@ -1,10 +1,12 @@
 ---
 tags: ['browser-extension', 'native-messaging', 'chrome']
-status: draft
+status: release
 ctime: 2026-06-08
-mtime: 2026-06-08
+mtime: 2026-06-28
 title: Native Messaging — 확장이 로컬 바이너리를 실행하는 법
 ---
+
+import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
 Native Messaging = "샌드박스는 유지하되, 등록된 외부 프로세스 하나와 stdio로만 대화한다". Chrome이 호스트를 별도 자식 프로세스로 spawn하고, 그 프로세스가 yt-dlp를 실행한다.
 
@@ -17,6 +19,11 @@ message = sys.stdin.buffer.read(message_length)        # 그만큼 본문
 ```
 
 → 호스트는 `stdout`에 `print` 금지(곧 프로토콜 깨짐). 로그는 `stderr`로.
+
+<AutoIframe
+  src="/iframe/native-messaging-bridge.html"
+  title="native messaging 연결 구조 — 샌드박스 → manifest 게이트 → Chrome이 spawn한 host → OS 바이너리, 단발/연결유지 단계별"
+/>
 
 **content script는 통로 밖** — `sendNativeMessage`/`connectNative`는 background(service worker)에서만 호출 가능. 그래서 흐름이 `content.js`(ID 추출) → `background.js`(네이티브 통신)로 갈라진다.
 

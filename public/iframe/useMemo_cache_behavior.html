@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>useMemo 캐시 동작</title>
+<style>
+  :root{
+    --font-mono:ui-monospace,"SF Mono",Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+    --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;
+    --color-page:#0a0a0f;
+    --color-background-primary:#0f1117;
+    --color-background-secondary:#141823;
+    --color-background-tertiary:#1b2233;
+    --color-background-info:#0c1d33;
+    --color-background-warning:#2a2207;
+    --color-background-success:#0c2a20;
+    --color-text-primary:#e2e8f0;
+    --color-text-secondary:#94a3b8;
+    --color-text-tertiary:#64748b;
+    --color-text-info:#60a5fa;
+    --color-text-warning:#fbbf24;
+    --color-text-success:#6ee7b7;
+    --color-border-primary:#334155;
+    --color-border-secondary:#334155;
+    --color-border-tertiary:#1e293b;
+    --color-border-info:#3b82f6;
+    --border-radius-md:8px;
+    --border-radius-lg:12px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px;background:var(--color-page);color:var(--color-text-primary);font-family:var(--font-sans);line-height:1.5}
+  .wrap{margin:0 auto}
+  button{font-family:inherit;cursor:pointer}
+  input[type=range]{accent-color:#a78bfa}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
+<style>
+  :root { --gap: 8px; }
+  .section { margin: 1.5rem 0; }
+  .label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; font-weight: 500; }
+  .timeline { display: flex; flex-direction: column; gap: 6px; }
+  .row { display: flex; align-items: center; gap: 8px; }
+  .row-label { font-size: 12px; color: var(--color-text-secondary); width: 110px; flex-shrink: 0; text-align: right; }
+  .cells { display: flex; gap: 4px; flex: 1; min-width: 0; }
+  .cell {
+    flex: 1; min-width: 0; height: 36px; border-radius: 6px; border: 0.5px solid var(--color-border-tertiary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 500; transition: background 0.2s, border-color 0.2s;
+    background: var(--color-background-secondary);
+    color: var(--color-text-secondary);
+  }
+  .cell.changed { background: var(--color-background-warning); border-color: #fbbf24; color: #fbbf24; }
+  .cell.cached  { background: var(--color-background-success); border-color: #34d399; color: #6ee7b7; }
+  .cell.rerun   { background: #2a1213; border-color: #ef4444; color: #fca5a5; }
+  .cell.stale   { background: var(--color-background-tertiary); border-color: #a78bfa; color: #a78bfa; opacity: 0.6; }
+
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--color-text-secondary); }
+  .leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+  .tab-bar { display: flex; gap: 4px; margin-bottom: 16px; }
+  .tab {
+    padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer;
+    border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary);
+    color: var(--color-text-secondary); transition: background 0.15s, color 0.15s;
+  }
+  .tab.active { background: var(--color-background-primary); color: var(--color-text-primary); border-color: var(--color-border-primary); }
+
+  .result-card {
+    border: 0.5px solid var(--color-border-tertiary); border-radius: 8px;
+    padding: 10px 14px; background: var(--color-background-primary); margin-top: 16px;
+  }
+  .result-row { display: flex; justify-content: space-between; align-items: center; padding: 3px 0; font-size: 12px; }
+  .result-key { color: var(--color-text-secondary); }
+  .badge {
+    font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 4px;
+  }
+  .badge.ok  { background: var(--color-background-success); color: #6ee7b7; }
+  .badge.bad { background: #2a1213; color: #fca5a5; }
+
+  .scenario-desc {
+    font-size: 12px; color: var(--color-text-secondary);
+    border-left: 2px solid var(--color-border-tertiary);
+    padding-left: 10px; margin-bottom: 14px; line-height: 1.6;
+  }
+
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.2rem 0; }
+
+  .tick-labels { display: flex; gap: 4px; padding-left: calc(110px + 8px); margin-bottom: 2px; }
+  .tick { flex: 1; min-width: 0; font-size: 10px; color: var(--color-text-tertiary); text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div style="padding: 1rem 0">
+  <div class="tab-bar">
+    <div class="tab active" onclick="setTab(0)">items 불안정 (인라인 생성)</div>
+    <div class="tab" onclick="setTab(1)">items 안정 (useMemo 처리)</div>
+  </div>
+
+  <div id="desc-0" class="scenario-desc">
+    부모가 <code style="font-size:11px">items={'{'}data.map(transform){'}'}</code> 처럼 매 렌더마다 새 배열 참조를 내려보내는 경우
+  </div>
+  <div id="desc-1" class="scenario-desc" style="display:none">
+    부모가 <code style="font-size:11px">const items = useMemo(() =&gt; ..., [rawData])</code> 으로 안정화된 참조를 내려보내는 경우
+  </div>
+
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:#fbbf24"></div>값 변경</div>
+    <div class="leg"><div class="leg-dot" style="background:#34d399"></div>캐시 재사용</div>
+    <div class="leg"><div class="leg-dot" style="background:#ef4444"></div>재계산 실행</div>
+    <div class="leg"><div class="leg-dot" style="background:#a78bfa; opacity:.6"></div>지연된 값 (stale)</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--color-background-secondary)"></div>변화 없음</div>
+  </div>
+
+  <div class="tick-labels" id="tick-labels"></div>
+  <div class="timeline" id="timeline"></div>
+
+  <div class="result-card" id="result-card"></div>
+</div>
+</div>
+
+<script>
+const SCENARIOS = [
+  {
+    triggers: [
+      { label: 'query 타이핑', queryChange: true, itemsChange: true, deferredChange: false },
+      { label: 'deferred 반영', queryChange: false, itemsChange: true, deferredChange: true },
+      { label: '부모 리렌더', queryChange: false, itemsChange: true, deferredChange: false },
+      { label: 'rawData 변경', queryChange: false, itemsChange: true, deferredChange: true },
+    ],
+    result: [
+      { key: 'isStale 플래그 / opacity', val: '✓ 동작', ok: true },
+      { key: 'Concurrent 렌더 분리', val: '✓ 동작', ok: true },
+      { key: 'useMemo 캐시', val: '✗ 항상 재계산', ok: false },
+      { key: '정확성', val: '✓ 보장', ok: true },
+    ]
+  },
+  {
+    triggers: [
+      { label: 'query 타이핑', queryChange: true, itemsChange: false, deferredChange: false },
+      { label: 'deferred 반영', queryChange: false, itemsChange: false, deferredChange: true },
+      { label: '부모 리렌더', queryChange: false, itemsChange: false, deferredChange: false },
+      { label: 'rawData 변경', queryChange: false, itemsChange: true, deferredChange: true },
+    ],
+    result: [
+      { key: 'isStale 플래그 / opacity', val: '✓ 동작', ok: true },
+      { key: 'Concurrent 렌더 분리', val: '✓ 동작', ok: true },
+      { key: 'useMemo 캐시', val: '✓ 의도대로 동작', ok: true },
+      { key: '정확성', val: '✓ 보장', ok: true },
+    ]
+  }
+];
+
+const ROWS = ['query', 'deferredQuery', 'items', 'filtered (useMemo)'];
+
+function computeCells(scenario) {
+  const triggers = scenario.triggers;
+  const N = triggers.length;
+  const rows = [];
+
+  // query row
+  rows.push(triggers.map(t => t.queryChange ? 'changed' : null));
+
+  // deferredQuery row
+  rows.push(triggers.map(t => t.deferredChange ? 'stale→changed' : (t.queryChange ? 'stale' : null)));
+
+  // items row
+  rows.push(triggers.map(t => t.itemsChange ? 'changed' : null));
+
+  // filtered row: rerun if items changed OR deferredQuery changed
+  rows.push(triggers.map(t => {
+    if (t.itemsChange || t.deferredChange) return 'rerun';
+    return 'cached';
+  }));
+
+  return rows;
+}
+
+function cellClass(rowIdx, val) {
+  if (rowIdx === 1) {
+    if (val === 'stale') return 'stale';
+    if (val === 'stale→changed') return 'changed';
+  }
+  if (val === 'changed') return 'changed';
+  if (val === 'rerun') return 'rerun';
+  if (val === 'cached') return 'cached';
+  return '';
+}
+
+function cellText(rowIdx, val) {
+  if (!val) return '—';
+  if (rowIdx === 1) {
+    if (val === 'stale') return 'stale';
+    if (val === 'stale→changed') return '반영';
+  }
+  if (val === 'changed') return '변경';
+  if (val === 'rerun') return '재계산';
+  if (val === 'cached') return '캐시';
+  return val;
+}
+
+let activeTab = 0;
+
+function setTab(i) {
+  activeTab = i;
+  document.querySelectorAll('.tab').forEach((t, idx) => t.classList.toggle('active', idx === i));
+  document.getElementById('desc-0').style.display = i === 0 ? '' : 'none';
+  document.getElementById('desc-1').style.display = i === 1 ? '' : 'none';
+  render();
+}
+
+function render() {
+  const sc = SCENARIOS[activeTab];
+  const cells = computeCells(sc);
+  const N = sc.triggers.length;
+
+  // tick labels
+  const tickEl = document.getElementById('tick-labels');
+  tickEl.innerHTML = sc.triggers.map(t => `<div class="tick">${t.label}</div>`).join('');
+
+  // timeline
+  const tlEl = document.getElementById('timeline');
+  tlEl.innerHTML = ROWS.map((rowLabel, ri) => {
+    const cellsHtml = cells[ri].map((val, ci) => {
+      const cls = cellClass(ri, val);
+      const txt = cellText(ri, val);
+      return `<div class="cell ${cls}">${txt}</div>`;
+    }).join('');
+    return `<div class="row">
+      <div class="row-label">${rowLabel}</div>
+      <div class="cells">${cellsHtml}</div>
+    </div>`;
+  }).join('');
+
+  // result
+  const rc = document.getElementById('result-card');
+  rc.innerHTML = sc.result.map(r =>
+    `<div class="result-row">
+      <span class="result-key">${r.key}</span>
+      <span class="badge ${r.ok ? 'ok' : 'bad'}">${r.val}</span>
+    </div>`
+  ).join('');
+}
+
+render();
+</script>
+</body>
+</html>

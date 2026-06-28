@@ -1,0 +1,45 @@
+---
+tags:
+  [
+    'react',
+    'usememo',
+    'derived-state',
+    'cache-discard',
+    'correctness-vs-perf',
+    'render-time-setstate',
+  ]
+status: release
+ctime: 2026-06-23
+mtime: 2026-06-23
+---
+
+import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
+
+**`useMemo`는 성능 힌트지 의미적 보장이 아니다 — 정확성을 캐시에 의존하면 안 된다.** React는 특별한 이유가 있으면 캐시를 버린다: 개발 중 HMR, 초기 마운트 중 suspend, 미래 기능(오프스크린/가상 리스트). 그래서 `useMemo` 결과로 "한 번 정해지면 유지돼야 하는 값"을 만들면, 캐시가 폐기되는 순간 값이 바뀐다.
+
+<AutoIframe
+  src="/iframe/usememo_cache_discard.html"
+  title="useMemo vs useState — 캐시 폐기 이벤트를 던지면 useMemo만 색이 바뀐다(flicker)"
+/>
+
+```tsx
+// ❌ 캐시 폐기 시 색이 재생성 → flicker
+const colors = useMemo(() => getRandomColors(baseTheme), [baseTheme])
+
+// ✅ 영속성이 정확성 조건이면 state로
+const [colors, setColors] = useState(() => generateAccentColors(baseTheme))
+const [prevTheme, setPrevTheme] = useState(baseTheme)
+if (baseTheme !== prevTheme) {
+  // 렌더 중 prev 비교 = derived state
+  setPrevTheme(baseTheme)
+  setColors(generateAccentColors(baseTheme))
+}
+```
+
+판별 기준: "이 값이 재계산되면 _틀린_ 동작인가, 아니면 그냥 _느린_ 동작인가."
+틀림 → state/ref. 느림 → useMemo.
+
+## 참고
+
+- [Building Bulletproof React Components — Shu Ding](https://shud.in/thoughts/build-bulletproof-react-components)
+- [useMemo — React (caveats)](https://react.dev/reference/react/useMemo)

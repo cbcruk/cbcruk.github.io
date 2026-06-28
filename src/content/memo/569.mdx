@@ -1,0 +1,24 @@
+---
+tags: ['javascript', 'event-loop', 'navigation']
+status: release
+ctime: 2026-06-23
+mtime: 2026-06-23
+---
+
+<img
+  src="/svg/event_loop_nav_slot.svg"
+  alt="location.href setter 실행 시점(②)과 실제 navigation 처리 시점(④)이 분리되는 이벤트 루프 타임라인"
+/>
+
+**`location.href` setter의 실행 시점과 실제 navigation 처리 시점은 분리된다.** setter는 동기적으로 정상 실행되지만(흐름을 끊지 않음), 그 효과는 브라우저 슬롯에 "마지막 값으로 덮어쓰기"로만 남는다. 실제 이동은 콜 스택이 비고 마이크로태스크까지 소진된 뒤(④)에야 일어난다.
+
+그래서 "암묵적 await" 가설은 틀렸다 — await였다면 첫 줄에서 멈춰 `google.com`으로 갔겠지만, 실제로는 두 setter가 모두 실행되고 마지막 값 `google2.com`으로 간다.
+
+```js
+location.href = 'https://google.com'
+console.log('실행됨 1') // 출력됨
+location.href = 'https://google2.com'
+console.log('실행됨 2') // 출력됨 → await였다면 안 찍힘
+```
+
+두 `console.log`가 모두 찍히는 것이 setter가 흐름을 끊지 않는다는 직접 증거다.

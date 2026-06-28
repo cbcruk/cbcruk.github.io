@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>useMemo vs useState — 캐시 폐기 실험</title>
+<style>
+  :root{
+    --font-mono:ui-monospace,"SF Mono",Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+    --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;
+    --page:#0a0a0f; --panel:#0f1117; --panel2:#141823; --panel3:#1b2233;
+    --border:#1e293b; --border2:#334155;
+    --text:#e2e8f0; --muted:#94a3b8; --dim:#64748b;
+    --green:#34d399; --green-bg:#0c2a20; --red:#f87171; --red-bg:#2a1213; --blue:#60a5fa;
+    --radius:8px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px;background:var(--page);color:var(--text);font-family:var(--font-sans);line-height:1.5}
+  .wrap{margin:0 auto}
+  h1{font-size:15px;font-weight:600;margin:0 0 2px}
+  .sub{font-size:12px;color:var(--dim);margin:0 0 16px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  .controls{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
+  button{font-family:inherit;font-size:12.5px;padding:7px 11px;border:1px solid var(--border2);
+         border-radius:var(--radius);background:var(--panel2);color:var(--text);cursor:pointer}
+  button:hover{background:#222a3a}
+  button.theme{border-color:#3b5ca8;color:var(--blue)}
+  .hint{font-size:11px;color:var(--dim);margin:0 0 16px}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 14px}
+  @media(max-width:520px){.cols{grid-template-columns:1fr}}
+  .col{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--panel);transition:box-shadow .15s,border-color .15s}
+  .col.flash-bad{border-color:var(--red);box-shadow:0 0 0 2px rgba(248,113,113,.25)}
+  .col.flash-ok{border-color:var(--green);box-shadow:0 0 0 2px rgba(52,211,153,.25)}
+  .col code{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);display:block;margin:0 0 2px}
+  .col .role{font-size:11px;margin:0 0 12px}
+  .role.memo{color:var(--red)} .role.state{color:var(--green)}
+  .swatches{display:flex;gap:6px;margin:0 0 12px}
+  .sw{flex:1;height:40px;border-radius:6px;transition:background .25s}
+  .meta{font-size:12px;color:var(--muted)}
+  .meta b{color:var(--text);font-family:var(--font-mono)}
+
+  .now{font-size:12px;color:var(--muted);min-height:34px;padding:9px 12px;background:var(--panel2);border-radius:var(--radius);margin:0 0 12px;border-left:2px solid var(--border2)}
+  .rule{font-size:12.5px;color:var(--muted);line-height:1.6;border:1px solid var(--border);border-radius:10px;padding:11px 14px;background:#080b12}
+  .rule b{color:var(--text)} .rule .k{font-family:var(--font-mono);font-size:11px;padding:1px 5px;border-radius:3px}
+  .k.wrong{background:var(--red-bg);color:var(--red)} .k.slow{background:var(--green-bg);color:var(--green)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>캐시는 언제든 버려질 수 있다</h1>
+<p class="sub">같은 초기 색을 <code style="font-family:var(--font-mono)">useMemo</code>와 <code style="font-family:var(--font-mono)">useState</code>로 만들고, 폐기 이벤트를 던져 본다</p>
+<h2 class="sr-only">useMemo와 useState로 만든 색이 캐시 폐기 이벤트(HMR·suspend·오프스크린)에서 어떻게 달라지는지 보여주는 실험</h2>
+
+<div class="controls">
+  <button data-discard="HMR (파일 저장)">HMR</button>
+  <button data-discard="마운트 중 suspend">suspend</button>
+  <button data-discard="오프스크린 / 가상 리스트">오프스크린</button>
+  <button class="theme" id="btn-theme">테마 변경 (실제 dep ↻)</button>
+</div>
+<p class="hint">왼쪽 셋 = React가 캐시를 버리는 이유 · 오른쪽 = 의존성이 진짜로 바뀌는 경우</p>
+
+<div class="cols">
+  <div class="col" id="col-memo">
+    <code>useMemo(() =&gt; getRandomColors(theme), [theme])</code>
+    <div class="role memo">성능 힌트 · 캐시 폐기 시 재실행</div>
+    <div class="swatches" id="sw-memo"></div>
+    <div class="meta">재생성 <b id="n-memo">0</b>회</div>
+  </div>
+  <div class="col" id="col-state">
+    <code>useState(() =&gt; getRandomColors(theme))</code>
+    <div class="role state">영속 · lazy init은 한 번만</div>
+    <div class="swatches" id="sw-state"></div>
+    <div class="meta">재생성 <b id="n-state">0</b>회</div>
+  </div>
+</div>
+
+<div class="now" id="now">폐기 이벤트를 던져보세요.</div>
+
+<div class="rule">
+  판별 기준: 이 값이 재계산되면 <span class="k wrong">틀린가</span>(영속성이 정확성 조건) → <b>useState/useRef</b> · 그냥 <span class="k slow">느린가</span> → <b>useMemo</b>.
+</div>
+</div>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const THEMES=[{name:'violet',hue:265},{name:'cyan',hue:188},{name:'amber',hue:42},{name:'green',hue:150}];
+  let themeIdx=0, nMemo=0, nState=0;
+
+  // getRandomColors(theme): 테마 hue 주변으로 5개 색을 무작위 생성 (비결정적)
+  function getRandomColors(hue){
+    return Array.from({length:5},()=>{
+      const h=(hue+(Math.random()*44-22)+360)%360;
+      const s=52+Math.random()*22, l=42+Math.random()*22;
+      return `hsl(${h.toFixed(0)} ${s.toFixed(0)}% ${l.toFixed(0)}%)`;
+    });
+  }
+
+  let memoColors=getRandomColors(THEMES[0].hue);
+  let stateColors=memoColors.slice();   // 동일한 초기값에서 출발
+
+  function paint(id,colors){
+    $(id).innerHTML=colors.map(c=>`<div class="sw" style="background:${c}"></div>`).join('');
+  }
+  function flash(colId,kind){
+    const el=$(colId); el.classList.remove('flash-bad','flash-ok');
+    void el.offsetWidth; el.classList.add(kind);
+    setTimeout(()=>el.classList.remove(kind),600);
+  }
+  function render(){
+    paint('sw-memo',memoColors); paint('sw-state',stateColors);
+    $('n-memo').textContent=nMemo; $('n-state').textContent=nState;
+  }
+
+  // 캐시 폐기: useMemo만 재실행 → 새 색(flicker). useState는 유지.
+  function discard(label){
+    memoColors=getRandomColors(THEMES[themeIdx].hue); nMemo++;
+    flash('col-memo','flash-bad');
+    render();
+    $('now').innerHTML=`<b style="color:var(--red)">${label}</b> → useMemo는 캐시를 버리고 색을 새로 생성(flicker). useState는 그대로. <b>여기서 색이 정체성이면 버그.</b>`;
+  }
+
+  // 실제 dep(theme) 변경: 둘 다 재계산 (useState는 derived-state로). 둘 다 정상.
+  function changeTheme(){
+    themeIdx=(themeIdx+1)%THEMES.length; const t=THEMES[themeIdx];
+    memoColors=getRandomColors(t.hue); nMemo++;
+    stateColors=getRandomColors(t.hue); nState++;
+    flash('col-memo','flash-ok'); flash('col-state','flash-ok');
+    render();
+    $('now').innerHTML=`테마 → <b style="color:var(--blue)">${t.name}</b>. 의존성이 진짜로 바뀌었으니 <b>둘 다</b> 갱신(정상). 폐기와 dep 변경은 다르다.`;
+  }
+
+  document.querySelectorAll('[data-discard]').forEach(b=>{
+    b.onclick=()=>discard(b.dataset.discard);
+  });
+  $('btn-theme').onclick=changeTheme;
+
+  render();
+})();
+</script>
+</body>
+</html>
