@@ -1,10 +1,11 @@
 /**
  * 코멘트 모더레이션 (직접 DB 접근 방식 — 관리 UI 없음).
  *
- *   node scripts/moderate-comments.mjs list [memoId]
+ *   node scripts/moderate-comments.mjs pending        승인 대기 목록
+ *   node scripts/moderate-comments.mjs list [memoId]  전체(대기 먼저)
+ *   node scripts/moderate-comments.mjs approve <id>   승인 → 노출
  *   node scripts/moderate-comments.mjs hide <id>
  *   node scripts/moderate-comments.mjs spam <id>
- *   node scripts/moderate-comments.mjs approve <id>
  *   node scripts/moderate-comments.mjs delete <id>
  *
  * 환경변수: TURSO_DATABASE_URL, TURSO_AUTH_TOKEN (미설정 시 file:comments.db)
@@ -26,25 +27,40 @@ async function setStatus(id, status) {
   console.log(`✅ #${id} → ${status}`)
 }
 
+function print(rows) {
+  for (const r of rows) {
+    const preview = String(r.body).replace(/\s+/g, ' ').slice(0, 60)
+    console.log(
+      `#${r.id} [${r.status}] memo:${r.memo_id} ${r.author} (${r.ctime}) — ${preview}`
+    )
+  }
+}
+
 switch (command) {
+  case 'pending': {
+    const rs = await client.execute(
+      `SELECT id, memo_id, author, status, ctime, body
+       FROM comment WHERE status = 'pending' ORDER BY ctime ASC`
+    )
+    print(rs.rows)
+    console.log(`\n대기 ${rs.rows.length}건. approve <id> 로 승인하세요.`)
+    break
+  }
   case 'list': {
     const rs = arg
       ? await client.execute({
           sql: `SELECT id, memo_id, author, status, ctime, body
-                FROM comment WHERE memo_id = ? ORDER BY ctime DESC`,
+                FROM comment WHERE memo_id = ?
+                ORDER BY (status = 'pending') DESC, ctime DESC`,
           args: [arg],
         })
       : await client.execute(
           `SELECT id, memo_id, author, status, ctime, body
-           FROM comment ORDER BY ctime DESC LIMIT 50`
+           FROM comment
+           ORDER BY (status = 'pending') DESC, ctime DESC LIMIT 50`
         )
 
-    for (const r of rs.rows) {
-      const preview = String(r.body).replace(/\s+/g, ' ').slice(0, 60)
-      console.log(
-        `#${r.id} [${r.status}] memo:${r.memo_id} ${r.author} (${r.ctime}) — ${preview}`
-      )
-    }
+    print(rs.rows)
     break
   }
   case 'hide':
@@ -65,6 +81,6 @@ switch (command) {
     break
   default:
     console.log(
-      'usage: moderate-comments.mjs <list|hide|spam|approve|delete> [arg]'
+      'usage: moderate-comments.mjs <pending|list|approve|hide|spam|delete> [arg]'
     )
 }

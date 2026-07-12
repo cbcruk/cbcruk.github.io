@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { LIMITS, postComment, type Comment } from './Comments.types'
+import { LIMITS, postComment } from './Comments.types'
 import {
   CommentFormRoot,
   CommentInput,
@@ -11,15 +11,15 @@ import {
 
 type Props = {
   memoId: string
-  onCreated: (comment: Comment) => void
 }
 
-export function CommentForm({ memoId, onCreated }: Props) {
+export function CommentForm({ memoId }: Props) {
   const [author, setAuthor] = useState('')
   const [body, setBody] = useState('')
   const [website, setWebsite] = useState('') // 허니팟
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [done, setDone] = useState(false)
 
   const canSubmit =
     author.trim().length >= LIMITS.author.min &&
@@ -37,10 +37,10 @@ export function CommentForm({ memoId, onCreated }: Props) {
     setError(null)
 
     try {
-      const comment = await postComment({ memoId, author, body, website })
+      await postComment({ memoId, author, body, website })
 
-      onCreated(comment)
       setBody('')
+      setDone(true)
     } catch (err) {
       setError(err instanceof Error ? err.message : '작성에 실패했습니다.')
     } finally {
@@ -62,7 +62,10 @@ export function CommentForm({ memoId, onCreated }: Props) {
         placeholder="코멘트를 남겨주세요"
         value={body}
         maxLength={LIMITS.body.max}
-        onChange={(e) => setBody(e.target.value)}
+        onChange={(e) => {
+          setBody(e.target.value)
+          setDone(false)
+        }}
       />
       <input
         type="text"
@@ -75,6 +78,9 @@ export function CommentForm({ memoId, onCreated }: Props) {
         onChange={(e) => setWebsite(e.target.value)}
       />
       {error && <CommentError>{error}</CommentError>}
+      {done && (
+        <CommentHint>등록되었습니다. 승인 후 표시됩니다.</CommentHint>
+      )}
       <div className="flex items-center justify-between">
         <CommentHint>
           {body.trim().length}/{LIMITS.body.max}

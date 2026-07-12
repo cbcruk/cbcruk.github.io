@@ -35,18 +35,16 @@ export interface PostCommentInput {
   website: string
 }
 
-export async function postComment(input: PostCommentInput): Promise<Comment> {
+export async function postComment(input: PostCommentInput): Promise<void> {
   const res = await fetch(`${API_BASE}/api/comments`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(input),
   })
 
-  const data = await res.json().catch(() => ({}))
-
   if (!res.ok) {
+    const data = await res.json().catch(() => ({}))
+
     throw new Error(data?.error ?? '코멘트 작성에 실패했습니다.')
   }
-
-  return data
 }

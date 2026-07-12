@@ -19,8 +19,8 @@ await client.batch(
       memo_id  TEXT NOT NULL,
       author   TEXT NOT NULL,
       body     TEXT NOT NULL,
-      status   TEXT NOT NULL DEFAULT 'approved'
-               CHECK(status IN ('approved', 'hidden', 'spam')),
+      status   TEXT NOT NULL DEFAULT 'pending'
+               CHECK(status IN ('pending', 'approved', 'hidden', 'spam')),
       ip_hash  TEXT,
       ctime    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
     )`,

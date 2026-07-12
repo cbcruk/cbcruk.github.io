@@ -21,7 +21,7 @@ export const LIMITS = {
   rate: { count: 3, seconds: 60 },
 } as const
 
-export type CommentStatus = 'approved' | 'hidden' | 'spam'
+export type CommentStatus = 'pending' | 'approved' | 'hidden' | 'spam'
 
 export interface Comment {
   id: number

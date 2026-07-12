@@ -54,5 +54,6 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ error: result.error }, result.status)
   }
 
-  return json(result.comment, 201)
+  // 사전 승인 큐: 작성 직후엔 노출되지 않고 승인 대기 상태로 저장된다.
+  return json({ status: 'pending' }, 201)
 }
