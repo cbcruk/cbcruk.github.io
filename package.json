@@ -24,6 +24,7 @@
     "@astrojs/sitemap": "^3.7.3",
     "@astrojs/vercel": "^11.0.0",
     "@formkit/tempo": "^0.0.16",
+    "@libsql/client": "^0.17.4",
     "@shikijs/transformers": "^1.10.0",
     "@tailwindcss/vite": "4.3.1",
     "@testing-library/jest-dom": "latest",
@@ -59,7 +60,8 @@
     "eslint-plugin-astro": "^1.2.3",
     "eslint-plugin-jsx-a11y": "^6.9.0",
     "fast-glob": "^3.3.2",
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "vite": "8.1.0"
   },
   "packageManager": "pnpm@9.7.0",
   "pnpm": {
