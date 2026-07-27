@@ -4,6 +4,7 @@ import { defineCollection, z } from 'astro:content'
 const memo = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/memo' }),
   schema: z.object({
+    type: z.enum(['bookmarks', 'snippet', 'note']),
     title: z.string().optional(),
     description: z.string().optional(),
     tags: z.array(z.string()),

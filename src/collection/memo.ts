@@ -13,8 +13,6 @@ export const getRandomMemoCollection = async () => {
   return memos
 }
 
-const STRUCTURAL_TAGS = new Set(['bookmarks'])
-
 const buildDocumentFrequency = (
   memos: CollectionEntry<'memo'>[]
 ): Map<string, number> => {
@@ -36,9 +34,7 @@ export const getRelatedMemos = async (
   const memos = await getReleaseMemoCollection()
   const df = buildDocumentFrequency(memos)
 
-  const currentTags = new Set(
-    current.data.tags.filter((tag) => !STRUCTURAL_TAGS.has(tag))
-  )
+  const currentTags = new Set(current.data.tags)
 
   if (currentTags.size === 0) {
     return []

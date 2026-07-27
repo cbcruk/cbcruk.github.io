@@ -55,6 +55,7 @@
 
 ```yaml
 ---
+type: note              # 필수, 'bookmarks' | 'snippet' | 'note'
 tags: ['tag1', 'tag2']  # 필수, 빈 배열 [] 허용
 status: draft           # 필수, 'draft' 또는 'release'
 ctime: YYYY-MM-DD       # 필수, 생성일
@@ -81,6 +82,19 @@ relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
 - **supersedes**: `relation: supersedes`면 부모 페이지에 "대체됨" 경고 표시
 - `parent`는 `release` 메모만 해석됨 (draft는 공개되지 않음)
 
+### Type 기준
+
+`type`은 **형태**만 담는다. **주제는 `tags`가 담당** — 둘을 섞지 않는다.
+
+| 값 | 의미 | 판별 |
+|---|---|---|
+| `bookmarks` | 링크 모음이 주인공 | 코드 없음 + 불릿이 대부분 링크 |
+| `snippet` | 코드가 주인공 | 코드 블록 있음 + 산문은 그걸 설명하는 정도 |
+| `note` | 산문이 주인공 | 나머지 (기술 문서·비교·아이디어·디버그 전부) |
+
+- `debug`, `comparison` 같은 **목적/주제는 `type`이 아니라 `tags`에 넣는다.** 형태를 태그에 넣으면 태그가 두 일을 하게 되고 유사도 계산에 예외가 생긴다 (이전 `bookmarks` 태그가 그랬다 → 577.md).
+- 아래 유형 템플릿(A~F)은 **본문을 어떻게 쓸지에 대한 가이드**이고, `type`과 1:1이 아니다. C·D·E·F는 모두 `type: note`다.
+
 ### Status 기준
 
 | 값 | 의미 |
@@ -94,8 +108,7 @@ relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
   - O: `design-system`, `react-query`, `google-apps-script`
   - X: `design_system`, `reactQuery`
 - **빈 태그**: `[]` 허용 (분류가 애매한 경우)
-- **특수 태그**:
-  - `bookmarks` - 링크 모음 형태의 메모
+- **형태는 태그가 아니다**: 링크 모음/코드 스니펫 같은 형태는 `type`으로 표기한다 (과거 `bookmarks` 태그는 `type: bookmarks`로 이동)
 
 ### 각주 규칙
 
@@ -141,7 +154,8 @@ relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
 
 ```markdown
 ---
-tags: ['keyword', 'bookmarks']
+type: bookmarks
+tags: ['keyword']
 status: draft
 ctime: YYYY-MM-DD
 mtime: YYYY-MM-DD
@@ -160,6 +174,7 @@ mtime: YYYY-MM-DD
 
 ```markdown
 ---
+type: snippet
 tags: ['typescript', 'pattern']
 status: release
 ctime: YYYY-MM-DD
@@ -181,6 +196,7 @@ mtime: YYYY-MM-DD
 
 ```markdown
 ---
+type: note
 tags: ['react', 'architecture']
 status: draft
 ctime: YYYY-MM-DD
@@ -212,6 +228,7 @@ description: 선택사항
 
 ```markdown
 ---
+type: note
 tags: ['library', 'comparison']
 status: release
 ctime: YYYY-MM-DD
@@ -235,6 +252,7 @@ mtime: YYYY-MM-DD
 
 ```markdown
 ---
+type: note
 tags: ['idea', 'keyword']
 status: draft
 ctime: YYYY-MM-DD
@@ -260,6 +278,7 @@ mtime: YYYY-MM-DD
 
 ```markdown
 ---
+type: note
 tags: ['debug', 'keyword']
 status: release
 ctime: YYYY-MM-DD
@@ -304,8 +323,9 @@ mtime: YYYY-MM-DD
 1. **중복 확인**: 관련 태그/키워드로 기존 메모 검색
 2. **파일 생성**: 다음 숫자 ID로 `.md` 생성
 3. **유형 선택**: 위 템플릿 중 적절한 것 선택
-4. **태그 지정**: kebab-case로 관련 태그 추가
-5. **status**: 작성 중이면 `draft`, 완성되면 `release`
+4. **type 지정**: `bookmarks` / `snippet` / `note` (형태)
+5. **태그 지정**: kebab-case로 관련 태그 추가 (주제)
+6. **status**: 작성 중이면 `draft`, 완성되면 `release`
 
 ### 메모 수정
 
@@ -319,3 +339,4 @@ mtime: YYYY-MM-DD
 - 태그 정규화: snake_case → kebab-case 변환 (23개 파일)
 - 빈 태그 메모: 28개 파일에 태그 적용
 - 삭제: 427.md (내용 없음)
+- `type` 필드 도입 + 542개 파일 백필 (bookmarks 274 / snippet 188 / note 80). `bookmarks` 태그는 `type`으로 이동, 유사도 계산의 `STRUCTURAL_TAGS` 예외 제거 → 577.md
