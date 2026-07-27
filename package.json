@@ -14,7 +14,8 @@
     "astro": "astro",
     "test": "vitest",
     "lint:fix": "eslint --fix .",
-    "lint:memo": "node scripts/lint-memo.mjs"
+    "lint:memo": "node scripts/lint-memo.mjs",
+    "lint:voice": "node scripts/lint-voice.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "0.3.2",
