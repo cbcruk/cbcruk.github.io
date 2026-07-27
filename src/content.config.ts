@@ -8,7 +8,7 @@ const memo = defineCollection({
     title: z.string().optional(),
     description: z.string().optional(),
     tags: z.array(z.string()),
-    status: z.enum(['release', 'draft']),
+    status: z.enum(['release', 'draft', 'archive']),
     ctime: z.coerce.date(),
     mtime: z.coerce.date(),
     embed: z.string().optional(),

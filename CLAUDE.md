@@ -57,7 +57,7 @@
 ---
 type: note              # 필수, 'bookmarks' | 'snippet' | 'note'
 tags: ['tag1', 'tag2']  # 필수, 빈 배열 [] 허용
-status: draft           # 필수, 'draft' 또는 'release'
+status: draft           # 필수, 'draft' | 'archive' | 'release'
 ctime: YYYY-MM-DD       # 필수, 생성일
 mtime: YYYY-MM-DD       # 필수, 수정일
 title: 제목              # 선택
@@ -80,7 +80,7 @@ relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
 - **thread**: `parent` 체인을 따라가면 도출됨
 - **branch**: 같은 `parent`를 가진 메모가 2개 이상 = 자동 분기 (별도 표기 불필요)
 - **supersedes**: `relation: supersedes`면 부모 페이지에 "대체됨" 경고 표시
-- `parent`는 `release` 메모만 해석됨 (draft는 공개되지 않음)
+- `parent`는 `release` 메모만 해석됨 (draft·archive는 공개되지 않음)
 
 ### Type 기준
 
@@ -99,8 +99,13 @@ relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
 
 | 값 | 의미 |
 |---|---|
-| `draft` | 작성 중, 비공개 |
+| `draft` | 작성 중, 비공개 (완성 예정) |
+| `archive` | 저장/보관, 비공개 (완성 예정 없음) |
 | `release` | 완성됨, 공개 가능 |
+
+- **`bookmarks`는 `draft`를 쓰지 않는다.** 링크는 붙여넣은 순간이 최종형이라 "작성 중"이 없다 → `archive`(보관) 아니면 `release`(공개).
+- `draft`를 "공개 안 함"으로 쓰면 안 된다. 그러면 작성 중 큐가 방치된 메모로 막힌다 (231개가 그랬다 → 577.md).
+- 비공개 목록은 로컬에서만 보인다: `/memos/draft`, `/memos/archive` (프로덕션에서는 비어 있음)
 
 ### 태그 규칙
 
@@ -156,7 +161,7 @@ relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
 ---
 type: bookmarks
 tags: ['keyword']
-status: draft
+status: archive
 ctime: YYYY-MM-DD
 mtime: YYYY-MM-DD
 ---
@@ -325,12 +330,12 @@ mtime: YYYY-MM-DD
 3. **유형 선택**: 위 템플릿 중 적절한 것 선택
 4. **type 지정**: `bookmarks` / `snippet` / `note` (형태)
 5. **태그 지정**: kebab-case로 관련 태그 추가 (주제)
-6. **status**: 작성 중이면 `draft`, 완성되면 `release`
+6. **status**: 작성 중이면 `draft`, 저장만 해두면 `archive`, 완성되면 `release`
 
 ### 메모 수정
 
 1. `mtime` 업데이트
-2. 필요시 `status` 변경 (draft → release)
+2. 필요시 `status` 변경 (draft → release, archive → release)
 
 ---
 
@@ -339,4 +344,5 @@ mtime: YYYY-MM-DD
 - 태그 정규화: snake_case → kebab-case 변환 (23개 파일)
 - 빈 태그 메모: 28개 파일에 태그 적용
 - 삭제: 427.md (내용 없음)
+- `archive` 상태 도입: `bookmarks`의 `draft` 231개를 이동. `draft`가 "작성 중"과 "공개 안 함" 두 뜻으로 쓰이던 것을 분리 (작성 중 큐 268 → 37) → 577.md
 - `type` 필드 도입 + 542개 파일 백필 (bookmarks 274 / snippet 188 / note 80). `bookmarks` 태그는 `type`으로 이동, 유사도 계산의 `STRUCTURAL_TAGS` 예외 제거 → 577.md
