@@ -83,6 +83,15 @@ const analyze = (raw) => {
       !isBareUrl(line)
   )
 
+  // 각주 참조/정의 — 인라인 코드를 지운다 (정규식 문자클래스 `[^"\\]` 가 각주로 잡힌다)
+  const text = kept.join('\n').replace(/`[^`\n]*`/g, '')
+  const footnoteDefs = new Set(
+    [...text.matchAll(/^\[\^([^\]]+)\]:/gm)].map(([, id]) => id)
+  )
+  const footnoteRefs = new Set(
+    [...text.matchAll(/\[\^([^\]]+)\](?!:)/g)].map(([, id]) => id)
+  )
+
   return {
     frontmatter,
     codeLines,
@@ -90,6 +99,8 @@ const analyze = (raw) => {
     linkBullets: linkBullets.length,
     proseChars: prose.join(' ').length,
     isEmpty: meaningful.length === 0 && codeLines === 0,
+    footnoteDefs,
+    footnoteRefs,
   }
 }
 
@@ -139,6 +150,21 @@ for (const file of files) {
   const declared = field(analyzed.frontmatter, 'type')
   const status = field(analyzed.frontmatter, 'status')
 
+  // 작성 중(draft)은 아직 형태가 안 잡혔을 수 있으므로 경고로만 본다
+  const level = status === 'draft' ? 'warn' : 'error'
+
+  // 각주 짝 — 참조만 있으면 마커가 깨진 채 렌더되고, 정의만 있으면 렌더되지 않는다
+  for (const id of analyzed.footnoteRefs) {
+    if (!analyzed.footnoteDefs.has(id)) {
+      add(level, target, `각주 [^${id}] 를 참조하는데 정의가 없다`)
+    }
+  }
+  for (const id of analyzed.footnoteDefs) {
+    if (!analyzed.footnoteRefs.has(id)) {
+      add(level, target, `각주 [^${id}] 정의가 본문에서 참조되지 않는다`)
+    }
+  }
+
   // 본문이 비어 있으면 형태를 판정할 수 없다 (갓 만든 메모)
   if (analyzed.isEmpty) {
     continue
@@ -158,9 +184,6 @@ for (const file of files) {
   if (declared === 'bookmarks' && analyzed.linkBullets === 0) {
     contradictions.push('type: bookmarks 인데 링크가 없다')
   }
-
-  // 작성 중(draft)은 아직 형태가 안 잡혔을 수 있으므로 경고로만 본다
-  const level = status === 'draft' ? 'warn' : 'error'
 
   for (const message of contradictions) {
     add(level, target, message)
