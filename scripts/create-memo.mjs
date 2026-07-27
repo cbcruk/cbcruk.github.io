@@ -22,16 +22,30 @@ function getFormattedTime() {
   return time
 }
 
+const TYPES = ['bookmarks', 'snippet', 'note']
+
+function getType() {
+  const [type = 'note'] = process.argv.slice(2)
+
+  if (!TYPES.includes(type)) {
+    throw new Error(`type 은 ${TYPES.join(' | ')} 중 하나여야 한다: ${type}`)
+  }
+
+  return type
+}
+
 async function main() {
   try {
     const nextIndex = await getNextIndex()
     const formattedTime = getFormattedTime()
+    const type = getType()
 
     await fs.writeFile(
       `src/content/memo/${nextIndex}.md`,
       `---
+type: ${type}
 tags: []
-status: draft
+status: ${type === 'bookmarks' ? 'archive' : 'draft'}
 ctime: ${formattedTime}
 mtime: ${formattedTime}
 ---

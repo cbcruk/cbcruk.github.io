@@ -9,16 +9,21 @@ description: 새 메모 파일을 src/content/memo/에 생성합니다. Use when
 
 ## 실행 방법
 
-`scripts/create-memo.mjs`를 실행하여 빈 메모를 생성:
+`scripts/create-memo.mjs`를 실행하여 빈 메모를 생성. 첫 인자로 `type`(형태)을 넘긴다:
 
 ```bash
-node scripts/create-memo.mjs
+node scripts/create-memo.mjs bookmarks   # 링크 모음
+node scripts/create-memo.mjs snippet     # 코드가 주인공
+node scripts/create-memo.mjs note        # 산문이 주인공 (기본값)
 ```
 
 스크립트는 다음을 자동으로 처리:
 - `src/content/memo/` 내 가장 큰 숫자 ID + 1
 - `ctime`, `mtime`을 오늘 날짜로 설정
-- 빈 `tags: []`, `status: draft` frontmatter
+- 빈 `tags: []`
+- `status`: `bookmarks`는 `archive`, 나머지는 `draft` (Status 기준은 CLAUDE.md 참고)
+
+`type`과 본문 형태가 어긋나면 빌드가 잡는다 (`pnpm lint:memo`).
 
 ## 작업 순서
 
@@ -26,7 +31,7 @@ node scripts/create-memo.mjs
 2. **스크립트 실행**: `node scripts/create-memo.mjs` 실행 → 생성된 파일명 확인
 3. **내용 작성** (사용자가 주제/내용을 제공한 경우):
    - 적절한 태그 추가 (kebab-case)
-   - CLAUDE.md의 메모 유형(A~E) 중 적합한 템플릿 선택
+   - CLAUDE.md의 메모 유형(A~F) 중 적합한 템플릿 선택
    - 본문 작성
 4. **중복 확인**: 유사 태그/주제 기존 메모가 있으면 사용자에게 알리고 통합 여부 확인
 5. **관계 탐지 (계보 연결)**: 아래 "관계 자동화" 절차 수행
