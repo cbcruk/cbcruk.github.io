@@ -1,0 +1,48 @@
+---
+import Layout from '@layouts/Layout.astro'
+import { MemoLayout } from '@components/MemoLayout/MemoLayout'
+import { Memo } from '@components/Memo/Memo'
+import { getReleaseMemoCollection } from '@collection/memo'
+import { render } from 'astro:content'
+
+export async function getStaticPaths() {
+  const memoCollection = await getReleaseMemoCollection()
+  const types = Array.from(new Set(memoCollection.map((memo) => memo.data.type)))
+  const paths = Promise.all(
+    types.map(async (type) => {
+      return {
+        params: { type },
+        props: {
+          memos: memoCollection.filter((memo) => memo.data.type === type),
+        },
+      }
+    })
+  )
+
+  return paths
+}
+
+export const prerender = true
+
+const { memos } = Astro.props
+const { type } = Astro.params
+
+const PAGE_TITLE = `${type} 형태의 메모 | eunsoolee`
+const PAGE_DESCRIPTION = ''
+---
+
+<Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+  <MemoLayout>
+    {
+      memos.map(async (memo) => {
+        const { Content } = await render(memo)
+
+        return (
+          <Memo memo={memo}>
+            <Content />
+          </Memo>
+        )
+      })
+    }
+  </MemoLayout>
+</Layout>

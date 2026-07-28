@@ -8,10 +8,30 @@ export const prerender = true
 const memos = await getReleaseMemoCollection()
 const tags = Array.from(new Set(memos.map((memo) => memo.data.tags).flat()))
 
+// 형태(type)는 태그가 아니지만 훑어보는 입구는 같은 자리에 둔다
+const types = Array.from(new Set(memos.map((memo) => memo.data.type))).map(
+  (type) => ({
+    type,
+    count: memos.filter((memo) => memo.data.type === type).length,
+  })
+)
+
 const PAGE_TITLE = `태그 모음 페이지 | eunsoolee`
 const PAGE_DESCRIPTION = ''
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+  <div class="flex flex-wrap gap-2 text-xs mb-4">
+    {
+      types.map(({ type, count }) => (
+        <a
+          href={`/type/${type}`}
+          class="p-1 rounded-lg bg-(--flexoki-950) hover:text-(--flexoki-cyan-400) transition-all"
+        >
+          {type} <span class="opacity-60">{count}</span>
+        </a>
+      ))
+    }
+  </div>
   <Tags client:only="react" tags={tags} />
 </Layout>
