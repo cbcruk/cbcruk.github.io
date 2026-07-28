@@ -86,7 +86,7 @@ relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
 
 | 레이어 | 필드 | 의미 |
 |---|---|---|
-| 자동 유사도 | (없음) | 공유 태그 IDF 가중 → "관련 메모" 자동 노출 |
+| 자동 유사도 | (없음) | 공유 태그 IDF 가중 → "관련 메모" 자동 노출 (사이트) |
 | 방향 계보 | `parent` | 이 메모가 어떤 메모에서 이어졌는지 (시간/계보) |
 | 관계 종류 | `relation` | `continues`(이어짐) / `supersedes`(부모를 대체) |
 
@@ -94,6 +94,7 @@ relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
 - **branch**: 같은 `parent`를 가진 메모가 2개 이상 = 자동 분기 (별도 표기 불필요)
 - **supersedes**: `relation: supersedes`면 부모 페이지에 "대체됨" 경고 표시
 - `parent`는 `release` 메모만 해석됨 (draft·archive는 공개되지 않음)
+- **후보 탐색은 `node scripts/find-related.mjs <메모ID>`** — 공유 태그와 **공유 URL** 두 신호를 본다. 같은 글을 가리키는 메모쌍 29개 중 14쌍은 공유 태그가 0개라 태그만으로는 만나지 못한다. `--all`은 비공개까지 보여주는데 그건 계보가 아니라 통합 후보다 → 577.md
 
 ### Type 기준
 
