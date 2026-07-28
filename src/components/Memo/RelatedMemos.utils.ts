@@ -6,6 +6,8 @@ const clean = (line: string): string =>
     .replace(/^>\s*/, '')
     .replace(/^[-*]\s+/, '')
     .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
+    // 각주 참조는 발췌에서 의미가 없다 ([^235-1] 같은 마커가 그대로 남았다)
+    .replace(/\[\^[^\]]+\]/g, '')
     .replace(/[`*_~]/g, '')
     .trim()
 
