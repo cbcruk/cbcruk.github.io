@@ -15,7 +15,8 @@
     "test": "vitest",
     "lint:fix": "eslint --fix .",
     "lint:memo": "node scripts/lint-memo.mjs",
-    "lint:voice": "node scripts/lint-voice.mjs"
+    "lint:voice": "node scripts/lint-voice.mjs",
+    "lint:links": "node scripts/lint-links.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "0.3.2",
