@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "node scripts/lint-memo.mjs && astro build",
+    "build": "node scripts/lint-memo.mjs && node scripts/lint-voice.mjs --strict && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest",

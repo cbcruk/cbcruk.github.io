@@ -5,17 +5,22 @@
  * 평서체("~다")로 쓴다. 그래서 인용 표시 없이 존댓말이 지배하는 부분은
  * 아직 내 언어로 줄이지 않은 남의 문장이다. (→ 577.md)
  *
- * 빌드에 연결하지 않는다 — 문체는 논리적 모순이 아니라 판단이라서
- * 경고가 상주하면 린터를 무시하게 된다. 필요할 때 돌리는 도구.
+ * ⚠ 이 검출기는 "남의 문장"을 판정하지 못한다. **확인 대상을 제시**하고
+ * 판단은 사람이 한다. 저자가 존댓말로 쓴 자기 글과 번역문이 같은 신호로
+ * 잡히기 때문이다 — 309.md는 본인의 작업 기록인데 존댓말이고, 268.md는
+ * 번역문이었다.
  *
- * ⚠ 이 검출기는 "남의 문장"을 판정하지 못한다. **확인 대상만 제시**하고
- * 판단은 사람이 한다. 저자가 존댓말로 쓴 자기 글과 번역문을 구분할 수
- * 없기 때문이다 — 309.md는 본인의 작업 기록인데 존댓말이라 검출되고
- * (그대로 두기로 했다), 268.md는 번역문이라 정리했다. 둘이 같은 신호다.
+ * 그래서 저자 본인의 문체라고 판단했으면 frontmatter 에 `voice: author`
+ * 를 달아 검사에서 제외한다. "린트를 무시한다"가 아니라 "이 문체는 내
+ * 것이다"라는 사실을 적는 것이다 (309.md).
  *
  *   pnpm lint:voice            전체
  *   pnpm lint:voice --release  공개 중인 것만
- *   pnpm lint:voice --strict   검출되면 exit 1
+ *   pnpm lint:voice --strict   공개(release) 메모에서 검출되면 exit 1
+ *
+ * --strict 가 release 만 막는 이유: draft 는 작성 중이라 원문을 붙여놓고
+ * 줄이는 단계가 있을 수 있고, archive 는 공개되지 않는다. 막아야 하는 건
+ * "남의 문장이 공개되는 것"이다.
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -67,6 +72,7 @@ const analyze = (raw) => {
   return {
     type: field('type'),
     status: field('status'),
+    voice: field('voice'),
     prose: prose.join('\n'),
     footnotes: footnotes.join('\n'),
   }
@@ -84,6 +90,8 @@ for (const file of files) {
 
   if (!analyzed) continue
   if (releaseOnly && analyzed.status !== 'release') continue
+  // 저자 본인의 문체라고 선언한 메모
+  if (analyzed.voice === 'author') continue
 
   const formal = count(analyzed.prose, FORMAL)
   const casual = count(analyzed.prose, CASUAL)
@@ -109,6 +117,7 @@ for (const file of files) {
 
   if (where.length > 0) {
     findings.push({
+      level: analyzed.status === 'release' ? 'error' : 'warn',
       file: path.join(DIR, file),
       type: analyzed.type,
       status: analyzed.status,
@@ -117,16 +126,22 @@ for (const file of files) {
   }
 }
 
-for (const { file, type, status, where } of findings) {
-  console.log(`! ${file}  [${type} / ${status}]`)
+for (const { level, file, type, status, where } of findings) {
+  console.log(`${level === 'error' ? '✗' : '!'} ${file}  [${type} / ${status}]`)
   console.log(`  ${where.join(', ')}`)
 }
 
+const published = findings.filter(({ level }) => level === 'error')
+
 console.log(
   `\n메모 ${files.length}개 중 ${findings.length}개에 남의 문장이 남아 있다` +
-    `${releaseOnly ? ' (공개 중인 것만)' : ''}`
+    `${releaseOnly ? ' (공개 중인 것만)' : ` (그중 공개 ${published.length}개)`}`
 )
 
-if (strict && findings.length > 0) {
+if (strict && published.length > 0) {
+  console.log(
+    '\n공개 메모에 남의 문장이 남아 있다. 줄이거나, 인용이면 표시하거나,' +
+      '\n저자 본인의 문체라면 frontmatter 에 voice: author 를 단다.'
+  )
   process.exit(1)
 }

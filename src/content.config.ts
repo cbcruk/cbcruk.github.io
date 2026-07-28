@@ -12,6 +12,8 @@ const memo = defineCollection({
     ctime: z.coerce.date(),
     mtime: z.coerce.date(),
     embed: z.string().optional(),
+    // 이 메모의 존댓말은 저자 본인의 것 — lint:voice 검사에서 제외
+    voice: z.enum(['author']).optional(),
     parent: z.coerce.string().optional(),
     relation: z.enum(['continues', 'supersedes']).default('continues'),
   }),
