@@ -9,11 +9,14 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/lint-memo.mjs && node scripts/lint-voice.mjs --strict && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "lint:memo": "node scripts/lint-memo.mjs",
+    "lint:voice": "node scripts/lint-voice.mjs",
+    "lint:links": "node scripts/lint-links.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "0.3.2",

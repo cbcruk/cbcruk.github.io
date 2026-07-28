@@ -25,6 +25,18 @@
 - 공개용이면 **개인 종속(내 라이브러리·작업 맥락)도 제거**.
 - ⚠ AI로 정리하면 *일반적으로 인상적인 디테일*로 흐른다 (구체 숫자·보안 사례 등). 신선함은 사람이 직접 짚어야 한다.
 
+### 압축 (필수)
+
+**남의 문장을 그대로 옮긴 것은 메모가 아니다.** 한 줄로 줄여지지 않으면 아직 이해하지 못한 것.
+
+- **존댓말은 신호다.** 번역문·AI 요약·문서 발췌는 "~합니다"로 들어온다. 내 메모는 평서체("~다")로 쓴다. 인용 표시 없이 존댓말이 지배하는 산문 = 아직 내 언어로 줄이지 않은 남의 문장 (→ 577.md)
+- **인용할 거면 인용 표시를 한다** — `>` 또는 `QuoteLink`. 출처를 밝힌 인용은 정직하고, 표시 없는 번역문이 문제다.
+- **1인칭을 확인한다.** 원문을 옮기면 "제가 만든 이유"처럼 남의 1인칭이 따라 들어온다 (268.md가 그랬다).
+- **걷어내면 형태가 드러난다.** 부풀린 산문을 지우면 남는 게 링크뿐일 수 있다 → `type`이 바뀐다 (268.md: `note` → `bookmarks`).
+- 같은 내용이 두 단락에 반복되면 기계 요약의 흔적이다 (272.md).
+- **검출은 `pnpm lint:voice`** — 빌드에 연결됨. `release` 메모에서 검출되면 빌드가 실패하고, `draft`·`archive`는 경고까지만이다(작성 중에는 원문을 붙여놓고 줄이는 단계가 있으므로).
+- 단 이 도구는 **확인 대상을 제시하고 판단은 사람이 한다** — 저자가 존댓말로 쓴 자기 글과 번역문이 같은 신호로 잡힌다. 본인 문체라고 판단했으면 frontmatter에 **`voice: author`**를 달아 제외한다. "린트를 무시한다"가 아니라 "이 문체는 내 것이다"라는 사실을 적는 것 (`309.md`가 그 경우).
+
 ### 하지 말 것
 
 - 서론 → 본론 → 결론 구조
@@ -55,12 +67,14 @@
 
 ```yaml
 ---
+type: note              # 필수, 'bookmarks' | 'snippet' | 'note'
 tags: ['tag1', 'tag2']  # 필수, 빈 배열 [] 허용
-status: draft           # 필수, 'draft' 또는 'release'
+status: draft           # 필수, 'draft' | 'archive' | 'release'
 ctime: YYYY-MM-DD       # 필수, 생성일
 mtime: YYYY-MM-DD       # 필수, 수정일
 title: 제목              # 선택
 description: 설명        # 선택
+voice: author           # 선택, 이 메모의 존댓말이 저자 본인의 것일 때 (lint:voice 제외)
 parent: '307'           # 선택, 이 메모가 이어지는/대체하는 부모 메모 ID
 relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
 ---
@@ -72,21 +86,41 @@ relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
 
 | 레이어 | 필드 | 의미 |
 |---|---|---|
-| 자동 유사도 | (없음) | 공유 태그 IDF 가중 → "관련 메모" 자동 노출 |
+| 자동 유사도 | (없음) | 공유 태그 IDF 가중 → "관련 메모" 자동 노출 (사이트) |
 | 방향 계보 | `parent` | 이 메모가 어떤 메모에서 이어졌는지 (시간/계보) |
 | 관계 종류 | `relation` | `continues`(이어짐) / `supersedes`(부모를 대체) |
 
 - **thread**: `parent` 체인을 따라가면 도출됨
 - **branch**: 같은 `parent`를 가진 메모가 2개 이상 = 자동 분기 (별도 표기 불필요)
 - **supersedes**: `relation: supersedes`면 부모 페이지에 "대체됨" 경고 표시
-- `parent`는 `release` 메모만 해석됨 (draft는 공개되지 않음)
+- `parent`는 `release` 메모만 해석됨 (draft·archive는 공개되지 않음)
+- **후보 탐색은 `node scripts/find-related.mjs <메모ID>`** — 공유 태그와 **공유 URL** 두 신호를 본다. 같은 글을 가리키는 메모쌍 29개 중 14쌍은 공유 태그가 0개라 태그만으로는 만나지 못한다. `--all`은 비공개까지 보여주는데 그건 계보가 아니라 통합 후보다 → 577.md
+
+### Type 기준
+
+`type`은 **형태**만 담는다. **주제는 `tags`가 담당** — 둘을 섞지 않는다.
+
+| 값 | 의미 | 판별 |
+|---|---|---|
+| `bookmarks` | 링크 모음이 주인공 | 코드 없음 + 불릿이 대부분 링크 |
+| `snippet` | 코드가 주인공 | 코드 블록 있음 + 산문은 그걸 설명하는 정도 |
+| `note` | 산문이 주인공 | 나머지 (기술 문서·비교·아이디어·디버그 전부) |
+
+- **`type`과 본문이 어긋나면 빌드가 잡는다** — `pnpm lint:memo` (빌드에 연결됨). 논리적 모순(`snippet`인데 코드 없음 등)은 오류, 휴리스틱 불일치는 경고. `draft`는 경고까지만.
+- `debug`, `comparison` 같은 **목적/주제는 `type`이 아니라 `tags`에 넣는다.** 형태를 태그에 넣으면 태그가 두 일을 하게 되고 유사도 계산에 예외가 생긴다 (이전 `bookmarks` 태그가 그랬다 → 577.md).
+- 아래 유형 템플릿(A~F)은 **본문을 어떻게 쓸지에 대한 가이드**이고, `type`과 1:1이 아니다. C·D·E·F는 모두 `type: note`다.
 
 ### Status 기준
 
 | 값 | 의미 |
 |---|---|
-| `draft` | 작성 중, 비공개 |
+| `draft` | 작성 중, 비공개 (완성 예정) |
+| `archive` | 저장/보관, 비공개 (완성 예정 없음) |
 | `release` | 완성됨, 공개 가능 |
+
+- **`bookmarks`는 `draft`를 쓰지 않는다.** 링크는 붙여넣은 순간이 최종형이라 "작성 중"이 없다 → `archive`(보관) 아니면 `release`(공개).
+- `draft`를 "공개 안 함"으로 쓰면 안 된다. 그러면 작성 중 큐가 방치된 메모로 막힌다 (231개가 그랬다 → 577.md).
+- 비공개 목록은 로컬에서만 보인다: `/memos/draft`, `/memos/archive` (프로덕션에서는 비어 있음)
 
 ### 태그 규칙
 
@@ -94,8 +128,7 @@ relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
   - O: `design-system`, `react-query`, `google-apps-script`
   - X: `design_system`, `reactQuery`
 - **빈 태그**: `[]` 허용 (분류가 애매한 경우)
-- **특수 태그**:
-  - `bookmarks` - 링크 모음 형태의 메모
+- **형태는 태그가 아니다**: 링크 모음/코드 스니펫 같은 형태는 `type`으로 표기한다 (과거 `bookmarks` 태그는 `type: bookmarks`로 이동)
 
 ### 각주 규칙
 
@@ -104,6 +137,22 @@ relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
 [^496-1]: 첫 번째 각주
 [^496-2]: 두 번째 각주
 ```
+
+- **참조와 정의는 짝이 맞아야 한다** — `pnpm lint:memo`가 잡는다. 참조만 있으면 마커가 깨진 채 렌더되고, 정의만 있으면 렌더되지 않는다 (7개 파일이 그랬다).
+- **각주도 압축 대상이다.** 링크 제목에 이미 있는 내용을 늘려 쓰지 않는다 (83.md는 각주 하나가 5문장이었다).
+
+### 링크 부식
+
+메모의 진짜 부식은 링크다. `mtime`은 신선도가 아니다 — 542개 중 288개가 일괄 수정 자국이고 `ctime`도 182개가 마이그레이션 시점이다. 그래서 신선도를 날짜로 선언하지 않고 링크로 판정한다 (→ 577.md).
+
+```bash
+pnpm lint:links             # 전체 (URL 1776개, 호스트 793개)
+pnpm lint:links --release   # 공개 메모만
+pnpm lint:links 229         # 특정 메모만
+```
+
+- **빌드에 연결하지 않는다** — 네트워크에 의존하고 느리며, 남의 서버 상태로 내 빌드가 깨지면 안 된다.
+- 죽었다고 단정하는 건 **404·410·DNS 실패**뿐이다. 403·405·429·타임아웃은 봇 차단이 흔하므로 "확인 불가"로 따로 센다.
 
 ### 본문 구조
 
@@ -141,8 +190,9 @@ relation: continues     # 선택, 'continues'(기본) 또는 'supersedes'
 
 ```markdown
 ---
-tags: ['keyword', 'bookmarks']
-status: draft
+type: bookmarks
+tags: ['keyword']
+status: archive
 ctime: YYYY-MM-DD
 mtime: YYYY-MM-DD
 ---
@@ -160,6 +210,7 @@ mtime: YYYY-MM-DD
 
 ```markdown
 ---
+type: snippet
 tags: ['typescript', 'pattern']
 status: release
 ctime: YYYY-MM-DD
@@ -181,6 +232,7 @@ mtime: YYYY-MM-DD
 
 ```markdown
 ---
+type: note
 tags: ['react', 'architecture']
 status: draft
 ctime: YYYY-MM-DD
@@ -212,6 +264,7 @@ description: 선택사항
 
 ```markdown
 ---
+type: note
 tags: ['library', 'comparison']
 status: release
 ctime: YYYY-MM-DD
@@ -235,6 +288,7 @@ mtime: YYYY-MM-DD
 
 ```markdown
 ---
+type: note
 tags: ['idea', 'keyword']
 status: draft
 ctime: YYYY-MM-DD
@@ -260,6 +314,7 @@ mtime: YYYY-MM-DD
 
 ```markdown
 ---
+type: note
 tags: ['debug', 'keyword']
 status: release
 ctime: YYYY-MM-DD
@@ -304,18 +359,28 @@ mtime: YYYY-MM-DD
 1. **중복 확인**: 관련 태그/키워드로 기존 메모 검색
 2. **파일 생성**: 다음 숫자 ID로 `.md` 생성
 3. **유형 선택**: 위 템플릿 중 적절한 것 선택
-4. **태그 지정**: kebab-case로 관련 태그 추가
-5. **status**: 작성 중이면 `draft`, 완성되면 `release`
+4. **type 지정**: `bookmarks` / `snippet` / `note` (형태)
+5. **태그 지정**: kebab-case로 관련 태그 추가 (주제)
+6. **status**: 작성 중이면 `draft`, 저장만 해두면 `archive`, 완성되면 `release`
 
 ### 메모 수정
 
 1. `mtime` 업데이트
-2. 필요시 `status` 변경 (draft → release)
+2. 필요시 `status` 변경 (draft → release, archive → release)
 
 ---
 
 ## 변경 이력
 
+- 각주 짝 정리: 7개 파일 (정의 없는 참조 3 / 참조 없는 정의 4). 정의가 남아 있던 3개는 번호 순서가 위치를 알려줘서 마커를 복원했고, 붙을 곳이 없던 1개는 삭제. `lint:memo`에 규칙 추가
+- 압축 원칙 추가: 존댓말을 "남의 문장" 신호로 사용. 검출 29개 → 0개 (공개 23개 → 0개). `lint:voice`를 빌드에 연결(`release`만 실패)하고, 저자 본인 문체는 `voice: author`로 표시 → 577.md
+  - 산문 삭제/압축: 268·272·274·46·173·21·56·243·307·149·329·247·271·340·23
+  - 각주만 문제였던 것: 83·19·24·221·312 (링크 제목에 이미 있는 내용을 늘려 쓴 경우. 각주에 박혀 있던 기술 링크는 살렸다)
+  - 비공개도 정리: 123·125·171(각주), 182·256·267(산문). 125에서 중복 링크 1개 제거
+  - `309.md`는 본인 작업 기록인데 존댓말이라 `voice: author`를 달아 예외로 표시
+  - 걷어내니 형태가 드러나 `type`이 바뀐 것: 46·269·23·247·271·182·256(→`bookmarks`), 56·340(→`snippet`), 329(→`note`)
 - 태그 정규화: snake_case → kebab-case 변환 (23개 파일)
 - 빈 태그 메모: 28개 파일에 태그 적용
 - 삭제: 427.md (내용 없음)
+- `archive` 상태 도입: `bookmarks`의 `draft` 231개를 이동. `draft`가 "작성 중"과 "공개 안 함" 두 뜻으로 쓰이던 것을 분리 (작성 중 큐 268 → 37) → 577.md
+- `type` 필드 도입 + 542개 파일 백필 (bookmarks 274 / snippet 188 / note 80). `bookmarks` 태그는 `type`으로 이동, 유사도 계산의 `STRUCTURAL_TAGS` 예외 제거 → 577.md

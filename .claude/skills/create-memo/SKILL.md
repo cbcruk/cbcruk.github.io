@@ -9,27 +9,54 @@ description: 새 메모 파일을 src/content/memo/에 생성합니다. Use when
 
 ## 실행 방법
 
-`scripts/create-memo.mjs`를 실행하여 빈 메모를 생성:
+`scripts/create-memo.mjs`를 실행하여 빈 메모를 생성. 첫 인자로 `type`(형태)을 넘긴다:
 
 ```bash
-node scripts/create-memo.mjs
+node scripts/create-memo.mjs bookmarks   # 링크 모음
+node scripts/create-memo.mjs snippet     # 코드가 주인공
+node scripts/create-memo.mjs note        # 산문이 주인공 (기본값)
 ```
 
 스크립트는 다음을 자동으로 처리:
 - `src/content/memo/` 내 가장 큰 숫자 ID + 1
 - `ctime`, `mtime`을 오늘 날짜로 설정
-- 빈 `tags: []`, `status: draft` frontmatter
+- 빈 `tags: []`
+- `status`: `bookmarks`는 `archive`, 나머지는 `draft` (Status 기준은 CLAUDE.md 참고)
+
+`type`과 본문 형태가 어긋나면 빌드가 잡는다 (`pnpm lint:memo`).
 
 ## 작업 순서
 
 1. **사용자 의도 파악**: 메모 주제/내용/태그를 사용자가 함께 제공했는지 확인
-2. **스크립트 실행**: `node scripts/create-memo.mjs` 실행 → 생성된 파일명 확인
+2. **스크립트 실행**: `node scripts/create-memo.mjs <type>` 실행 → 생성된 파일명 확인
 3. **내용 작성** (사용자가 주제/내용을 제공한 경우):
    - 적절한 태그 추가 (kebab-case)
-   - CLAUDE.md의 메모 유형(A~E) 중 적합한 템플릿 선택
+   - CLAUDE.md의 메모 유형(A~F) 중 적합한 템플릿 선택
    - 본문 작성
-4. **중복 확인**: 유사 태그/주제 기존 메모가 있으면 사용자에게 알리고 통합 여부 확인
-5. **관계 탐지 (계보 연결)**: 아래 "관계 자동화" 절차 수행
+4. **압축 확인 (필수)**: 아래 "압축 확인" 절차 수행
+5. **중복 확인**: 유사 태그/주제 기존 메모가 있으면 사용자에게 알리고 통합 여부 확인
+6. **관계 탐지 (계보 연결)**: 아래 "관계 자동화" 절차 수행
+
+## 압축 확인 (필수)
+
+**외부 문서를 요약해 넣으면 존댓말이 따라 들어온다.** 그게 곧 "아직 저자의 언어로 줄이지 않은 남의 문장"이다. 압축 원칙은 CLAUDE.md "압축" 참고.
+
+작성 직후 스스로 점검한다:
+
+1. **문체** — 본문이 평서체(`~다`)인가? 존댓말(`~합니다`)이 있으면 원문을 옮긴 것이다. 줄이거나, 인용이면 `>`·`QuoteLink`로 표시한다. (저자 본인이 존댓말로 쓴 경우에만 frontmatter에 `voice: author`)
+2. **1인칭** — "제가 만든", "저희 팀은" 같은 표현은 원문 저자의 1인칭이 따라 들어온 것이다 (268.md가 그랬다).
+3. **반복** — 같은 내용이 두 단락에 있으면 기계 요약의 흔적이다 (272.md).
+4. **각주** — 각주도 압축 대상이다. 링크 제목에 이미 있는 내용을 늘려 쓰지 않는다 (83.md는 각주 하나가 5문장이었다).
+
+검사 명령:
+
+```bash
+pnpm lint:voice           # 남의 문장이 남은 메모 찾기 (빌드에도 연결됨)
+pnpm lint:memo            # type 과 본문 형태가 맞는지 (빌드에도 연결됨)
+```
+
+> [!IMPORTANT]
+> 압축하면 형태가 바뀔 수 있다. 부풀린 산문을 걷어내면 남는 게 링크뿐일 수 있고, 그러면 `type`도 함께 고친다 (`pnpm lint:memo`가 잡아준다).
 
 ## 관계 자동화 (parent / relation)
 
@@ -37,13 +64,18 @@ node scripts/create-memo.mjs
 
 ### 절차
 
-1. **후보 탐색**: 새 메모의 태그로 관련 기존 메모를 찾는다.
+1. **후보 탐색**: 두 신호로 찾는다 — 공유 태그(IDF 가중)와 **공유 URL**.
 
    ```bash
-   node scripts/find-related.mjs tag1,tag2
+   node scripts/find-related.mjs 578        # 파일 생성 후: 태그 + URL 둘 다
+   node scripts/find-related.mjs tag1,tag2  # 파일 전이면: 태그만
    ```
 
-   (IDF 가중 점수 순으로 release 메모 후보 + 첫 줄 출력)
+   본문에 링크를 이미 붙여놨다면 **메모 ID로 호출한다.** 같은 URL을 가리키는 메모가 `공유 URL n`으로 표시되고, 어떤 URL이 겹치는지 `↳`로 나온다.
+
+   **URL 겹침이 태그보다 강한 증거다.** 같은 글을 가리키는 메모쌍 29개 중 14쌍은 공유 태그가 0개라 태그만으로는 영원히 만나지 못한다 (→ 577.md).
+
+   후보는 기본적으로 `release`만 나온다. `--all`을 붙이면 비공개까지 보이는데, 그건 계보가 아니라 **통합 후보**다 (`consolidate-memos` 스킬).
 
 2. **관계 판단**: 상위 후보의 내용을 읽고 새 메모와의 관계를 판단한다.
 
@@ -59,7 +91,8 @@ node scripts/create-memo.mjs
 
 - `parent`는 **하나만** 건다 (가장 직접적인 부모). 곁가지(branch)는 같은 부모를 공유하면 자동 도출되므로 명시 불필요.
 - 애매하면 **연결하지 않는다.** 약한 연결은 노이즈. 자동 관련 메모로 충분.
-- `parent`는 `release` 메모만 해석됨 — draft를 부모로 걸지 않는다.
+- `parent`는 `release` 메모만 해석됨 — draft·archive를 부모로 걸지 않는다.
+- **URL이 겹치는데 계보가 아닌 경우도 있다.** 넓은 링크 모음이 특정 주제 메모와 한 링크를 공유하는 정도면 연결하지 않는다 (106↔365가 그런 경우). 같은 흐름의 작업 기록이어야 `parent`다 (229↔235).
 
 ## 메모 작성 원칙 (CLAUDE.md 준수)
 
@@ -67,9 +100,10 @@ node scripts/create-memo.mjs
 - 코드가 핵심이면 코드만
 - 헤딩은 정말 필요할 때만
 - 서론/결론 구조 지양
+- 남의 문장을 그대로 옮긴 것은 메모가 아니다 (→ "압축 확인")
 
 ## 주의사항
 
 - 주제가 명확하지 않으면 빈 파일만 생성하고 사용자에게 작성을 위임
-- `status`는 기본 `draft`, 완성도 확인 후 `release`로 변경
+- `status`: 작성 중이면 `draft`, 저장만 해두면 `archive`, 완성되면 `release`. **`bookmarks`는 `draft`를 쓰지 않는다** (링크는 붙여넣은 순간이 최종형) — 기준은 CLAUDE.md "Status 기준" 참고
 - 태그가 애매하면 `[]`로 두는 것도 허용

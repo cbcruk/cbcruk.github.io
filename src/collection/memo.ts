@@ -13,7 +13,40 @@ export const getRandomMemoCollection = async () => {
   return memos
 }
 
-const STRUCTURAL_TAGS = new Set(['bookmarks'])
+// 쿼리를 버리면 youtube.com/watch?v=... 가 전부 같은 URL로 뭉친다
+const normalizeUrl = (url: string): string => {
+  try {
+    const parsed = new URL(url)
+
+    return (
+      parsed.host.replace(/^www\./, '') +
+      parsed.pathname.replace(/\/$/, '') +
+      (parsed.search || '')
+    )
+  } catch {
+    return url
+  }
+}
+
+const urlCache = new Map<string, Set<string>>()
+
+const getUrls = (memo: CollectionEntry<'memo'>): Set<string> => {
+  const cached = urlCache.get(memo.id)
+
+  if (cached) {
+    return cached
+  }
+
+  const urls = new Set(
+    [...(memo.body ?? '').matchAll(/https?:\/\/[^\s)\]<>"']+/g)].map(([url]) =>
+      normalizeUrl(url.replace(/[.,]+$/, ''))
+    )
+  )
+
+  urlCache.set(memo.id, urls)
+
+  return urls
+}
 
 const buildDocumentFrequency = (
   memos: CollectionEntry<'memo'>[]
@@ -36,11 +69,10 @@ export const getRelatedMemos = async (
   const memos = await getReleaseMemoCollection()
   const df = buildDocumentFrequency(memos)
 
-  const currentTags = new Set(
-    current.data.tags.filter((tag) => !STRUCTURAL_TAGS.has(tag))
-  )
+  const currentTags = new Set(current.data.tags)
+  const currentUrls = getUrls(current)
 
-  if (currentTags.size === 0) {
+  if (currentTags.size === 0 && currentUrls.size === 0) {
     return []
   }
 
@@ -49,11 +81,18 @@ export const getRelatedMemos = async (
   return memos
     .filter((memo) => memo.id !== current.id)
     .map((memo) => {
-      const score = memo.data.tags
+      const tagScore = memo.data.tags
         .filter((tag) => currentTags.has(tag))
         .reduce((sum, tag) => sum + idf(tag), 0)
 
-      return { memo, score }
+      // 같은 URL을 가리키는 건 공유 태그 하나보다 강한 증거다.
+      // 태그만 보면 놓치는 관계가 있다 — 같은 글을 가리키는 메모쌍 29개 중
+      // 14쌍은 공유 태그가 0개다 (→ 577.md)
+      const sharedUrls = [...getUrls(memo)].filter((url) =>
+        currentUrls.has(url)
+      ).length
+
+      return { memo, score: tagScore + sharedUrls }
     })
     .filter(({ score }) => score > 0)
     .sort((a, b) => b.score - a.score)
