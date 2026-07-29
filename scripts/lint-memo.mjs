@@ -130,6 +130,74 @@ const classify = (a) => {
 const field = (frontmatter, key) =>
   (frontmatter.match(new RegExp(`^${key}: (.*)$`, 'm')) ?? [])[1]?.trim()
 
+/**
+ * docs/memo-spec.md 의 필드 표와 content.config.ts 의 스키마를 대조한다.
+ *
+ * 같은 규칙이 스키마·린터·문서·스킬 네 곳에 흩어져 있어서, 필드를 하나
+ * 추가할 때마다 네 군데를 고쳐야 했다. 최소한 문서와 스키마가 어긋나는
+ * 것은 기계가 잡는다 (실제로 `embed` 가 스키마에만 있고 문서에 없었다).
+ */
+const checkSpecDrift = () => {
+  const specPath = 'docs/memo-spec.md'
+  const configPath = 'src/content.config.ts'
+
+  if (!fs.existsSync(specPath) || !fs.existsSync(configPath)) {
+    return
+  }
+
+  const spec = fs.readFileSync(specPath, 'utf8')
+  const table = spec.match(
+    /<!-- fields:start -->([\s\S]*?)<!-- fields:end -->/
+  )
+
+  if (!table) {
+    add('error', specPath, '필드 표 마커(fields:start/end)를 찾을 수 없다')
+    return
+  }
+
+  const documented = new Map(
+    [...table[1].matchAll(/^\|\s*`(\w+)`\s*\|\s*(필수|선택)\s*\|/gm)].map(
+      ([, name, required]) => [name, required === '필수']
+    )
+  )
+
+  const config = fs.readFileSync(configPath, 'utf8')
+  const schema = config.match(
+    /const memo = defineCollection\(\{[\s\S]*?schema: z\.object\(\{([\s\S]*?)\n {2}\}\)/
+  )
+
+  if (!schema) {
+    add('error', configPath, 'memo 스키마를 파싱할 수 없다')
+    return
+  }
+
+  const actual = new Map(
+    [...schema[1].matchAll(/^ {4}(\w+):\s*(.+)$/gm)].map(([, name, value]) => [
+      name,
+      !/\.optional\(\)|\.default\(/.test(value),
+    ])
+  )
+
+  for (const [name, required] of actual) {
+    if (!documented.has(name)) {
+      add('error', specPath, `스키마에 있는 \`${name}\` 이 필드 표에 없다`)
+    } else if (documented.get(name) !== required) {
+      add(
+        'error',
+        specPath,
+        `\`${name}\` 의 필수 여부가 스키마와 다르다 ` +
+          `(문서: ${documented.get(name) ? '필수' : '선택'}, 스키마: ${required ? '필수' : '선택'})`
+      )
+    }
+  }
+
+  for (const name of documented.keys()) {
+    if (!actual.has(name)) {
+      add('error', specPath, `필드 표의 \`${name}\` 이 스키마에 없다`)
+    }
+  }
+}
+
 const findings = []
 const add = (level, file, message) => findings.push({ level, file, message })
 
@@ -205,6 +273,8 @@ for (const file of files) {
     )
   }
 }
+
+checkSpecDrift()
 
 const errors = findings.filter(({ level }) => level === 'error')
 const warnings = findings.filter(({ level }) => level === 'warn')

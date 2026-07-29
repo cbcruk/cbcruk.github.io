@@ -21,7 +21,7 @@ node scripts/create-memo.mjs note        # 산문이 주인공 (기본값)
 - `src/content/memo/` 내 가장 큰 숫자 ID + 1
 - `ctime`, `mtime`을 오늘 날짜로 설정
 - 빈 `tags: []`
-- `status`: `bookmarks`는 `archive`, 나머지는 `draft` (Status 기준은 CLAUDE.md 참고)
+- `status`: `bookmarks`는 `archive`, 나머지는 `draft` (Status 기준은 docs/memo-spec.md 참고)
 
 `type`과 본문 형태가 어긋나면 빌드가 잡는다 (`pnpm lint:memo`).
 
@@ -60,7 +60,7 @@ pnpm lint:memo            # type 과 본문 형태가 맞는지 (빌드에도 �
 
 ## 관계 자동화 (parent / relation)
 
-새 메모가 기존 메모를 **이어가거나 대체**하면 frontmatter에 `parent`(+`relation`)를 추가한다. 계보 스펙은 CLAUDE.md "메모 연결" 참고.
+새 메모가 기존 메모를 **이어가거나 대체**하면 frontmatter에 `parent`(+`relation`)를 추가한다. 계보 스펙은 docs/memo-spec.md "메모 연결" 참고.
 
 ### 절차
 
@@ -105,5 +105,5 @@ pnpm lint:memo            # type 과 본문 형태가 맞는지 (빌드에도 �
 ## 주의사항
 
 - 주제가 명확하지 않으면 빈 파일만 생성하고 사용자에게 작성을 위임
-- `status`: 작성 중이면 `draft`, 저장만 해두면 `archive`, 완성되면 `release`. **`bookmarks`는 `draft`를 쓰지 않는다** (링크는 붙여넣은 순간이 최종형) — 기준은 CLAUDE.md "Status 기준" 참고
+- `status`: 작성 중이면 `draft`, 저장만 해두면 `archive`, 완성되면 `release`. **`bookmarks`는 `draft`를 쓰지 않는다** (링크는 붙여넣은 순간이 최종형) — 기준은 docs/memo-spec.md "Status 기준" 참고
 - 태그가 애매하면 `[]`로 두는 것도 허용
