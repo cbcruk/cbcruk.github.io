@@ -252,6 +252,17 @@ for (const file of files) {
   // 작성 중(draft)은 아직 형태가 안 잡혔을 수 있으므로 경고로만 본다
   const level = status === 'draft' ? 'warn' : 'error'
 
+  // 링크는 붙여넣은 순간이 최종형이라 "작성 중"이 없다.
+  // draft 를 "공개 안 함"으로 쓰면 작성 중 큐가 방치된 링크로 막힌다.
+  // 이 규칙 자체가 draft 에 대한 것이므로 level 로 낮추지 않는다.
+  if (declared === 'bookmarks' && status === 'draft') {
+    add(
+      'error',
+      target,
+      'type: bookmarks 인데 status: draft — archive 아니면 release 다'
+    )
+  }
+
   // 각주 짝 — 참조만 있으면 마커가 깨진 채 렌더되고, 정의만 있으면 렌더되지 않는다
   for (const id of analyzed.footnoteRefs) {
     if (!analyzed.footnoteDefs.has(id)) {
