@@ -7,9 +7,15 @@ const strict = process.argv.includes('--strict')
 const NON_CODE_FENCE = /^(md|markdown|text|plaintext)$/i
 
 /**
+ * 링크를 렌더하는 컴포넌트 (`<QuoteLink url="...">제목</QuoteLink>`).
+ * JSX 로 걸러버리면 링크가 하나도 없는 것으로 보여서 bookmarks 가 note 로 샌다.
+ */
+const LINK_COMPONENT = /^<([A-Z]\w*)\s[^>]*\b(?:url|href)="(https?:\/\/[^"]+)"/
+
+/**
  * 본문에서 형태 신호를 추출한다.
  * - 코드 펜스: ```md 처럼 산문을 인용한 펜스는 코드로 세지 않는다
- * - 링크: 불릿 링크 + 맨 URL 줄
+ * - 링크: 불릿 링크 + 맨 URL 줄 + 링크 컴포넌트
  * - 산문: 불릿/헤딩/각주정의/JSX/import 를 제외한 줄
  */
 const analyze = (raw) => {
@@ -24,6 +30,7 @@ const analyze = (raw) => {
   let inFence = false
   let fenceIsCode = true
   let codeLines = 0
+  let linkComponent = null
   const kept = []
 
   for (const line of body.split('\n')) {
@@ -43,6 +50,30 @@ const analyze = (raw) => {
     if (inFence) {
       if (line.trim() && fenceIsCode) {
         codeLines++
+      }
+
+      continue
+    }
+
+    // 링크 컴포넌트는 여는 줄부터 닫는 줄까지를 링크 불릿 하나로 접는다.
+    // 자식(링크 제목)은 산문이 아니라 링크의 일부다 — `- [제목](URL)` 과 같다.
+    if (linkComponent) {
+      if (line.includes(`</${linkComponent}>`)) {
+        linkComponent = null
+      }
+
+      continue
+    }
+
+    const component = line.trim().match(LINK_COMPONENT)
+
+    if (component) {
+      const [, tag, url] = component
+
+      kept.push(`- <${url}>`)
+
+      if (!line.includes(`</${tag}>`) && !/\/>\s*$/.test(line)) {
+        linkComponent = tag
       }
 
       continue
@@ -220,6 +251,17 @@ for (const file of files) {
 
   // 작성 중(draft)은 아직 형태가 안 잡혔을 수 있으므로 경고로만 본다
   const level = status === 'draft' ? 'warn' : 'error'
+
+  // 링크는 붙여넣은 순간이 최종형이라 "작성 중"이 없다.
+  // draft 를 "공개 안 함"으로 쓰면 작성 중 큐가 방치된 링크로 막힌다.
+  // 이 규칙 자체가 draft 에 대한 것이므로 level 로 낮추지 않는다.
+  if (declared === 'bookmarks' && status === 'draft') {
+    add(
+      'error',
+      target,
+      'type: bookmarks 인데 status: draft — archive 아니면 release 다'
+    )
+  }
 
   // 각주 짝 — 참조만 있으면 마커가 깨진 채 렌더되고, 정의만 있으면 렌더되지 않는다
   for (const id of analyzed.footnoteRefs) {
