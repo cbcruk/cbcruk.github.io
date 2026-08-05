@@ -49,3 +49,27 @@ CREATE TABLE link (
   url TEXT NOT NULL
 );
 ```
+
+## 코멘트
+
+메모별 코멘트는 별도 libSQL(Turso) DB에 저장합니다. Vercel 서버리스 API(`/api/comments`)가
+읽기/쓰기를 담당하고, 정적 사이트가 CORS로 호출합니다.
+
+```sql
+CREATE TABLE comment (
+  id       INTEGER PRIMARY KEY AUTOINCREMENT,
+  memo_id  TEXT NOT NULL,
+  author   TEXT NOT NULL,
+  body     TEXT NOT NULL,
+  status   TEXT NOT NULL DEFAULT 'pending'
+           CHECK(status IN ('pending', 'approved', 'hidden', 'spam')),
+  ip_hash  TEXT,
+  ctime    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+- 초기화: `node scripts/init-comments.mjs`
+- 사전 승인 큐: 작성 시 `pending`으로 저장 → `approve` 해야 노출
+- 모더레이션: `node scripts/moderate-comments.mjs pending|list|approve|hide|spam|delete`
+- 환경변수: `.env.example` 참고 (`TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `COMMENT_IP_SALT`)
+- 스팸 방어: 허니팟 필드 + IP 레이트리밋(60초당 3개) + 사전 승인

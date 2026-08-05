@@ -36,6 +36,10 @@ yarn-error.log*
 
 .cached
 
+# local comment db (libSQL/Turso dev)
+comments.db
+comments.db-*
+
 dist
 .astro
 public/search-db.json
