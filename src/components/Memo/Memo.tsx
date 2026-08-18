@@ -9,10 +9,11 @@ import { MemoDate } from '@components/Memo/MemoDate'
 import { MemoTag } from '@components/Memo/MemoTag'
 import { MemoId } from '@components/Memo/MemoId'
 import { MemoEmbedLink } from '@components/Memo/MemoEmbedLink'
+import { MemoRaw } from '@components/Memo/MemoRaw'
 import type { Props } from './Memo.types'
 import { match, P } from 'ts-pattern'
 
-export function Memo({ type = 'memo', memo, children }: Props) {
+export function Memo({ type = 'memo', raw = false, memo, children }: Props) {
   return (
     <MemoPrimitive>
       {match(memo.data.title)
@@ -30,6 +31,7 @@ export function Memo({ type = 'memo', memo, children }: Props) {
         </MemoTags>
         <MemoIdAndDate>
           <MemoId id={memo.id} type={type} />
+          {raw && <MemoRaw id={memo.id} type={type} />}
           <MemoDate ctime={memo.data.ctime} mtime={memo.data.mtime} />
         </MemoIdAndDate>
       </MemoFooter>

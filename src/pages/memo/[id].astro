@@ -41,10 +41,12 @@ const lineage = await getLineage(memo)
 
 const PAGE_TITLE = `메모 - ${memo.data.title || ''} #${memo.id} | eunsoolee`
 const PAGE_DESCRIPTION = memo.data.description || ''
+const RAW_PATH = `/memo/${memo.id}.md`
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
-  <Memo memo={memo}>
+  <link slot="head" rel="alternate" type="text/markdown" href={RAW_PATH} />
+  <Memo memo={memo} raw>
     <Content />
   </Memo>
   <MemoLineage

@@ -6,6 +6,7 @@ export type Category = 'memo' | 'think'
 
 export type Props = {
   type?: Category
+  raw?: boolean
   memo: CollectionEntry<Category>
   children: ComponentProps<typeof MemoBody>['children']
 }
