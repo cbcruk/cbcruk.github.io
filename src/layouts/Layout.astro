@@ -18,6 +18,7 @@ const { pathname } = Astro.url
   <head>
     <BaseHead title={title} description={description} />
     <ClientRouter />
+    <slot name="head" />
   </head>
   <body>
     <Header>
