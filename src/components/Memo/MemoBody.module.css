@@ -89,6 +89,37 @@
   @apply p-2 bg-(--flexoki-950) text-[10px] rounded-md;
 }
 
+/* 표 — 메모 카드가 overflow-hidden 이라 표가 스스로 스크롤해야 잘리지 않는다 */
+.root table {
+  @apply block max-w-full overflow-x-auto text-[12px];
+  border-collapse: collapse;
+}
+
+.root th,
+.root td {
+  @apply px-2 py-1.5 text-left align-top;
+  border-bottom: 1px solid var(--flexoki-950);
+}
+
+.root th {
+  @apply font-bold whitespace-nowrap text-(--flexoki-100);
+  border-bottom-color: var(--flexoki-800);
+}
+
+.root td {
+  @apply text-(--flexoki-300);
+}
+
+.root tr:last-child td {
+  @apply border-b-0;
+}
+
+/* 표 안의 인라인 코드는 셀 높이를 키우지 않게 줄인다 */
+.root td code:not(pre > code),
+.root th code:not(pre > code) {
+  @apply px-1 py-0 rounded text-[11px];
+}
+
 .root [data-footnote-ref]::before {
   content: '[';
 }
