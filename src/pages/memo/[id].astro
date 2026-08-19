@@ -4,6 +4,7 @@ import Layout from '@layouts/Layout.astro'
 import { Memo } from '@components/Memo/Memo'
 import { RelatedMemos } from '@components/Memo/RelatedMemos'
 import { MemoLineage } from '@components/Memo/MemoLineage'
+import { Comments } from '@components/Comments/Comments'
 import {
   getReleaseMemoCollection,
   getRelatedMemos,
@@ -55,4 +56,5 @@ const RAW_PATH = `/memo/${memo.id}.md`
     supersededBy={lineage.supersededBy}
   />
   <RelatedMemos memos={relatedMemos} />
+  <Comments memoId={memo.id} client:visible />
 </Layout>
