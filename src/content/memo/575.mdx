@@ -1,9 +1,11 @@
 ---
 type: note
+kind: Explainer
 tags: ['react', 'suspense', 'declarative', 'formal-verification', 'lean']
 status: release
 ctime: 2026-06-23
 mtime: 2026-06-27
+generated: { by: human:cbcruk, at: 2026-06-28T14:49:32Z }
 ---
 
 declarative Combobox = `render ∘ query ∘ defer`. Suspense가 `query: Q→Promise⟨D⟩`를 throw로 바꿔 동기 `Q→D`로 위장하니, 전체가 명령형 조율이 아니라 함수 합성이 된다.
