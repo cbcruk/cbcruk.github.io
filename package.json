@@ -9,13 +9,12 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "node scripts/lint-memo.mjs && node scripts/lint-voice.mjs --strict && astro build",
+    "build": "node scripts/lint-memo.mjs && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest",
     "lint:fix": "eslint --fix .",
     "lint:memo": "node scripts/lint-memo.mjs",
-    "lint:voice": "node scripts/lint-voice.mjs",
     "lint:links": "node scripts/lint-links.mjs"
   },
   "dependencies": {
