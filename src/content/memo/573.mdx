@@ -1,11 +1,11 @@
 ---
 type: note
 kind: Explainer
-tags: ['react', 'css', 'loading-ux', 'formal-verification', 'lean']
+tags: ['react', 'css', 'loading-ux']
 status: release
 ctime: 2026-06-23
-mtime: 2026-06-27
-generated: { by: human:cbcruk, at: 2026-06-28T14:49:32Z }
+mtime: 2026-08-19
+generated: { by: claude/opus-5, at: 2026-08-19T12:30:00Z }
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
@@ -14,8 +14,6 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
 - **leading** — 응답이 너무 빨라 스피너가 _뜨기 전/직후_ 사라짐. _언제 보이기 시작하나_(delay D)의 문제. → CSS가 잡음: `animation-delay`/`transition-delay`가 곧 D. **τ ≤ D면 한 프레임도 안 보인다**(빠른 응답이 스피너 통째로 건너뜀). 단 억제력은 오직 D에서 — `@starting-style` 단독(D=0)으론 못 막는다.
 - **trailing** — 스피너가 떴는데 _너무 짧게_ 보이고 하드컷. _언제 사라지나_(τ)의 문제. 떴다는 사실은 못 되돌리니 `(D,P)`로는 못 잡고 **τ 자체를 미뤄야** 한다 = CSS 밖, JS 타이밍. → `useMinimumLoading`: unmount를 `max(resolve, minLoad)`로 밀어 한 번 뜬 스피너 가시 길이 ≥ minLoad 보장.
-
-형식 닻: `leading_edge_suppressed`(τ≤D면 비가시), `visible_ge_minLoad`(τ-push 보장).
 
 <AutoIframe
   src="/iframe/loading_flicker_explorer.html"
