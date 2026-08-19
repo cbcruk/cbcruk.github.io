@@ -3,7 +3,7 @@
  *
  * 태그만 보면 놓치는 관계가 있다. 같은 글을 가리키는 메모쌍 29개 중
  * 14쌍은 공유 태그가 0개여서 태그 유사도로는 영원히 만나지 못한다.
- * 같은 URL을 가리킨다는 건 태그보다 직접적인 증거다. (→ 577.md)
+ * 같은 URL을 가리킨다는 건 태그보다 직접적인 증거다.
  *
  *   node scripts/find-related.mjs 229          메모 ID (태그 + URL 둘 다)
  *   node scripts/find-related.mjs react,rsc    태그만

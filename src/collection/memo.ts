@@ -87,7 +87,7 @@ export const getRelatedMemos = async (
 
       // 같은 URL을 가리키는 건 공유 태그 하나보다 강한 증거다.
       // 태그만 보면 놓치는 관계가 있다 — 같은 글을 가리키는 메모쌍 29개 중
-      // 14쌍은 공유 태그가 0개다 (→ 577.md)
+      // 14쌍은 공유 태그가 0개다
       const sharedUrls = [...getUrls(memo)].filter((url) =>
         currentUrls.has(url)
       ).length
