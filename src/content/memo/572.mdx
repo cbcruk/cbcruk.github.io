@@ -1,11 +1,11 @@
 ---
 type: note
 kind: Explainer
-tags: ['lean', 'formal-verification', 'http', 'abort', 'cancellation']
+tags: ['http', 'abort', 'cancellation']
 status: release
 ctime: 2026-06-23
-mtime: 2026-06-27
-generated: { by: human:cbcruk, at: 2026-06-28T14:49:32Z }
+mtime: 2026-08-19
+generated: { by: claude/opus-5, at: 2026-08-19T12:30:00Z }
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
@@ -23,4 +23,4 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
   title="request abort race — 취소 시각 tA 위치에 따른 reject·서버 도달·서버 처리"
 />
 
-형식 닻: `no_server_cancellation`(Reached→Processed), `reachability_monotone_in_send_time`(네트워크 속도가 도달 뒤집음). 곁가지: 캡슐화돼 반환 안 된 취소 핸들은 도달 불가 → 노출된 signal만 취소 가능.
+곁가지: 캡슐화돼 반환 안 된 취소 핸들은 도달 불가 → 노출된 signal만 취소 가능.

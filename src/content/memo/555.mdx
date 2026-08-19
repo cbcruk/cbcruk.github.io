@@ -1,11 +1,11 @@
 ---
 type: note
 kind: Explainer
-tags: ['navigation-api', 'router', 'lean']
+tags: ['navigation-api', 'router']
 status: release
 ctime: 2026-06-15
-mtime: 2026-06-28
-generated: { by: human:cbcruk, at: 2026-06-28T14:49:32Z }
+mtime: 2026-08-19
+generated: { by: claude/opus-5, at: 2026-08-19T12:30:00Z }
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
@@ -21,7 +21,7 @@ onNavigate(e) {
 }
 ```
 
-정의역 조건(`0 ≤ idx + n`) 안에서만 항등. 형식 닻: `go_rollback_id` — `go n` 다음 `go (-n) = h`.
+정의역 조건(`0 ≤ idx + n`) 안에서만 항등 — `go n` 다음 `go (-n)`이 원위치.
 
 <AutoIframe
   src="/iframe/traverse-rollback-explorer.html"

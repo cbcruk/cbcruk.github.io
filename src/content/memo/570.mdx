@@ -1,11 +1,11 @@
 ---
 type: note
 kind: Explainer
-tags: ['react', 'usememo', 'usedeferredvalue', 'formal-verification', 'lean']
+tags: ['react', 'usememo', 'usedeferredvalue']
 status: release
 ctime: 2026-06-23
-mtime: 2026-06-27
-generated: { by: human:cbcruk, at: 2026-06-28T14:49:32Z }
+mtime: 2026-08-19
+generated: { by: claude/opus-5, at: 2026-08-19T12:30:00Z }
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
@@ -24,8 +24,6 @@ useMemo 적중 조건은 **`Object.is`(참조/원시 동등)이지 deep-equal이
 `deferred` 궤적은 자기 입력(`query`)에만 의존하고 **`items` 참조 안정성과 무관**(증명이 `rfl`인 이유 — items가 계산에 안 들어감). 그래서 items가 매 렌더 새로 만들어져도 **죽는 건 useMemo 캐시 한 층뿐**, deferred는 안 흔들린다.
 
 안전성: deferred는 항상 _지금까지 본 입력 중 하나_(미래·날조값 아님). 수렴: 입력이 안정화되고 저우선순위 렌더가 무한 선점 안 되면 따라잡음 — 그 격차 구간이 `isStale`(opacity dim 창). 연속 타이핑 시 영영 못 따라잡을 수 있는데 버그가 아니라 의도(그 내내 dim 유지).
-
-형식 닻: `renderDeferred_const_in_items`(items에 상수), `converge`(안정화 후 따라잡음).
 
 <AutoIframe
   src="/iframe/two_clocks_deferred_vs_immediate.html"
