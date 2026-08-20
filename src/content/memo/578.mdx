@@ -1,0 +1,36 @@
+---
+type: note
+kind: Explainer
+tags: ['react', 'usememo']
+status: release
+ctime: 2026-06-23
+mtime: 2026-08-20
+generated: { by: claude/opus-5, at: 2026-08-20T10:00:00Z }
+parent: '570'
+sources:
+  - id: react-usememo
+    resource: https://react.dev/reference/react/useMemo
+    title: "useMemo — React"
+---
+
+import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
+
+목록을 걸러내거나 정렬하는 계산이 무거우면 매 렌더마다 다시 하기 아깝다. `useMemo`는 **지난번 결과를 기억해뒀다가, 재료가 그대로면 그걸 다시 쓰는** 것이다.
+
+문제는 "재료가 그대로"를 어떻게 판단하느냐다. React는 재료 **안을 들여다보지 않는다** — `Object.is`로 *같은 물건인지*만 본다.[^react-usememo] 내용이 똑같은 배열이라도 매번 새로 만들면 다른 물건으로 친다.
+
+그래서 `items={data.map(...)}`처럼 인라인으로 넘기면 **한 번도 재활용되지 않는다.** 렌더마다 새 배열이 생기니까.
+
+**그래도 화면이 틀리지는 않는다.** 재활용을 못 하면 다시 계산할 뿐이고, **같은 재료로 늘 같은 답을 내는 계산**이라면 답은 똑같다. 잃는 건 속도뿐이다. React가 이 전제를 얼마나 중요하게 보는지는 개발 모드에서 드러난다 — 계산 함수를 **일부러 두 번 불러서** 답이 달라지는지 확인한다.
+
+그 "늘 같은 답" 전제가 깨지는 경우가 둘 있다.
+
+- **재료 목록(`deps`)에 안 적어둔 값을 계산 안에서 쓰면**(stale closure) — 그 값이 바뀌어도 React는 "재료 그대로"로 보고 **옛날 답을 내놓는다.** 느린 게 아니라 틀린 것이다. 게다가 무관한 재료가 바뀌는 순간 **우연히 맞아졌다가 다시 틀린다** — 그래서 원인을 찾기 어렵다.
+- **계산이 매번 다른 답을 내면**(랜덤 같은 것) — React는 특별한 이유가 있으면 기억해둔 걸 버리는데, 그 순간 답이 바뀐다 → [574](/memo/574)
+
+<AutoIframe
+  src="/iframe/useMemo_cache_behavior.html"
+  title="items 참조가 안정할 때와 매 렌더 새로 만들어질 때의 재계산 횟수 비교"
+/>
+
+[^react-usememo]: *"React will compare each dependency with its previous value using the `Object.is` comparison."* / *"React will not throw away the cached value unless there is a specific reason to do that … This should be fine if you rely on `useMemo` solely as a performance optimization."* / *"In Strict Mode, React will call your calculation function twice in order to help you find accidental impurities."* ([useMemo — React](https://react.dev/reference/react/useMemo))

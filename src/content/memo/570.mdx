@@ -1,31 +1,35 @@
 ---
 type: note
 kind: Explainer
-tags: ['react', 'usememo', 'usedeferredvalue']
+tags: ['react', 'usedeferredvalue']
 status: release
 ctime: 2026-06-23
-mtime: 2026-08-19
-generated: { by: claude/opus-5, at: 2026-08-19T12:30:00Z }
+mtime: 2026-08-20
+generated: { by: claude/opus-5, at: 2026-08-20T08:30:00Z }
+sources:
+  - id: react-usedeferredvalue
+    resource: https://react.dev/reference/react/useDeferredValue
+    title: "useDeferredValue — React"
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-## useMemo — 적중은 Object.is(deep-equal 아님)
+검색어를 치면 입력창은 바로 바뀌어야 하는데, 아래 무거운 목록까지 매번 다시 그리면 버벅인다. `useDeferredValue(value)`는 같은 값을 **한 박자 늦게 따라오는 짝**으로 하나 더 만들어준다. 입력창은 빠른 쪽을, 무거운 목록은 늦은 쪽을 쓴다.
 
-useMemo 적중 조건은 **`Object.is`(참조/원시 동등)이지 deep-equal이 아니다**. 그래서 인라인 `items={data.map(...)}`은 내용이 같아도 매 렌더 miss(참조가 매번 새로움). 정확성은 별개 — 순수 가정(매 렌더 `f() = φ(deps)`)이 서면 적중이든 miss든 반환값은 항상 fresh `φ(deps)`. stale closure(deps에 없는 변수 포획)는 그 가정 자체를 깨서 stale 값을 낸다.
+그럼 늦은 쪽이 보여주는 값을 믿어도 되나.
 
-<AutoIframe
-  src="/iframe/useMemo_cache_behavior.html"
-  title="useMemo 캐시 매트릭스 — items 안정/불안정에서 재계산 횟수"
-/>
+**어떻게 도는지부터.** 글자를 하나 치면 React가 화면을 **두 번** 그린다. 첫 번째는 빠른 쪽만 새 값으로(`query`는 이미 `"ab"`인데 `deferredQuery`는 아직 `"a"`), 두 번째는 늦은 쪽까지 새 값으로. 두 번째 그리기는 **첫 번째가 끝나자마자** 시작한다 — 기다리는 시간 같은 건 없다. 그리는 도중에 글자를 더 치면 그때까지 그린 걸 버리고 **처음부터 다시** 그린다. 다 그려서 화면에 올리기 전까지는 아무것도 안 보이고 `useEffect`도 안 돈다.[^react-deferred]
 
-## useDeferredValue — items와 무관 (핵심)
+- **없는 값을 만들지 않는다** — 늦은 쪽이 보여주는 건 언제나 _내가 실제로 쳤던 것 중 하나_다. 지어내지 않는다.
+- **결국 따라잡는다** — 손을 멈추면 따라잡는다. 계속 치는 동안은 다시 그리기가 반복해서 취소돼 영영 못 따라잡을 수도 있는데, 고장이 아니라 그러라고 만든 것이다. 그 벌어진 사이가 `isStale`이고, 보통 화면을 흐리게 해서 "아직 옛날 거예요"를 알린다.
 
-`deferred` 궤적은 자기 입력(`query`)에만 의존하고 **`items` 참조 안정성과 무관**(증명이 `rfl`인 이유 — items가 계산에 안 들어감). 그래서 items가 매 렌더 새로 만들어져도 **죽는 건 useMemo 캐시 한 층뿐**, deferred는 안 흔들린다.
+둘 다 위 동작에서 그대로 나온다 — **돌려줄 값을 새로 만드는 일이 없으니** 지어낼 수가 없고, **다시 그리기가 늘 최신 값에서 출발하니** 손을 멈추면 그 그리기가 끝까지 간다. **믿어도 된다. 다만 언제 따라잡을지는 모른다.**
 
-안전성: deferred는 항상 _지금까지 본 입력 중 하나_(미래·날조값 아님). 수렴: 입력이 안정화되고 저우선순위 렌더가 무한 선점 안 되면 따라잡음 — 그 격차 구간이 `isStale`(opacity dim 창). 연속 타이핑 시 영영 못 따라잡을 수 있는데 버그가 아니라 의도(그 내내 dim 유지).
+**목록을 인라인으로 만들어도 늦은 쪽은 안 흔들린다.** `items={data.map(...)}`처럼 써서 참조가 매번 새로 생겨도 상관없다 — 그 목록이 늦은 쪽 계산에 아예 안 들어가기 때문이다. 같은 상황에서 망가지는 건 useMemo 캐시 쪽이다 → [578](/memo/578)
 
 <AutoIframe
   src="/iframe/two_clocks_deferred_vs_immediate.html"
-  title="useDeferredValue — immediate(urgent) vs deferred, 둘의 격차가 isStale 구간"
+  title="입력을 곧바로 따라가는 값과 뒤처지는 값의 두 시간축, 둘이 어긋난 구간이 isStale"
 />
+
+[^react-deferred]: 두 단계 — *"First, React re-renders with the new `query` (`"ab"`) but with the old `deferredQuery` (still `"a"`) … In the background, React tries to re-render with **both** `query` and `deferredQuery` updated."* / 타이밍 — *"There is no fixed delay caused by `useDeferredValue` itself. As soon as React finishes the original re-render, React will immediately start working on the background re-render."* / 중단 — *"The background re-render is interruptible: if there's another update to the value, React will restart the background re-render from scratch."* / Effect — *"does not fire Effects until it's committed to the screen."* ([useDeferredValue — React](https://react.dev/reference/react/useDeferredValue))
