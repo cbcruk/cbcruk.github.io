@@ -93,25 +93,21 @@
 </head>
 <body>
 <div class="wrap">
+<h2 class="sr-only">useMemo 재활용 동작 비교. items 참조가 매번 새로 생기는 경우, 안정한 경우, 그리고 재료 목록에 없는 값을 계산이 몰래 쓰는 경우 — 앞의 둘은 느려질 뿐이고 마지막만 답이 틀린다.</h2>
 <div style="padding: 1rem 0">
   <div class="tab-bar">
-    <div class="tab active" onclick="setTab(0)">items 불안정 (인라인 생성)</div>
-    <div class="tab" onclick="setTab(1)">items 안정 (useMemo 처리)</div>
+    <div class="tab active" onclick="setTab(0)">items를 매번 새로 만들면</div>
+    <div class="tab" onclick="setTab(1)">items 참조가 그대로면</div>
+    <div class="tab" onclick="setTab(2)">재료에 안 적어둔 값을 쓰면</div>
   </div>
 
-  <div id="desc-0" class="scenario-desc">
-    부모가 <code style="font-size:11px">items={'{'}data.map(transform){'}'}</code> 처럼 매 렌더마다 새 배열 참조를 내려보내는 경우
-  </div>
-  <div id="desc-1" class="scenario-desc" style="display:none">
-    부모가 <code style="font-size:11px">const items = useMemo(() =&gt; ..., [rawData])</code> 으로 안정화된 참조를 내려보내는 경우
-  </div>
+  <div id="desc" class="scenario-desc"></div>
 
   <div class="legend">
-    <div class="leg"><div class="leg-dot" style="background:#fbbf24"></div>값 변경</div>
-    <div class="leg"><div class="leg-dot" style="background:#34d399"></div>캐시 재사용</div>
-    <div class="leg"><div class="leg-dot" style="background:#ef4444"></div>재계산 실행</div>
-    <div class="leg"><div class="leg-dot" style="background:#a78bfa; opacity:.6"></div>지연된 값 (stale)</div>
-    <div class="leg"><div class="leg-dot" style="background:var(--color-background-secondary)"></div>변화 없음</div>
+    <div class="leg"><div class="leg-dot" style="background:#fbbf24"></div>바뀜</div>
+    <div class="leg"><div class="leg-dot" style="background:#34d399"></div>재활용 / 맞음</div>
+    <div class="leg"><div class="leg-dot" style="background:#ef4444"></div>다시 계산 / 틀림</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--color-background-secondary)"></div>그대로</div>
   </div>
 
   <div class="tick-labels" id="tick-labels"></div>
@@ -122,83 +118,56 @@
 </div>
 
 <script>
+const TICKS = ['타이핑', '부모 리렌더', 'rawData 변경', '타이핑'];
+
 const SCENARIOS = [
   {
-    triggers: [
-      { label: 'query 타이핑', queryChange: true, itemsChange: true, deferredChange: false },
-      { label: 'deferred 반영', queryChange: false, itemsChange: true, deferredChange: true },
-      { label: '부모 리렌더', queryChange: false, itemsChange: true, deferredChange: false },
-      { label: 'rawData 변경', queryChange: false, itemsChange: true, deferredChange: true },
+    desc: '부모가 <code>items={data.map(transform)}</code> 처럼 매 렌더마다 새 배열을 내려보내는 경우',
+    rows: [
+      { label: 'items 참조', cells: ['새로움', '새로움', '새로움', '새로움'] },
+      { label: 'useMemo', cells: ['다시 계산', '다시 계산', '다시 계산', '다시 계산'] },
+      { label: '화면의 답', cells: ['맞음', '맞음', '맞음', '맞음'] },
     ],
     result: [
-      { key: 'isStale 플래그 / opacity', val: '✓ 동작', ok: true },
-      { key: 'Concurrent 렌더 분리', val: '✓ 동작', ok: true },
-      { key: 'useMemo 캐시', val: '✗ 항상 재계산', ok: false },
-      { key: '정확성', val: '✓ 보장', ok: true },
-    ]
+      { key: '재활용', val: '\u2717 한 번도 안 됨', ok: false },
+      { key: '화면의 답', val: '\u2713 늘 맞음', ok: true },
+      { key: '잃는 것', val: '속도', ok: false },
+    ],
   },
   {
-    triggers: [
-      { label: 'query 타이핑', queryChange: true, itemsChange: false, deferredChange: false },
-      { label: 'deferred 반영', queryChange: false, itemsChange: false, deferredChange: true },
-      { label: '부모 리렌더', queryChange: false, itemsChange: false, deferredChange: false },
-      { label: 'rawData 변경', queryChange: false, itemsChange: true, deferredChange: true },
+    desc: '부모가 <code>const items = useMemo(() => ..., [rawData])</code> 로 참조를 안정화해 내려보내는 경우',
+    rows: [
+      { label: 'items 참조', cells: ['그대로', '그대로', '새로움', '그대로'] },
+      { label: 'useMemo', cells: ['재활용', '재활용', '다시 계산', '재활용'] },
+      { label: '화면의 답', cells: ['맞음', '맞음', '맞음', '맞음'] },
     ],
     result: [
-      { key: 'isStale 플래그 / opacity', val: '✓ 동작', ok: true },
-      { key: 'Concurrent 렌더 분리', val: '✓ 동작', ok: true },
-      { key: 'useMemo 캐시', val: '✓ 의도대로 동작', ok: true },
-      { key: '정확성', val: '✓ 보장', ok: true },
-    ]
-  }
+      { key: '재활용', val: '\u2713 rawData 바뀔 때만 다시 계산', ok: true },
+      { key: '화면의 답', val: '\u2713 늘 맞음', ok: true },
+      { key: '잃는 것', val: '없음', ok: true },
+    ],
+  },
+  {
+    desc: '참조는 안정한데 계산이 <code>sortAsc</code> 를 쓰면서 재료 목록에는 안 적어둔 경우 — <code>useMemo(() => sort(items, sortAsc), [items])</code>. <strong>무관한 rawData 가 바뀔 때만 우연히 맞아진다</strong> — 이래서 원인을 찾기 어렵다',
+    rows: [
+      { label: 'items 참조', cells: ['그대로', '그대로', '새로움', '그대로'] },
+      { label: 'sortAsc (재료 밖)', cells: ['그대로', '바뀜', '그대로', '바뀜'] },
+      { label: 'useMemo', cells: ['재활용', '재활용', '다시 계산', '재활용'] },
+      { label: '화면의 답', cells: ['맞음', '틀림', '맞음', '틀림'] },
+    ],
+    result: [
+      { key: '재활용', val: '\u2713 잘 됨', ok: true },
+      { key: '화면의 답', val: '\u2717 맞다 틀리다 한다', ok: false },
+      { key: '잃는 것', val: '정확성 — 느린 게 아니라 틀린 것', ok: false },
+    ],
+  },
 ];
 
-const ROWS = ['query', 'deferredQuery', 'items', 'filtered (useMemo)'];
-
-function computeCells(scenario) {
-  const triggers = scenario.triggers;
-  const N = triggers.length;
-  const rows = [];
-
-  // query row
-  rows.push(triggers.map(t => t.queryChange ? 'changed' : null));
-
-  // deferredQuery row
-  rows.push(triggers.map(t => t.deferredChange ? 'stale→changed' : (t.queryChange ? 'stale' : null)));
-
-  // items row
-  rows.push(triggers.map(t => t.itemsChange ? 'changed' : null));
-
-  // filtered row: rerun if items changed OR deferredQuery changed
-  rows.push(triggers.map(t => {
-    if (t.itemsChange || t.deferredChange) return 'rerun';
-    return 'cached';
-  }));
-
-  return rows;
-}
-
-function cellClass(rowIdx, val) {
-  if (rowIdx === 1) {
-    if (val === 'stale') return 'stale';
-    if (val === 'stale→changed') return 'changed';
-  }
-  if (val === 'changed') return 'changed';
-  if (val === 'rerun') return 'rerun';
-  if (val === 'cached') return 'cached';
+function cls(text) {
+  if (text === '새로움' || text === '바뀜') return 'changed';
+  if (text === '다시 계산' || text === '틀림') return 'rerun';
+  if (text === '재활용' || text === '맞음') return 'cached';
   return '';
-}
-
-function cellText(rowIdx, val) {
-  if (!val) return '—';
-  if (rowIdx === 1) {
-    if (val === 'stale') return 'stale';
-    if (val === 'stale→changed') return '반영';
-  }
-  if (val === 'changed') return '변경';
-  if (val === 'rerun') return '재계산';
-  if (val === 'cached') return '캐시';
-  return val;
 }
 
 let activeTab = 0;
@@ -206,41 +175,19 @@ let activeTab = 0;
 function setTab(i) {
   activeTab = i;
   document.querySelectorAll('.tab').forEach((t, idx) => t.classList.toggle('active', idx === i));
-  document.getElementById('desc-0').style.display = i === 0 ? '' : 'none';
-  document.getElementById('desc-1').style.display = i === 1 ? '' : 'none';
   render();
 }
 
 function render() {
   const sc = SCENARIOS[activeTab];
-  const cells = computeCells(sc);
-  const N = sc.triggers.length;
-
-  // tick labels
-  const tickEl = document.getElementById('tick-labels');
-  tickEl.innerHTML = sc.triggers.map(t => `<div class="tick">${t.label}</div>`).join('');
-
-  // timeline
-  const tlEl = document.getElementById('timeline');
-  tlEl.innerHTML = ROWS.map((rowLabel, ri) => {
-    const cellsHtml = cells[ri].map((val, ci) => {
-      const cls = cellClass(ri, val);
-      const txt = cellText(ri, val);
-      return `<div class="cell ${cls}">${txt}</div>`;
-    }).join('');
-    return `<div class="row">
-      <div class="row-label">${rowLabel}</div>
-      <div class="cells">${cellsHtml}</div>
-    </div>`;
+  document.getElementById('desc').innerHTML = sc.desc;
+  document.getElementById('tick-labels').innerHTML = TICKS.map(t => `<div class="tick">${t}</div>`).join('');
+  document.getElementById('timeline').innerHTML = sc.rows.map(r => {
+    const cells = r.cells.map(v => `<div class="cell ${cls(v)}">${v === '그대로' ? '\u2014' : v}</div>`).join('');
+    return `<div class="row"><div class="row-label">${r.label}</div><div class="cells">${cells}</div></div>`;
   }).join('');
-
-  // result
-  const rc = document.getElementById('result-card');
-  rc.innerHTML = sc.result.map(r =>
-    `<div class="result-row">
-      <span class="result-key">${r.key}</span>
-      <span class="badge ${r.ok ? 'ok' : 'bad'}">${r.val}</span>
-    </div>`
+  document.getElementById('result-card').innerHTML = sc.result.map(r =>
+    `<div class="result-row"><span class="result-key">${r.key}</span><span class="badge ${r.ok ? 'ok' : 'bad'}">${r.val}</span></div>`
   ).join('');
 }
 
