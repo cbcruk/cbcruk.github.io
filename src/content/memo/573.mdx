@@ -4,20 +4,28 @@ kind: Explainer
 tags: ['react', 'css', 'loading-ux']
 status: release
 ctime: 2026-06-23
-mtime: 2026-08-19
-generated: { by: claude/opus-5, at: 2026-08-19T12:30:00Z }
+mtime: 2026-08-20
+generated: { by: claude/opus-5, at: 2026-08-20T04:30:00Z }
+sources:
+  - id: starting-style
+    resource: https://developer.mozilla.org/en-US/docs/Web/CSS/@starting-style
+    title: "@starting-style — MDN"
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-로딩 flicker는 **두 엣지**인데 CSS는 한쪽만 잡는다:
+로딩 스피너의 깜빡임은 **양 끝에서 따로 생기는데** CSS는 한쪽만 잡는다.
 
-- **leading** — 응답이 너무 빨라 스피너가 _뜨기 전/직후_ 사라짐. _언제 보이기 시작하나_(delay D)의 문제. → CSS가 잡음: `animation-delay`/`transition-delay`가 곧 D. **τ ≤ D면 한 프레임도 안 보인다**(빠른 응답이 스피너 통째로 건너뜀). 단 억제력은 오직 D에서 — `@starting-style` 단독(D=0)으론 못 막는다.
-- **trailing** — 스피너가 떴는데 _너무 짧게_ 보이고 하드컷. _언제 사라지나_(τ)의 문제. 떴다는 사실은 못 되돌리니 `(D,P)`로는 못 잡고 **τ 자체를 미뤄야** 한다 = CSS 밖, JS 타이밍. → `useMinimumLoading`: unmount를 `max(resolve, minLoad)`로 밀어 한 번 뜬 스피너 가시 길이 ≥ minLoad 보장.
+- **앞쪽(leading)** — 응답이 너무 빨라 스피너가 _뜨기 전이나 직후_ 사라진다. **언제 보이기 시작하나**의 문제다. → **CSS가 잡는다**: `animation-delay`/`transition-delay`가 곧 그 지연이고, **응답이 지연보다 빨리 오면 한 프레임도 안 보인다**(스피너를 통째로 건너뛴다). 단 억제력은 지연에서만 나온다 — `@starting-style` 단독(지연 0)으론 못 막는다.
+- **뒤쪽(trailing)** — 스피너가 떴는데 _너무 짧게_ 보이고 하드컷된다. **언제 사라지나**의 문제다. 이미 떴다는 사실은 못 되돌리니 CSS가 가진 두 값(지연·지속 시간)으로는 못 잡고 **사라지는 시각 자체를 미뤄야** 한다 — CSS 밖, JS 타이밍이다. → `useMinimumLoading`: unmount를 `max(응답 시각, 최소 노출 시간)`으로 밀어, 한 번 뜬 스피너가 최소 노출 시간만큼은 보이게 만든다.
+
+둘이 갈리는 이유는 하나다 — **CSS는 시작만 통제한다.** 스피너가 보이는 구간은 `[뜬 시각, unmount 시각]`인데, 지연은 앞쪽을 미루고 지속 시간은 애니메이션 길이일 뿐 요소가 DOM에 남는 시간이 아니다. 뒤쪽 끝은 응답이 언제 오느냐가 정하고 **그건 CSS가 모르는 값**이다. 그래서 "최소 몇 ms는 보인다"를 CSS만으로는 보장할 수 없다.
 
 <AutoIframe
   src="/iframe/loading_flicker_explorer.html"
-  title="로딩 flicker explorer — D·P·τ + useMinimumLoading(minLoad)으로 두 엣지와 τ-push 관찰"
+  title="지연·지속 시간·응답 시각과 최소 노출 시간을 조절하며 앞쪽 억제와 뒤쪽 깜빡임이 어떻게 달라지는지 관찰"
 />
 
-곁가지 — `@starting-style`은 flicker와 무관한 _다른 축_: transition의 from↔to를 distinct하게 만들어 **마운트 보간이 죽지 않게** 하는 것(진입 fade-in). 그래서 진입 애니메이션과 flicker 해법(useMinimumLoading)은 별개 결정.
+곁가지 — `@starting-style`은 **같은 뿌리의 반대편**이다. transition은 두 상태 사이를 보간하는데, 진입에는 옮겨갈 이전 상태가 없고[^starting-style] 퇴장에는 요소 자체가 이미 사라진다. `@starting-style`은 앞쪽의 출발값을 대신 정해주고(진입 fade-in), `useMinimumLoading`은 뒤쪽의 unmount를 미룬다. 뿌리는 같아도 **손대는 지점이 달라 별개 결정**이다.
+
+[^starting-style]: CSS transition은 요소의 첫 스타일 적용이나 `display: none` → 표시 전환에서는 기본적으로 발동하지 않는다. `@starting-style`이 "무엇에서 출발할지"를 정의해 그걸 가능하게 한다. ([@starting-style — MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/@starting-style))
