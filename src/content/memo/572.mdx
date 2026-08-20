@@ -4,23 +4,43 @@ kind: Explainer
 tags: ['http', 'abort', 'cancellation']
 status: release
 ctime: 2026-06-23
-mtime: 2026-08-19
-generated: { by: claude/opus-5, at: 2026-08-19T12:30:00Z }
+mtime: 2026-08-20
+generated: { by: claude/opus-5, at: 2026-08-20T02:30:00Z }
+sources:
+  - id: fetch-abort
+    resource: https://fetch.spec.whatwg.org/#abort-fetch
+    title: "Fetch Standard — abort a fetch"
+  - id: mdn-abortcontroller
+    resource: https://developer.mozilla.org/en-US/docs/Web/API/AbortController
+    title: "AbortController — MDN"
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-**HTTP 요청 취소는 클라이언트 측 사건이다.** 취소 시각 `tA`가 요청 lifecycle의 어느 구간이냐가 promise reject·서버 도달·서버 처리를 가르지만 — 취소는 이미 전송된 byte를 회수하지도, 진행 중인 서버 처리를 멈추지도 못한다.
+**HTTP 요청 취소는 클라이언트에서만 일어난다.**[^fetch-abort] 이미 보낸 바이트를 회수하지도, 서버가 하고 있는 일을 멈추지도 못한다.
 
-뿌리는 한 정의 등식: **`Reached = Processed`**(둘 다 `tSendDone ≤ tA`) — 전송이 취소 전 끝났으면 서버는 처리하고, 취소는 그걸 못 멈춘다. 따라서:
+갈리는 건 딱 하나 — **취소한 순간에 요청 전송이 이미 끝나 있었나.** 끝나 있었다면 서버는 그걸 받았고, 받았으면 처리한다. 취소는 그 처리를 못 막는다.
 
-- reject된 promise는 _완전히 처리된_ 서버와 양립한다(구간 `[tSendDone, tResp)`에서 둘 다 참). 취소 ≠ 서버에서의 무사건.
-- 절약되는 건 클라이언트 측(응답 처리)뿐 — 도달했다면 서버 작업은 안 절약됨.
-- 경계는 `tSendDone` — 취소 시각이 고정이어도 네트워크가 느려 `tSendDone`이 그 시각을 넘으면 도달 판정이 참→거짓으로 뒤집힌다(네트워크 속도가 도달 여부를 좌우).
+- **reject된 promise와 "서버가 다 처리했다"는 동시에 참일 수 있다.** 전송이 끝난 뒤부터 응답이 오기 전까지가 그 구간이다. 취소했다고 서버에서 아무 일도 없었던 게 아니다.
+- **절약되는 건 클라이언트 쪽뿐** — 응답을 받아 처리하는 비용. 도달했다면 서버 작업은 그대로 나간다.
+- **네트워크 속도가 결과를 뒤집는다.** 취소를 누르는 시각이 똑같아도, 네트워크가 느려 전송이 그 시각을 넘겨 끝나면 "서버에 도달함"이 참에서 거짓으로 바뀐다.
+
+요청은 네 구간을 지난다. 취소가 어느 구간에서 오느냐로 결과가 달라진다.
+
+| 구간 | 어디 | 여기서 취소하면 |
+|---|---|---|
+| `send` | 클라이언트 | 요청이 끝까지 안 나간다 — 서버는 아무것도 못 받는다 |
+| `in-flight` | 네트워크 | 이미 다 보냈다. 서버는 받는다 |
+| `processing` | 서버 | 서버가 처리 중이고 멈출 방법이 없다 |
+| `resp` | 네트워크 → 클라이언트 | 응답이 오는 중이다. 클라이언트가 안 읽을 뿐 |
+
+구간 사이 경계는 셋인데 **결과를 가르는 건 첫 번째 하나**다 — `send`와 `in-flight` 사이, 전송이 끝나는 순간. 그 뒤로는 어디서 취소하든 서버 입장에선 똑같다.
 
 <AutoIframe
   src="/iframe/request_abort_race_sim.html"
-  title="request abort race — 취소 시각 tA 위치에 따른 reject·서버 도달·서버 처리"
+  title="취소한 시점이 전송 완료 전이냐 후냐에 따라 promise reject·서버 도달·서버 처리가 어떻게 갈리는지"
 />
 
-곁가지: 캡슐화돼 반환 안 된 취소 핸들은 도달 불가 → 노출된 signal만 취소 가능.
+곁가지 — 캡슐화돼 반환되지 않은 취소 핸들은 손댈 수 없다. 밖으로 노출된 signal만 취소할 수 있다.
+
+[^fetch-abort]: Fetch 표준의 abort 알고리즘은 controller 상태를 `aborted`로 바꾸고 이유를 기록할 뿐, 서버로 무엇을 보내라고 정하지 않는다. 연결을 닫거나 응답 읽기를 멈추는 건 구현 재량이다. ([Fetch Standard — abort a fetch](https://fetch.spec.whatwg.org/#abort-fetch))
