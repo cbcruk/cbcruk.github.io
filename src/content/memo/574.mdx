@@ -1,5 +1,6 @@
 ---
 type: snippet
+kind: Convention
 tags:
   [
     'react',
@@ -11,16 +12,27 @@ tags:
   ]
 status: release
 ctime: 2026-06-23
-mtime: 2026-06-23
+mtime: 2026-08-21
+generated: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
+verified: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
+sources:
+  - id: react-usememo
+    resource: https://react.dev/reference/react/useMemo
+    title: "useMemo — React (caveats)"
+  - id: shud-thoughts-build-bulletproof
+    resource: https://shud.in/thoughts/build-bulletproof-react-components
+    title: "Building Bulletproof React Components — Shu Ding"
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-**`useMemo`는 성능 힌트지 의미적 보장이 아니다 — 정확성을 캐시에 의존하면 안 된다.** React는 특별한 이유가 있으면 캐시를 버린다: 개발 중 HMR, 초기 마운트 중 suspend, 미래 기능(오프스크린/가상 리스트). 그래서 `useMemo` 결과로 "한 번 정해지면 유지돼야 하는 값"을 만들면, 캐시가 폐기되는 순간 값이 바뀐다.
+**`useMemo`가 보장하는 건 "값이 맞다"이지 "같은 값이 유지된다"가 아니다.** React는 특별한 이유가 있으면 캐시를 버린다 — 개발 중 파일을 고칠 때, 초기 마운트 중 컴포넌트가 suspend할 때, 그리고 앞으로 나올 기능(가상 리스트에서 화면 밖으로 스크롤된 항목 같은 것).
+
+계산이 순수하면 버려져도 같은 답이 나오니 상관없다. **매번 다른 답을 내는 계산**을 넣었을 때만 문제가 된다 — 캐시가 버려지는 순간 값이 바뀐다.
 
 <AutoIframe
   src="/iframe/usememo_cache_discard.html"
-  title="useMemo vs useState — 캐시 폐기 이벤트를 던지면 useMemo만 색이 바뀐다(flicker)"
+  title="캐시 폐기 이벤트를 던지면 useMemo 쪽만 색이 다시 뽑혀 튀고, useState 쪽은 그대로다"
 />
 
 ```tsx
@@ -39,6 +51,8 @@ if (baseTheme !== prevTheme) {
 
 판별 기준: "이 값이 재계산되면 _틀린_ 동작인가, 아니면 그냥 _느린_ 동작인가."
 틀림 → state/ref. 느림 → useMemo.
+
+재활용 자체가 안 되는 쪽(참조가 매 렌더 새로워지는 경우)은 속도 문제일 뿐이다 → [578](/memo/578)
 
 ## 참고
 
