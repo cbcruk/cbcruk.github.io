@@ -4,33 +4,60 @@ kind: Explainer
 tags: ['navigation-api', 'router']
 status: release
 ctime: 2026-06-15
-mtime: 2026-08-19
-generated: { by: claude/opus-5, at: 2026-08-19T12:30:00Z }
+mtime: 2026-08-21
+generated: { by: claude/opus-5, at: 2026-08-21T03:00:00Z }
+verified: { by: claude/opus-5, at: 2026-08-21T03:00:00Z }
+sources:
+  - id: mdn-navigation-destination
+    resource: https://developer.mozilla.org/en-US/docs/Web/API/NavigationDestination/index
+    title: "NavigationDestination.index — MDN"
+  - id: chrome-navigation-api
+    resource: https://developer.chrome.com/docs/web-platform/navigation-api
+    title: "Navigation API — Chrome for Developers"
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-Navigation API에서 `traverse`(뒤/앞 이동)만 `preventDefault()`로 막을 수 없다. push·replace·reload는 취소 가능, traverse는 취소 정의역 밖.
+Navigation API로 라우터를 만들어보면 `navigate` 이벤트가 반갑다. 링크 클릭·폼 제출·프로그램 호출은 물론 `history.pushState()`까지 **떠나는 모든 경로가 여기 하나로 모인다.** 라우터가 잡아야 할 걸 한 자리에서 잡는다.
 
-그래서 traverse blocker는 *사전 차단*이 아니라 *사후 롤백*이다 — 이동은 이미 일어났으니 되돌린다:
+그런데 라우터가 흔히 내주는 기능 하나에서 막힌다 — **이탈 방지**(저장 안 된 폼에서 "정말 나가시겠습니까"). `preventDefault()`가 있으니 될 것 같은데, `push`·`replace`·`reload`는 되고 **뒤로·앞으로(`traverse`)만 안 된다.**
+
+그리고 이건 빠뜨린 게 아니라 **일부러 그렇게 만든 것**이다.[^chrome-navigation-api]
+
+> 사용자가 브라우저의 뒤로·앞으로 버튼을 누르는 경우엔 `preventDefault()`로 취소할 수 없다 — **사용자를 사이트에 가둘 수 있으면 안 되기 때문이다.**
+
+## 그래서 라우터 안에 경로가 둘 생긴다
+
+셋은 **사전 차단**, 뒤로·앞으로는 이미 움직였으니 **사후 롤백**이다.
+
+블로커가 켜져 있을 때:
 
 ```js
-// traverse가 이미 go(n)을 일으킴 → blocker는 go(-n)으로 원위치
 onNavigate(e) {
-  if (blocked) history.go(-delta) // 관측상 항등 ("리스트 + 커서" 모델이라)
+  if (e.navigationType !== 'traverse') return e.preventDefault()   // 아예 안 움직임
+  history.go(navigation.currentEntry.index - e.destination.index)  // 일어난 뒤 되돌림
 }
 ```
 
-정의역 조건(`0 ≤ idx + n`) 안에서만 항등 — `go n` 다음 `go (-n)`이 원위치.
+되돌릴 거리는 API가 준다 — `destination.index`가 목적지 커서고, 지금 커서와의 차이가 곧 이동량이다.
+
+**그런데 그 `index`는 `traverse`일 때만 값이 있다. 나머지 셋에서는 `-1`이다.**[^mdn-navigation-destination] 라우터가 억지로 나눈 게 아니라 **API 자체가 같은 선을 긋고 있다.** blocker 하나를 균일하게 못 만들고, 라이브러리 안에서 두 갈래를 계속 들고 가야 한다.
+
+## 롤백이 정말 제자리인가
+
+history를 **리스트 + 커서**로 보면 그렇다. `go(n)`은 리스트를 건드리지 않고 **커서만** 옮긴다. 그러니 `go(n)` 다음 `go(-n)`은 커서를 원래 자리로 돌려놓는다 — 겉보기엔 아무 일도 없었던 것처럼 된다.
+
+단 **범위 안에서만** 그렇다. `0 ≤ idx + n`을 벗어나는 `go`는 아무 일도 하지 않는다 — 그러니 일어나지도 않은 이동을 되돌리면 오히려 진짜로 움직인다. 이 패턴에선 그럴 일이 없지만(이동이 없으면 `navigate` 이벤트도 안 뜨니 롤백을 부를 일이 없다), 등식이 무조건 성립하는 건 아니다.
 
 <AutoIframe
   src="/iframe/traverse-rollback-explorer.html"
-  title="traverse rollback explorer — 블로커를 켜면 push·replace·reload는 안 움직이고 traverse만 움직였다 go(-delta)로 되돌아온다"
+  title="블로커를 켠 채 다섯 가지 이동을 시도해, 넷은 아예 안 움직이고 뒤로·앞으로만 움직였다 되돌아오는 것을 히스토리 리스트와 커서로 보여준다"
 />
 
 ---
 
-곁가지 (같은 list+cursor 모델의 다른 비대칭):
+우회라는 건 알고 쓰는 게 좋다. 브라우저가 사용자를 위해 막아둔 걸 되돌리는 것이라, 정말 붙잡아야 할 때만 쓴다.
 
-- navigationType에서 `reload`·`traverse`가 **같은 POP**으로 뭉개짐(정보 손실) → idx 변화량 `delta`로 구분.
-- 내부 호출이 쏜 navigate 이벤트는 `info` 태그로 흡수 → 재진입 종료.
+[^chrome-navigation-api]: *"it will fire for all types of navigations, whether the user performed an action (such as clicking a link, submitting a form, or going back and forward) or when navigation is triggered programmatically"* / *"you can't cancel a navigation via `preventDefault()` if the user is pressing the Back or Forward buttons in their browser; **you should not be able to trap your users on your site**."* ([Navigation API — Chrome for Developers](https://developer.chrome.com/docs/web-platform/navigation-api))
+
+[^mdn-navigation-destination]: *"Returns the `index` value of the destination `NavigationHistoryEntry` if the `NavigateEvent.navigationType` is `traverse`, or **`-1` otherwise**."* ([NavigationDestination.index — MDN](https://developer.mozilla.org/en-US/docs/Web/API/NavigationDestination/index))

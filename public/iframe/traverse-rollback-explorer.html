@@ -33,6 +33,10 @@
   .cell.moved .u{color:var(--red)}
   .cell.rolled{border-color:var(--green);background:var(--green-bg)}
   .cell.rolled .u{color:var(--green)}
+  .cell.kept{border-color:var(--green);background:var(--green-bg)}
+  .cell.kept .u{color:var(--green)}
+  .cell.changed{border-color:var(--amber);background:#2a2207}
+  .cell.changed .u{color:var(--amber)}
   .idxline{font-family:var(--font-mono);font-size:11px;color:var(--dim);margin:0 0 12px;text-align:center}
   .idxline b{color:var(--text)}
 
@@ -40,7 +44,9 @@
   button{font-family:inherit;font-size:12.5px;padding:7px 11px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--panel2);color:var(--text);cursor:pointer}
   button:hover:not(:disabled){background:#222a3a}
   button:disabled{opacity:.4;cursor:default}
+  .ty2{font-family:var(--font-mono);font-size:10.5px;color:var(--dim);margin-left:3px}
   button.trav{border-color:var(--blue-bd);color:var(--blue)}
+  button.trav.edge{border-color:var(--border2);color:var(--dim)}
   .blk{margin-left:auto;font-family:var(--font-mono);font-size:12px;padding:6px 11px;border-radius:999px;border:1px solid var(--border2);background:var(--panel2);color:var(--dim);cursor:pointer}
   .blk.on{border-color:var(--red-bd);background:var(--red-bg);color:var(--red)}
 
@@ -60,18 +66,18 @@
 <body>
 <div class="wrap">
 <h1>traverse rollback explorer</h1>
-<p class="sub">블로커를 켜고 눌러보세요 — push·replace·reload는 preventDefault로 안 움직이고, traverse(◀▶)만 움직였다 되돌아온다</p>
-<h2 class="sr-only">Navigation API의 네 nav 타입을 블로커가 켜진 상태에서 실행하며, traverse만 사전 취소가 불가해 사후 롤백(go(-delta))으로 처리됨을 히스토리 리스트+커서로 보여주는 explorer.</h2>
+<p class="sub">버튼은 <b>떠나려는 시도</b>이고, 회색 글자는 그 시도의 종류입니다. 다섯 가지 모두 같은 <code>navigate</code> 이벤트로 모입니다 — 블로커를 켜고 눌러보세요. 넷은 아예 안 움직이고 뒤로·앞으로만 <b>움직였다 되돌아옵니다.</b> 끝에서 누르면 범위 밖이라 아무 일도 없다는 것도 보입니다</p>
+<h2 class="sr-only">히스토리를 리스트와 커서로 그려놓고 네 가지 이동을 실행해 본다. 블로커를 켜면 push·replace·reload 는 사전에 취소돼 커서가 안 움직이고, 뒤로·앞으로만 먼저 움직였다가 go(-delta) 로 되돌아온다. 리스트 끝에서 누르면 범위 밖이라 아무 일도 일어나지 않는 것까지 확인할 수 있다.</h2>
 
 <div class="tape" id="tape" role="img" aria-label="히스토리 엔트리 리스트와 현재 커서"></div>
 <div class="idxline" id="idx"></div>
 
 <div class="controls">
-  <button data-nav="push">push</button>
-  <button data-nav="replace">replace</button>
-  <button data-nav="reload">reload</button>
-  <button class="trav" data-nav="back" id="back">◀ back</button>
-  <button class="trav" data-nav="forward" id="fwd">forward ▶</button>
+  <button data-nav="push">새 페이지로 <span class="ty2">push</span></button>
+  <button data-nav="replace">주소만 교체 <span class="ty2">replace</span></button>
+  <button data-nav="reload">새로고침 <span class="ty2">reload</span></button>
+  <button class="trav" data-nav="back" id="back">◀ 뒤로 <span class="ty2">traverse</span></button>
+  <button class="trav" data-nav="forward" id="fwd">앞으로 ▶ <span class="ty2">traverse</span></button>
   <span class="blk" id="blk" role="button" tabindex="0" aria-pressed="false">blocker: off</span>
 </div>
 
@@ -107,8 +113,10 @@
       tape.appendChild(c);
     });
     $('idx').innerHTML=`idx = <b>${idx}</b> / ${entries.length-1}　·　현재 <b>${entries[idx].u}</b>`;
-    $('back').disabled=busy||idx<=0;
-    $('fwd').disabled=busy||idx>=entries.length-1;
+    $('back').disabled=busy;
+    $('fwd').disabled=busy;
+    $('back').classList.toggle('edge', idx<=0);
+    $('fwd').classList.toggle('edge', idx>=entries.length-1);
     document.querySelectorAll('[data-nav]').forEach(b=>{ if(b.dataset.nav==='push'||b.dataset.nav==='replace'||b.dataset.nav==='reload') b.disabled=busy; });
     $('blk').classList.toggle('on',blocker);
     $('blk').textContent='blocker: '+(blocker?'on':'off');
@@ -123,23 +131,34 @@
     $('log').scrollTop=$('log').scrollHeight;
   }
 
+  function flash(i,cls,ms){ render({i,cls}); setTimeout(render, ms||700); }
+
   // push/replace/reload — 사전 취소 가능
   function cancellableNav(type){
     if(blocker){
-      log(`navigate <b>${type}</b> · cancellable ✓ · <span class="green">preventDefault()</span> → 차단 (이동 없음)`,'');
+      log(`navigate <b>${type}</b> · 취소 가능 ✓ · <span class="green">preventDefault()</span> → 차단. <b>커서도 리스트도 그대로</b>`,'');
+      flash(idx,'kept');
       return;
     }
-    if(type==='push'){ entries=entries.slice(0,idx+1); entries.push({u:'/n'+key,k:key}); key++; idx=entries.length-1; }
-    else if(type==='replace'){ entries[idx]={u:entries[idx].u+'~',k:entries[idx].k}; }
-    // reload: 상태 변화 없음
-    log(`navigate <b>${type}</b> · 적용 → idx=${idx} (${entries[idx].u})`,'blue');
-    render();
+    if(type==='push'){
+      entries=entries.slice(0,idx+1); entries.push({u:'/n'+key,k:key}); key++; idx=entries.length-1;
+      log(`navigate <b>push</b> · 적용 → 항목이 하나 늘고 커서가 끝으로 (idx=${idx}, ${entries[idx].u})`,'blue');
+    } else if(type==='replace'){
+      entries[idx]={u:entries[idx].u+'~',k:key++};
+      log(`navigate <b>replace</b> · 적용 → 커서는 그대로, <b>그 자리 항목만</b> 바뀐다 (${entries[idx].u})`,'blue');
+    } else {
+      log(`navigate <b>reload</b> · 적용 → 문서만 다시 불러온다. <b>리스트도 커서도 안 바뀐다</b>`,'blue');
+    }
+    flash(idx,'changed');
   }
 
   // traverse — 사전 취소 불가 → 사후 롤백
   function traverse(delta){
     const from=idx, to=idx+delta;
-    if(to<0||to>=entries.length) return;
+    if(to<0||to>=entries.length){
+      log(`<span class="dim">go(${delta}) · 리스트 밖(idx=${from} → ${to}) — <b>아무 일도 안 일어난다.</b> navigate 이벤트도 안 뜨니 되돌릴 것도 없다</span>`,'');
+      return;
+    }
     if(!blocker){
       idx=to; log(`navigate <b>traverse</b> · 적용 → idx=${from}→${to} (${entries[idx].u})`,'blue'); render(); return;
     }
@@ -151,7 +170,7 @@
     setTimeout(()=>{
       idx=from;                       // go(-delta) 롤백
       busy=false;
-      log(`<span class="amber">go(${-delta})</span> 롤백 → idx=${to}→${from} · 관측상 항등 (떴다 사라진 두 프레임)`,'green');
+      log(`<span class="amber">go(${-delta})</span> 롤백 → idx=${to}→${from} · 겉보기엔 아무 일도 없었던 것처럼 (떴다 사라진 두 프레임)`,'green');
       render({i:from, cls:'rolled'});
       setTimeout(render,450);
     },750);
