@@ -1,71 +1,77 @@
 ---
-type: snippet
+type: note
+kind: Explainer
 tags: ['tunneling', 'websocket', 'vercel-sandbox', 'networking']
 status: release
 ctime: 2026-06-07
-mtime: 2026-07-27
-title: vgrok - 터널링의 핵심은 역방향 영속 연결
+mtime: 2026-08-21
+title: vgrok — ngrok과 다른 두 가지
+generated: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
+verified: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
+sources:
+  - id: vgrok
+    resource: https://github.com/styfle/vgrok
+    title: "vgrok — styfle"
+  - id: ngrok-tcp
+    resource: https://ngrok.com/docs/universal-gateway/tcp/
+    title: "ngrok — TCP endpoints"
+  - id: vercel-sandbox-pricing
+    resource: https://vercel.com/docs/sandbox/pricing
+    title: "Vercel Sandbox — pricing and limits"
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-localhost는 inbound 연결을 못 받는다(NAT/방화벽 뒤). 터널링의 원리는 **공개 머신에서 로컬로 향하는 영속 연결을 미리 깔아두고, 외부 요청을 그 연결 위로 거꾸로 흘려보내는 것**.
+내 컴퓨터에서 서버를 띄워도 밖에서는 못 들어온다. **전화기는 있는데 번호가 없는 것과 같다** — 내가 거는 건 되는데 남이 나에게 걸 수는 없다(NAT·방화벽 뒤라서).
 
-vgrok에서 그 영속 연결은 WebSocket이다. local → sandbox 방향으로 한 번 열어두면, sandbox로 들어온 HTTP 요청을 같은 소켓에 실어 local로 되돌릴 수 있다.
+터널링의 요령은 이 비대칭을 뒤집는 것이다. **내가 먼저 밖으로 걸어놓고 끊지 않는다.** 번호가 공개된 쪽이 그 통화를 붙들고 있다가, 자기한테 온 요청을 그 통화에 대고 흘려보낸다.
 
 ```
-외부 요청 ──HTTP──▶ [공개 머신] server.js ──┐
-                                          │ WebSocket (local이 미리 연결해둠)
-                          localhost ◀──HTTP── [local] client.js ◀──┘
+외부 요청 ──HTTP──▶ [공개 머신] ──┐
+                                │ WebSocket (내 컴퓨터가 먼저 걸어둔 것)
+              내 컴퓨터 ◀──HTTP──┘
 ```
 
 <AutoIframe
   src="/iframe/vgrok-reverse-tunnel.html"
-  title="vgrok 역방향 터널 — 직접(NAT 차단) vs 터널(local이 outbound WS를 깔고 외부 요청을 거꾸로 흘림) 단계별 비교"
+  title="직접 연결은 밖에서 못 들어와 막히고, 터널은 내 컴퓨터가 먼저 연 연결 위로 요청이 거꾸로 흐르는 것을 단계별로 비교"
 />
 
-## 요청/응답 매칭
+**여기까지는 ngrok도 같다.** vgrok이 다른 건 둘이다.
 
-WebSocket은 하나인데 동시 요청은 여럿. 그래서 요청마다 UUID를 붙이고, 공개 머신 쪽에서 `Map<id, res>`로 응답 객체를 들고 있다가 돌아온 메시지의 id로 짝을 찾는다.
+## 하나 — 공개 머신을 빌린다
 
-```javascript
-// [server] 외부 요청 수신 → 보류 + 전달
-const id = randomUUID()
-responses.set(id, res)
-client.send(JSON.stringify({ id, method, url, headers, body }))
+ngrok은 그 "번호가 공개된 쪽"을 자기 인프라로 굴린다. vgrok은 **잠깐 빌리는 컴퓨터(Vercel Sandbox)를 그 자리에 끼워넣는다.** 마침 필요한 두 가지가 다 딸려 오기 때문이다 — **공개 주소가 그냥 나오고**(도메인도 인증서도 설정 0), **코드를 올려 돌릴 수 있다.**
 
-// [server] WS로 응답 돌아오면 id로 원래 res 복원
-const { id, statusCode, headers, body } = JSON.parse(msg)
-responses
-  .get(id)
-  .writeHead(statusCode, headers)
-  .end(Buffer.from(body, 'base64url'))
-```
+그러니 터널 머신은 특별한 물건이 아니다. **"공개 주소가 나오고 코드가 돌면" 무엇이든 된다.** Sandbox는 그걸 가장 싸게 얻는 한 가지 방법일 뿐이다.
 
-body는 base64url — 이미지·파일 같은 바이너리를 JSON에 안전하게 싣기 위함.
+핵심 코드가 **220줄쯤**인 것이 그 증거다 — 네트워킹·보안·HTTPS·DNS를 빌린 쪽이 다 떠안아서 남는 게 이만큼이다.
 
-## Sandbox는 "터널 머신"의 일회용 대체재
+대가는 수명이다. 빌린 거라 오래 못 쓴다 — Hobby는 **한 세션에 45분**.[^vercel-sandbox-pricing] 다만 세션 단위라 멈췄다 이어붙이면 총 수명은 늘릴 수 있다.
 
-여기서 신선한 점: 보통 터널링은 ngrok처럼 **전용 공개 서버**가 필요한데, vgrok은 Vercel Sandbox를 그 자리에 끼워넣는다. Sandbox가 마침 두 가지를 다 주기 때문:
+## 둘 — 바이트가 아니라 메시지를 나른다
 
-- `sandbox.domain(port)` → 즉시 공개 HTTPS URL (도메인/인증서 설정 0)
-- 임의 코드 실행 → WebSocket 프록시(server.js)를 그 위에 배포
+ngrok은 **TCP 터널도** 준다. 바이트를 그대로 흘려보내니 SSH·데이터베이스·MQTT·게임 서버까지 나른다.[^ngrok-tcp]
 
-```typescript
-const sandbox = await Sandbox.create({ runtime: 'node22', ports: [3000] })
-const url = sandbox.domain(3000) // 외부 진입점
-await sandbox.writeFiles([{ path: 'server.js', content }])
-await sandbox.runCommand({ cmd: 'node', args: ['server.js'], detached: true })
-```
+vgrok은 그렇지 않다. HTTP 요청을 **뜯어서** `method`·`url`·`headers`·`body`로 만들고, 반대편에서 다시 조립한다. WebSocket은 끊기지 않는 통로 역할만 하고, 그 위로 흐르는 건 직렬화된 HTTP 메시지다.
 
-즉 "공개 URL + 코드 실행"이 되는 임시 컴퓨팅이라면 무엇이든 터널 머신이 될 수 있고, Sandbox는 그걸 가장 싸게 얻는 한 수단일 뿐.
+이 한 가지 선택에서 나머지가 전부 따라 나온다.
 
-## 한계
+| 그래서 | 왜냐면 |
+|---|---|
+| **번호표를 붙인다** | 통로 하나에 여러 요청·응답을 섞어 싣기 때문. 바이트 터널이면 연결마다 흐름이 따로라 필요 없다 |
+| **바이너리를 글자로 바꾼다** | 메시지를 JSON으로 만드니까. 이미지를 그대로 못 싣는다 |
+| **HTTP만 된다** | HTTP를 뜯어서 나르니까. 뜯을 수 없는 프로토콜은 못 나른다 |
+| **다 모아야 보낸다** | 메시지 한 덩어리로 부치니까. 양쪽 다 `on('data')`로 모았다가 `on('end')`에서 한 번에 넘긴다[^vgrok] |
 
-- Hobby 45분 타임아웃, HTTP만(TCP 터널 X), 단일 클라이언트
-- 핵심 코드 ~220줄 — 네트워킹/보안/HTTPS/DNS를 Sandbox가 다 추상화해서 가능
+이미지·CSS 같은 static 리소스도 특별 취급이 없다. 똑같이 바이트를 글자로 바꿔 실었다 되돌린다. **되긴 되는데 하나씩 통째로 통과한다** — 점진 렌더가 안 되고, 큰 파일은 메모리에 통째로 올라가며, base64라 전송량이 3분의 1쯤 늘어난다. 끝나지 않는 응답(SSE 같은 것)은 아예 못 다룬다.
 
 ---
 
-- [vgrok](https://github.com/styfle/vgrok)
-- [Vercel Sandbox](https://vercel.com/docs/vercel-sandbox)
+그 밖에 클라이언트는 하나만 붙는다.
+
+[^ngrok-tcp]: *"TCP endpoints enable you to deliver any network service with a TCP-based protocol"* — SSH·VNC·RDP, MySQL·Postgres, MQTT, 게임 서버 등. ([ngrok — TCP endpoints](https://ngrok.com/docs/universal-gateway/tcp/))
+
+[^vercel-sandbox-pricing]: 최대 세션 길이는 Hobby 45분 · Pro/Enterprise 24시간. *"The maximum duration applies to a single session, not to the sandbox itself. The limit resets every time a sandbox stops and resumes, so the total lifetime of a persistent sandbox is effectively unbounded."* ([Vercel Sandbox — pricing and limits](https://vercel.com/docs/sandbox/pricing))
+
+[^vgrok]: `server.ts` 는 `req.on('data', chunk => chunks.push(chunk))` 로 모아 `req.on('end')` 에서 `Buffer.concat(chunks).toString('base64url')` 로 부치고, 받는 쪽은 `res.end(Buffer.from(body, 'base64url'))` 로 한 번에 쓴다. `client.ts` 도 응답을 같은 방식으로 모은다. ([vgrok — styfle](https://github.com/styfle/vgrok))

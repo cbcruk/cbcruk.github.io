@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>vgrok — 역방향 영속 연결 (다이어그램)</title>
+<title>vgrok — 내가 먼저 걸어두고 끊지 않는다</title>
 <style>
   :root{
     --font-mono:ui-monospace,"SF Mono",Menlo,Monaco,"Cascadia Code",Consolas,monospace;
@@ -43,6 +43,9 @@
   .pipe.up{opacity:.5}
   .pipelbl{font-size:9px;fill:var(--dim);font-family:var(--font-mono)}
   .pipelbl.up{fill:var(--green)}
+  .sandbox{fill:#151033;stroke:#a78bfa;stroke-width:1.2;stroke-dasharray:4 3;opacity:.9}
+  .sblbl{font-size:9px;fill:#c4b5fd;font-family:var(--font-mono)}
+  .sbsub{font-size:8.5px;fill:#8b7fd4;font-family:var(--font-mono)}
   .conn{stroke:#2a3346;stroke-width:1.6;fill:none}
   .active{stroke-width:3;fill:none}
   .dot{r:5}
@@ -53,9 +56,9 @@
 </head>
 <body>
 <div class="wrap">
-<h1>vgrok — 터널링의 핵심은 역방향 영속 연결</h1>
-<p class="sub">WS는 local이 <b>위로(outbound)</b> 깔지만, 요청은 그 위로 <b>아래로(역방향)</b> 흐른다. ▶로 따라가 보세요</p>
-<h2 class="sr-only">공개 머신(server.js)과 NAT 뒤 local(client.js)을 잇는 WebSocket을 local이 outbound로 열고, 외부 HTTP 요청이 그 연결 위로 역방향으로 흘러 localhost에 닿는 구조를 화살표 다이어그램으로 단계별로 보여주는 explorer. 직접 연결은 NAT inbound 차단으로 실패함도 비교.</h2>
+<h1>vgrok — 내가 먼저 걸어두고 끊지 않는다</h1>
+<p class="sub">연결은 <b>내 컴퓨터가 먼저</b> 열고, 요청은 그 위로 <b>거꾸로</b> 흐른다. 공개 머신 자리엔 <b>잠깐 빌린 Vercel Sandbox</b>가 들어간다. ▶로 따라가 보세요</p>
+<h2 class="sr-only">내 컴퓨터가 먼저 연 WebSocket 위로 외부 HTTP 요청이 거꾸로 흘러 localhost에 닿는 구조를 단계별로 보여주는 다이어그램. 공개 머신 자리에는 잠깐 빌린 Vercel Sandbox가 들어가고 그 안에서 server.js 가 돈다. 터널 없이 직접 들어오려 하면 막히는 경우도 비교한다.</h2>
 
 <div class="controls">
   <button class="go" id="step">▶ 단계</button>
@@ -78,10 +81,10 @@
 
   // 좌표
   const BOX={
-    external:{x:24, y:46, label:'external', sub:'외부 client'},
-    server:  {x:386,y:46, label:'server.js', sub:'공개 머신 · HTTPS'},
-    client:  {x:386,y:262,label:'client.js', sub:'local (NAT 뒤)'},
-    localhost:{x:24,y:262,label:'localhost:3000', sub:'실제 로컬 서버'},
+    external:{x:24, y:46, label:'외부 브라우저', sub:'요청하는 쪽'},
+    server:  {x:386,y:46, label:'server.js', sub:'공개 HTTPS 주소'},
+    client:  {x:386,y:262,label:'client.js', sub:'내 컴퓨터'},
+    localhost:{x:24,y:262,label:'localhost:3000', sub:'진짜 내 서버'},
   };
   const W=150,H=46;
   const cx=b=>b.x+W/2, cy=b=>b.y+H/2;
@@ -102,11 +105,11 @@
 
     // zone labels
     g.appendChild(txt(30,28,'▼ 공개 인터넷','zlbl'));
-    g.appendChild(txt(30,NATY+22,'▼ NAT 뒤 (local)','zlbl'));
+    g.appendChild(txt(30,NATY+22,'▼ 내 컴퓨터 쪽','zlbl'));
 
     // NAT line
     g.appendChild(E('line',{id:'natline',class:'nat',x1:14,y1:NATY,x2:546,y2:NATY}));
-    g.appendChild(txt(280,NATY-5,'NAT / 방화벽 — inbound ✗ · outbound ✓','natlbl',{id:'natlbl','text-anchor':'middle'}));
+    g.appendChild(txt(280,NATY-5,'NAT · 방화벽 — 들어오는 건 ✗, 나가는 건 ✓','natlbl',{id:'natlbl','text-anchor':'middle'}));
 
     // WS pipe (server ↔ client)
     g.appendChild(E('line',{id:'pipe',class:'pipe',x1:PIPEX,y1:BOX.server.y+H,x2:PIPEX,y2:BOX.client.y}));
@@ -119,6 +122,11 @@
     // active path + dot (on top)
     g.appendChild(E('polyline',{id:'act',class:'active',points:'',fill:'none',stroke:'none'}));
     g.appendChild(E('circle',{id:'dot',class:'dot',cx:-20,cy:-20,fill:'#fff',opacity:0}));
+
+    // Vercel Sandbox 컨테이너 — server.js 는 이 안에서 돈다
+    g.appendChild(E('rect',{class:'sandbox',x:372,y:10,width:178,height:96,rx:10}));
+    g.appendChild(txt(461,24,'Vercel Sandbox','sblbl',{'text-anchor':'middle'}));
+    g.appendChild(txt(461,36,'잠깐 빌린 컴퓨터 · 주소가 딸려 온다','sbsub',{'text-anchor':'middle'}));
 
     // boxes
     for(const k in BOX){const b=BOX[k];
@@ -135,17 +143,17 @@
   function tunnel(){
     const sX=PIPEX, sTop=BOX.server.y+H, sBot=BOX.client.y;
     return [
-      {p:[[sX,sBot],[sX,sTop]], c:'green', cap:'① local이 WS를 <b>outbound로 염</b> — 영속 연결 ↑ (NAT 통과 OK)'},
-      {p:[[BOX.external.x+W,cy(BOX.external)],[BOX.server.x,cy(BOX.server)]], c:'blue', cap:'② 외부 → server.js (공개 HTTPS URL, inbound OK)'},
-      {p:[[sX,sTop],[sX,sBot]], c:'amber', cap:'③ server.js → client.js — <span class="rev">같은 WS 위로 거꾸로 ↓ (역방향)</span>'},
-      {p:[[BOX.client.x,cy(BOX.client)],[BOX.localhost.x+W,cy(BOX.localhost)]], c:'blue', cap:'④ client.js → localhost:3000 (실제 요청/응답)'},
-      {p:[[sX,sBot],[sX,sTop]], c:'green', cap:'⑤ 응답을 같은 WS로 역순 반환 → server.js가 <b>id로 매칭</b> → 외부'},
+      {p:[[sX,sBot],[sX,sTop]], c:'green', cap:'① <b>내 컴퓨터가 먼저</b> 연결을 연다 — 나가는 방향이라 막히지 않는다'},
+      {p:[[BOX.external.x+W,cy(BOX.external)],[BOX.server.x,cy(BOX.server)]], c:'blue', cap:'② 외부 요청이 <b>Sandbox의 공개 주소</b>로 들어온다'},
+      {p:[[sX,sTop],[sX,sBot]], c:'amber', cap:'③ <span class="rev">아까 열어둔 그 연결에 대고 거꾸로 내려보낸다</span>'},
+      {p:[[BOX.client.x,cy(BOX.client)],[BOX.localhost.x+W,cy(BOX.localhost)]], c:'blue', cap:'④ 내 컴퓨터가 <b>진짜 로컬 서버</b>에 전달한다'},
+      {p:[[sX,sBot],[sX,sTop]], c:'green', cap:'⑤ 답은 같은 연결로 되돌아가고, <b>번호표</b>로 짝을 찾아 외부에 전달한다'},
     ];
   }
   function direct(){
     return [
       {p:[[cx(BOX.external),BOX.external.y+H],[cx(BOX.external),NATY]], c:'red', block:true,
-       cap:'외부 → localhost 직접 시도 → <b style="color:#f87171">NAT inbound 차단 ✗</b> (그래서 역방향이 필요)'},
+       cap:'밖에서 내 컴퓨터로 <b style="color:#f87171">직접 들어오려 하면 막힌다</b> — 번호 없는 전화기다'},
     ];
   }
   const steps=()=>mode==='tunnel'?tunnel():direct();
@@ -174,7 +182,7 @@
     const pipeUp = mode==='tunnel' && i>=1;
     $('pipe').classList.toggle('up',pipeUp);
     $('pipelbl').classList.toggle('up',pipeUp);
-    $('pipelbl').textContent = pipeUp ? 'WS ✓ 영속 (local→공개)' : 'WS';
+    $('pipelbl').textContent = pipeUp ? 'WS — 끊지 않고 유지' : 'WS';
     // NAT block
     const blocked = !!(cur&&cur.block);
     $('natline').classList.toggle('block',blocked);
@@ -192,8 +200,8 @@
       act.setAttribute('stroke','none'); act.removeAttribute('marker-end');
       dot.setAttribute('opacity','0');
       $('cap').innerHTML = mode==='tunnel'
-        ? 'localhost는 inbound를 못 받는다(NAT). ▶로 WS가 어떻게 깔리고 요청이 거꾸로 흐르는지 보세요.'
-        : '터널 없이 외부가 localhost에 직접 닿으려 하면? ▶';
+        ? '내 컴퓨터는 밖에서 못 들어온다. ▶로 연결이 어떻게 깔리고 요청이 거꾸로 흐르는지 보세요.'
+        : '터널 없이 밖에서 내 컴퓨터에 직접 닿으려 하면? ▶';
     }
     $('step').disabled=i>=s.length;
     $('step').textContent=i>=s.length?'완료':(i===0?'▶ 단계':'▶ 다음');
