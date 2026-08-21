@@ -4,24 +4,33 @@ kind: Explainer
 tags: ['javascript', 'event-loop', 'navigation']
 status: release
 ctime: 2026-06-23
-mtime: 2026-06-23
-generated: { by: claude/opus-4.8, at: 2026-06-28T14:49:32Z }
+mtime: 2026-08-21
+generated: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
+verified: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
+sources:
+  - id: html-spec-navigate
+    resource: https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate
+    title: "HTML Standard — navigate"
 ---
 
-<img
-  src="/svg/event_loop_nav_slot.svg"
-  alt="location.href setter 실행 시점(②)과 실제 navigation 처리 시점(④)이 분리되는 이벤트 루프 타임라인"
-/>
-
-**`location.href` setter의 실행 시점과 실제 navigation 처리 시점은 분리된다.** setter는 동기적으로 정상 실행되지만(흐름을 끊지 않음), 그 효과는 브라우저 슬롯에 "마지막 값으로 덮어쓰기"로만 남는다. 실제 이동은 콜 스택이 비고 마이크로태스크까지 소진된 뒤(④)에야 일어난다.
-
-그래서 "암묵적 await" 가설은 틀렸다 — await였다면 첫 줄에서 멈춰 `google.com`으로 갔겠지만, 실제로는 두 setter가 모두 실행되고 마지막 값 `google2.com`으로 간다.
+`location.href`에 값을 넣으면 그 줄에서 페이지가 떠날 것 같다. 마치 **암묵적 `await`**처럼 거기서 멈춘다고 생각하기 쉽다. 그럼 뒤에 오는 코드는 안 도는 걸까.
 
 ```js
 location.href = 'https://google.com'
-console.log('실행됨 1') // 출력됨
+console.log('실행됨 1')
 location.href = 'https://google2.com'
-console.log('실행됨 2') // 출력됨 → await였다면 안 찍힘
+console.log('실행됨 2')
 ```
 
-두 `console.log`가 모두 찍히는 것이 setter가 흐름을 끊지 않는다는 직접 증거다.
+**둘 다 찍힌다. 그리고 이동은 `google2.com`으로 간다.**
+
+`await`였다면 첫 줄에서 멈춰 `실행됨 1`도 안 찍히고 `google.com`으로 갔어야 한다. 두 결과가 모두 어긋나니 가설은 틀렸다.
+
+실제로는 이렇다. setter는 **동기적으로 정상 실행되고 흐름을 끊지 않는다.** 문서를 내리고 네트워크를 타는 실제 작업은 태스크로 넘어가 지금 돌고 있는 코드가 끝난 뒤에 시작된다. 그리고 두 번째 navigation이 시작되면 **진행 중이던 첫 번째가 버려진다**[^html-spec-navigate] — 마지막 값이 이기는 건 덮어써서가 아니라 앞의 것이 취소되기 때문이다.
+
+<img
+  src="/svg/event_loop_nav_slot.svg"
+  alt="location.href setter가 실행되는 시점과 실제 navigation이 처리되는 시점이 분리되는 이벤트 루프 타임라인"
+/>
+
+[^html-spec-navigate]: *"Set the ongoing navigation for navigable to navigationId. This will have the effect of **aborting other ongoing navigations** of navigable, since at certain points during navigation changes to the ongoing navigation will cause further work to be abandoned."* — 그리고 문서 언로드·페치는 `in parallel` 로 넘어간다. ([HTML Standard — navigate](https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate))
