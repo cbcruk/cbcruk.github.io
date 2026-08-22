@@ -1,12 +1,12 @@
 ---
 type: note
 kind: Explainer
-tags: ['claude-code', 'probability', 'coupon-collector', 'math']
+tags: ['probability', 'coupon-collector', 'math']
 status: release
 ctime: 2026-06-23
-mtime: 2026-08-21
-generated: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
-verified: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
+mtime: 2026-08-23
+generated: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
+verified: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
 sources:
   - id: wikipedia-coupon-collector
     resource: https://en.wikipedia.org/wiki/Coupon_collector%27s_problem
@@ -15,13 +15,13 @@ sources:
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-Claude Code가 일하는 동안 스피너 옆에 단어가 하나씩 뜬다. 목록은 90개쯤 되고 매 초 바뀐다고 하자. **90개를 다 보려면 90초쯤 걸릴까.**
+목록 90개에서 매번 무작위로 하나를 뽑아 보여준다고 하자 (작업 중에 문구를 바꿔 띄우는 스피너 같은 것). **90개를 다 보려면 90번쯤이면 될까.**
 
-아니다. **평균 7분 반**이 걸린다. 5배다.
+아니다. **평균 457번**이다. 5배다. 1초에 하나씩이면 7분 반.
 
-목록을 한 번 섞어서 처음부터 끝까지 도는 게 아니라 **매번 90개 중에서 새로 뽑기** 때문이다. 그러면 이미 본 단어가 계속 다시 나온다. 섞어 돌았다면 90초에 정확히 끝났을 일이다.
+목록을 한 번 섞어서 처음부터 끝까지 도는 게 아니라 **매번 90개 전체에서 다시 뽑기** 때문이다. 그러면 이미 본 것이 계속 다시 나온다. 섞어 돌았다면 90번에 정확히 끝났을 일이다.
 
-**꼬리가 어디서 생기는지가 핵심이다.** 89개를 모았을 때, 남은 마지막 하나를 뽑을 확률은 90분의 1이다. 그 **한 단어를 만나는 데만 평균 90초** — 섞어서 돌았다면 90개 전부를 봤을 시간이다.[^wikipedia-coupon-collector]
+**꼬리가 어디서 생기는지가 핵심이다.** 89개를 모았을 때, 남은 마지막 하나가 뽑힐 확률은 90분의 1이다. 그 **한 개를 만나는 데만 평균 90번** — 섞어서 돌았다면 90개 전부를 봤을 횟수다.[^wikipedia-coupon-collector]
 
 이게 쿠폰 수집가 문제(coupon collector)다. 전부 모으는 데 걸리는 평균 횟수는
 
@@ -29,13 +29,9 @@ Claude Code가 일하는 동안 스피너 옆에 단어가 하나씩 뜬다. 목
 n × (1 + 1/2 + 1/3 + … + 1/n)
 ```
 
-`n = 90`이면 약 457번, 매 초 하나씩이니 7.6분이다.
-
 <AutoIframe
-  src="/iframe/spinner_coupon_collector_explorer.html"
-  title="목록 크기를 바꿔가며, 시간이 지날수록 서로 다른 단어를 몇 개나 보게 되는지 보여주는 곡선"
+  src="/iframe/coupon_collector_explorer.html"
+  title="목록 크기를 바꿔가며, 뽑기 횟수가 늘수록 서로 다른 것을 몇 개나 보게 되는지 보여주는 곡선"
 />
-
-곁가지 — 커스텀 단어를 덧붙이면 목록이 길어지니 **빌트인 단어가 뽑힐 확률은 그만큼 낮아진다.** 다양해 보이려고 추가한 게 원래 있던 것들을 밀어낸다.
 
 [^wikipedia-coupon-collector]: 전부 모으는 기대 횟수는 `n·H_n`(`H_n`은 조화수). 그리고 `i`번째 새 쿠폰까지의 기대 대기는 `n/(n-i+1)` 이므로 **마지막 한 장은 `n/1 = n`** — 단계 중 가장 오래 걸린다. ([Coupon collector's problem — Wikipedia](https://en.wikipedia.org/wiki/Coupon_collector%27s_problem))

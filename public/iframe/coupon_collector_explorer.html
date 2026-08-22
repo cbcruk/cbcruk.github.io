@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Spinner — coupon collector explorer</title>
+<title>Coupon collector explorer</title>
 <style>
   :root{
     --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;
@@ -23,40 +23,40 @@
 </head>
 <body>
 <div class="wrap">
-<h2 class="sr-only">Interactive explorer of the Claude Code spinner as a coupon collector problem: expected number of unique words seen over time as the word pool size changes.</h2>
+<h2 class="sr-only">Interactive explorer of the coupon collector problem: expected number of distinct items seen over draws, as the pool size changes.</h2>
 
 <div style="display: flex; align-items: center; gap: 12px; margin: 0 0 1.25rem;">
-  <label style="font-size: 14px; color: var(--color-text-secondary); min-width: 120px;">커스텀 단어 |U|</label>
-  <input type="range" min="0" max="110" value="0" step="1" id="extra" style="flex: 1;" />
-  <span style="font-size: 14px; font-weight: 500; min-width: 28px; text-align: right;" id="extra-out">0</span>
+  <label style="font-size: 14px; color: var(--color-text-secondary); min-width: 120px;" for="n">목록 크기 n</label>
+  <input type="range" min="10" max="200" value="90" step="1" id="n" style="flex: 1;" />
+  <span style="font-size: 14px; font-weight: 500; min-width: 28px; text-align: right;" id="n-out">90</span>
 </div>
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 1.5rem;">
   <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
-    <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;">풀 크기 n</p>
-    <p style="font-size: 24px; font-weight: 500; margin: 0;" id="m-n">90</p>
+    <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;">마지막 한 개에만 (기대)</p>
+    <p style="font-size: 24px; font-weight: 500; margin: 0;" id="m-last">90회</p>
   </div>
   <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
-    <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;">전부 보기까지 (기대)</p>
-    <p style="font-size: 24px; font-weight: 500; margin: 0;" id="m-all">457s</p>
+    <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;">전부 모으기까지 (기대)</p>
+    <p style="font-size: 24px; font-weight: 500; margin: 0;" id="m-all">457회</p>
   </div>
   <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
-    <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;">절반 보기까지</p>
-    <p style="font-size: 24px; font-weight: 500; margin: 0;" id="m-half">62s</p>
+    <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;">절반 모으기까지</p>
+    <p style="font-size: 24px; font-weight: 500; margin: 0;" id="m-half">62회</p>
   </div>
   <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
-    <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;">단어당 확률 1/n</p>
+    <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;">한 개당 확률 1/n</p>
     <p style="font-size: 24px; font-weight: 500; margin: 0;" id="m-p">1.11%</p>
   </div>
 </div>
 
 <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 8px; font-size: 12px; color: var(--color-text-secondary);">
-  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 16px; height: 3px; border-radius: 2px; background: #a78bfa;"></span>기대 누적 unique 단어</span>
-  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 16px; height: 0; border-top: 2px dashed #9f9d96;"></span>점근선 n (총 단어 수)</span>
+  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 16px; height: 3px; border-radius: 2px; background: #a78bfa;"></span>서로 다른 것의 수 (기대)</span>
+  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 16px; height: 0; border-top: 2px dashed #9f9d96;"></span>점근선 n (목록 크기)</span>
 </div>
 
 <div style="position: relative; width: 100%; height: 300px;">
-  <canvas id="cc" role="img" aria-label="Curve showing expected unique spinner words seen versus seconds of work, approaching the total pool size asymptotically.">기대 누적 unique 단어 곡선: 시간이 지날수록 총 단어 수 n에 점근적으로 수렴.</canvas>
+  <canvas id="cc" role="img" aria-label="Curve showing the expected number of distinct items collected versus number of draws, approaching the pool size n asymptotically.">기대 누적 곡선: 뽑기 횟수가 늘수록 서로 다른 것의 수가 목록 크기 n에 점근적으로 수렴.</canvas>
 </div>
 
 </div>
@@ -68,54 +68,57 @@
   Chart.defaults.font.family = '-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif';
   var GRID = 'rgba(148,163,184,0.12)';
 
-  var BASE = 90;
-  var MAXT = 900;
   function Hn(n){ var s=0; for(var k=1;k<=n;k++) s+=1/k; return s; }
   function expectedUnique(n,t){ return n*(1-Math.pow(1-1/n,t)); }
   function timeToFraction(n,f){ return Math.log(1-f)/Math.log(1-1/n); }
 
-  var labels=[]; for(var t=0;t<=MAXT;t+=10) labels.push(t);
+  function makeLabels(maxT){
+    var step=Math.max(1,Math.round(maxT/90));
+    var out=[]; for(var t=0;t<=maxT;t+=step) out.push(t); return out;
+  }
+  var labels=makeLabels(900);
 
   var ctx=document.getElementById('cc');
   var chart=new Chart(ctx,{
     type:'line',
     data:{labels:labels,datasets:[
-      {label:'기대 unique',data:[],borderColor:'#a78bfa',borderWidth:2,pointRadius:0,tension:0.1,fill:false},
+      {label:'서로 다른 것의 수',data:[],borderColor:'#a78bfa',borderWidth:2,pointRadius:0,tension:0.1,fill:false},
       {label:'점근선 n',data:[],borderColor:'#9f9d96',borderWidth:2,borderDash:[6,4],pointRadius:0,fill:false}
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false},tooltip:{callbacks:{
-        title:function(it){return it[0].label+'초';},
+        title:function(it){return it[0].label+'회';},
         label:function(it){return it.dataset.label+': '+it.parsed.y.toFixed(1);}
       }}},
       scales:{
-        x:{title:{display:true,text:'작업 시간 (초, tick=1s)'},ticks:{maxTicksLimit:10},grid:{color:GRID}},
-        y:{title:{display:true,text:'서로 다른 단어 수'},beginAtZero:true,grid:{color:GRID}}
+        x:{title:{display:true,text:'뽑기 횟수'},ticks:{maxTicksLimit:10},grid:{color:GRID}},
+        y:{title:{display:true,text:'서로 다른 것의 수'},beginAtZero:true,grid:{color:GRID}}
       }
     }
   });
 
-  function update(extra){
-    var n=BASE+extra;
+  function update(n){
+    var allTicks=n*Hn(n);
+    labels=makeLabels(Math.round(allTicks*1.4));
     var uni=[],asym=[];
     for(var i=0;i<labels.length;i++){uni.push(expectedUnique(n,labels[i]));asym.push(n);}
+    chart.data.labels=labels;
     chart.data.datasets[0].data=uni;
     chart.data.datasets[1].data=asym;
     chart.options.scales.y.max=n*1.08;
     chart.update('none');
 
-    var allTicks=n*Hn(n);
     var halfTicks=timeToFraction(n,0.5);
-    document.getElementById('m-n').textContent=n;
-    document.getElementById('m-all').textContent=Math.round(allTicks)+'s';
-    document.getElementById('m-half').textContent=Math.round(halfTicks)+'s';
+    document.getElementById('m-last').textContent=n+'회';
+    document.getElementById('m-all').textContent=Math.round(allTicks)+'회';
+    document.getElementById('m-half').textContent=Math.round(halfTicks)+'회';
     document.getElementById('m-p').textContent=(100/n).toFixed(2)+'%';
   }
 
-  var slider=document.getElementById('extra');
-  var out=document.getElementById('extra-out');
+  var slider=document.getElementById('n');
+  var out=document.getElementById('n-out');
   slider.addEventListener('input',function(){out.textContent=slider.value;update(parseInt(slider.value,10));});
-  update(0);
+  update(parseInt(slider.value,10));
 
   // 부모 AutoIframe이 로드 후 iframe 높이를 측정·조정하는데, 그 리사이즈와 Chart.js
   // responsive 렌더가 레이스를 일으켜 라인이 누락될 수 있다. 문서 크기 변화에 맞춰 재렌더.
