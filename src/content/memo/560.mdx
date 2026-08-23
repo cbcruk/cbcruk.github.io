@@ -4,7 +4,7 @@ kind: Explainer
 tags: ['react', 'fiber', 'algorithm', 'dfs']
 status: release
 ctime: 2026-06-21
-mtime: 2026-08-19
+mtime: 2026-08-23
 generated: { by: claude/opus-5, at: 2026-08-19T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-19T00:00:00Z }
 sources:
@@ -17,7 +17,7 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
 <AutoIframe
   src="/iframe/fiber-traversal.html"
-  title="React Fiber — 링크드 리스트 트리 순회"
+  title="React Fiber 순회 — 중단하면 콜 스택은 버려지고 workInProgress 포인터만 남는다"
 />
 
 **재귀(콜 스택) 대신 `child` / `sibling` / `return` 세 포인터로 트리를 순회한다 → 스택 없이 DFS pre-order, 언제든 중단·재개 가능.** Fiber가 렌더링을 쪼갤 수 있는 이유.

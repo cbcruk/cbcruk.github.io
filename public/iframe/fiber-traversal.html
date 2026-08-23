@@ -12,20 +12,35 @@
     --border:#1e293b; --border2:#334155;
     --text:#e2e8f0; --muted:#94a3b8; --dim:#64748b;
     --child:#34d399; --sibling:#fbbf24; --return:#94a3b8; --begin:#60a5fa;
+    --danger:#f87171;
     --radius:8px;
   }
   *{box-sizing:border-box}
   body{margin:0;padding:20px 16px;background:var(--page);color:var(--text);font-family:var(--font-sans);line-height:1.5}
   .wrap{margin:0 auto}
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-  svg{width:100%;height:auto;display:block}
-  .status{font-size:13px;color:var(--text);min-height:40px;padding:10px 12px;background:var(--panel2);border-radius:var(--radius);margin:12px 0 12px;border-left:2px solid var(--border2)}
+  svg{width:100%;max-width:520px;height:auto;display:block;margin:0 auto}
+  .status{font-size:13px;color:var(--text);min-height:40px;padding:10px 12px;background:var(--panel2);border-radius:var(--radius);margin:12px 0;border-left:2px solid var(--border2)}
   .status b{font-family:var(--font-mono)}
-  .ctrl{display:flex;gap:8px;align-items:center}
+  .state{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 12px}
+  .pane{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px}
+  .pane h3{margin:0 0 8px;font-size:12px;font-weight:500;color:var(--muted)}
+  .frames{display:flex;flex-direction:column-reverse;gap:3px;min-height:78px}
+  .frame{font-family:var(--font-mono);font-size:12px;padding:3px 8px;border-radius:4px;background:var(--panel2);border:1px solid var(--border2);color:var(--text)}
+  .wipbox{min-height:78px;display:flex;align-items:center}
+  .wipval{font-family:var(--font-mono);font-size:15px;padding:5px 10px;border-radius:6px;background:#0c1d33;border:1px solid var(--begin);color:var(--text)}
+  .note{font-size:11px;color:var(--dim);margin-top:8px;min-height:30px}
+  .pane.lost .frame{opacity:.3;text-decoration:line-through;border-style:dashed}
+  .pane.lost{border-color:var(--danger)}
+  .pane.lost h3{color:var(--danger)}
+  .pane.kept{border-color:var(--child)}
+  .pane.kept h3{color:var(--child)}
+  .ctrl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   button{font-family:inherit;font-size:13px;padding:7px 12px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--panel2);color:var(--text);cursor:pointer}
   button:hover:not(:disabled){background:#1b2233}
   button:disabled{opacity:.45;cursor:default}
-  .step{flex:1}
+  .step{flex:1;min-width:120px}
+  #yield[data-on="1"]{border-color:var(--danger);color:var(--danger)}
   .count{font-size:12px;color:var(--dim);font-family:var(--font-mono);margin-left:auto}
   .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:12px}
   .legend i{display:inline-block;width:16px;height:0;border-top:2px solid;margin-right:5px;vertical-align:middle}
@@ -33,15 +48,29 @@
 </head>
 <body>
 <div class="wrap">
-<h2 class="sr-only">React Fiber 트리를 child·sibling·return 세 포인터로 순회하는 step-through 시각화. beginWork(내려감)와 completeWork(올라옴)를 한 스텝씩 보여준다.</h2>
+<h2 class="sr-only">React Fiber 트리를 child·sibling·return 세 포인터로 순회하는 step-through 시각화. 재귀였다면 쌓였을 콜 스택과 Fiber 의 workInProgress 포인터 하나를 나란히 보여주고, 중단 버튼으로 콜 스택은 버려지지만 포인터는 남는 것을 확인할 수 있다.</h2>
 
-<svg id="plot" viewBox="0 0 460 240" role="img" aria-label="fiber 트리 순회"></svg>
+<svg id="plot" viewBox="0 0 460 240" role="img" aria-label="App 아래 Header·Main·Footer, Header 아래 h1·nav, Main 아래 p 로 이루어진 fiber 트리. 현재 노드와 방금 따라간 포인터가 강조된다."></svg>
 
 <div class="status" id="status"></div>
+
+<div class="state">
+  <div class="pane" id="stackPane">
+    <h3>재귀였다면 — 콜 스택</h3>
+    <div class="frames" id="frames"></div>
+    <div class="note" id="stackNote"></div>
+  </div>
+  <div class="pane" id="wipPane">
+    <h3>Fiber — workInProgress</h3>
+    <div class="wipbox"><span class="wipval" id="wip">App</span></div>
+    <div class="note" id="wipNote"></div>
+  </div>
+</div>
 
 <div class="ctrl">
   <button id="prev">◀ 이전</button>
   <button id="next" class="step">다음 ▶</button>
+  <button id="yield">⏸ 중단(yield)</button>
   <button id="play" aria-label="자동 재생">▶</button>
   <button id="reset" aria-label="초기화">↻</button>
   <span class="count" id="count">0/0</span>
@@ -65,7 +94,8 @@
     nav:    {x:165, y:190, t:'nav'},
     p:      {x:250, y:190, t:'p'},
   };
-  // 구조 간선 (항상 옅게): child(부모→첫 자식), sibling(형제 체인)
+  const PARENT = {App:null, Header:'App', Main:'App', Footer:'App', h1:'Header', nav:'Header', p:'Main'};
+  // 구조 간선: child(부모→첫 자식), sibling(형제 체인)
   const CHILD  = [['App','Header'],['Header','h1'],['Main','p']];
   const SIBLING= [['Header','Main'],['Main','Footer'],['h1','nav']];
 
@@ -88,14 +118,26 @@
   ];
   const COL = {child:'var(--child)', sibling:'var(--sibling)', return:'var(--return)'};
 
-  let i=0, timer=null;
+  let i=0, timer=null, yielded=false;
   const $=id=>document.getElementById(id);
   const plot=$('plot'), status=$('status'), count=$('count');
   const W=64, H=24;
 
-  function edge(a,b,color,dash,wide){
-    const A=N[a],B=N[b];
-    return `<line x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}" stroke="${color}" stroke-width="${wide?2.5:1}"${dash?' stroke-dasharray="4 3"':''}/>`;
+  // A 의 박스 테두리에서 B 방향으로 나가는 점 — 선이 박스를 파고들지 않게
+  function clip(A,B){
+    const dx=B.x-A.x, dy=B.y-A.y;
+    const sx = dx===0?Infinity:(W/2+4)/Math.abs(dx);
+    const sy = dy===0?Infinity:(H/2+4)/Math.abs(dy);
+    const s=Math.min(sx,sy);
+    return {x:A.x+dx*s, y:A.y+dy*s};
+  }
+  function edge(a,b,kind,active){
+    const A=clip(N[a],N[b]), B=clip(N[b],N[a]);
+    const color=COL[kind]||'var(--border2)';
+    const dash=kind==='return'?' stroke-dasharray="4 3"':'';
+    return `<g opacity="${active?1:.3}">`
+      + `<line x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}" stroke="${color}" `
+      + `stroke-width="${active?2.5:1.25}"${dash} marker-end="url(#ar-${kind})"/></g>`;
   }
   function node(k,opts){
     const n=N[k]; const o=opts||{};
@@ -105,31 +147,65 @@
     return `<rect x="${n.x-W/2}" y="${n.y-H/2}" width="${W}" height="${H}" rx="6" fill="${bg}" stroke="${stroke}" stroke-width="${o.cur?2:1}"/>`
          + `<text x="${n.x}" y="${n.y+1}" text-anchor="middle" dominant-baseline="middle" font-family="var(--font-mono)" font-size="12" fill="${fill}">${n.t}</text>`;
   }
+  function marker(id,color){
+    return `<marker id="ar-${id}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">`
+      + `<path d="M0,1 L7,4 L0,7 z" fill="${color}"/></marker>`;
+  }
+  // 재귀였다면 쌓였을 프레임 = root 에서 현재 노드까지의 경로
+  function stackOf(k){
+    const out=[]; let c=k;
+    while(c){ out.unshift(c); c=PARENT[c]; }
+    return out;
+  }
 
   function render(){
     const s=S[i];
-    const done=new Set(); // completeWork 끝난 노드
+    const done=new Set();
     for(let k=0;k<=i;k++) if(S[k].ph==='comp') done.add(S[k].n);
-    let g='';
-    // 구조 간선 (옅게)
-    CHILD.forEach(([a,b])=>g+=edge(a,b,'var(--border)',false,false));
-    SIBLING.forEach(([a,b])=>g+=edge(a,b,'var(--border)',false,false));
-    // 활성 간선 (도착에 쓰인 포인터) — 강조
-    if(s.from && s.via && COL[s.via]) g+=edge(s.from,s.n,COL[s.via],s.via==='return',true);
-    // 노드
+
+    let g=`<defs>${marker('child','#34d399')}${marker('sibling','#fbbf24')}${marker('return','#94a3b8')}</defs>`;
+    const activeKey = s.from && s.via && COL[s.via] ? s.from+'>'+s.n+':'+s.via : null;
+    CHILD.forEach(([a,b])=>{ g+=edge(a,b,'child', activeKey===a+'>'+b+':child'); });
+    SIBLING.forEach(([a,b])=>{ g+=edge(a,b,'sibling', activeKey===a+'>'+b+':sibling'); });
+    if(s.via==='return' && s.from) g+=edge(s.from,s.n,'return',true);
     for(const k in N) g+=node(k,{cur:k===s.n,ph:s.ph,done:done.has(k)&&k!==s.n});
     plot.innerHTML=g;
-    status.innerHTML=s.d;
+
+    status.innerHTML = yielded
+      ? '<b>yield</b> — 여기서 브라우저에 제어를 넘겼다. 콜 스택은 사라지고 <b>workInProgress</b>만 남는다.'
+      : s.d;
+
+    const frames=stackOf(s.n);
+    $('frames').innerHTML = frames.map(f=>`<span class="frame">${f}</span>`).join('');
+    $('wip').textContent = s.n;
+    $('stackPane').className = 'pane' + (yielded?' lost':'');
+    $('wipPane').className   = 'pane' + (yielded?' kept':'');
+    $('stackNote').textContent = yielded
+      ? '버려졌다. 재개하려면 이 경로를 처음부터 다시 쌓아야 한다.'
+      : `깊이 ${frames.length} — 내려갈수록 쌓인다.`;
+    $('wipNote').textContent = yielded
+      ? '그대로다. 이 포인터 하나면 정확히 이 자리에서 재개된다.'
+      : '어디까지 했는지가 이 한 칸에 다 들어 있다.';
+
     count.textContent=(i+1)+'/'+S.length;
-    $('prev').disabled=i===0; $('next').disabled=i===S.length-1;
+    $('next').textContent = yielded ? '재개 ▶' : '다음 ▶';
+    $('prev').disabled = i===0 || yielded;
+    $('next').disabled = i===S.length-1 && !yielded;
+    $('yield').disabled = yielded || i===S.length-1;
+    $('yield').dataset.on = yielded ? '1' : '0';
   }
   function stop(){if(timer){clearInterval(timer);timer=null;$('play').textContent='▶';}}
-  $('next').onclick=()=>{if(i<S.length-1){i++;render();}};
+  $('next').onclick=()=>{
+    if(yielded){ yielded=false; render(); return; }
+    if(i<S.length-1){i++;render();}
+  };
   $('prev').onclick=()=>{if(i>0){i--;render();}};
-  $('reset').onclick=()=>{stop();i=0;render();};
+  $('yield').onclick=()=>{stop(); yielded=true; render();};
+  $('reset').onclick=()=>{stop();i=0;yielded=false;render();};
   $('play').onclick=()=>{
     if(timer){stop();return;}
     if(i>=S.length-1)i=0;
+    yielded=false;
     $('play').textContent='⏸'; render();
     timer=setInterval(()=>{if(i<S.length-1){i++;render();}else stop();},1200);
   };
