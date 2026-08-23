@@ -2,23 +2,33 @@
 type: note
 kind: Convention
 tags: ['signals', 'reactivity', 'build-tooling', 'architecture']
-status: release
+status: draft
 ctime: 2026-06-21
-mtime: 2026-06-21
-generated: { by: claude/opus-4.8, at: 2026-06-28T14:49:32Z }
+mtime: 2026-08-23
+generated: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
+verified: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
+sources:
+  - id: formisch
+    resource: https://formisch.dev/
+    title: 'Formisch — schema-first form library'
+  - id: formisch-framework
+    resource: https://github.com/open-circle/formisch/tree/main/packages/core/src/framework
+    title: 'formisch — packages/core/src/framework'
 ---
 
-<img
-  src="/svg/formisch_build_time_signal_swap.svg"
-  alt="코어의 createSignal import가 빌드 타임에 프레임워크별 sibling 파일로 redirect되는 구조"
-/>
+**한 벌의 폼 로직을 React·Solid·Vue·Svelte·Qwik에 동시에 내놓아야 한다.** 프레임워크마다 reactivity가 달라서, 코어가 무엇에 기대 상태를 들고 있을지가 문제가 된다. [Formisch](https://formisch.dev/)는 코어를 하나만 두고 **구현을 빌드할 때 바꿔 끼운다.**
 
-코어는 `createSignal`·`batch`·`untrack`·`createId` 4개를 _이름으로만_ import하고 구현은 절대 고르지 않는다. 번들러가 타깃별 sibling(`index.solid.ts` … `index.qwik.ts`)으로 redirect → 런타임엔 각 프레임워크의 네이티브 signal이 그대로 들어가 추상화 세금이 0.
+코어는 `createSignal`·`batch`·`untrack`·`createId` 4개를 _이름으로만_ import하고 구현은 절대 고르지 않는다. 빌드할 때 번들러가 타깃별 sibling(`index.solid.ts` … `index.qwik.ts`, 현재 8종)으로 import를 다시 써서, 런타임엔 각 프레임워크의 네이티브 signal이 그대로 들어간다.
 
-핵심은 **런타임 DI vs 빌드 타임 DI**. 런타임 어댑터는 간접층이 배포물에 잔존해 인라이닝·tree-shaking을 막는다. 빌드 타임 swap은 seam이 출력물에서 증발한다 — `createSignal`이 문자 그대로 `shallowRef`가 된다. (monomorphization vs virtual dispatch, `#ifdef` vs 런타임 `if`)
+핵심은 **런타임 DI vs 빌드 타임 DI**. 런타임 어댑터는 간접층이 배포물에 남아 인라이닝·tree-shaking을 막는다. 빌드 타임 swap은 이음매가 출력물에서 증발한다 — `createSignal`이 문자 그대로 `shallowRef`가 된다. (`#ifdef` 대 런타임 `if`)
 
-가능했던 이유: 계약을 `Signal<T>` = `get value` / `set value` 단 둘로 좁힌 것(narrowest interface). `.value` shape로 모인 Vue/Preact/Qwik은 **re-export 한 줄**로 충족된다.
+가능했던 이유는 계약을 극단적으로 좁힌 것이다. `Signal<T>`는 `{ value: T }` **프로퍼티 하나**다. `.value` shape로 모인 Vue·Preact·Qwik은 그래서 한 줄로 충족된다.
 
-날카로운 반례 — **React만 예외**. 네이티브 signal이 없어 ~100줄 pub/sub을 직접 구현한다. 빌드 swap이 어댑터를 _없앤_ 게 아니라, 런타임 방식이었다면 _모두가_ 졌을 비용을 React 번들 하나에 가둔 것.
+```ts
+// packages/core/src/framework/index.{target}.ts
+vue   → export { shallowRef as createSignal } from 'vue'  // 1줄
+solid → solid signal을 get value / set value로 감싼 얇은 래퍼
+react → Listener 레지스트리를 손으로 구현                  // 140줄
+```
 
-대가: universal 번들 불가(타깃당 아티팩트 N개), 코어는 4-함수 계약 *밖*의 reactivity를 못 쓴다. **계약을 좁게 유지할 수 있느냐 = 패턴 성립 여부.**
+**반례는 React다.** 네이티브 signal이 없어 pub/sub을 직접 짠다. 빌드 swap이 어댑터를 _없앤_ 게 아니라, 런타임 방식이었다면 _모두가_ 졌을 비용을 React 번들 하나에 가둔 것이다.
