@@ -71,7 +71,7 @@
 <body>
 <div class="wrap">
 <h1>knip 도달 가능성 explorer</h1>
-<p class="sub">knip은 entry에서 도달 가능한 것의 여집합을 미사용으로 본다. 노드를 누르면 entry → 그 노드까지의 import 도달 경로가 펼쳐진다</p>
+<p class="sub">knip은 <b>파일</b>을 entry에서 도달 가능한 것의 여집합으로 판정한다(익스포트는 다른 규칙). 노드를 누르면 entry → 그 파일까지의 import 도달 경로가 펼쳐진다</p>
 <h2 class="sr-only">모듈 import 그래프에서 노드를 선택하면 entry로부터의 import 도달 경로를 보여주고, entry를 끄면 경로가 사라져 멀쩡한 코드가 거짓 미사용으로 잡힘을 드러내는 explorer.</h2>
 
 <div class="row">
@@ -91,7 +91,7 @@
 <div class="deriv" id="deriv"></div>
 
 <div class="thms">
-  <div class="t"><b>판정</b> 미사용 = 전체 \ R — entry에서 도달 못 하는 모듈</div>
+  <div class="t"><b>판정</b> 미사용 파일 = 전체 \ R — entry에서 도달 못 하는 모듈</div>
   <div class="t"><b>도달</b> entry에서 출발 → import를 한 줄씩 따라가며 R을 넓힌다</div>
   <div class="t"><b>깊이</b> import를 몇 단계 따라갔나 (entry에서의 거리)</div>
   <div class="t"><b>함정</b> entry를 빠뜨리면 R이 줄어 멀쩡한 코드가 거짓 미사용으로 잡힌다</div>
