@@ -39,7 +39,7 @@ private set toasts(value: Toast[]) {
 
 함정: `getSnapshot`은 참조가 안정적이어야 한다. 매번 새 객체를 리턴하면 무한 루프 — getter는 내부 배열을 그대로 반환하고, 새 배열은 setter에서만 만든다.
 
-같은 계열 — 프레임워크 *밖*에 source of truth를 두고 UI는 구독만 하는 사고방식: IndexedDB-first(561). 프레임워크 의존을 코어에서 걷어내는 다른 길로는 빌드 타임 signal swap([562](/memo/562)).
+곁가지 — 프레임워크 의존을 코어에서 걷어내는 다른 길: 빌드 타임 signal swap([562](/memo/562)).
 
 ---
 
