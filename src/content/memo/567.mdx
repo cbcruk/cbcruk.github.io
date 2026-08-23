@@ -4,37 +4,30 @@ kind: Explainer
 tags: ['performance', 'rendering', 'fouc', 'html']
 status: release
 ctime: 2026-06-23
-mtime: 2026-06-23
-generated: { by: claude/opus-4.8, at: 2026-06-28T14:49:32Z }
+mtime: 2026-08-23
+generated: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
+verified: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
+sources:
+  - id: whatwg-render-blocking
+    resource: https://html.spec.whatwg.org/multipage/dom.html#allows-adding-render-blocking-elements
+    title: "allows adding render-blocking elements — HTML Standard"
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-핵심: **parser 진행과 first paint는 분리된다.** 깃발(first paint)이 보라 사각형(JS 실행)보다 *왼쪽*이면 — JS가 손대기 전에 그려지면 — 사용자가 잘못된 상태를 본다.
+**파서를 멈추는 것과 paint를 멈추는 것은 다르다.**
 
-<img
-  src="/svg/render_blocking_strategies_timeline.svg"
-  alt="세 로딩 전략의 타임라인 — first paint(깃발)와 JS 실행(보라 사각형)의 선후로 flash window 발생 여부 비교"
-/>
+동기 `<script>`는 파서만 세운다. 그 위에 이미 파싱된 청크가 먼저 그려질지는 브라우저 재량이라, **default 상태가 한 프레임 노출되지 않는다는 보장이 없다.** `blocking="render"`가 그 보장을 명시적으로 만든다.
 
-- **non-blocking** (async/defer): paint가 JS보다 먼저 → flash window(빨간 구간) 발생.
-- **parser-blocking** (동기 `<script>`): parser는 멈추지만 그 위 청크는 먼저 그려질 수 있어, default 상태가 한 프레임 노출될지가 브라우저 재량 = **보장 없음**.
-- **blocking=render** (`<head>` module): paint가 JS 뒤로 → 유일하게 깨끗.
+그런데 스펙은 "head 안에 둬라"라고 말하지 않는다. 대신 등록 창을 이렇게 닫는다.
+
+> A `Document` document allows adding render-blocking elements if document's content type is "text/html" and **the body element of document is null**.
+>
+> — [HTML Standard](https://html.spec.whatwg.org/multipage/dom.html#allows-adding-render-blocking-elements)
+
+`<body>`가 생기는 순간 등록 자체가 닫힌다. 그래서 컴포넌트 마크업 뒤에 붙인 `blocking="render"`는 실패하지 않고 **조용한 no-op**이 된다 — attribute를 모르는 브라우저에서 옛 동작으로 떨어지는 것과 같은 모양이라, 안 먹는다는 사실이 드러나지 않는다.
 
 <AutoIframe
   src="/iframe/render_blocking_paint_simulator.html"
-  title="render-blocking paint simulator — 세 전략별로 사용자가 보는 화면을 시간순 재생"
+  title="세 전략(async·defer / 동기 script / blocking=render)에서 사용자가 보는 화면을 시간순으로 재생해 깨진 프레임 노출 여부를 비교"
 />
-
-트레이드오프: "1프레임 flash/CLS"를 막는 대가로 "FCP를 JS 실행시간만큼 미루는" 거래라, 스크립트가 작고 인라인일 때만 성립한다.
-
-<img
-  src="/svg/blocking_render_tradeoff_decision.svg"
-  alt="blocking=render를 써도 되는 세 조건 — 작고 인라인인 스크립트, head 안 배치, 무시돼도 안전한 폴백"
-/>
-
-성립 조건 셋:
-
-1. 스크립트가 작고 인라인 (FCP 지연을 감당할 만큼).
-2. **`<head>` 안에서만 동작** — 컴포넌트 마크업 뒤가 아니라 head에 `type="module" blocking="render"`로 올려야 보장이 생긴다 (원문이 놓친 부분).
-3. attribute가 무시돼도 옛 동작으로 떨어질 뿐 깨지지 않는다 → 라이브러리가 권장 패턴으로 제공하려면 이 안전한 폴백이 핵심.
