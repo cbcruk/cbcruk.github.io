@@ -3,15 +3,10 @@ type: snippet
 tags: ['react', 'usesyncexternalstore', 'singleton', 'architecture']
 status: release
 ctime: 2026-06-21
-mtime: 2026-06-21
+mtime: 2026-08-23
 ---
 
-<img
-  src="/svg/singleton_usesyncexternalstore_dataflow.svg"
-  alt="EventTarget 코어 싱글톤이 useSyncExternalStore 어댑터를 거쳐 React 컴포넌트로 흐르는 데이터 흐름"
-/>
-
-**싱글톤이 안티패턴이라는 통념은 싱글톤 자체가 아니라 React에 붙이는 방식이 후졌던 데서 나왔다.** `EventTarget` 확장 + `useSyncExternalStore`면 프레임워크 무관 코어를 stale 없이 연결한다. 코어(표준 JS 클래스, React를 모름) / 어댑터(`useSyncExternalStore` 한 겹)로 분리 — Vue·Svelte는 어댑터만 갈아끼운다.
+**싱글톤이 안티패턴이라는 말은 싱글톤이 아니라 React에 붙이던 방식을 겨눈 것이었다.** `EventTarget`을 확장하고 `useSyncExternalStore`로 받으면 프레임워크를 모르는 코어를 stale 없이 연결할 수 있다. 코어(표준 JS 클래스)와 어댑터(`useSyncExternalStore` 한 겹)를 갈라두면 Vue·Svelte는 어댑터만 갈아끼운다.
 
 연결 방식의 진화:
 
@@ -28,6 +23,9 @@ const subscribe = (cb: () => void) => {
 const getSnapshot = () => toastManager.toasts
 
 const toasts = useSyncExternalStore(subscribe, getSnapshot)
+
+// 쓰기는 React 밖 어디서든 — provider도 prop drilling도 없다
+toastManager.add({ message: '저장됨' })
 ```
 
 코어의 핵심은 setter 하나 — 상태 변경과 이벤트 발행을 원자적으로 묶는다:
