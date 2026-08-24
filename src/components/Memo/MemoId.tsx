@@ -1,15 +1,11 @@
 import { MemoId as MemoIdPrimitive } from '@components/Memo/MemoPrimitive'
-import type { Category } from './Memo.types'
 
 type Props = {
-  type: Category
   id: string
 }
 
-export function MemoId({ type, id }: Props) {
+export function MemoId({ id }: Props) {
   return (
-    <MemoIdPrimitive href={`/${type}/${id}`}>
-      #{id.slice(0, 10)}
-    </MemoIdPrimitive>
+    <MemoIdPrimitive href={`/memo/${id}`}>#{id.slice(0, 10)}</MemoIdPrimitive>
   )
 }

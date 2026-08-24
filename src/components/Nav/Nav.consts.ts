@@ -11,10 +11,6 @@ export const MENUS = {
     pathname: '/memos/1',
     label: '메모',
   },
-  think: {
-    pathname: '/thinks/1',
-    label: '생각',
-  },
   tag: {
     pathname: '/tagged',
     label: '태그',

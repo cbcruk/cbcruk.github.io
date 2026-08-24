@@ -11,8 +11,33 @@
           "key": "Access-Control-Allow-Methods",
           "value": "GET, POST, OPTIONS"
         },
-        { "key": "Access-Control-Allow-Credentials", "value": "true" }
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/think/1",
+      "destination": "/memo/308",
+      "permanent": false
+    },
+    {
+      "source": "/think/2",
+      "destination": "/memo/379",
+      "permanent": false
+    },
+    {
+      "source": "/think/3",
+      "destination": "/memo/489",
+      "permanent": false
+    },
+    {
+      "source": "/thinks/:page",
+      "destination": "/memos/1",
+      "permanent": false
     }
   ]
 }
