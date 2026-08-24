@@ -27,12 +27,6 @@ export function Nav({ pathname }: Props) {
         {MENUS.memo.label}
       </NavLink>
       <NavLink
-        href={MENUS.think.pathname}
-        data-is-active={isMatch(['/think/:id?', '/thinks/:page'])}
-      >
-        {MENUS.think.label}
-      </NavLink>
-      <NavLink
         href={MENUS.search.pathname}
         data-is-active={isMatch([MENUS.search.pathname, '/tagged/:tag?'])}
       >
