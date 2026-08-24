@@ -6,14 +6,23 @@ type Props = {
 }
 
 const { src, title, height = 300 } = Astro.props
+
+// 데모는 상세에서만 싣는다. 목록(/memos·/tagged·/type)은 본문을 전문으로 쌓아서
+// /memos/all 한 페이지에 iframe 이 12개까지 붙는다 — 숨기는 게 아니라 안 내보낸다.
+const isDetail = /^\/memo\/[^/]+\/?$/.test(Astro.url.pathname)
 ---
 
-<iframe
-  src={src}
-  title={title}
-  loading="lazy"
-  data-auto-iframe
-  style={`width:100%;height:${height}px;border:0;display:block;`}></iframe>
+{
+  isDetail && (
+    <iframe
+      src={src}
+      title={title}
+      loading="lazy"
+      data-auto-iframe
+      style={`width:100%;height:${height}px;border:0;display:block;`}
+    />
+  )
+}
 
 <script>
   function fit(frame: HTMLIFrameElement): void {
