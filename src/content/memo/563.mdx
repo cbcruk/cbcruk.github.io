@@ -3,41 +3,52 @@ type: snippet
 tags: ['react', 'usesyncexternalstore', 'singleton', 'architecture']
 status: release
 ctime: 2026-06-21
-mtime: 2026-08-23
+mtime: 2026-09-01
 ---
 
-**싱글톤이 안티패턴이라는 말은 싱글톤이 아니라 React에 붙이던 방식을 겨눈 것이었다.** `EventTarget`을 확장하고 `useSyncExternalStore`로 받으면 프레임워크를 모르는 코어를 stale 없이 연결할 수 있다. 코어(표준 JS 클래스)와 어댑터(`useSyncExternalStore` 한 겹)를 갈라두면 Vue·Svelte는 어댑터만 갈아끼운다.
+**싱글톤이 안티패턴이라는 말은 싱글톤이 아니라 React에 붙이던 방식을 겨눈 것이었다.**
 
-연결 방식의 진화:
+**언제**: 프레임워크를 모르는 상태 덩어리(토스트 매니저 같은)를 React에 stale 없이 연결할 때. 코어(표준 JS 클래스)와 어댑터(`useSyncExternalStore` 한 겹)를 갈라두면 Vue·Svelte는 어댑터만 갈아끼운다.
+
+**절차**
+
+1. 코어를 `EventTarget` 확장으로 만들고, **상태 변경과 이벤트 발행을 setter 하나에 묶는다.**
+
+   ```ts
+   private set toasts(value: Toast[]) {
+     this._toasts = [...value]      // 새 배열 → 참조 동등성으로 변화 감지
+     this.dispatchEvent('changed')  // 변경 시 발행 누락 불가능
+   }
+   ```
+
+2. `subscribe`/`getSnapshot` 어댑터 한 겹을 얹어 `useSyncExternalStore`로 받는다.
+
+   ```tsx
+   const subscribe = (cb: () => void) => {
+     const ac = new AbortController()
+     toastManager.addEventListener('changed', cb, { signal: ac.signal })
+     return () => ac.abort()
+   }
+   const getSnapshot = () => toastManager.toasts
+
+   const toasts = useSyncExternalStore(subscribe, getSnapshot)
+   ```
+
+3. 쓰기는 코어를 직접 부른다 — **React 밖 어디서든.**
+
+   ```tsx
+   toastManager.add({ message: '저장됨' })
+   ```
+
+**확인**: React 트리 밖(모듈 최상단·다른 라이브러리 콜백)에서 `add()`를 불러 화면이 갱신되는가. provider도 prop drilling도 없어야 한다.
+
+**함정**: `getSnapshot`은 참조가 안정적이어야 한다. 매번 새 객체를 리턴하면 **무한 루프** — getter는 내부 배열을 그대로 반환하고, 새 배열은 setter에서만 만든다.
+
+**왜 `useSyncExternalStore`인가** — 연결 방식의 진화:
 
 1. polling / 수동 refresh — stale, 데이터 변경과 무관한 리렌더
 2. `useEffect` + `addEventListener` — 낫지만 로컬 `useState`를 손으로 동기화 (React state스럽지 않음)
 3. `useSyncExternalStore` — 구독·동기화를 React가 직접 관리, stale closure 제거
-
-```tsx
-const subscribe = (cb: () => void) => {
-  const ac = new AbortController()
-  toastManager.addEventListener('changed', cb, { signal: ac.signal })
-  return () => ac.abort()
-}
-const getSnapshot = () => toastManager.toasts
-
-const toasts = useSyncExternalStore(subscribe, getSnapshot)
-
-// 쓰기는 React 밖 어디서든 — provider도 prop drilling도 없다
-toastManager.add({ message: '저장됨' })
-```
-
-코어의 핵심은 setter 하나 — 상태 변경과 이벤트 발행을 원자적으로 묶는다:
-
-```ts
-private set toasts(value: Toast[]) {
-  this._toasts = [...value]      // 새 배열 → 참조 동등성으로 변화 감지
-  this.dispatchEvent('changed')  // 변경 시 발행 누락 불가능
-}
-```
-
-함정: `getSnapshot`은 참조가 안정적이어야 한다. 매번 새 객체를 리턴하면 무한 루프 — getter는 내부 배열을 그대로 반환하고, 새 배열은 setter에서만 만든다.
 
 곁가지 — 프레임워크 의존을 코어에서 걷어내는 다른 길: 빌드 타임 signal swap([562](/memo/562)).
 
