@@ -123,7 +123,10 @@ const analyze = (raw) => {
     [...text.matchAll(/\[\^([^\]]+)\](?!:)/g)].map(([, id]) => id)
   )
 
-  const steps = meaningful.filter((line) => /^\s*\d+\.\s/.test(line))
+  // 절차는 번호 리스트(`1.`)로도, 번호 헤딩(`## R1.` `## 1.`)으로도 쓴다
+  const steps = meaningful.filter(
+    (line) => /^\s*\d+\.\s/.test(line) || /^#{1,4}\s+\w*\d+\.\s/.test(line)
+  )
 
   return {
     frontmatter,
