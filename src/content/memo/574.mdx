@@ -13,8 +13,8 @@ tags:
   ]
 status: release
 ctime: 2026-06-23
-mtime: 2026-08-21
-generated: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
+mtime: 2026-09-01
+generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
 sources:
   - id: react-usememo
@@ -30,14 +30,21 @@ sources:
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-테마에서 뽑은 강조색처럼 **한 번 정해지면 유지돼야 하는 값**은 `useMemo`에 두면 안 된다. `useMemo`가 보장하는 건 "값이 맞다"이지 **"같은 값이 유지된다"가 아니다.** React는 특별한 이유가 있으면 캐시를 버린다 — 개발 중 파일을 고칠 때, 초기 마운트 중 컴포넌트가 suspend할 때, 앞으로 나올 기능(가상 리스트에서 화면 밖으로 스크롤된 항목 같은 것). 계산이 순수하면 버려져도 같은 답이 나오니 상관없지만, 랜덤처럼 **매번 다른 답을 내는 계산**이면 버려지는 순간 색이 바뀐다.
+테마에서 뽑은 강조색처럼 **한 번 정해지면 유지돼야 하는 값**은 `useMemo`에 두면 안 된다.
+
+**언제**: 갈림길은 하나다 — "이 값이 재계산되면 _틀린_ 동작인가, 아니면 그냥 _느린_ 동작인가."
+
+- **틀림** → `useState`/ref. 아래가 그 경우다
+- **느림** → `useMemo`. 재활용이 아예 안 되는 쪽(참조가 매 렌더 새로워지는 경우)도 속도 문제일 뿐이다 → [578](/memo/578)
+
+**왜 `useMemo`가 아닌가**: `useMemo`가 보장하는 건 "값이 맞다"이지 **"같은 값이 유지된다"가 아니다.** React는 특별한 이유가 있으면 캐시를 버린다 — 개발 중 파일을 고칠 때, 초기 마운트 중 컴포넌트가 suspend할 때, 앞으로 나올 기능(가상 리스트에서 화면 밖으로 스크롤된 항목 같은 것). 계산이 순수하면 버려져도 같은 답이 나오니 상관없지만, 랜덤처럼 **매번 다른 답을 내는 계산**이면 버려지는 순간 색이 바뀐다.
 
 <AutoIframe
   src="/iframe/usememo_cache_discard.html"
   title="캐시 폐기 이벤트를 던지면 useMemo 쪽만 색이 다시 뽑혀 튀고, useState 쪽은 그대로다"
 />
 
-그래서 `useState`에 둔다. 여기에 놓치기 쉬운 게 둘 있다.
+**절차**
 
 ```tsx
 const [colors, setColors] = useState(() => generateAccentColors(baseTheme))
@@ -49,14 +56,15 @@ if (baseTheme !== prevTheme) {
 }
 ```
 
-**1. `useState(() => ...)` — 괄호를 붙이지 않는다.** `useState(generateAccentColors(baseTheme))`라고 쓰면 함수가 **매 렌더마다 돌고** 결과는 첫 렌더 말고는 전부 버려진다. 함수 자체를 넘기면 React가 처음 한 번만 부른다.[^react-usestate]
+1. **`useState(() => ...)` — 괄호를 붙이지 않는다.** 함수 자체를 넘기면 React가 처음 한 번만 부른다.[^react-usestate]
+2. **테마가 바뀌면 렌더 중에 갈아끼운다.** `if (이전 값 !== 지금 값)` 안에서 이전 값을 갱신하고 새 값을 만든다. React는 렌더 중 `set`을 보면 `return` 직후 **화면에 그리기 전에** 그 컴포넌트만 다시 렌더한다(자식은 두 번 안 그린다). 그래서 깜빡임이 없다.
 
-**2. 테마가 바뀌면 렌더 중에 갈아끼운다.** `if (이전 값 !== 지금 값)` 안에서 이전 값을 갱신하고 새 값을 만든다. 이 모양이어야 하는 이유가 있다 — React는 렌더 중 `set`을 보면 `return` 직후 **화면에 그리기 전에** 그 컴포넌트만 다시 렌더한다(자식은 두 번 안 그린다). 그래서 깜빡임이 없다. 다만 **조건이나 `setPrevTheme` 중 하나라도 빠지면 무한 루프로 터진다.**[^react-usestate]
+**확인**: 개발 중 파일을 고쳐 저장한다 — 캐시 폐기 이벤트 중 하나다. 색이 그대로면 된 것이고, 바뀌면 아직 `useMemo`에 있다.
 
-판별 기준: "이 값이 재계산되면 _틀린_ 동작인가, 아니면 그냥 _느린_ 동작인가."
-틀림 → state/ref. 느림 → useMemo.
+**함정**
 
-재활용 자체가 안 되는 쪽(참조가 매 렌더 새로워지는 경우)은 속도 문제일 뿐이다 → [578](/memo/578)
+- `useState(generateAccentColors(baseTheme))`처럼 괄호를 붙이면 함수가 **매 렌더마다 돌고** 결과는 첫 렌더 말고는 전부 버려진다.
+- 2번에서 **조건이나 `setPrevTheme` 중 하나라도 빠지면 무한 루프로 터진다.**[^react-usestate]
 
 [^react-usestate]: 게으른 초기화 — *"Although the result of `createInitialTodos()` is only used for the initial render, you're still calling this function on every render … If you pass a function to `useState`, React will only call it during initialization."* / 렌더 중 `set` — *"React will re-render that component immediately after your component exits with a `return` statement, and before rendering the children."* / 필수 조건 — *"it must be inside a condition like `prevCount !== count`, and there must be a call like `setPrevCount(count)` inside of the condition. Otherwise, your component would re-render in a loop until it crashes."* ([useState — React](https://react.dev/reference/react/useState))
 
