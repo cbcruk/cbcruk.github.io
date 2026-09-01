@@ -1,11 +1,11 @@
 ---
 type: note
-kind: Explainer
+kind: Recipe
 tags: ['react', 'css', 'loading-ux']
 status: release
 ctime: 2026-06-23
-mtime: 2026-08-20
-generated: { by: claude/opus-5, at: 2026-08-20T04:30:00Z }
+mtime: 2026-09-01
+generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
 sources:
   - id: starting-style
     resource: https://developer.mozilla.org/en-US/docs/Web/CSS/@starting-style
@@ -16,15 +16,31 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
 로딩 스피너의 깜빡임은 **양 끝에서 따로 생기는데** CSS는 한쪽만 잡는다.
 
-- **앞쪽(leading)** — 응답이 너무 빨라 스피너가 _뜨기 전이나 직후_ 사라진다. **언제 보이기 시작하나**의 문제다. → **CSS가 잡는다**: `animation-delay`/`transition-delay`가 곧 그 지연이고, **응답이 지연보다 빨리 오면 한 프레임도 안 보인다**(스피너를 통째로 건너뛴다). 단 억제력은 지연에서만 나온다 — `@starting-style` 단독(지연 0)으론 못 막는다.
-- **뒤쪽(trailing)** — 스피너가 떴는데 _너무 짧게_ 보이고 하드컷된다. **언제 사라지나**의 문제다. 이미 떴다는 사실은 못 되돌리니 CSS가 가진 두 값(지연·지속 시간)으로는 못 잡고 **사라지는 시각 자체를 미뤄야** 한다 — CSS 밖, JS 타이밍이다. → `useMinimumLoading`: unmount를 `max(응답 시각, 최소 노출 시간)`으로 밀어, 한 번 뜬 스피너가 최소 노출 시간만큼은 보이게 만든다.
+**언제**: 스피너가 깜빡일 때. 먼저 어느 쪽인지 가른다.
 
-둘이 갈리는 이유는 하나다 — **CSS는 시작만 통제한다.** 스피너가 보이는 구간은 `[뜬 시각, unmount 시각]`인데, 지연은 앞쪽을 미루고 지속 시간은 애니메이션 길이일 뿐 요소가 DOM에 남는 시간이 아니다. 뒤쪽 끝은 응답이 언제 오느냐가 정하고 **그건 CSS가 모르는 값**이다. 그래서 "최소 몇 ms는 보인다"를 CSS만으로는 보장할 수 없다.
+| 증상 | 어느 쪽 | 처방 |
+|---|---|---|
+| 응답이 너무 빨라 스피너가 _뜨기 전이나 직후_ 사라진다 | **앞쪽**(leading) | CSS — `animation-delay`/`transition-delay` |
+| 스피너가 떴는데 _너무 짧게_ 보이고 하드컷된다 | **뒤쪽**(trailing) | JS — `useMinimumLoading` |
+
+**절차**
+
+1. 앞쪽이면 **지연을 준다.** 응답이 지연보다 빨리 오면 **한 프레임도 안 보인다** — 스피너를 통째로 건너뛴다.
+2. 뒤쪽이면 **unmount를 `max(응답 시각, 최소 노출 시간)`으로 민다.** 한 번 뜬 스피너가 최소 노출 시간만큼은 보이게 된다.
+
+**확인**: 응답을 지연보다 빠르게 만들어 본다 — 스피너가 한 프레임도 안 뜨면 앞쪽이 잡힌 것이다. 응답을 최소 노출 시간보다 빠르게 만들어 본다 — 스피너가 그 시간만큼 유지되면 뒤쪽이 잡힌 것이다.
 
 <AutoIframe
   src="/iframe/loading_flicker_explorer.html"
   title="지연·지속 시간·응답 시각과 최소 노출 시간을 조절하며 앞쪽 억제와 뒤쪽 깜빡임이 어떻게 달라지는지 관찰"
 />
+
+**왜 갈리나**: **CSS는 시작만 통제한다.** 스피너가 보이는 구간은 `[뜬 시각, unmount 시각]`인데, 지연은 앞쪽을 미루고 지속 시간은 애니메이션 길이일 뿐 요소가 DOM에 남는 시간이 아니다. 뒤쪽 끝은 응답이 언제 오느냐가 정하고 **그건 CSS가 모르는 값**이다. 그래서 "최소 몇 ms는 보인다"를 CSS만으로는 보장할 수 없다.
+
+**함정**
+
+- 억제력은 **지연에서만** 나온다 — `@starting-style` 단독(지연 0)으론 앞쪽을 못 막는다.
+- 이미 떴다는 사실은 못 되돌린다. 뒤쪽은 CSS가 가진 두 값(지연·지속 시간)으로 잡을 수 없고 **사라지는 시각 자체를 미뤄야** 한다 — CSS 밖, JS 타이밍이다.
 
 곁가지 — `@starting-style`은 **같은 뿌리의 반대편**이다. transition은 두 상태 사이를 보간하는데, 진입에는 옮겨갈 이전 상태가 없고[^starting-style] 퇴장에는 요소 자체가 이미 사라진다. `@starting-style`은 앞쪽의 출발값을 대신 정해주고(진입 fade-in), `useMinimumLoading`은 뒤쪽의 unmount를 미룬다. 뿌리는 같아도 **손대는 지점이 달라 별개 결정**이다.
 
