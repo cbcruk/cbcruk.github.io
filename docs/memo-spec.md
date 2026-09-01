@@ -32,7 +32,7 @@
 | `relation` | 선택 | `continues`(기본) \| `supersedes` | `parent`와의 관계 종류 |
 | `kind` | 선택 | 문자열 (`Convention` 등) | OKF 종류. 있으면 OKF concept 장르 (아래) |
 | `generated` | 선택 | `{ by, at }` | 이 본문을 누가 썼나 |
-| `verified` | 선택 | `{ by, at }` 또는 그 배열 | 누가 확인했나 |
+| `verified` | 선택 | `{ by, at }` 또는 그 배열 | 누가 확인했나. **`bookmarks` 에는 쓰지 않는다** — 링크는 `lint:links` 가 재실행으로 판정한다 |
 
 <!-- fields:end -->
 
