@@ -1,11 +1,11 @@
 ---
 type: note
-kind: Explainer
+kind: Recipe
 tags: ['chrome-devtools', 'cdp', 'websocket', 'proxy']
 status: release
 ctime: 2026-06-23
-mtime: 2026-08-23
-generated: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
+mtime: 2026-09-01
+generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
 sources:
   - id: chromium-devtools-403
@@ -14,6 +14,10 @@ sources:
 ---
 
 **데스크톱 없이 안드로이드 기기 한 대로 그 기기의 Chrome을 디버깅한다.** Termux에서 파이썬 스크립트를 돌리고, DevTools는 폰 브라우저로 연다.
+
+**순서를 기억하려고 적어둔 것이다.** 각 단계의 방법이 아니라 밟는 차례가 내용이다.
+
+**길이 셋인데 하나만 해봤다.** Origin 문제를 없애는 방법이 셋이다 — Chrome을 `--remote-allow-origins=*`로 띄우거나, 프론트엔드를 `localhost`에서 self-host하거나, **로컬 프록시로 Origin을 세탁**하거나. 아래는 프록시 길이고 **앞의 둘은 해보지 않았다.**
 
 폰 안에는 DevTools 프론트엔드가 없다. 그래서 구글이 호스팅하는 것(`chrome-devtools-frontend.appspot.com`)을 연다 — 그 순간 프론트엔드의 origin이 `appspot.com`이 되고, Chrome은 그 Origin이 붙은 CDP WebSocket을 거부한다.[^chromium-devtools-403] **로컬 프록시(9223)를 사이에 끼워 그 거부를 우회한다.**
 
@@ -39,7 +43,6 @@ sources:
 기억해둘 것:
 
 - `ws://localhost`는 HTTPS 페이지에서도 mixed-content로 안 막힌다 — **localhost가 secure context로 취급**되기 때문. IP나 도메인이었으면 `wss` 강제로 깨졌을 것이다.
-- 프록시를 안 쓰는 길도 둘 있다. Chrome을 `--remote-allow-origins=*`로 띄우거나, 프론트엔드를 `localhost`에서 self-host하면 Origin 문제 자체가 사라진다.
 - `?@f84901f7…`는 DevTools 프론트엔드 빌드 리비전 핀이다.
 
 [^chromium-devtools-403]: Origin 검사(Chrome 111~)와 **DNS rebinding을 막는 Host 헤더 검사(Chrome 66~)는 다른 방어**다. 여기 걸리는 건 앞쪽 — WS 핸드셰이크에 `--remote-allow-origins`에 없는 Origin이 붙으면 거부된다. ([Chromium issues](https://issues.chromium.org/issues/40096993))
