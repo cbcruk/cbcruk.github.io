@@ -123,11 +123,14 @@ const analyze = (raw) => {
     [...text.matchAll(/\[\^([^\]]+)\](?!:)/g)].map(([, id]) => id)
   )
 
+  const steps = meaningful.filter((line) => /^\s*\d+\.\s/.test(line))
+
   return {
     frontmatter,
     codeLines,
     bullets: bullets.length,
     linkBullets: linkBullets.length,
+    steps: steps.length,
     proseChars: prose.join(' ').length,
     isEmpty: meaningful.length === 0 && codeLines === 0,
     footnoteDefs,
@@ -142,8 +145,16 @@ const analyze = (raw) => {
  * - note:      나머지 (산문 중심)
  */
 const classify = (a) => {
-  if (a.codeLines >= 5) return 'snippet'
-  if (a.codeLines >= 1 && a.proseChars <= 200) return 'snippet'
+  // 레시피(Type G)는 "짧은 코드 조각 + 번호 절차" 모양이다. 절차는 산문으로 안 세지므로
+  // 코드 줄 수만 보면 snippet 으로 샌다 — 절차가 주인공이면 코드는 부품이다.
+  // 줄 수로 재지 않고 저자가 선언한 kind 를 키로 쓴다. 코드만 있는 Recipe(243)는
+  // 절차가 없으니 그대로 snippet 이다.
+  const isProcedure = field(a.frontmatter, 'kind') === 'Recipe' && a.steps >= 3
+
+  if (!isProcedure) {
+    if (a.codeLines >= 5) return 'snippet'
+    if (a.codeLines >= 1 && a.proseChars <= 200) return 'snippet'
+  }
 
   if (a.codeLines === 0 && a.linkBullets >= 1) {
     const ratio = a.linkBullets / a.bullets
