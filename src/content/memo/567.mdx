@@ -1,11 +1,11 @@
 ---
 type: note
-kind: Explainer
+kind: Recipe
 tags: ['performance', 'rendering', 'fouc', 'html']
 status: release
 ctime: 2026-06-23
-mtime: 2026-08-23
-generated: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
+mtime: 2026-09-01
+generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
 sources:
   - id: whatwg-render-blocking
@@ -15,17 +15,24 @@ sources:
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-**파서를 멈추는 것과 paint를 멈추는 것은 다르다.**
+**파서를 멈추는 것과 paint를 멈추는 것은 다르다.** 동기 `<script>`는 파서만 세운다. 그 위에 이미 파싱된 청크가 먼저 그려질지는 브라우저 재량이라, **default 상태가 한 프레임 노출되지 않는다는 보장이 없다.** `blocking="render"`가 그 보장을 명시적으로 만든다.
 
-동기 `<script>`는 파서만 세운다. 그 위에 이미 파싱된 청크가 먼저 그려질지는 브라우저 재량이라, **default 상태가 한 프레임 노출되지 않는다는 보장이 없다.** `blocking="render"`가 그 보장을 명시적으로 만든다.
+**언제**: 스타일이 붙기 전 default 상태가 한 프레임 새는 걸 막고 싶을 때.
 
-그런데 스펙은 "head 안에 둬라"라고 말하지 않는다. 대신 등록 창을 이렇게 닫는다.
+**절차**
+
+1. `blocking="render"`를 붙인다.
+2. **`<body>`가 열리기 전에 둔다.** 컴포넌트 마크업 안이면 이미 늦다.
+
+**확인**: 마크업에서 **위치**를 본다 — `<body>`보다 앞인가. 화면으로는 구분이 안 된다(아래).
+
+**함정**: `<body>`가 생기는 순간 등록 자체가 닫힌다. 뒤에 붙인 `blocking="render"`는 실패하지 않고 **조용한 no-op**이 된다 — attribute를 모르는 브라우저에서 옛 동작으로 떨어지는 것과 같은 모양이라, **안 먹는다는 사실이 드러나지 않는다.**
+
+**왜 `<body>`인가**: 스펙은 "head 안에 둬라"라고 말하지 않는다. 대신 등록 창을 이렇게 닫는다.
 
 > A `Document` document allows adding render-blocking elements if document's content type is "text/html" and **the body element of document is null**.
 >
 > — [HTML Standard](https://html.spec.whatwg.org/multipage/dom.html#allows-adding-render-blocking-elements)
-
-`<body>`가 생기는 순간 등록 자체가 닫힌다. 그래서 컴포넌트 마크업 뒤에 붙인 `blocking="render"`는 실패하지 않고 **조용한 no-op**이 된다 — attribute를 모르는 브라우저에서 옛 동작으로 떨어지는 것과 같은 모양이라, 안 먹는다는 사실이 드러나지 않는다.
 
 <AutoIframe
   src="/iframe/render_blocking_paint_simulator.html"
