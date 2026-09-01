@@ -4,7 +4,7 @@ kind: Explainer
 tags: ['navigation-api', 'router']
 status: release
 ctime: 2026-06-15
-mtime: 2026-08-21
+mtime: 2026-09-01
 generated: { by: claude/opus-5, at: 2026-08-21T03:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-21T03:00:00Z }
 sources:
@@ -28,9 +28,9 @@ Navigation API로 라우터를 만들어보면 `navigate` 이벤트가 반갑다
 
 ## 그래서 라우터 안에 경로가 둘 생긴다
 
-셋은 **사전 차단**, 뒤로·앞으로는 이미 움직였으니 **사후 롤백**이다.
+**언제**: Navigation API로 만든 라우터에 이탈 방지(저장 안 된 폼에서 "정말 나가시겠습니까")를 붙일 때.
 
-블로커가 켜져 있을 때:
+셋은 **사전 차단**, 뒤로·앞으로는 이미 움직였으니 **사후 롤백**이다. 블로커가 켜져 있을 때:
 
 ```js
 onNavigate(e) {
@@ -47,16 +47,18 @@ onNavigate(e) {
 
 history를 **리스트 + 커서**로 보면 그렇다. `go(n)`은 리스트를 건드리지 않고 **커서만** 옮긴다. 그러니 `go(n)` 다음 `go(-n)`은 커서를 원래 자리로 돌려놓는다 — 겉보기엔 아무 일도 없었던 것처럼 된다.
 
-단 **범위 안에서만** 그렇다. `0 ≤ idx + n`을 벗어나는 `go`는 아무 일도 하지 않는다 — 그러니 일어나지도 않은 이동을 되돌리면 오히려 진짜로 움직인다. 이 패턴에선 그럴 일이 없지만(이동이 없으면 `navigate` 이벤트도 안 뜨니 롤백을 부를 일이 없다), 등식이 무조건 성립하는 건 아니다.
+**확인**: 블로커를 켠 채 다섯 가지 이동을 다 해본다. `push`·`replace`·`reload`는 **아예 안 움직이고**, 뒤로·앞으로는 움직였다 제자리로 돌아오면 된 것이다.
+
+**함정**
+
+- **롤백은 범위 안에서만 제자리다.** `0 ≤ idx + n`을 벗어나는 `go`는 아무 일도 하지 않는다 — 그러니 일어나지도 않은 이동을 되돌리면 오히려 진짜로 움직인다. 이 패턴에선 그럴 일이 없지만(이동이 없으면 `navigate` 이벤트도 안 뜨니 롤백을 부를 일이 없다), 등식이 무조건 성립하는 건 아니다.
+- **우회라는 걸 알고 쓴다.** 브라우저가 사용자를 위해 막아둔 걸 되돌리는 것이라, 정말 붙잡아야 할 때만 쓴다.
 
 <AutoIframe
   src="/iframe/traverse-rollback-explorer.html"
   title="블로커를 켠 채 다섯 가지 이동을 시도해, 넷은 아예 안 움직이고 뒤로·앞으로만 움직였다 되돌아오는 것을 히스토리 리스트와 커서로 보여준다"
 />
 
----
-
-우회라는 건 알고 쓰는 게 좋다. 브라우저가 사용자를 위해 막아둔 걸 되돌리는 것이라, 정말 붙잡아야 할 때만 쓴다.
 
 [^chrome-navigation-api]: *"it will fire for all types of navigations, whether the user performed an action (such as clicking a link, submitting a form, or going back and forward) or when navigation is triggered programmatically"* / *"you can't cancel a navigation via `preventDefault()` if the user is pressing the Back or Forward buttons in their browser; **you should not be able to trap your users on your site**."* ([Navigation API — Chrome for Developers](https://developer.chrome.com/docs/web-platform/navigation-api))
 
