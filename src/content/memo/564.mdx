@@ -1,9 +1,9 @@
 ---
-type: snippet
+type: note
 tags: ['javascript', 'iterator', 'lazy-evaluation', 'generator']
 status: release
 ctime: 2026-06-22
-mtime: 2026-08-23
+mtime: 2026-09-01
 generated: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
 sources:
@@ -29,9 +29,8 @@ naturals().filter(isPrime).take(10).toArray()
   title="lazy iterator pull pipeline — take가 채워지면 소스가 멈춘다"
 />
 
-곁가지 —
+**정작 가장 쓰고 싶은 async 소스엔 아직 못 쓴다.** 페이지네이션 fetch를 `fetchPages().filter(isValid).take(10)`으로 감는 모양은 AsyncIterator Helpers가 필요한데 별개 제안이고 Stage 2.7이다 — Chrome 151·Node 24에서 `AsyncIterator` 전역 자체가 없고 체인은 `TypeError`로 떨어진다. Stage 4로 shipped된 건 sync 쪽(모던 브라우저·Node 22+)뿐이다.[^smitty-stop-arrays]
 
-- iterator로 변환: `.values()` / `.keys()` / `.entries()` 또는 generator. `slice(0,n)` → `take(n)`, `slice(n)` → `drop(n)`.
-- **정작 가장 쓰고 싶은 async 소스엔 아직 못 쓴다.** 페이지네이션 fetch를 `fetchPages().filter(isValid).take(10)`으로 감는 모양은 AsyncIterator Helpers가 필요한데 별개 제안이고 Stage 2.7이다 — Chrome 151·Node 24에서 `AsyncIterator` 전역 자체가 없고 체인은 `TypeError`로 떨어진다. Stage 4로 shipped된 건 sync 쪽(모던 브라우저·Node 22+)뿐이다.[^smitty-stop-arrays]
+곁가지 — iterator로 변환: `.values()` / `.keys()` / `.entries()` 또는 generator. `slice(0,n)` → `take(n)`, `slice(n)` → `drop(n)`.
 
 [^smitty-stop-arrays]: 원문은 *"Async iterables have their own iterator helpers, which makes them a great fit for paginated APIs and streams"*라며 `async function* fetchPages()` 예제를 싣는데, 그 체인은 아직 어디서도 돌지 않는다. ([Matt Smith](https://allthingssmitty.com/2026/01/12/stop-turning-everything-into-arrays-and-do-less-work-instead/) · [tc39/proposal-async-iterator-helpers](https://github.com/tc39/proposal-async-iterator-helpers))
