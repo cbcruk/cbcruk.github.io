@@ -154,7 +154,14 @@ const classify = (a) => {
   // 절차가 없으니 그대로 snippet 이다.
   const isProcedure = field(a.frontmatter, 'kind') === 'Recipe' && a.steps >= 3
 
-  if (!isProcedure) {
+  // 절차가 아니어도 산문이 본체인 문서가 있다 — 설계 기록(596, kind: Plan)이나
+  // 논증(597, kind: Explainer)은 코드를 물지만 코드가 주인공이 아니다.
+  // kind 로는 못 가른다: kind 를 선언한 type: snippet 이 8개고 전부 정당하다.
+  // 가르는 건 산문 분량이다 — 선언된 snippet 의 최대가 1,123자(553)이고
+  // note 는 2,542자(597)부터라 그 사이가 비어 있다.
+  const isProseLed = a.proseChars >= 2000
+
+  if (!isProcedure && !isProseLed) {
     if (a.codeLines >= 5) return 'snippet'
     if (a.codeLines >= 1 && a.proseChars <= 200) return 'snippet'
   }
