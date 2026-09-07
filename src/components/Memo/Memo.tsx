@@ -4,16 +4,24 @@ import {
   MemoTags,
   MemoFooter,
   MemoIdAndDate,
+  MemoSummary,
+  MemoWhen,
 } from '@components/Memo/MemoPrimitive'
 import { MemoDate } from '@components/Memo/MemoDate'
 import { MemoTag } from '@components/Memo/MemoTag'
 import { MemoId } from '@components/Memo/MemoId'
 import { MemoEmbedLink } from '@components/Memo/MemoEmbedLink'
 import { MemoRaw } from '@components/Memo/MemoRaw'
+import { getSummary, getWhen, isLongMemo } from '@components/Memo/Memo.utils'
 import type { Props } from './Memo.types'
 import { match, P } from 'ts-pattern'
 
-export function Memo({ raw = false, memo, children }: Props) {
+export function Memo({ raw = false, preview = false, memo, children }: Props) {
+  // 긴 메모는 목록에서 전문 대신 요약 한 줄만 낸다. 짧은 메모는 접을 이유가 없다
+  const folded = preview && isLongMemo(memo)
+  const summary = folded ? getSummary(memo) : ''
+  const when = folded ? getWhen(memo) : ''
+
   return (
     <MemoPrimitive>
       {match(memo.data.title)
@@ -21,7 +29,18 @@ export function Memo({ raw = false, memo, children }: Props) {
           <h2 className="font-bold text-base mb-4">{title}</h2>
         ))
         .otherwise(() => null)}
-      <MemoBody>{children}</MemoBody>
+      {folded ? (
+        <>
+          {summary && <MemoSummary>{summary}</MemoSummary>}
+          {when && (
+            <MemoWhen>
+              <b className="font-bold">언제</b> — {when}
+            </MemoWhen>
+          )}
+        </>
+      ) : (
+        <MemoBody>{children}</MemoBody>
+      )}
       <MemoFooter className="mt-4">
         <MemoTags>
           {memo.data.tags.map((tag) => (

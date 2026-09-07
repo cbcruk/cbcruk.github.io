@@ -17,3 +17,7 @@ export const MemoEmbedUrl = twc.a`inline-flex justify-center py-1 px-3 rounded-f
 export const MemoIdAndDate = twc.div`flex items-center gap-2 py-2`
 
 export const MemoId = twc.a`underline`
+
+export const MemoSummary = twc.p`leading-relaxed`
+
+export const MemoWhen = twc.p`mt-2 leading-relaxed text-(--flexoki-300)`

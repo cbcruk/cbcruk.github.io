@@ -1,6 +1,6 @@
 import type { CollectionEntry } from 'astro:content'
 import type { MemoChild } from '@collection/memo'
-import { getExcerpt } from './RelatedMemos.utils'
+import { getExcerpt } from './Memo.utils'
 
 type Props = {
   ancestors: CollectionEntry<'memo'>[]
