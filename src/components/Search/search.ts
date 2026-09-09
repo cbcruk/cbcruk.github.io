@@ -43,6 +43,12 @@ const LITERAL = 3
 const SQUASHED = 2
 const DERIVED = 1
 
+/** 한글만 깎는다. 영문은 활용하지 않고 `react` → `re` 로 깎으면 정밀도가 무너진다 */
+const HANGUL_ONLY = /^[가-힣]+$/
+const TRUNCATE_MIN = 2
+/** 앞 패스가 이만큼도 못 찾았을 때만 깎는다 */
+const TRUNCATE_BELOW = 3
+
 export function prepare(corpus: CorpusEntry[]): Indexed[] {
   return corpus.map((entry) => {
     const raw = `${entry.t ?? ''}\n${entry.k.join(' ')}\n${entry.b}`
@@ -140,6 +146,27 @@ export function search(index: Indexed[], query: string): SearchHit[] {
       DERIVED,
       synonym
     )
+  }
+
+  /**
+   * 조사 목록은 명사 뒤(`타입을`)를 잡지만 용언 활용(`만들었다`·`처리하면`)은
+   * 못 잡는다. 뒤에서 한 글자씩 깎아 전부 합치면 표 없이 잡힌다 — 단
+   * 어미가 어간과 융합된 경우(`그리+었 → 그렸`)는 글자가 바뀐 것이라 도달 못 한다.
+   * 짧게 깎을수록 가중치가 낮아 하위로 밀린다 (항상 DERIVED 아래).
+   *
+   * 앞 패스가 이미 찾았으면 깎지 않는다 — `스크롤` 은 그대로 10건인데 `스크` 로
+   * 깎으면 `스크립트` 가 딸려온다. 깎기가 필요한 건 친 그대로는 안 나오는 활용형뿐이다.
+   */
+  if (HANGUL_ONLY.test(q) && ranked.size < TRUNCATE_BELOW) {
+    for (let end = q.length - 1; end >= TRUNCATE_MIN; end--) {
+      const cut = q.slice(0, end)
+
+      add(
+        index.filter((d) => d.haystack.includes(cut)),
+        end / (q.length + 1),
+        cut
+      )
+    }
   }
 
   const byId = new Map(index.map((d) => [d.entry.i, d.entry]))
