@@ -5,7 +5,6 @@ import Layout from '@layouts/Layout.astro'
 import { MemoLayout } from '@components/MemoLayout/MemoLayout'
 import { Memo } from '@components/Memo/Memo'
 import { getReleaseMemoCollection } from '@collection/memo'
-import fs from 'node:fs/promises'
 import { PaginationDefault } from '@components/Pagination/PaginationDefault'
 
 type Props = {
@@ -14,11 +13,6 @@ type Props = {
 
 export async function getStaticPaths({ paginate }) {
   const memoCollection = await getReleaseMemoCollection()
-
-  await fs.writeFile(
-    'public/search-db.json',
-    JSON.stringify([...memoCollection])
-  )
 
   return paginate(
     memoCollection.sort((a, b) => Number(a.id) - Number(b.id)).reverse(),

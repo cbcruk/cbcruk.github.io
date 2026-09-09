@@ -1,5 +1,5 @@
-import { SearchFromResultWithSuspense } from './SearchFormResult'
+import { SearchFormResult } from './SearchFormResult'
 
 export function SearchForm() {
-  return <SearchFromResultWithSuspense />
+  return <SearchFormResult />
 }
