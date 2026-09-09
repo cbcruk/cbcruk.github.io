@@ -15,29 +15,28 @@ describe('Nav', () => {
             class="data-[is-active='true']:font-bold"
             data-is-active="false"
             href="/"
+            title="홈"
           >
-            Home
-          </a>
-          <a
-            class="data-[is-active='true']:font-bold"
-            data-is-active="false"
-            href="/about"
-          >
-            About
+            <img
+              alt="홈"
+              height="16"
+              src="/favicon-32x32.png"
+              width="16"
+            />
           </a>
           <a
             class="data-[is-active='true']:font-bold"
             data-is-active="false"
             href="/memos/1"
           >
-            Memo
+            메모
           </a>
           <a
             class="data-[is-active='true']:font-bold"
             data-is-active="false"
-            href="/tagged"
+            href="/search"
           >
-            Tag
+            검색
           </a>
         </nav>
       </div>
