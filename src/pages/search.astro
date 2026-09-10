@@ -1,5 +1,5 @@
 ---
-import { SearchFormNuqsAdapter } from '@components/Search/SearchFormNuqsAdapter'
+import { Search } from '@components/Search/Search'
 import Layout from '@layouts/Layout.astro'
 
 const PAGE_TITLE = `메모 검색 | eunsoolee`
@@ -7,5 +7,5 @@ const PAGE_DESCRIPTION = ''
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
-  <SearchFormNuqsAdapter client:only="react" />
+  <Search client:only="react" />
 </Layout>
