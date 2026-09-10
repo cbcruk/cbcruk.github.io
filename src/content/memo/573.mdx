@@ -1,10 +1,11 @@
 ---
 type: note
 kind: Recipe
+title: 로딩 스피너 깜빡임의 두 끝 — 앞쪽은 CSS, 뒤쪽은 JS
 tags: ['react', 'css', 'loading-ux']
 status: release
 ctime: 2026-06-23
-mtime: 2026-09-01
+mtime: 2026-09-10
 generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
 sources:
   - id: starting-style
@@ -16,7 +17,7 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
 로딩 스피너의 깜빡임은 **양 끝에서 따로 생기는데** CSS는 한쪽만 잡는다.
 
-**언제**: 스피너가 깜빡일 때. 먼저 어느 쪽인지 가른다.
+**언제**: 스피너가 한 프레임 번쩍하고 사라지거나, 떴다가 하드컷으로 끊길 때. 앞쪽인지 뒤쪽인지부터 판별한다.
 
 | 증상 | 어느 쪽 | 처방 |
 |---|---|---|

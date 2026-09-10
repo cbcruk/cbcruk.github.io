@@ -1,10 +1,11 @@
 ---
 type: note
 kind: Explainer
+title: Navigation API 이탈 방지의 두 갈래 — 사전 차단과 사후 롤백
 tags: ['navigation-api', 'router']
 status: release
 ctime: 2026-06-15
-mtime: 2026-09-01
+mtime: 2026-09-10
 generated: { by: claude/opus-5, at: 2026-08-21T03:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-21T03:00:00Z }
 sources:
@@ -18,11 +19,11 @@ sources:
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-Navigation API로 라우터를 만들어보면 `navigate` 이벤트가 반갑다. 링크 클릭·폼 제출·프로그램 호출은 물론 `history.pushState()`까지 **떠나는 모든 경로가 여기 하나로 모인다.** 라우터가 잡아야 할 걸 한 자리에서 잡는다.
+Navigation API로 라우터를 만들면 **떠나는 모든 경로가 `navigate` 이벤트 하나로 모인다** — 링크 클릭·폼 제출·프로그램 호출은 물론 `history.pushState()`까지. 라우터가 가로채야 할 것을 한 자리에서 잡는다.
 
-그런데 라우터가 흔히 내주는 기능 하나에서 막힌다 — **이탈 방지**(저장 안 된 폼에서 "정말 나가시겠습니까"). `preventDefault()`가 있으니 될 것 같은데, `push`·`replace`·`reload`는 되고 **뒤로·앞으로(`traverse`)만 안 된다.**
+그런데 라우터가 흔히 제공하는 기능 하나에서 막힌다 — **이탈 방지**(저장 안 된 폼에서 "정말 나가시겠습니까"). `preventDefault()`가 있으니 될 것 같은데, `push`·`replace`·`reload`는 되고 **뒤로·앞으로(`traverse`)만 안 된다.**
 
-그리고 이건 빠뜨린 게 아니라 **일부러 그렇게 만든 것**이다.[^chrome-navigation-api]
+그리고 이건 누락이 아니라 **의도된 설계**다.[^chrome-navigation-api]
 
 > 사용자가 브라우저의 뒤로·앞으로 버튼을 누르는 경우엔 `preventDefault()`로 취소할 수 없다 — **사용자를 사이트에 가둘 수 있으면 안 되기 때문이다.**
 
@@ -41,7 +42,7 @@ onNavigate(e) {
 
 되돌릴 거리는 API가 준다 — `destination.index`가 목적지 커서고, 지금 커서와의 차이가 곧 이동량이다.
 
-**그런데 그 `index`는 `traverse`일 때만 값이 있다. 나머지 셋에서는 `-1`이다.**[^mdn-navigation-destination] 라우터가 억지로 나눈 게 아니라 **API 자체가 같은 선을 긋고 있다.** blocker 하나를 균일하게 못 만들고, 라이브러리 안에서 두 갈래를 계속 들고 가야 한다.
+**그런데 그 `index`는 `traverse`일 때만 값이 있다. 나머지 셋에서는 `-1`이다.**[^mdn-navigation-destination] 라우터가 억지로 나눈 게 아니라 **API 자체가 같은 선을 긋고 있다.** blocker 하나로 통일할 수 없고, 라이브러리 안에서 두 갈래를 계속 유지해야 한다.
 
 ## 롤백이 정말 제자리인가
 

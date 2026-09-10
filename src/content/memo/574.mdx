@@ -1,6 +1,7 @@
 ---
 type: snippet
 kind: Convention
+title: useMemo 와 useState 의 갈림길 — 틀린 동작인가 느린 동작인가
 tags:
   [
     'react',
@@ -13,7 +14,7 @@ tags:
   ]
 status: release
 ctime: 2026-06-23
-mtime: 2026-09-01
+mtime: 2026-09-10
 generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
 sources:
@@ -35,7 +36,7 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 **언제**: 갈림길은 하나다 — "이 값이 재계산되면 _틀린_ 동작인가, 아니면 그냥 _느린_ 동작인가."
 
 - **틀림** → `useState`/ref. 아래가 그 경우다
-- **느림** → `useMemo`. 재활용이 아예 안 되는 쪽(참조가 매 렌더 새로워지는 경우)도 속도 문제일 뿐이다 → [578](/memo/578)
+- **느림** → `useMemo`. 재사용이 아예 안 되는 쪽(참조가 매 렌더 새로워지는 경우)도 속도 문제일 뿐이다 → [578](/memo/578)
 
 **왜 `useMemo`가 아닌가**: `useMemo`가 보장하는 건 "값이 맞다"이지 **"같은 값이 유지된다"가 아니다.** React는 특별한 이유가 있으면 캐시를 버린다 — 개발 중 파일을 고칠 때, 초기 마운트 중 컴포넌트가 suspend할 때, 앞으로 나올 기능(가상 리스트에서 화면 밖으로 스크롤된 항목 같은 것). 계산이 순수하면 버려져도 같은 답이 나오니 상관없지만, 랜덤처럼 **매번 다른 답을 내는 계산**이면 버려지는 순간 색이 바뀐다.
 

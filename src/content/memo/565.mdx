@@ -1,10 +1,11 @@
 ---
 type: note
 kind: Recipe
+title: 데스크톱 없이 안드로이드 Chrome 디버깅 — 로컬 프록시로 Origin 검사 우회
 tags: ['chrome-devtools', 'cdp', 'websocket', 'proxy']
 status: release
 ctime: 2026-06-23
-mtime: 2026-09-01
+mtime: 2026-09-10
 generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
 sources:
@@ -17,7 +18,7 @@ sources:
 
 **순서를 기억하려고 적어둔 것이다.** 각 단계의 방법이 아니라 밟는 차례가 내용이다.
 
-**길이 셋인데 하나만 해봤다.** Origin 문제를 없애는 방법이 셋이다 — Chrome을 `--remote-allow-origins=*`로 띄우거나, 프론트엔드를 `localhost`에서 self-host하거나, **로컬 프록시로 Origin을 세탁**하거나. 아래는 프록시 길이고 **앞의 둘은 해보지 않았다.**
+**길이 셋인데 하나만 해봤다.** Origin 문제를 없애는 방법이 셋이다 — Chrome을 `--remote-allow-origins=*`로 띄우거나, 프론트엔드를 `localhost`에서 self-host하거나, **로컬 프록시로 Origin 검사를 우회**하거나. 아래는 프록시 길이고 **앞의 둘은 해보지 않았다.**
 
 폰 안에는 DevTools 프론트엔드가 없다. 그래서 구글이 호스팅하는 것(`chrome-devtools-frontend.appspot.com`)을 연다 — 그 순간 프론트엔드의 origin이 `appspot.com`이 되고, Chrome은 그 Origin이 붙은 CDP WebSocket을 거부한다.[^chromium-devtools-403] **로컬 프록시(9223)를 사이에 끼워 그 거부를 우회한다.**
 
@@ -38,7 +39,7 @@ sources:
   alt="adb forward로 소켓을 노출하고 프록시를 띄운 뒤 DevTools 프론트엔드를 실행하기까지의 전체 연결 수명주기"
 />
 
-**프록시가 하는 일은 중계가 아니라 Origin 세탁이다.** 프록시가 프론트엔드 WS를 종단하고, **파이썬 프로세스가 새 WS로** 9222에 다시 접속한다. 파이썬이 여는 소켓에는 브라우저가 붙이는 Origin 헤더가 없으니 통과한다. `cors_middleware`는 프론트엔드 쪽 응답에 허용 헤더를 붙인다.
+**프록시가 하는 일은 중계가 아니라 연결 종단과 재접속이다.** 프록시가 프론트엔드 WS를 종단하고, **파이썬 프로세스가 새 WS로** 9222에 다시 접속한다. 파이썬이 여는 소켓에는 브라우저가 붙이는 Origin 헤더가 없으니 통과한다. `cors_middleware`는 프론트엔드 쪽 응답에 허용 헤더를 붙인다.
 
 기억해둘 것:
 

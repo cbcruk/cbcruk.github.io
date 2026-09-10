@@ -1,10 +1,11 @@
 ---
 type: note
 kind: Recipe
+title: 'blocking=render 는 <body> 전에만 등록된다 — 뒤에 붙으면 조용한 no-op'
 tags: ['performance', 'rendering', 'fouc', 'html']
 status: release
 ctime: 2026-06-23
-mtime: 2026-09-01
+mtime: 2026-09-10
 generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
 sources:
@@ -17,7 +18,14 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
 **파서를 멈추는 것과 paint를 멈추는 것은 다르다.** 동기 `<script>`는 파서만 세운다. 그 위에 이미 파싱된 청크가 먼저 그려질지는 브라우저 재량이라, **default 상태가 한 프레임 노출되지 않는다는 보장이 없다.** `blocking="render"`가 그 보장을 명시적으로 만든다.
 
-**언제**: 스타일이 붙기 전 default 상태가 한 프레임 새는 걸 막고 싶을 때.
+**언제**: 새로고침하면 한 프레임 동안 다른 화면이 보일 때. 먼저 원인을 판별한다.
+
+| 증상 | 원인 | 처방 |
+|---|---|---|
+| 스타일이 붙기 전 default 상태가 한 프레임 보인다 | 스타일 적용이 첫 페인트보다 늦다 | `blocking="render"` — 아래 절차 |
+| 다크 테마인데 흰 화면이 번쩍인다 | 서버가 사용자 상태를 몰라 기본값으로 렌더했다 | 첫 페인트 전 인라인 스크립트 → [594](/memo/594) R2 |
+
+뒤쪽은 이 축으로 안 고쳐진다 — 서버가 낸 HTML 자체가 이미 다른 값이라 렌더를 막아도 그 값이 그대로 보인다.
 
 **절차**
 

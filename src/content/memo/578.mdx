@@ -1,10 +1,11 @@
 ---
 type: note
 kind: Recipe
+title: useMemo 캐시 적중 진단 — 매 렌더 새로 만들어지는 deps
 tags: ['react', 'usememo']
 status: release
 ctime: 2026-06-23
-mtime: 2026-09-01
+mtime: 2026-09-10
 generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
 parent: '570'
@@ -16,9 +17,9 @@ sources:
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-`useMemo`가 실제로 재활용되고 있는지 센다.
+`useMemo`가 실제로 재사용되고 있는지 계산 횟수로 확인한다.
 
-**언제**: 무거운 계산에 `useMemo`를 씌웠는데 체감이 그대로일 때.
+**언제**: 무거운 계산을 `useMemo`로 감쌌는데 렌더 시간이 줄지 않을 때.
 
 **절차**
 
@@ -33,7 +34,7 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
 2. 리렌더를 몇 번 일으키고 `calc`가 렌더와 **같이** 늘어나는지 본다.
 
-3. 같이 늘어나면 `deps`를 의심한다. React는 재료 **안을 들여다보지 않고** `Object.is`로 *같은 물건인지*만 보므로,[^react-usememo] 매 렌더 새로 만들어지는 값이 `deps`에 있으면 **한 번도 재활용되지 않는다.**
+3. 같이 늘어나면 `deps`를 의심한다. React는 재료 **안을 들여다보지 않고** `Object.is`로 *같은 물건인지*만 보므로,[^react-usememo] 매 렌더 새로 만들어지는 값이 `deps`에 있으면 **한 번도 재사용되지 않는다.**
 
    ```jsx
    <List items={data.map(transform)} />
@@ -49,7 +50,7 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
 **함정**
 
-- **재활용을 못 하는 건 느린 것이지 틀린 것이 아니다.** 같은 재료로 늘 같은 답을 내는 계산이라면 답은 똑같다. 아래 둘만 답을 바꾼다.
+- **재사용을 못 하는 건 느린 것이지 틀린 것이 아니다.** 같은 재료로 늘 같은 답을 내는 계산이라면 답은 똑같다. 아래 둘만 답을 바꾼다.
 - **`deps`에 안 적어둔 값을 계산 안에서 쓰면**(stale closure) 그 값이 바뀌어도 React는 "재료 그대로"로 보고 **옛날 답을 내놓는다.** 게다가 무관한 재료가 바뀌는 순간 **우연히 맞아졌다가 다시 틀린다** — 그래서 원인을 찾기 어렵다.
 - **계산이 매번 다른 답을 내면**(랜덤 같은 것) React가 특별한 이유로 기억해둔 걸 버리는 순간 답이 바뀐다 → [574](/memo/574)
 
