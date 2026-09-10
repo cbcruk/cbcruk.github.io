@@ -13,10 +13,9 @@ const NON_CODE_FENCE = /^(md|markdown|text|plaintext)$/i
 const LINK_COMPONENT = /^<([A-Z]\w*)\s[^>]*\b(?:url|href)="(https?:\/\/[^"]+)"/
 
 /**
- * 본문에서 형태 신호를 추출한다.
+ * 본문에서 선언과 대조할 신호를 뽑는다 — 코드 줄 수와 링크 수.
  * - 코드 펜스: ```md 처럼 산문을 인용한 펜스는 코드로 세지 않는다
  * - 링크: 불릿 링크 + 맨 URL 줄 + 링크 컴포넌트
- * - 산문: 불릿/헤딩/각주정의/JSX/import 를 제외한 줄
  */
 const analyze = (raw) => {
   const parsed = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
@@ -106,13 +105,6 @@ const analyze = (raw) => {
       /^\s*[-*]\s+<?https?:\/\//.test(line) ||
       isBareUrl(line)
   )
-  const prose = meaningful.filter(
-    (line) =>
-      !/^\s*[-*]\s/.test(line) &&
-      !/^#{1,4}\s/.test(line) &&
-      !/^\s*\d+\.\s/.test(line) &&
-      !isBareUrl(line)
-  )
 
   // 각주 참조/정의 — 인라인 코드를 지운다 (정규식 문자클래스 `[^"\\]` 가 각주로 잡힌다)
   const text = kept.join('\n').replace(/`[^`\n]*`/g, '')
@@ -123,60 +115,14 @@ const analyze = (raw) => {
     [...text.matchAll(/\[\^([^\]]+)\](?!:)/g)].map(([, id]) => id)
   )
 
-  // 절차는 번호 리스트(`1.`)로도, 번호 헤딩(`## R1.` `## 1.`)으로도 쓴다
-  const steps = meaningful.filter(
-    (line) => /^\s*\d+\.\s/.test(line) || /^#{1,4}\s+\w*\d+\.\s/.test(line)
-  )
-
   return {
     frontmatter,
     codeLines,
-    bullets: bullets.length,
     linkBullets: linkBullets.length,
-    steps: steps.length,
-    proseChars: prose.join(' ').length,
     isEmpty: meaningful.length === 0 && codeLines === 0,
     footnoteDefs,
     footnoteRefs,
   }
-}
-
-/**
- * type 은 형태(shape)만 담는다. 주제는 tags 가 담당한다.
- * - snippet:   코드가 주인공
- * - bookmarks: 링크 목록이 주인공, 코드 없음
- * - note:      나머지 (산문 중심)
- */
-const classify = (a) => {
-  // 레시피(Type G)는 "짧은 코드 조각 + 번호 절차" 모양이다. 절차는 산문으로 안 세지므로
-  // 코드 줄 수만 보면 snippet 으로 샌다 — 절차가 주인공이면 코드는 부품이다.
-  // 줄 수로 재지 않고 저자가 선언한 kind 를 키로 쓴다. 코드만 있는 Recipe(243)는
-  // 절차가 없으니 그대로 snippet 이다.
-  const isProcedure = field(a.frontmatter, 'kind') === 'Recipe' && a.steps >= 3
-
-  // 절차가 아니어도 산문이 본체인 문서가 있다 — 설계 기록(596, kind: Plan)이나
-  // 논증(597, kind: Explainer)은 코드를 물지만 코드가 주인공이 아니다.
-  // kind 로는 못 가른다: kind 를 선언한 type: snippet 이 8개고 전부 정당하다.
-  // 가르는 건 산문 분량이다 — 선언된 snippet 의 최대가 1,123자(553)이고
-  // note 는 2,542자(597)부터라 그 사이가 비어 있다.
-  const isProseLed = a.proseChars >= 2000
-
-  if (!isProcedure && !isProseLed) {
-    if (a.codeLines >= 5) return 'snippet'
-    if (a.codeLines >= 1 && a.proseChars <= 200) return 'snippet'
-  }
-
-  if (a.codeLines === 0 && a.linkBullets >= 1) {
-    const ratio = a.linkBullets / a.bullets
-
-    if (a.proseChars === 0 && ratio === 1) return 'bookmarks'
-    if (a.linkBullets >= 2 && a.proseChars <= 220 && ratio >= 0.6) {
-      return 'bookmarks'
-    }
-    if (a.linkBullets >= 5 && ratio >= 0.85) return 'bookmarks'
-  }
-
-  return 'note'
 }
 
 const field = (frontmatter, key) =>
@@ -301,39 +247,20 @@ for (const file of files) {
     continue
   }
 
-  // 논리적으로 모순인 조합 — 판단 여지가 없다
-  const contradictions = []
-
+  // 논리적으로 모순인 조합 — 판단 여지가 없다.
+  // 임계값이 없어서 처방도 하나다: 선언을 고치거나 본문을 고치거나.
   if (declared === 'snippet' && analyzed.codeLines === 0) {
-    contradictions.push('type: snippet 인데 코드 블록이 없다')
+    add(level, target, 'type: snippet 인데 코드 블록이 없다')
   }
   if (declared === 'bookmarks' && analyzed.codeLines > 0) {
-    contradictions.push(
+    add(
+      level,
+      target,
       `type: bookmarks 인데 코드 블록이 있다 (${analyzed.codeLines}줄) — snippet 아닌지 확인`
     )
   }
   if (declared === 'bookmarks' && analyzed.linkBullets === 0) {
-    contradictions.push('type: bookmarks 인데 링크가 없다')
-  }
-
-  for (const message of contradictions) {
-    add(level, target, message)
-  }
-
-  if (contradictions.length > 0) {
-    continue
-  }
-
-  // 휴리스틱 불일치는 판단 여지가 있으므로 항상 경고
-  const inferred = classify(analyzed)
-
-  if (declared !== inferred) {
-    add(
-      'warn',
-      target,
-      `type: ${declared} 로 선언됐지만 본문은 ${inferred} 로 보인다 ` +
-        `(링크 ${analyzed.linkBullets}/${analyzed.bullets}, 코드 ${analyzed.codeLines}줄, 산문 ${analyzed.proseChars}자)`
-    )
+    add(level, target, 'type: bookmarks 인데 링크가 없다')
   }
 }
 

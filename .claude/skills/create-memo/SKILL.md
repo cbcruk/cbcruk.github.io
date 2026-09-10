@@ -23,7 +23,7 @@ node scripts/create-memo.mjs note        # 산문이 주인공 (기본값)
 - 빈 `tags: []`
 - `status`: `bookmarks`는 `archive`, 나머지는 `draft` (Status 기준은 docs/memo-spec.md 참고)
 
-`type`과 본문 형태가 어긋나면 빌드가 잡는다 (`pnpm lint:memo`).
+`type`이 본문과 모순이면 빌드가 잡는다 (`pnpm lint:memo`). 모순이 아닌 어긋남은 안 잡는다 — 형태는 사람이 고른다.
 
 ## 작업 순서
 
@@ -51,11 +51,11 @@ node scripts/create-memo.mjs note        # 산문이 주인공 (기본값)
 검사 명령:
 
 ```bash
-pnpm lint:memo            # type 과 본문 형태가 맞는지 (빌드에도 연결됨)
+pnpm lint:memo            # type 과 본문이 모순인지, 각주 짝, 명세↔스키마 (빌드에도 연결됨)
 ```
 
 > [!IMPORTANT]
-> 압축하면 형태가 바뀔 수 있다. 부풀린 산문을 걷어내면 남는 게 링크뿐일 수 있고, 그러면 `type`도 함께 고친다 (`pnpm lint:memo`가 잡아준다).
+> 압축하면 형태가 바뀔 수 있다. 부풀린 산문을 걷어내면 남는 게 링크뿐일 수 있고, 그러면 `type`도 함께 고친다 — 린터는 모순만 잡으므로 여기까지는 사람이 본다.
 
 ## 관계 자동화 (parent / relation)
 
