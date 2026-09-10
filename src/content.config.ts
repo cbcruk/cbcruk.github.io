@@ -4,6 +4,13 @@ import { defineCollection, z } from 'astro:content'
 // OKF §5.2 — 생산/검증 이벤트. by 는 actor 규약(human:<id> | <producer>/<version> | process:<id>)
 const okfEvent = z.object({ by: z.string(), at: z.coerce.date().optional() })
 
+// OKF §5.1 — 이 메모가 무엇을 읽고 쓰였나. id 는 각주 라벨로도 쓴다
+const okfSource = z.object({
+  id: z.string(),
+  resource: z.string().optional(),
+  title: z.string().optional(),
+})
+
 const memo = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/memo' }),
   schema: z.object({
@@ -22,6 +29,7 @@ const memo = defineCollection({
     generated: okfEvent.optional(),
     // OKF §5.2 — 검증자가 하나면 리스트 없이 쓴다. 소비자는 1개짜리 리스트로 다룬다
     verified: z.union([okfEvent, z.array(okfEvent)]).optional(),
+    sources: z.array(okfSource).optional(),
   }),
 })
 

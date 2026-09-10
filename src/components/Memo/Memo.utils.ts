@@ -104,3 +104,12 @@ export const getWhen = (memo: CollectionEntry<'memo'>): string => {
 
   return line ? truncate(clean(line), WHEN_LENGTH) : ''
 }
+
+// 본문이 이미 링크한 출처를 아래에 또 내면 같은 목록이 두 번 나온다 — 80개 중 65개가
+// bookmarks 처럼 본문 자체가 그 링크 목록이다. 남는 건 본문이 한 번도 안 가리킨 출처다
+export const getUnlinkedSources = (
+  memo: CollectionEntry<'memo'>
+): NonNullable<CollectionEntry<'memo'>['data']['sources']> =>
+  (memo.data.sources ?? []).filter(
+    (source) => !source.resource || !memo.body?.includes(source.resource)
+  )

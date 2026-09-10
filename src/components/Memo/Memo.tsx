@@ -12,7 +12,13 @@ import { MemoTag } from '@components/Memo/MemoTag'
 import { MemoId } from '@components/Memo/MemoId'
 import { MemoEmbedLink } from '@components/Memo/MemoEmbedLink'
 import { MemoRaw } from '@components/Memo/MemoRaw'
-import { getSummary, getWhen, isLongMemo } from '@components/Memo/Memo.utils'
+import { MemoSources } from '@components/Memo/MemoSources'
+import {
+  getSummary,
+  getUnlinkedSources,
+  getWhen,
+  isLongMemo,
+} from '@components/Memo/Memo.utils'
 import type { Props } from './Memo.types'
 import { match, P } from 'ts-pattern'
 
@@ -21,6 +27,7 @@ export function Memo({ raw = false, preview = false, memo, children }: Props) {
   const folded = preview && isLongMemo(memo)
   const summary = folded ? getSummary(memo) : ''
   const when = folded ? getWhen(memo) : ''
+  const sources = folded ? [] : getUnlinkedSources(memo)
 
   return (
     <MemoPrimitive>
@@ -39,7 +46,10 @@ export function Memo({ raw = false, preview = false, memo, children }: Props) {
           )}
         </>
       ) : (
-        <MemoBody>{children}</MemoBody>
+        <>
+          <MemoBody>{children}</MemoBody>
+          <MemoSources sources={sources} />
+        </>
       )}
       <MemoFooter className="mt-4">
         <MemoTags>
