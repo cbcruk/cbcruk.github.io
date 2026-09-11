@@ -81,9 +81,10 @@ export function SearchFormResult({ q }: { q: string }) {
   const deferredQuery = useDeferredValue(q)
 
   // 첫 질의에서야 받기 시작하면 그 한 번이 눈에 띄게 멈춘다. 받아만 두고
-  // 결과는 `use` 가 읽는다
+  // 결과는 `use` 가 읽는다 — 여기서 거절을 삼키지 않으면 unhandled rejection 이
+  // 따로 찍힌다. 화면에 내는 건 에러 경계다
   useEffect(() => {
-    loadIndex()
+    loadIndex().catch(() => {})
   }, [])
 
   // `q` 가 아니라 늦은 쪽으로 가른다. 빠른 쪽으로 가르면 늦은 쪽이 아직 빈

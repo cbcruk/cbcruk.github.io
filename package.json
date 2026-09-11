@@ -9,10 +9,11 @@
   "scripts": {
     "dev": "node scripts/build-search-corpus.mjs && astro dev",
     "start": "node scripts/build-search-corpus.mjs && astro dev",
-    "build": "node scripts/lint-memo.mjs && node scripts/build-search-corpus.mjs && astro build",
+    "build": "node scripts/lint-memo.mjs && node scripts/build-search-corpus.mjs && vitest run && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest",
+    "test:run": "vitest run",
     "lint:fix": "eslint --fix .",
     "lint:memo": "node scripts/lint-memo.mjs",
     "lint:links": "node scripts/lint-links.mjs"
