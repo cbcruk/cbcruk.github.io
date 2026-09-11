@@ -1,11 +1,16 @@
 ---
 import { Search } from '@components/Search/Search'
 import Layout from '@layouts/Layout.astro'
+import corpusUrl from '@generated/search-corpus.json?url'
 
 const PAGE_TITLE = `메모 검색 | eunsoolee`
 const PAGE_DESCRIPTION = ''
 ---
 
 <Layout title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+  {/* 코퍼스는 첫 질의 전에 이미 필요하다. 여기서 받기 시작하면 React 번들이
+      내려오기도 전에 시작한다 — `as="fetch"` + `crossorigin` 이라야 나중의
+      `fetch()` 가 이 응답을 재사용한다 */}
+  <link slot="head" rel="preload" href={corpusUrl} as="fetch" crossorigin />
   <Search client:only="react" />
 </Layout>

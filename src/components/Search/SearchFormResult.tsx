@@ -1,4 +1,4 @@
-import { Suspense, use, useDeferredValue, useEffect } from 'react'
+import { Suspense, use, useDeferredValue } from 'react'
 import corpusUrl from '@generated/search-corpus.json?url'
 import { MemoLayout } from '@components/MemoLayout/MemoLayout'
 import {
@@ -19,6 +19,12 @@ type Index = ReturnType<typeof prepare>
 /**
  * 모듈 스코프에 둔다 — 검색어를 고칠 때마다 다시 받지 않기 위한 것이고,
  * 새로고침 뒤의 재사용은 HTTP 캐싱이 맡는다 (`_astro/*` 는 immutable).
+ *
+ * 받기 시작하는 건 여기가 아니다. `search.astro` 의 `<link rel="preload">` 가
+ * HTML 파싱 중에 이미 시작한다 — 이 `fetch` 는 그 응답을 받는다.
+ *
+ * 모듈 최상단 `const` 로 펴지 않는다. 그러면 임포트하는 순간 `fetch` 가 나가서
+ * 브라우저가 아닌 곳(테스트·SSR)에서는 상대 경로를 못 읽고 터진다.
  */
 let loading: Promise<Index> | null = null
 
@@ -79,13 +85,6 @@ export function SearchFormResult({ q }: { q: string }) {
   // 흔한 글자는 300건이 걸린다. 그 목록을 한 번에 그리면 141ms 짜리 긴 작업이
   // 되어 그 동안 친 글자가 화면에 안 들어온다 — 늦은 쪽으로 그려 중단 가능하게 한다
   const deferredQuery = useDeferredValue(q)
-
-  // 첫 질의에서야 받기 시작하면 그 한 번이 눈에 띄게 멈춘다. 받아만 두고
-  // 결과는 `use` 가 읽는다 — 여기서 거절을 삼키지 않으면 unhandled rejection 이
-  // 따로 찍힌다. 화면에 내는 건 에러 경계다
-  useEffect(() => {
-    loadIndex().catch(() => {})
-  }, [])
 
   // `q` 가 아니라 늦은 쪽으로 가른다. 빠른 쪽으로 가르면 늦은 쪽이 아직 빈
   // 문자열인 렌더가 한 번 커밋되면서 빈 상태 문구가 한 프레임 스친다
