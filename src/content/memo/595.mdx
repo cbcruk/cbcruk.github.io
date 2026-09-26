@@ -4,28 +4,28 @@ kind: Recipe
 title: 네이버 지도 마커 + fitBounds
 description: 좌표를 데이터에서 계산하고, 0·1·N 카메라를 가르고, 줌 오버슈트·여백·마커 생명주기를 처리하는 절차.
 tags: ['naver-maps', 'map', 'typescript', 'react']
-status: release
+status: draft
 ctime: 2026-09-02
-mtime: 2026-09-02
+mtime: 2026-09-25
 generated: { by: claude/opus-5, at: 2026-09-02T00:00:00Z }
 ---
 
+import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
+
 **언제** — naver.maps v3 에 마커를 여러 개 찍고 카메라를 자동으로 맞출 때. 증상이 있으면 바로 간다.
 
-| 증상 | 레시피 |
-|---|---|
-| "상위 N개"인데 지도엔 N개보다 적게 뜬다 | `R2` |
-| `latitude!` 단언이 붙는다 / `NaN` 좌표가 샌다 | `R3` |
-| 마커가 하나일 때 카메라가 아예 안 움직인다 | `R5` |
-| 같은 건물에 두 곳이라 줌이 최대까지 파고든다 | `R6` |
-| margin 을 줬는데 여백이 안 생긴다 | `R7` |
-| 오른쪽·아래 가장자리 마커의 라벨이 잘린다 | `R8` |
-| 숨겨진 탭에서 열면 줌이 엉뚱하다 / 지도가 회색 | `R9` |
-| 목록이 바뀌었는데 옛 마커가 남아 있다 | `R10` |
-| 목록이 자주 바뀌어 깜빡인다 | `R11` |
-| 마커가 수백 개라 무겁다 | `R12` |
-
-`R1`·`R4` 는 나머지가 딛고 서는 기반이다.
+| 증상                                           | 레시피 |
+| ---------------------------------------------- | ------ |
+| "상위 N개"인데 지도엔 N개보다 적게 뜬다        | `R2`   |
+| `latitude!` 단언이 붙는다 / `NaN` 좌표가 샌다  | `R3`   |
+| 마커가 하나일 때 카메라가 아예 안 움직인다     | `R5`   |
+| 같은 건물에 두 곳이라 줌이 최대까지 파고든다   | `R6`   |
+| margin 을 줬는데 여백이 안 생긴다              | `R7`   |
+| 오른쪽·아래 가장자리 마커의 라벨이 잘린다      | `R8`   |
+| 숨겨진 탭에서 열면 줌이 엉뚱하다 / 지도가 회색 | `R9`   |
+| 목록이 바뀌었는데 옛 마커가 남아 있다          | `R10`  |
+| 목록이 자주 바뀌어 깜빡인다                    | `R11`  |
+| 마커가 수백 개라 무겁다                        | `R12`  |
 
 **재료**
 
@@ -40,13 +40,20 @@ declare function createMarkerContent(p: Place): string
 
 ```ts
 // ✗ 좌표를 marker 에 넣었다가 도로 꺼낸다
-const bounds = new naver.maps.LatLngBounds(
-  markers[0].getPosition() as naver.maps.LatLng,
-  markers[0].getPosition() as naver.maps.LatLng
+const first = markers[0].getPosition() as naver.maps.LatLng
+const bounds = markers.reduce(
+  (acc, m) => acc.extend(m.getPosition() as naver.maps.LatLng),
+  new naver.maps.LatLngBounds(first, first),
 )
 
 // ✓ positions 를 먼저 만들고 marker 와 bounds 양쪽이 그걸 쓴다
-const positions = targets.map((p) => new naver.maps.LatLng(p.latitude, p.longitude))
+const positions = targets.map(
+  (p) => new naver.maps.LatLng(p.latitude, p.longitude),
+)
+const bounds = positions.reduce(
+  (acc, p) => acc.extend(p),
+  new naver.maps.LatLngBounds(positions[0], positions[0]),
+)
 ```
 
 `Marker.getPosition()` 의 선언 타입이 `Coord`(= `LatLng | Point`)라 캐스팅이 강제된다. **이 캐스팅은 정보 손실을 되돌리는 작업이고, 애초에 손실시키지 않으면 필요 없다.** 부수 효과로 `map.getProjection()` 이나 `Marker` 인스턴스 없이 bounds 계산을 단위 테스트할 수 있게 된다.
@@ -89,7 +96,7 @@ const isLocated = (p: Place): p is Located =>
 ```ts
 const bounds = positions.reduce(
   (acc, p) => acc.extend(p),
-  new naver.maps.LatLngBounds(positions[0], positions[0])
+  new naver.maps.LatLngBounds(positions[0], positions[0]),
 )
 ```
 
@@ -104,17 +111,24 @@ const lats = targets.map((p) => p.latitude)
 const lngs = targets.map((p) => p.longitude)
 const bounds = new naver.maps.LatLngBounds(
   new naver.maps.LatLng(Math.min(...lats), Math.min(...lngs)),
-  new naver.maps.LatLng(Math.max(...lats), Math.max(...lngs))
+  new naver.maps.LatLng(Math.max(...lats), Math.max(...lngs)),
 )
 ```
 
 **함정** — `Math.min(...arr)` 는 배열이 만 단위가 되면 스택을 넘긴다(그 규모면 `reduce`). 날짜변경선(±180°)을 걸치는 데이터는 min/max 방식이 지구를 반대로 감싼다(국내 서비스면 무시).
 
+<AutoIframe
+  src="/iframe/fitbounds_explorer.html"
+  title="1개에서 ✗ 분기면 카메라가 안 움직이는가, 같은 건물 두 곳에서 줌이 19 이상으로 튀는가, 바텀시트를 켜고 margin 을 끄면 아래 마커가 가려지는가, Point(0, 0) 에서 오른쪽·아래 라벨이 잘리는가"
+/>
+
 ## R5. 개수별 카메라 분기 (0 / 1 / N)
 
 ```ts
 // ✗ 하나일 때 카메라가 아예 안 움직인다
-if (markers.length > 1) { map.fitBounds(bounds, PADDING) }
+if (markers.length > 1) {
+  map.fitBounds(bounds, PADDING)
+}
 ```
 
 한 곳뿐이면 지도는 초기 중심에 그대로 있고 마커는 화면 밖일 수 있다. 셋 다 처리한다:
@@ -124,7 +138,7 @@ if (positions.length === 0) {
   // 아무것도 안 한다 / 빈 상태 UI 로 넘긴다. 카메라는 건드리지 않는다.
 } else if (positions.length === 1) {
   map.setCenter(positions[0])
-  map.setZoom(SINGLE_MARKER_ZOOM)   // 15~17 정도
+  map.setZoom(SINGLE_MARKER_ZOOM) // 15~17 정도
 } else {
   map.fitBounds(bounds, BOUNDS_MARGIN)
 }
@@ -139,7 +153,7 @@ if (positions.length === 0) {
 **A. 지도 레벨에서 상한 (권장)** — 사용자 수동 줌인까지 같이 막히는 게 단점.
 
 ```ts
-map.setOptions({ maxZoom: MAX_AUTO_ZOOM })  // 예: 17
+map.setOptions({ maxZoom: MAX_AUTO_ZOOM }) // 예: 17
 map.fitBounds(bounds, BOUNDS_MARGIN)
 ```
 
@@ -157,8 +171,9 @@ naver.maps.Event.once(map, 'idle', () => {
 **C. bounds 에 최소 span** — 겹친 마커가 화면 중앙에 모이는 대신 주변 맥락이 남는다.
 
 ```ts
-const MIN_SPAN = 0.004  // 약 400m
-const sw = bounds.getSW(), ne = bounds.getNE()
+const MIN_SPAN = 0.004 // 약 400m
+const sw = bounds.getSW(),
+  ne = bounds.getNE()
 const latPad = Math.max(0, MIN_SPAN - (ne.lat() - sw.lat())) / 2
 const lngPad = Math.max(0, MIN_SPAN - (ne.lng() - sw.lng())) / 2
 if (latPad || lngPad) {
@@ -201,7 +216,7 @@ if (el.clientWidth === 0 || el.clientHeight === 0) {
   const ro = new ResizeObserver(() => {
     if (el.clientWidth && el.clientHeight) {
       ro.disconnect()
-      map.refresh()          // 내부 사이즈 재측정
+      map.refresh() // 내부 사이즈 재측정
       map.fitBounds(bounds, BOUNDS_MARGIN)
     }
   })
@@ -293,7 +308,7 @@ const BOUNDS_MARGIN = { top: 80, right: 24, bottom: 160, left: 24 }
 export function placeMarkers(map: naver.maps.Map, places: Place[]) {
   const targets = places.filter(isLocated).slice(0, MAX_MARKERS)
   const positions = targets.map(
-    (p) => new naver.maps.LatLng(p.latitude, p.longitude)
+    (p) => new naver.maps.LatLng(p.latitude, p.longitude),
   )
 
   const markers = targets.map(
@@ -305,7 +320,7 @@ export function placeMarkers(map: naver.maps.Map, places: Place[]) {
           content: createMarkerContent(place),
           anchor: new naver.maps.Point(0, 0), // 정렬은 content 래퍼 CSS 담당
         },
-      })
+      }),
   )
 
   if (positions.length === 1) {
@@ -314,7 +329,7 @@ export function placeMarkers(map: naver.maps.Map, places: Place[]) {
   } else if (positions.length > 1) {
     const bounds = positions.reduce(
       (acc, p) => acc.extend(p),
-      new naver.maps.LatLngBounds(positions[0], positions[0])
+      new naver.maps.LatLngBounds(positions[0], positions[0]),
     )
     map.fitBounds(bounds, BOUNDS_MARGIN)
     if (map.getZoom() > MAX_AUTO_ZOOM) map.setZoom(MAX_AUTO_ZOOM)
@@ -334,13 +349,13 @@ export function placeMarkers(map: naver.maps.Map, places: Place[]) {
 
 ## 확인
 
-- [ ] 좌표 결측 항목을 자르기 **전에** 걸러내는가
-- [ ] `latitude!` 같은 non-null 단언이 남아 있지 않은가
-- [ ] 마커가 0 개 / 1 개일 때 카메라 동작이 정의되어 있는가
-- [ ] 같은 건물에 두 곳일 때 줌이 최대까지 튀지 않는가
-- [ ] `fitBounds` 의 margin 이 실제로 반영되는가 (`getBounds()` 로 확인)
-- [ ] 바텀시트·헤더가 덮는 영역이 margin 에 반영되어 있는가
-- [ ] 가장 오른쪽·아래 마커의 라벨이 잘리지 않는가 (가장 긴 이름으로 테스트)
-- [ ] 숨겨진 탭에서 초기화될 때 `map.refresh()` 경로가 있는가
-- [ ] 재호출 시 이전 마커가 제거되는가
-- [ ] 리스너가 `clearInstanceListeners` 로 정리되는가
+- 좌표 결측 항목을 자르기 **전에** 걸러내는가
+- `latitude!` 같은 non-null 단언이 남아 있지 않은가
+- 마커가 0 개 / 1 개일 때 카메라 동작이 정의되어 있는가
+- 같은 건물에 두 곳일 때 줌이 최대까지 튀지 않는가
+- `fitBounds` 의 margin 이 실제로 반영되는가 (`getBounds()` 로 확인)
+- 바텀시트·헤더가 덮는 영역이 margin 에 반영되어 있는가
+- 가장 오른쪽·아래 마커의 라벨이 잘리지 않는가 (가장 긴 이름으로 테스트)
+- 숨겨진 탭에서 초기화될 때 `map.refresh()` 경로가 있는가
+- 재호출 시 이전 마커가 제거되는가
+- 리스너가 `clearInstanceListeners` 로 정리되는가

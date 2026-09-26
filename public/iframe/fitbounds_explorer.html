@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fitBounds 탐색기 — 0·1·N, 줌 클램프, 바텀시트, anchor</title>
+<style>
+  :root{
+    --font-mono:ui-monospace,"SF Mono",Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+    --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;
+    --color-page:#0a0a0f;
+    --color-background-secondary:#141823;
+    --color-background-tertiary:#1b2233;
+    --color-text-primary:#e2e8f0;
+    --color-text-secondary:#94a3b8;
+    --color-text-tertiary:#64748b;
+    --color-text-info:#60a5fa;
+    --color-text-warning:#fbbf24;
+    --color-text-success:#6ee7b7;
+    --color-text-danger:#fca5a5;
+    --color-border-secondary:#334155;
+    --color-border-tertiary:#1e293b;
+    --border-radius-md:8px;
+    --border-radius-lg:12px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px;background:var(--color-page);color:var(--color-text-primary);font-family:var(--font-sans);line-height:1.5}
+  .wrap{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
+  .phone{flex:0 1 360px;min-width:0}
+  .phone svg{width:100%;height:auto;display:block;border:1px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);background:#0f1117}
+  .panel{flex:1 1 260px;min-width:0}
+  fieldset{border:1px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);margin:0 0 10px;padding:8px 12px 10px}
+  legend{font-size:12px;font-family:var(--font-mono);color:var(--color-text-info);padding:0 4px}
+  label{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--color-text-secondary);cursor:pointer;margin:3px 0}
+  input[type=radio],input[type=checkbox]{accent-color:#60a5fa;margin:0}
+  input[type=range]{accent-color:#a78bfa;flex:1;min-width:0}
+  button{font-family:inherit;font-size:12px;cursor:pointer;background:var(--color-background-tertiary);color:var(--color-text-primary);border:1px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:4px 9px}
+  button:hover{background:#232b3f}
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg button[aria-pressed=true]{border-color:#60a5fa;color:var(--color-text-info)}
+  code{font-family:var(--font-mono);font-size:11.5px}
+  .val{font-size:12px;font-family:var(--font-mono);min-width:56px;text-align:right}
+  .status{font-size:13px;margin:10px 0 0;padding:10px 12px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary)}
+  .status div{margin:2px 0}
+  .bad{color:var(--color-text-danger)}
+  .ok{color:var(--color-text-success)}
+  .warn{color:var(--color-text-warning)}
+  .note{font-size:11px;color:var(--color-text-tertiary);margin-top:8px}
+  .legend{font-size:11px;color:var(--color-text-tertiary);margin-top:6px;display:flex;flex-wrap:wrap;gap:4px 12px}
+  .sw{display:inline-block;width:14px;height:0;border-top:2px dashed;vertical-align:middle;margin-right:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="phone">
+    <svg id="map" viewBox="0 0 360 520" role="img" aria-label="지도 컨테이너 시뮬레이션"></svg>
+    <div class="legend">
+      <span><i class="sw" style="border-color:#60a5fa"></i>bounds (fitBounds 가 보는 전부)</span>
+      <span><i class="sw" style="border-color:#fbbf24"></i>margin 안쪽</span>
+      <span style="color:var(--color-text-danger)">빨간 테두리 = 잘린 라벨</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <fieldset>
+      <legend>좌표</legend>
+      <div class="seg" id="countSeg" role="group" aria-label="좌표 개수">
+        <button data-n="0">0개</button><button data-n="1">1개</button><button data-n="2">2개</button><button data-n="5">5개</button>
+      </div>
+      <label style="margin-top:8px">퍼짐<input id="spread" type="range" min="0" max="1000" value="740"><span class="val" id="spreadOut"></span></label>
+      <div class="seg"><button id="sameBuilding">같은 건물 (15m)</button></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>R5 · 카메라 분기</legend>
+      <label><input type="radio" name="branch" value="bad"> ✗ <code>length &gt; 1</code> 일 때만 fitBounds</label>
+      <label><input type="radio" name="branch" value="good" checked> ✓ 0 / 1 / N 분기</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>R6 · 줌 오버슈트</legend>
+      <label><input type="checkbox" id="clampA"> A. <code>maxZoom: 17</code></label>
+      <label><input type="checkbox" id="spanC"> C. <code>MIN_SPAN = 0.004</code></label>
+    </fieldset>
+
+    <fieldset>
+      <legend>R7 · 보이는 영역</legend>
+      <label><input type="checkbox" id="sheet" checked> 바텀시트 (160px)</label>
+      <label><input type="checkbox" id="margin"> <code>BOUNDS_MARGIN</code> {80, 24, 160, 24}</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>R8 · anchor</legend>
+      <label><input type="radio" name="anchor" value="tl" checked> <code>Point(0, 0)</code> — 좌상단이 좌표에</label>
+      <label><input type="radio" name="anchor" value="bubble"> <code>translate(-50%, -100%)</code> 말풍선</label>
+      <label><input type="checkbox" id="halfWidth"> 좌우 margin ≥ 라벨 최대 폭 / 2</label>
+    </fieldset>
+
+    <div class="status" id="status" aria-live="polite"></div>
+    <div class="note">모델이다 — Web Mercator 위에서 margin 안쪽에 bounds 가 들어가는 가장 큰 정수 줌을 고르고 bounds 중심을 그 영역 중심에 둔다. 네이버 내부 구현이 아니며, R6-B 의 비동기 적용 같은 빌드별 동작은 재현하지 않는다.</div>
+  </div>
+</div>
+
+<script>
+const W = 360, H = 520, SHEET_H = 160
+const MIN_Z = 6, MAX_Z = 21, MAX_AUTO_ZOOM = 17, SINGLE_MARKER_ZOOM = 16
+const MIN_SPAN = 0.004
+const BOUNDS_MARGIN = { top: 80, right: 24, bottom: 160, left: 24 }
+const INITIAL = { lat: 37.5663, lng: 126.9779, zoom: 14 }
+const BASE = { lat: 37.4979, lng: 127.0276 }
+const PLACES = [
+  { dx: -1, dy: 0.6, name: '카페' },
+  { dx: 1, dy: -0.2, name: '오래된 책방 골목 안쪽 2층' },
+  { dx: -0.3, dy: -1, name: '한강공원 여의도 3주차장 입구' },
+  { dx: 0.2, dy: 1, name: '스타벅스 강남역점' },
+  { dx: -0.6, dy: -0.3, name: '빵집' },
+]
+const LABEL_H = 24, TAIL = 7
+
+const $ = (id) => document.getElementById(id)
+const state = { count: 5 }
+
+const ctx = document.createElement('canvas').getContext('2d')
+ctx.font = '12px ' + getComputedStyle(document.body).fontFamily
+const labelWidth = (name) => Math.ceil(ctx.measureText(name).width) + 18
+
+function merc(lat, lng) {
+  const s = Math.sin((lat * Math.PI) / 180)
+  return {
+    x: ((lng + 180) / 360) * 256,
+    y: (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * 256,
+  }
+}
+
+function spreadMeters() {
+  const t = +$('spread').value / 1000
+  return Math.round(10 * Math.pow(500, t))
+}
+
+function positions() {
+  const m = spreadMeters()
+  const perLat = 111320
+  const perLng = 111320 * Math.cos((BASE.lat * Math.PI) / 180)
+  return PLACES.slice(0, state.count).map((p) => ({
+    name: p.name,
+    lat: BASE.lat + (p.dy * m) / perLat,
+    lng: BASE.lng + (p.dx * m) / perLng,
+  }))
+}
+
+function boundsOf(ps) {
+  const b = ps.reduce(
+    (acc, p) => ({
+      n: Math.max(acc.n, p.lat), s: Math.min(acc.s, p.lat),
+      e: Math.max(acc.e, p.lng), w: Math.min(acc.w, p.lng),
+    }),
+    { n: ps[0].lat, s: ps[0].lat, e: ps[0].lng, w: ps[0].lng },
+  )
+  if ($('spanC').checked) {
+    const latPad = Math.max(0, MIN_SPAN - (b.n - b.s)) / 2
+    const lngPad = Math.max(0, MIN_SPAN - (b.e - b.w)) / 2
+    b.n += latPad; b.s -= latPad; b.e += lngPad; b.w -= lngPad
+  }
+  return b
+}
+
+function currentMargin(ps) {
+  const m = $('margin').checked ? { ...BOUNDS_MARGIN } : { top: 0, right: 0, bottom: 0, left: 0 }
+  if ($('halfWidth').checked && ps.length) {
+    const half = Math.max(...ps.map((p) => labelWidth(p.name))) / 2
+    m.left = Math.max(m.left, half)
+    m.right = Math.max(m.right, half)
+  }
+  return m
+}
+
+function fitBounds(b, m, maxZ) {
+  const nw = merc(b.n, b.w), se = merc(b.s, b.e)
+  const dx = se.x - nw.x, dy = se.y - nw.y
+  const availW = W - m.left - m.right, availH = H - m.top - m.bottom
+  const fit = Math.min(dx ? availW / dx : Infinity, dy ? availH / dy : Infinity)
+  const raw = fit === Infinity ? MAX_Z : Math.floor(Math.log2(fit))
+  const zoom = Math.max(MIN_Z, Math.min(raw, maxZ))
+  const scale = 2 ** zoom
+  const cx = m.left + availW / 2 - W / 2, cy = m.top + availH / 2 - H / 2
+  return {
+    zoom, raw: Math.min(raw, MAX_Z),
+    center: { x: (nw.x + se.x) / 2 - cx / scale, y: (nw.y + se.y) / 2 - cy / scale },
+  }
+}
+
+function camera(ps) {
+  const maxZ = $('clampA').checked ? MAX_AUTO_ZOOM : MAX_Z
+  const good = document.querySelector('input[name=branch]:checked').value === 'good'
+  const initial = { zoom: INITIAL.zoom, center: merc(INITIAL.lat, INITIAL.lng), kind: 'initial' }
+  if (ps.length === 0) return initial
+  if (ps.length === 1) {
+    if (!good) return { ...initial, kind: 'stuck' }
+    return { zoom: Math.min(SINGLE_MARKER_ZOOM, maxZ), center: merc(ps[0].lat, ps[0].lng), kind: 'single' }
+  }
+  const b = boundsOf(ps)
+  return { ...fitBounds(b, currentMargin(ps), maxZ), bounds: b, kind: 'fit' }
+}
+
+function toScreen(cam, lat, lng) {
+  const p = merc(lat, lng), s = 2 ** cam.zoom
+  return { x: (p.x - cam.center.x) * s + W / 2, y: (p.y - cam.center.y) * s + H / 2 }
+}
+
+function labelBox(pt, w) {
+  const bubble = document.querySelector('input[name=anchor]:checked').value === 'bubble'
+  return bubble
+    ? { x: pt.x - w / 2, y: pt.y - LABEL_H - TAIL, w, h: LABEL_H, bubble }
+    : { x: pt.x, y: pt.y, w, h: LABEL_H, bubble }
+}
+
+function render() {
+  const ps = positions()
+  const cam = camera(ps)
+  const sheetOn = $('sheet').checked
+  const visibleBottom = sheetOn ? H - SHEET_H : H
+  const s = 2 ** cam.zoom
+  const g = []
+
+  const ox = (((W / 2 - cam.center.x * s) % 256) + 256) % 256
+  const oy = (((H / 2 - cam.center.y * s) % 256) + 256) % 256
+  for (let x = ox - 256; x < W; x += 64) g.push(`<line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke="#1e293b" stroke-width="${(x - ox) % 256 === 0 ? 1.2 : 0.5}"/>`)
+  for (let y = oy - 256; y < H; y += 64) g.push(`<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="#1e293b" stroke-width="${(y - oy) % 256 === 0 ? 1.2 : 0.5}"/>`)
+
+  if (cam.kind === 'fit') {
+    const m = currentMargin(ps)
+    if (m.top || m.right || m.bottom || m.left) {
+      g.push(`<rect x="${m.left}" y="${m.top}" width="${W - m.left - m.right}" height="${H - m.top - m.bottom}" fill="none" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="5 4" opacity="0.8"/>`)
+    }
+    const a = toScreen(cam, cam.bounds.n, cam.bounds.w), b = toScreen(cam, cam.bounds.s, cam.bounds.e)
+    g.push(`<rect x="${a.x}" y="${a.y}" width="${Math.max(b.x - a.x, 1)}" height="${Math.max(b.y - a.y, 1)}" fill="#60a5fa" fill-opacity="0.06" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="6 4"/>`)
+  }
+
+  let offscreen = 0, underSheet = 0, clipped = 0
+  const labels = [], dots = [], arrows = []
+  for (const p of ps) {
+    const pt = toScreen(cam, p.lat, p.lng)
+    const inside = pt.x >= 0 && pt.x <= W && pt.y >= 0 && pt.y <= H
+    if (!inside) {
+      offscreen++
+      const ax = Math.max(14, Math.min(W - 14, pt.x)), ay = Math.max(14, Math.min(visibleBottom - 14, pt.y))
+      const ang = (Math.atan2(pt.y - ay, pt.x - ax) * 180) / Math.PI
+      arrows.push(`<g transform="translate(${ax} ${ay}) rotate(${ang})"><path d="M-8,-7 L8,0 L-8,7 Z" fill="#fca5a5"/></g>`)
+      continue
+    }
+    if (pt.y > visibleBottom) underSheet++
+    const box = labelBox(pt, labelWidth(p.name))
+    const cut = box.x < 0 || box.y < 0 || box.x + box.w > W || box.y + box.h > visibleBottom
+    if (cut) clipped++
+    const stroke = cut ? '#f87171' : '#475569'
+    const tail = box.bubble ? `<path d="M${pt.x - 5},${box.y + box.h} L${pt.x},${pt.y} L${pt.x + 5},${box.y + box.h} Z" fill="#1e293b" stroke="${stroke}"/>` : ''
+    labels.push(`${tail}<rect x="${box.x}" y="${box.y}" width="${box.w}" height="${box.h}" rx="6" fill="#1e293b" stroke="${stroke}" stroke-width="${cut ? 1.8 : 1}"/><text x="${box.x + 9}" y="${box.y + 16}" font-size="12" fill="#e2e8f0">${p.name}</text>`)
+    dots.push(`<circle cx="${pt.x}" cy="${pt.y}" r="3.5" fill="#f472b6" stroke="#0f1117" stroke-width="1.5"/>`)
+  }
+  g.push(...labels, ...dots)
+
+  if (sheetOn) {
+    g.push(`<rect x="0" y="${H - SHEET_H}" width="${W}" height="${SHEET_H}" fill="#141823" opacity="0.96"/><rect x="${W / 2 - 18}" y="${H - SHEET_H + 8}" width="36" height="4" rx="2" fill="#334155"/><text x="16" y="${H - SHEET_H + 36}" font-size="12" fill="#64748b">바텀시트 — 목록 패널</text>`)
+  }
+  g.push(...arrows)
+  if (ps.length === 0) g.push(`<text x="${W / 2}" y="${visibleBottom / 2}" text-anchor="middle" font-size="13" fill="#64748b">좌표 없음 — 카메라 유지</text>`)
+  $('map').innerHTML = g.join('')
+
+  const lines = []
+  const kindText = {
+    initial: ['ok', ps.length ? '' : '0개: 카메라를 건드리지 않았다 (의도적 유지)'],
+    stuck: ['bad', '1개인데 fitBounds 를 건너뛰어 카메라가 초기 위치 그대로다'],
+    single: ['ok', `1개: setCenter + setZoom(${SINGLE_MARKER_ZOOM})`],
+    fit: ['', ''],
+  }[cam.kind]
+  if (kindText[1]) lines.push(`<div class="${kindText[0]}">${kindText[1]}</div>`)
+  if (cam.kind === 'fit') {
+    const clampedNote = cam.raw > cam.zoom ? ` <span class="ok">(계산값 ${cam.raw} → 클램프)</span>` : ''
+    const cls = cam.zoom >= 19 ? 'bad' : cam.zoom >= 18 ? 'warn' : ''
+    lines.push(`<div>줌 <b class="${cls}">${cam.zoom}</b>${cam.zoom >= 19 ? ' — 블록 하나만 보인다' : ''}${clampedNote}</div>`)
+  }
+  if (ps.length) {
+    const shown = ps.length - offscreen - underSheet
+    lines.push(`<div>마커 보임 <b>${shown}</b> / ${ps.length}${underSheet ? ` · <span class="bad">시트 아래 ${underSheet}</span>` : ''}${offscreen ? ` · <span class="bad">화면 밖 ${offscreen}</span>` : ''}</div>`)
+    lines.push(`<div>라벨 잘림 <b class="${clipped ? 'bad' : 'ok'}">${clipped}</b></div>`)
+  }
+  $('status').innerHTML = lines.join('')
+  $('spreadOut').textContent = spreadMeters() >= 1000 ? (spreadMeters() / 1000).toFixed(1) + ' km' : spreadMeters() + ' m'
+  for (const btn of $('countSeg').querySelectorAll('button')) btn.setAttribute('aria-pressed', String(+btn.dataset.n === state.count))
+}
+
+$('countSeg').addEventListener('click', (e) => {
+  const n = e.target.closest('button')?.dataset.n
+  if (n === undefined) return
+  state.count = +n
+  render()
+})
+$('sameBuilding').addEventListener('click', () => {
+  $('spread').value = Math.round((Math.log(15 / 10) / Math.log(500)) * 1000)
+  state.count = 2
+  render()
+})
+document.querySelectorAll('input').forEach((el) => el.addEventListener('input', render))
+render()
+</script>
+</body>
+</html>

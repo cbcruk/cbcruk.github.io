@@ -12,7 +12,7 @@ tags:
     'correctness-vs-perf',
     'render-time-setstate',
   ]
-status: release
+status: draft
 ctime: 2026-06-23
 mtime: 2026-09-10
 generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
@@ -20,13 +20,13 @@ verified: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
 sources:
   - id: react-usememo
     resource: https://react.dev/reference/react/useMemo
-    title: "useMemo — React (caveats)"
+    title: 'useMemo — React (caveats)'
   - id: react-usestate
     resource: https://react.dev/reference/react/useState
-    title: "useState — React"
+    title: 'useState — React'
   - id: shud-thoughts-build-bulletproof
     resource: https://shud.in/thoughts/build-bulletproof-react-components
-    title: "Building Bulletproof React Components — Shu Ding"
+    title: 'Building Bulletproof React Components — Shu Ding'
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
@@ -67,7 +67,7 @@ if (baseTheme !== prevTheme) {
 - `useState(generateAccentColors(baseTheme))`처럼 괄호를 붙이면 함수가 **매 렌더마다 돌고** 결과는 첫 렌더 말고는 전부 버려진다.
 - 2번에서 **조건이나 `setPrevTheme` 중 하나라도 빠지면 무한 루프로 터진다.**[^react-usestate]
 
-[^react-usestate]: 게으른 초기화 — *"Although the result of `createInitialTodos()` is only used for the initial render, you're still calling this function on every render … If you pass a function to `useState`, React will only call it during initialization."* / 렌더 중 `set` — *"React will re-render that component immediately after your component exits with a `return` statement, and before rendering the children."* / 필수 조건 — *"it must be inside a condition like `prevCount !== count`, and there must be a call like `setPrevCount(count)` inside of the condition. Otherwise, your component would re-render in a loop until it crashes."* ([useState — React](https://react.dev/reference/react/useState))
+[^react-usestate]: 게으른 초기화 — _"Although the result of `createInitialTodos()` is only used for the initial render, you're still calling this function on every render … If you pass a function to `useState`, React will only call it during initialization."_ / 렌더 중 `set` — _"React will re-render that component immediately after your component exits with a `return` statement, and before rendering the children."_ / 필수 조건 — _"it must be inside a condition like `prevCount !== count`, and there must be a call like `setPrevCount(count)` inside of the condition. Otherwise, your component would re-render in a loop until it crashes."_ ([useState — React](https://react.dev/reference/react/useState))
 
 ## 참고
 

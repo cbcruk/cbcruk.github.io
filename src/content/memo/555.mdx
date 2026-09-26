@@ -3,7 +3,7 @@ type: note
 kind: Explainer
 title: Navigation API 이탈 방지의 두 갈래 — 사전 차단과 사후 롤백
 tags: ['navigation-api', 'router']
-status: release
+status: draft
 ctime: 2026-06-15
 mtime: 2026-09-10
 generated: { by: claude/opus-5, at: 2026-08-21T03:00:00Z }
@@ -11,10 +11,10 @@ verified: { by: claude/opus-5, at: 2026-08-21T03:00:00Z }
 sources:
   - id: mdn-navigation-destination
     resource: https://developer.mozilla.org/en-US/docs/Web/API/NavigationDestination/index
-    title: "NavigationDestination.index — MDN"
+    title: 'NavigationDestination.index — MDN'
   - id: chrome-navigation-api
     resource: https://developer.chrome.com/docs/web-platform/navigation-api
-    title: "Navigation API — Chrome for Developers"
+    title: 'Navigation API — Chrome for Developers'
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
@@ -60,7 +60,6 @@ history를 **리스트 + 커서**로 보면 그렇다. `go(n)`은 리스트를 �
   title="블로커를 켠 채 다섯 가지 이동을 시도해, 넷은 아예 안 움직이고 뒤로·앞으로만 움직였다 되돌아오는 것을 히스토리 리스트와 커서로 보여준다"
 />
 
+[^chrome-navigation-api]: _"it will fire for all types of navigations, whether the user performed an action (such as clicking a link, submitting a form, or going back and forward) or when navigation is triggered programmatically"_ / _"you can't cancel a navigation via `preventDefault()` if the user is pressing the Back or Forward buttons in their browser; **you should not be able to trap your users on your site**."_ ([Navigation API — Chrome for Developers](https://developer.chrome.com/docs/web-platform/navigation-api))
 
-[^chrome-navigation-api]: *"it will fire for all types of navigations, whether the user performed an action (such as clicking a link, submitting a form, or going back and forward) or when navigation is triggered programmatically"* / *"you can't cancel a navigation via `preventDefault()` if the user is pressing the Back or Forward buttons in their browser; **you should not be able to trap your users on your site**."* ([Navigation API — Chrome for Developers](https://developer.chrome.com/docs/web-platform/navigation-api))
-
-[^mdn-navigation-destination]: *"Returns the `index` value of the destination `NavigationHistoryEntry` if the `NavigateEvent.navigationType` is `traverse`, or **`-1` otherwise**."* ([NavigationDestination.index — MDN](https://developer.mozilla.org/en-US/docs/Web/API/NavigationDestination/index))
+[^mdn-navigation-destination]: _"Returns the `index` value of the destination `NavigationHistoryEntry` if the `NavigateEvent.navigationType` is `traverse`, or **`-1` otherwise**."_ ([NavigationDestination.index — MDN](https://developer.mozilla.org/en-US/docs/Web/API/NavigationDestination/index))

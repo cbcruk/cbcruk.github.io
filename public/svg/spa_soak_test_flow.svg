@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 360" width="100%" role="img">
+<title>SPA soak test 측정 흐름</title>
+<desc>goto 후 flow 5회로 워밍업하고 baseline 을 측정, flow 195회를 루프마다 가짜 시계 18초와 함께 돌린 뒤 after 를 측정해 listeners 와 nodes 로 판정한다. 측정은 GC 두 번 후 Performance.getMetrics 이고, 힙 크기는 판정에서 뺀다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker>
+</defs>
+<rect width="860" height="360" fill="#FFFFFF"/>
+<rect x="12" y="34" width="836" height="136" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="24" y="26" class="s">한 브라우저 컨텍스트 · CDP 세션 하나 (Chromium 전용)</text>
+<rect x="28" y="62" width="100" height="84" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="78.0" y="100.0" text-anchor="middle" class="b">goto</text>
+<text x="78.0" y="118.0" text-anchor="middle" class="m">/dashboard</text>
+<rect x="148" y="62" width="100" height="84" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="198.0" y="91.0" text-anchor="middle" class="b">flow × 5</text>
+<text x="198.0" y="109.0" text-anchor="middle" class="s">워밍업</text>
+<text x="198.0" y="127.0" text-anchor="middle" class="s">힙만 안정화</text>
+<rect x="268" y="62" width="92" height="84" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="314.0" y="100.0" text-anchor="middle" class="b">측정</text>
+<text x="314.0" y="118.0" text-anchor="middle" class="m">baseline</text>
+<rect x="380" y="62" width="170" height="84" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="465.0" y="91.0" text-anchor="middle" class="b">flow × 195</text>
+<text x="465.0" y="109.0" text-anchor="middle" class="m">+ clock.runFor(18s)</text>
+<text x="465.0" y="127.0" text-anchor="middle" class="s">= 타이머 1시간</text>
+<rect x="570" y="62" width="92" height="84" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="616.0" y="100.0" text-anchor="middle" class="b">측정</text>
+<text x="616.0" y="118.0" text-anchor="middle" class="m">after</text>
+<rect x="682" y="62" width="150" height="84" rx="7" fill="#E3F3E6" stroke="#2E8B4E" stroke-width="1.5"/>
+<text x="757.0" y="91.0" text-anchor="middle" class="b">판정</text>
+<text x="757.0" y="109.0" text-anchor="middle" class="m">listeners ≤ base</text>
+<text x="757.0" y="127.0" text-anchor="middle" class="m">nodes &lt; base+100</text>
+<line x1="130" y1="104.0" x2="144" y2="104.0" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<line x1="250" y1="104.0" x2="264" y2="104.0" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<line x1="362" y1="104.0" x2="376" y2="104.0" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<line x1="552" y1="104.0" x2="566" y2="104.0" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<line x1="664" y1="104.0" x2="678" y2="104.0" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<path d="M495.0 60 C495.0 40,435.0 40,435.0 58" fill="none" stroke="#2F6DB5" stroke-width="1.4" marker-end="url(#ab)"/>
+<line x1="314.0" y1="148" x2="314.0" y2="196" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="616.0" y1="148" x2="616.0" y2="196" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M314.0 196 H616.0" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
+<line x1="465.0" y1="196" x2="465.0" y2="226" stroke="#C2621A" stroke-width="1.4" marker-end="url(#ao)"/>
+<text x="473.0" y="216" class="s">측정 한 번의 안쪽</text>
+<rect x="36" y="230" width="156" height="64" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="114.0" y="258.0" text-anchor="middle" class="m">collectGarbage × 2</text>
+<text x="114.0" y="276.0" text-anchor="middle" class="s">두 번째가 노드 수 안정</text>
+<rect x="222" y="230" width="146" height="64" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="295.0" y="258.0" text-anchor="middle" class="m">Performance</text>
+<text x="295.0" y="276.0" text-anchor="middle" class="m">.getMetrics</text>
+<line x1="194" y1="262.0" x2="218" y2="262.0" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<line x1="370" y1="262.0" x2="394" y2="262.0" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<rect x="398" y="230" width="128" height="64" rx="7" fill="#E3F3E6" stroke="#2E8B4E" stroke-width="1.5"/>
+<text x="462.0" y="258.0" text-anchor="middle" class="m">Nodes</text>
+<text x="462.0" y="276.0" text-anchor="middle" class="s">판정</text>
+<rect x="536" y="230" width="128" height="64" rx="7" fill="#E3F3E6" stroke="#2E8B4E" stroke-width="1.5"/>
+<text x="600.0" y="258.0" text-anchor="middle" class="m">JSEventListeners</text>
+<text x="600.0" y="276.0" text-anchor="middle" class="s">판정</text>
+<rect x="674" y="230" width="128" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="738.0" y="258.0" text-anchor="middle" class="m">JSHeapUsedSize</text>
+<text x="738.0" y="276.0" text-anchor="middle" class="s">흔들려서 제외</text>
+<rect x="110" y="319" width="16" height="16" rx="3" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="134" y="332" class="s">Playwright 조작</text>
+<rect x="280" y="319" width="16" height="16" rx="3" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="304" y="332" class="s">CDP 측정</text>
+<rect x="450" y="319" width="16" height="16" rx="3" fill="#E3F3E6" stroke="#2E8B4E" stroke-width="1.5"/>
+<text x="474" y="332" class="s">판정에 쓰는 것</text>
+<rect x="620" y="319" width="16" height="16" rx="3" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="644" y="332" class="s">판정에 안 쓰는 것</text>
+</svg>

@@ -2,7 +2,7 @@
 type: note
 kind: Explainer
 tags: ['tunneling', 'websocket', 'vercel-sandbox', 'networking']
-status: release
+status: draft
 ctime: 2026-06-07
 mtime: 2026-08-21
 title: vgrok — ngrok과 다른 두 가지
@@ -11,13 +11,13 @@ verified: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
 sources:
   - id: vgrok
     resource: https://github.com/styfle/vgrok
-    title: "vgrok — styfle"
+    title: 'vgrok — styfle'
   - id: ngrok-tcp
     resource: https://ngrok.com/docs/universal-gateway/tcp/
-    title: "ngrok — TCP endpoints"
+    title: 'ngrok — TCP endpoints'
   - id: vercel-sandbox-pricing
     resource: https://vercel.com/docs/sandbox/pricing
-    title: "Vercel Sandbox — pricing and limits"
+    title: 'Vercel Sandbox — pricing and limits'
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
@@ -57,12 +57,12 @@ vgrok은 그렇지 않다. HTTP 요청을 **뜯어서** `method`·`url`·`header
 
 이 한 가지 선택에서 나머지가 전부 따라 나온다.
 
-| 그래서 | 왜냐면 |
-|---|---|
-| **번호표를 붙인다** | 통로 하나에 여러 요청·응답을 섞어 싣기 때문. 바이트 터널이면 연결마다 흐름이 따로라 필요 없다 |
-| **바이너리를 글자로 바꾼다** | 메시지를 JSON으로 만드니까. 이미지를 그대로 못 싣는다 |
-| **HTTP만 된다** | HTTP를 뜯어서 나르니까. 뜯을 수 없는 프로토콜은 못 나른다 |
-| **다 모아야 보낸다** | 메시지 한 덩어리로 부치니까. 양쪽 다 `on('data')`로 모았다가 `on('end')`에서 한 번에 넘긴다[^vgrok] |
+| 그래서                       | 왜냐면                                                                                              |
+| ---------------------------- | --------------------------------------------------------------------------------------------------- |
+| **번호표를 붙인다**          | 통로 하나에 여러 요청·응답을 섞어 싣기 때문. 바이트 터널이면 연결마다 흐름이 따로라 필요 없다       |
+| **바이너리를 글자로 바꾼다** | 메시지를 JSON으로 만드니까. 이미지를 그대로 못 싣는다                                               |
+| **HTTP만 된다**              | HTTP를 뜯어서 나르니까. 뜯을 수 없는 프로토콜은 못 나른다                                           |
+| **다 모아야 보낸다**         | 메시지 한 덩어리로 부치니까. 양쪽 다 `on('data')`로 모았다가 `on('end')`에서 한 번에 넘긴다[^vgrok] |
 
 이미지·CSS 같은 static 리소스도 특별 취급이 없다. 똑같이 바이트를 글자로 바꿔 실었다 되돌린다. **되긴 되는데 하나씩 통째로 통과한다** — 점진 렌더가 안 되고, 큰 파일은 메모리에 통째로 올라가며, base64라 전송량이 3분의 1쯤 늘어난다. 끝나지 않는 응답(SSE 같은 것)은 아예 못 다룬다.
 
@@ -70,8 +70,8 @@ vgrok은 그렇지 않다. HTTP 요청을 **뜯어서** `method`·`url`·`header
 
 그 밖에 클라이언트는 하나만 붙는다.
 
-[^ngrok-tcp]: *"TCP endpoints enable you to deliver any network service with a TCP-based protocol"* — SSH·VNC·RDP, MySQL·Postgres, MQTT, 게임 서버 등. ([ngrok — TCP endpoints](https://ngrok.com/docs/universal-gateway/tcp/))
+[^ngrok-tcp]: _"TCP endpoints enable you to deliver any network service with a TCP-based protocol"_ — SSH·VNC·RDP, MySQL·Postgres, MQTT, 게임 서버 등. ([ngrok — TCP endpoints](https://ngrok.com/docs/universal-gateway/tcp/))
 
-[^vercel-sandbox-pricing]: 최대 세션 길이는 Hobby 45분 · Pro/Enterprise 24시간. *"The maximum duration applies to a single session, not to the sandbox itself. The limit resets every time a sandbox stops and resumes, so the total lifetime of a persistent sandbox is effectively unbounded."* ([Vercel Sandbox — pricing and limits](https://vercel.com/docs/sandbox/pricing))
+[^vercel-sandbox-pricing]: 최대 세션 길이는 Hobby 45분 · Pro/Enterprise 24시간. _"The maximum duration applies to a single session, not to the sandbox itself. The limit resets every time a sandbox stops and resumes, so the total lifetime of a persistent sandbox is effectively unbounded."_ ([Vercel Sandbox — pricing and limits](https://vercel.com/docs/sandbox/pricing))
 
 [^vgrok]: `server.ts` 는 `req.on('data', chunk => chunks.push(chunk))` 로 모아 `req.on('end')` 에서 `Buffer.concat(chunks).toString('base64url')` 로 부치고, 받는 쪽은 `res.end(Buffer.from(body, 'base64url'))` 로 한 번에 쓴다. `client.ts` 도 응답을 같은 방식으로 모은다. ([vgrok — styfle](https://github.com/styfle/vgrok))

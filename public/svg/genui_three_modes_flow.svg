@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 320" width="100%" role="img">
+<title>GenUI 세 갈래의 데이터 흐름</title>
+<desc>Static 과 Declarative 는 Result 를 Node 로 바꾸는 한 칸만 다르다 — Static 은 우리 render() 함수, Declarative 는 모델. Open-ended 는 모델이 코드 문자열을 내놓아 계약 없이 샌드박스로 간다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px}.h{font-size:13px;font-weight:600}.s{font-size:12px;fill:#555}.hl{font-size:12px;font-weight:600;fill:#C2621A}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker></defs>
+<rect width="820" height="320" fill="#FFFFFF"/>
+<text x="370.0" y="20" text-anchor="middle" class="h">② 인텐트 계약</text>
+<text x="370.0" y="36" text-anchor="middle" class="s">기획·도메인</text>
+<path d="M218.0 52 V46 H522.0 V52" fill="none" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="720.0" y="20" text-anchor="middle" class="h">① 카탈로그</text>
+<text x="720.0" y="36" text-anchor="middle" class="s">디자인 시스템</text>
+<path d="M658.0 52 V46 H782.0 V52" fill="none" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="548.0" y="74" width="104" height="112" rx="8" fill="none" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="600" y="68" text-anchor="middle" class="hl">여기만 다르다</text>
+<text x="16" y="109" class="h">Static</text>
+<rect x="108.0" y="86.0" width="84" height="36" rx="6" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="150" y="109" text-anchor="middle" class="b">모델</text>
+<rect x="218.0" y="86.0" width="84" height="36" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="260" y="109" text-anchor="middle" class="b">Args</text>
+<line x1="194.0" y1="104" x2="214.0" y2="104" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<rect x="328.0" y="86.0" width="84" height="36" rx="6" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="370" y="109" text-anchor="middle" class="b">도메인 툴</text>
+<line x1="304.0" y1="104" x2="324.0" y2="104" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<rect x="438.0" y="86.0" width="84" height="36" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="480" y="109" text-anchor="middle" class="b">Result</text>
+<line x1="414.0" y1="104" x2="434.0" y2="104" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<rect x="558.0" y="86.0" width="84" height="36" rx="6" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="600" y="109" text-anchor="middle" class="b">render()</text>
+<line x1="524.0" y1="104" x2="554.0" y2="104" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<rect x="678.0" y="86.0" width="84" height="36" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="720" y="109" text-anchor="middle" class="b">Node</text>
+<line x1="644.0" y1="104" x2="674.0" y2="104" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<text x="16" y="161" class="h">Declarative</text>
+<rect x="108.0" y="138.0" width="84" height="36" rx="6" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="150" y="161" text-anchor="middle" class="b">모델</text>
+<rect x="218.0" y="138.0" width="84" height="36" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="260" y="161" text-anchor="middle" class="b">Args</text>
+<line x1="194.0" y1="156" x2="214.0" y2="156" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<rect x="328.0" y="138.0" width="84" height="36" rx="6" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="370" y="161" text-anchor="middle" class="b">도메인 툴</text>
+<line x1="304.0" y1="156" x2="324.0" y2="156" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<rect x="438.0" y="138.0" width="84" height="36" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="480" y="161" text-anchor="middle" class="b">Result</text>
+<line x1="414.0" y1="156" x2="434.0" y2="156" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<rect x="558.0" y="138.0" width="84" height="36" rx="6" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="600" y="161" text-anchor="middle" class="b">모델</text>
+<line x1="524.0" y1="156" x2="554.0" y2="156" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<rect x="678.0" y="138.0" width="84" height="36" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="720" y="161" text-anchor="middle" class="b">Node</text>
+<line x1="644.0" y1="156" x2="674.0" y2="156" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<text x="16" y="231" class="h">Open-ended</text>
+<rect x="108.0" y="208.0" width="84" height="36" rx="6" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="150" y="231" text-anchor="middle" class="b">모델</text>
+<rect x="218.0" y="208.0" width="84" height="36" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="260" y="231" text-anchor="middle" class="b">String</text>
+<line x1="194.0" y1="226" x2="214.0" y2="226" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<line x1="304.0" y1="226" x2="324.0" y2="226" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<rect x="328.0" y="208.0" width="434.0" height="36" rx="6" fill="#FFFFFF" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="545.0" y="231" text-anchor="middle" class="b">샌드박스 — 계약 없음, 타입 검사 없음</text>
+<rect x="150" y="275" width="16" height="16" rx="3" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="174" y="288" class="s">모델이 정한다</text>
+<rect x="310" y="275" width="16" height="16" rx="3" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="334" y="288" class="s">우리 코드</text>
+<rect x="470" y="275" width="16" height="16" rx="3" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="494" y="288" class="s">타입 (계약)</text>
+</svg>

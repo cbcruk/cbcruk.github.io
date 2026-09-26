@@ -3,7 +3,7 @@ type: note
 kind: Explainer
 title: useDeferredValue 의 보장 범위 — 값은 보장, 반영 시점은 미보장
 tags: ['react', 'usedeferredvalue']
-status: release
+status: draft
 ctime: 2026-06-23
 mtime: 2026-09-10
 generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
@@ -11,7 +11,7 @@ verified: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
 sources:
   - id: react-usedeferredvalue
     resource: https://react.dev/reference/react/useDeferredValue
-    title: "useDeferredValue — React"
+    title: 'useDeferredValue — React'
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
@@ -32,7 +32,7 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
 **어떻게 동작하는지부터.** 글자를 하나 치면 React가 화면을 **두 번** 그린다. 첫 번째는 빠른 쪽만 새 값으로(`query`는 이미 `"ab"`인데 `deferredQuery`는 아직 `"a"`), 두 번째는 늦은 쪽까지 새 값으로. 두 번째 그리기는 **첫 번째가 끝나자마자** 시작한다 — 기다리는 시간 같은 건 없다. 그리는 도중에 글자를 더 치면 그때까지 그린 걸 버리고 **처음부터 다시** 그린다. 다 그려서 화면에 올리기 전까지는 아무것도 안 보이고 `useEffect`도 실행되지 않는다.[^react-deferred]
 
-- **없는 값을 만들지 않는다** — 늦은 쪽이 보여주는 건 언제나 _내가 실제로 쳤던 것 중 하나_다. 지어내지 않는다.
+- **없는 값을 만들지 않는다** — 늦은 쪽이 보여주는 건 언제나 *내가 실제로 쳤던 것 중 하나*다. 지어내지 않는다.
 - **결국 따라잡는다** — 손을 멈추면 따라잡는다. 계속 치는 동안은 다시 그리기가 반복해서 취소돼 **영영 못 따라잡을 수도 있는데, 고장이 아니라 의도된 동작이다.**
 
 둘 다 위 동작에서 그대로 나온다 — **돌려줄 값을 새로 만드는 일이 없으니** 지어낼 수가 없고, **다시 그리기가 늘 최신 값에서 출발하니** 손을 멈추면 그 그리기가 끝까지 간다. **믿어도 된다. 다만 언제 따라잡을지는 모른다.**
@@ -44,4 +44,4 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
   title="입력을 곧바로 따라가는 값과 뒤처지는 값의 두 시간축, 둘이 어긋난 구간이 isStale"
 />
 
-[^react-deferred]: 두 단계 — *"First, React re-renders with the new `query` (`"ab"`) but with the old `deferredQuery` (still `"a"`) … In the background, React tries to re-render with **both** `query` and `deferredQuery` updated."* / 타이밍 — *"There is no fixed delay caused by `useDeferredValue` itself. As soon as React finishes the original re-render, React will immediately start working on the background re-render."* / 중단 — *"The background re-render is interruptible: if there's another update to the value, React will restart the background re-render from scratch."* / Effect — *"does not fire Effects until it's committed to the screen."* ([useDeferredValue — React](https://react.dev/reference/react/useDeferredValue))
+[^react-deferred]: 두 단계 — _"First, React re-renders with the new `query` (`"ab"`) but with the old `deferredQuery` (still `"a"`) … In the background, React tries to re-render with **both** `query` and `deferredQuery` updated."_ / 타이밍 — _"There is no fixed delay caused by `useDeferredValue` itself. As soon as React finishes the original re-render, React will immediately start working on the background re-render."_ / 중단 — _"The background re-render is interruptible: if there's another update to the value, React will restart the background re-render from scratch."_ / Effect — _"does not fire Effects until it's committed to the screen."_ ([useDeferredValue — React](https://react.dev/reference/react/useDeferredValue))
