@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>React 밖 상태를 useSyncExternalStore 로 받는 흐름</title>
+<desc>어디서든 add 를 부르면 setter 가 새 배열을 만들고 changed 를 발행한다. React 는 그때 getSnapshot 으로 다시 읽어 이전 값과 Object.is 로 비교하고, 다르면 리렌더, 같으면 건너뛴다. getter 는 내부 배열을 그대로 돌려주므로 안 바뀌면 같은 참조다. getSnapshot 이 매번 새 배열을 만들면 항상 달라 무한 루프가 된다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+</defs>
+<rect width="860" height="300" fill="#FFFFFF"/>
+<rect x="12" y="34" width="420" height="250" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="24" y="26" class="s">React 밖 · ToastManager (EventTarget)</text>
+<rect x="448" y="34" width="400" height="250" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="460" y="26" class="s">React 안 · useSyncExternalStore</text>
+
+<rect x="28" y="62" width="110" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="83" y="98" text-anchor="middle" class="m">add(toast)</text>
+<text x="83" y="118" text-anchor="middle" class="s">어디서든</text>
+
+<rect x="158" y="62" width="120" height="80" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="218" y="88" text-anchor="middle" class="b">set toasts</text>
+<text x="218" y="106" text-anchor="middle" class="m">[...value]</text>
+<text x="218" y="124" text-anchor="middle" class="s">새 참조</text>
+
+<rect x="298" y="62" width="118" height="80" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="357" y="98" text-anchor="middle" class="m">dispatchEvent</text>
+<text x="357" y="118" text-anchor="middle" class="m">'changed'</text>
+
+<rect x="464" y="62" width="112" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="520" y="98" text-anchor="middle" class="m">getSnapshot()</text>
+<text x="520" y="118" text-anchor="middle" class="s">다시 읽는다</text>
+
+<rect x="596" y="62" width="120" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="656" y="98" text-anchor="middle" class="m">Object.is</text>
+<text x="656" y="118" text-anchor="middle" class="s">(이전, 지금)</text>
+
+<rect x="736" y="62" width="96" height="80" rx="7" fill="#2F6DB5" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="784" y="107" text-anchor="middle" class="b" style="fill:#FFFFFF">리렌더</text>
+
+<rect x="736" y="172" width="96" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="784" y="199" text-anchor="middle" class="s">건너뜀</text>
+
+<rect x="158" y="190" width="258" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="287" y="218" text-anchor="middle" class="b">get toasts</text>
+<text x="287" y="238" text-anchor="middle" class="s">내부 배열 그대로 → 안 바뀌면 같은 참조</text>
+
+<line x1="138" y1="102" x2="154" y2="102" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="278" y1="102" x2="294" y2="102" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="416" y1="102" x2="460" y2="102" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="438" y="94" text-anchor="middle" class="m">cb()</text>
+<line x1="576" y1="102" x2="592" y2="102" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<line x1="716" y1="102" x2="732" y2="102" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="726" y="56" text-anchor="middle" class="s">다르면</text>
+<path d="M690 142 L690 194 L732 194" fill="none" stroke="#8A8A8A" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="700" y="172" class="s">같으면</text>
+<path d="M520 142 L520 225 L420 225" fill="none" stroke="#2F6DB5" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ab)"/>
+<text x="470" y="217" text-anchor="middle" class="s">읽기</text>
+
+<text x="464" y="266" class="o">✕ getSnapshot 이 매번 새 배열을 만들면 → 항상 다름 → 무한 루프</text>
+</svg>
