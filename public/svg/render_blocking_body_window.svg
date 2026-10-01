@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" width="100%" role="img">
+<title>blocking=render 등록 창과 첫 페인트</title>
+<desc>파서는 head 를 읽고 body 를 연다. body 가 null 인 동안만 render-blocking 등록이 가능하고, body 가 열리는 순간 창이 닫힌다. head 안의 script blocking=render 는 등록되고, body 안의 같은 스크립트는 등록되지 않는데 경고도 없다. 실측: head 안이면 816ms 에 스크립트가 끝난 뒤 836ms 에 styled 상태로 첫 페인트한다. body 안이면 16ms 에 default 가 먼저 칠해지고 807ms 에 스크립트가 끝나서야 styled 로 바뀐다 — 그 사이 default 가 노출된다. 로그와 DOM(el.blocking)으로는 둘이 똑같고 첫 페인트 시각만 갈린다. 눈금은 비례가 아니다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<rect width="860" height="340" fill="#FFFFFF"/>
+
+<text x="20" y="92" class="b">파서가</text>
+<text x="20" y="109" class="b">읽는 순서</text>
+
+<line x1="160" y1="38" x2="360" y2="38" stroke="#2F6DB5" stroke-width="1.5"/>
+<line x1="160" y1="32" x2="160" y2="44" stroke="#2F6DB5" stroke-width="1.5"/>
+<line x1="360" y1="32" x2="360" y2="44" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="260" y="28" text-anchor="middle" class="g">render-blocking 등록 가능 · body 가 null 인 동안</text>
+
+<rect x="160" y="80" width="200" height="30" rx="4" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="260" y="100" text-anchor="middle" class="m">&lt;head&gt;</text>
+<rect x="360" y="80" width="460" height="30" rx="4" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="590" y="100" text-anchor="middle" class="m">&lt;body&gt; … &lt;p&gt;default&lt;/p&gt; …</text>
+<line x1="360" y1="48" x2="360" y2="120" stroke="#C2621A" stroke-width="3"/>
+<text x="368" y="62" class="o">창 닫힘</text>
+
+<line x1="260" y1="110" x2="260" y2="128" stroke="#2F6DB5" stroke-width="1.2"/>
+<rect x="190" y="128" width="140" height="26" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="260" y="146" text-anchor="middle" class="g">script · 등록됨</text>
+<line x1="620" y1="110" x2="620" y2="128" stroke="#C2621A" stroke-width="1.2"/>
+<rect x="530" y="128" width="180" height="26" rx="5" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="620" y="146" text-anchor="middle" class="o">script · 무시됨, 경고 없음</text>
+
+<line x1="160" y1="180" x2="820" y2="180" stroke="#B5B5B5" stroke-width="1"/>
+<text x="160" y="176" class="s">0ms</text>
+<text x="820" y="176" text-anchor="end" class="s">실측 · 시간 →</text>
+
+<text x="20" y="212" class="m">&lt;head&gt; 안</text>
+<rect x="160" y="196" width="613" height="24" rx="4" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="466" y="213" text-anchor="middle" class="s">아무것도 안 칠함</text>
+<rect x="773" y="196" width="47" height="24" rx="4" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="773" y="236" text-anchor="end" class="g">816ms 스크립트 끝 → 836ms 첫 페인트, 이미 styled</text>
+
+<text x="20" y="272" class="m">&lt;body&gt; 안</text>
+<rect x="172" y="256" width="580" height="24" rx="4" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="462" y="273" text-anchor="middle" class="o">default 노출</text>
+<rect x="752" y="256" width="68" height="24" rx="4" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="172" y="296" class="o">16ms 첫 페인트</text>
+<text x="820" y="296" text-anchor="end" class="g">807ms 스크립트 끝 → styled</text>
+
+<text x="20" y="330" class="s">로그·DOM(<tspan class="m">el.blocking</tspan>)으론 둘이 똑같다 — <tspan class="o">첫 페인트 시각</tspan>만 갈린다 · 눈금은 비례 아님</text>
+</svg>

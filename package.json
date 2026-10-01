@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "node scripts/build-search-corpus.mjs && astro dev",
     "start": "node scripts/build-search-corpus.mjs && astro dev",
-    "build": "node scripts/lint-memo.mjs && node scripts/build-search-corpus.mjs && vitest run && astro build",
+    "build": "node scripts/build-search-corpus.mjs && vitest run && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest",

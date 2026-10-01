@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>24:00:00 정규화 후보를 하루 막대에 올리면</title>
+<desc>지금: to = 24:00:00 이라 영업 구간이 from 부터 24:00 까지이고 마지막 슬롯 23:30~24:00 이 있지만 LocalTime 이 못 읽는다. 23:59:59 로 바꾸면 1초가 줄어, 슬롯 생성이 to 를 exclusive 로 쓰면 23:30 슬롯이 들어가지 못한다. 00:00:00 으로 바꾸면 to 가 from 보다 앞이 되어 범위 비교가 전부 뒤집히고, 익일 분기가 없으면 예외 없이 영업시간 0분이 된다. Duration 으로 승격하면 손실 없이 24:00 까지 그대로지만 하위 계산 로직을 전부 고쳐야 한다. 눈금은 비례가 아니다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}</style>
+<defs>
+<marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker>
+</defs>
+<rect width="860" height="300" fill="#FFFFFF"/>
+
+<line x1="180" y1="46" x2="800" y2="46" stroke="#B5B5B5" stroke-width="1"/>
+<text x="180" y="38" text-anchor="middle" class="m">00:00</text>
+<text x="330" y="38" text-anchor="middle" class="m">from</text>
+<text x="465" y="38" text-anchor="middle" class="s">…</text>
+<text x="600" y="38" text-anchor="middle" class="m">23:00</text>
+<text x="700" y="38" text-anchor="middle" class="m">23:30</text>
+<text x="800" y="38" text-anchor="middle" class="m">24:00</text>
+<line x1="180" y1="46" x2="180" y2="270" stroke="#E0E0E0" stroke-width="1"/>
+<line x1="330" y1="46" x2="330" y2="270" stroke="#E0E0E0" stroke-width="1"/>
+<line x1="800" y1="46" x2="800" y2="270" stroke="#E0E0E0" stroke-width="1"/>
+
+<text x="20" y="75" class="m">지금 24:00:00</text>
+<rect x="330" y="60" width="270" height="22" rx="3" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="600" y="60" width="100" height="22" rx="3" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="700" y="60" width="100" height="22" rx="3" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="465" y="76" text-anchor="middle" class="s">LocalTime 이 못 읽음</text>
+
+<text x="20" y="125" class="m">→ 23:59:59</text>
+<rect x="330" y="110" width="270" height="22" rx="3" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<rect x="600" y="110" width="100" height="22" rx="3" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<rect x="700" y="110" width="97" height="22" rx="3" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="749" y="126" text-anchor="middle" class="o">✕</text>
+<text x="330" y="150" class="o">1초 손실 → to 가 exclusive 면 23:30 슬롯이 안 들어간다</text>
+
+<text x="20" y="185" class="m">→ 00:00:00</text>
+<line x1="330" y1="181" x2="186" y2="181" stroke="#C2621A" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ao)"/>
+<text x="258" y="173" text-anchor="middle" class="o">to &lt; from</text>
+<text x="340" y="186" class="o">범위 비교가 전부 뒤집힘 → 익일 분기 없으면 영업시간 0분</text>
+<text x="340" y="204" class="o">예외 없이 — 지금보다 나쁘다</text>
+
+<text x="20" y="245" class="m">→ Duration</text>
+<rect x="330" y="230" width="270" height="22" rx="3" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<rect x="600" y="230" width="100" height="22" rx="3" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<rect x="700" y="230" width="100" height="22" rx="3" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="330" y="270" class="s">손실 없음 · 하위 계산 로직 전부 수정</text>
+
+<text x="20" y="292" class="s">슬롯은 끝의 두 칸만 그렸다 · 눈금은 비례 아님</text>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 290" width="100%" role="img">
+<title>타입변수 추론의 두 단계</title>
+<desc>source 타입(인자 + 기대 반환)과 target 타입(매개변수 + 반환)을 ① 수집이 나란히 walk 하며, bare T 를 만나면 그 자리의 source 를 후보로 기록한다. 후보는 출력 위치면 공변 후보, 입력 위치면 반변 후보 리스트에 쌓인다. ② 해소가 리스트마다 하나로 접어 T 에 주입한다. ③ 일반 타입 체크는 그 뒤에야 따로 돈다 — 수집과 타입 체크는 별개 단계다. extends 바운드·기본값·조건부의 조건 부분·상위 타입은 후보가 되지 않는다. 후보는 source 와 그 구조적 부분에서만 줍는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="290" fill="#FFFFFF"/>
+
+<rect x="20" y="40" width="180" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="110" y="60" text-anchor="middle" class="b">source 타입</text>
+<text x="110" y="77" text-anchor="middle" class="s">인자 + 기대 반환</text>
+<rect x="20" y="108" width="180" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="110" y="128" text-anchor="middle" class="b">target 타입</text>
+<text x="110" y="145" text-anchor="middle" class="s">매개변수 + 반환</text>
+
+<rect x="250" y="62" width="190" height="70" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="345" y="85" text-anchor="middle" class="b">① 수집</text>
+<text x="345" y="104" text-anchor="middle" class="s">나란히 walk</text>
+<text x="345" y="121" text-anchor="middle" class="s">bare T 만나면 후보 기록</text>
+
+<rect x="490" y="40" width="150" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="565" y="60" text-anchor="middle" class="b">공변 후보</text>
+<text x="565" y="77" text-anchor="middle" class="s">출력 위치</text>
+<rect x="490" y="108" width="150" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="565" y="128" text-anchor="middle" class="b">반변 후보</text>
+<text x="565" y="145" text-anchor="middle" class="s">입력 위치</text>
+
+<rect x="690" y="62" width="150" height="70" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="765" y="85" text-anchor="middle" class="b">② 해소</text>
+<text x="765" y="104" text-anchor="middle" class="s">리스트마다 하나로 접기</text>
+<text x="765" y="121" text-anchor="middle" class="s">→ T 주입</text>
+
+<rect x="690" y="190" width="150" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="765" y="210" text-anchor="middle" class="b">③ 타입 체크</text>
+<text x="765" y="227" text-anchor="middle" class="s">그제서야</text>
+
+<line x1="200" y1="63" x2="246" y2="86" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="200" y1="131" x2="246" y2="108" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="440" y1="86" x2="486" y2="63" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="440" y1="108" x2="486" y2="131" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="640" y1="63" x2="686" y2="86" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="640" y1="131" x2="686" y2="108" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="765" y1="132" x2="765" y2="186" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="755" y="165" text-anchor="end" class="o">별개 단계</text>
+
+<rect x="20" y="190" width="420" height="46" rx="7" fill="none" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="34" y="210" class="o">✕ 후보가 되지 않는 것</text>
+<text x="34" y="227" class="s">extends 바운드 · 기본값 · 조건부의 조건 부분 · 상위 타입</text>
+
+<text x="20" y="272" class="g">후보는 source 와 그 구조적 부분에서만 줍는다</text>
+</svg>

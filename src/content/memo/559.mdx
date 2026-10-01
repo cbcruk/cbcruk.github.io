@@ -5,22 +5,17 @@ title: 이벤트 루프 한 턴 — 마이크로태스크가 setTimeout(0) 보�
 tags: ['javascript', 'event-loop', 'microtask']
 status: release
 ctime: 2026-06-18
-mtime: 2026-09-10
+mtime: 2026-10-01
 generated: { by: claude/opus-4.8, at: 2026-06-28T14:49:32Z }
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-`queueMicrotask`·`Promise.then`이 `setTimeout(0)`·동기 코드와 얽히는 걸 한 스텝씩 보는 시각화. 핵심: **마이크로태스크 큐는 매 턴 끝까지 비워진다** → then/queueMicrotask는 항상 `setTimeout(0)`보다 먼저고, 드레인 도중 추가된 중첩 마이크로태스크까지 같은 턴에 처리된다(중첩이 유한한 한 starvation 없음).
+**마이크로태스크 큐는 매 턴 끝까지 비워진다** — 그래서 `then`·`queueMicrotask`는 항상 `setTimeout(0)`보다 먼저다.
 
-한 이벤트 루프 턴 = 네 단계:
+![한 턴은 ① task queue 에서 가장 오래된 매크로태스크 1개 실행 → ② microtask checkpoint, 큐가 빌 때까지 전부 드레인(드레인 중 추가된 것도 같은 체크포인트에서 처리) → ③ 필요하면 렌더링 → 다음 턴의 ① 로 돌아간다. 매크로는 드레인 도중 끼어들 수 없어 then·queueMicrotask 는 항상 setTimeout(0) 보다 먼저다. 예: setTimeout(timeout), then(then 안에서 queueMicrotask(nested)), 동기 log(sync) 를 실행하면 순서는 sync → then → nested → timeout 이다 — 스크립트 자체가 첫 매크로이고, then 과 그 안에서 추가된 nested 가 같은 드레인에서 돌고, timeout 은 다음 턴의 매크로다. 중첩이 끝없으면 렌더링과 다음 매크로가 굶는다.](/svg/event_loop_one_turn.svg)
 
-1. task queue에서 가장 오래된 매크로태스크 1개 실행
-2. **microtask checkpoint — 큐가 빌 때까지 전부 드레인** (드레인 중 추가된 것 포함)
-3. 렌더링 갱신 (필요 시)
-4. 1로 복귀
-
-그래서 한 턴의 트레이스 = `[micro들] ++ [macro 하나]` — 매크로는 맨 끝, 드레인 도중 끼어들 수 없다.
+한 스텝씩 보려면:
 
 <AutoIframe
   src="/iframe/event-loop-sim.html"

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 440" width="100%" role="img">
+<title>CDP 로 스피너 보인 시간을 재는 순서</title>
+<desc>Claude Code 의 node 스크립트가 Chrome(CDP)에 Fetch.enable 로 */api 를 가로채게 하고, 경계값을 볼 때는 Tracing.start 로 스크린샷도 켠다. hold 를 100·350·700 으로 바꿔 가며 반복한다: 프로브 evaluate 를 기다리지 않고 보낸 뒤 console.timeStamp 와 클릭을 보낸다. 페이지에 스피너가 붙고 fetch /api 가 나가면 Chrome 이 Fetch.requestPaused 를 보내고, 스크립트는 holdMs 를 기다린 뒤 Fetch.continueRequest 로 놓아준다. 요청이 서버에 가고 응답이 오면 스피너가 제거되고 프로브가 firstVisibleAt·visibleFrames·visibleMs 를 JSON 으로 돌려준다. 끝나면 Tracing.end 로 Screenshot 이벤트를 받는다 — 처음 물든 장부터 다음 흰 장까지가 실제로 보인 시간이고, 프로브는 1프레임쯤 더 센다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker>
+</defs>
+<rect width="860" height="440" fill="#FFFFFF"/>
+
+<rect x="30" y="16" width="160" height="34" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="110" y="38" text-anchor="middle" class="b">Claude Code 스크립트</text>
+<rect x="260" y="16" width="140" height="34" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="330" y="38" text-anchor="middle" class="b">Chrome (CDP)</text>
+<rect x="480" y="16" width="140" height="34" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="550" y="38" text-anchor="middle" class="b">페이지</text>
+<rect x="700" y="16" width="120" height="34" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="760" y="38" text-anchor="middle" class="m">/api</text>
+
+<line x1="110" y1="50" x2="110" y2="405" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="330" y1="50" x2="330" y2="405" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="550" y1="50" x2="550" y2="405" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="760" y1="50" x2="760" y2="405" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+<line x1="110" y1="80" x2="326" y2="80" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="218" y="74" text-anchor="middle" class="m">Fetch.enable(*/api)</text>
+<line x1="110" y1="108" x2="326" y2="108" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="218" y="102" text-anchor="middle" class="s">Tracing.start · 스크린샷 (경계값일 때)</text>
+
+<rect x="20" y="122" width="820" height="246" rx="6" fill="none" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="20" y="122" width="170" height="20" rx="4" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="30" y="137" class="s">loop · hold 100 · 350 · 700</text>
+
+<line x1="110" y1="158" x2="546" y2="158" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="400" y="152" text-anchor="middle" class="g">evaluate(프로브) — 기다리지 않음</text>
+<line x1="110" y1="184" x2="546" y2="184" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="400" y="178" text-anchor="middle" class="m">timeStamp('click') · click()</text>
+
+<rect x="545" y="184" width="10" height="130" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="562" y="198" class="g">스피너 붙음</text>
+
+<line x1="545" y1="212" x2="334" y2="212" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="440" y="206" text-anchor="middle" class="m">fetch /api</text>
+<line x1="330" y1="232" x2="114" y2="232" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="220" y="226" text-anchor="middle" class="m" style="fill:#C2621A">Fetch.requestPaused</text>
+<rect x="105" y="238" width="10" height="26" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<text x="122" y="256" class="o">holdMs 기다림</text>
+<line x1="110" y1="274" x2="326" y2="274" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="218" y="290" text-anchor="middle" class="m" style="fill:#C2621A">Fetch.continueRequest</text>
+<line x1="330" y1="280" x2="756" y2="280" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="650" y="274" text-anchor="middle" class="s">요청</text>
+<line x1="760" y1="300" x2="559" y2="300" stroke="#555" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="660" y="316" text-anchor="middle" class="s">응답 → 스피너 제거</text>
+
+<line x1="545" y1="346" x2="114" y2="346" stroke="#2F6DB5" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ab)"/>
+<text x="330" y="340" text-anchor="middle" class="m" style="fill:#2F6DB5">{ firstVisibleAt, visibleFrames, visibleMs }</text>
+
+<line x1="110" y1="392" x2="326" y2="392" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="218" y="386" text-anchor="middle" class="s">Tracing.end → Screenshot 이벤트</text>
+
+<text x="20" y="430" class="s">처음 물든 스크린샷 → 다음 흰 스크린샷 = 실제로 보인 시간 · 프로브는 1프레임쯤 더 센다</text>
+</svg>

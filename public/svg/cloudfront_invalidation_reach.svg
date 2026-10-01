@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" width="100%" role="img">
+<title>invalidation 이 닿는 곳과 닿지 않는 곳</title>
+<desc>create-invalidation --paths '/*' 는 모든 엣지 POP 의 캐시본을 비운다. 브라우저 캐시(휴리스틱)에는 닿지 않는다. 과금은 경로 단위라 경로 200개를 열거하면 200 paths, /* 는 몇 개를 매칭하든 1 path 이고 월 1,000 path 까지 무료다. 헤더 적용 전에는 Cache-Control 없는 구 HTML 이 엣지에 Default TTL(24시간) 동안 남으므로 전환 최초 1회는 무효화가 필수다. 헤더 적용 후에는 HTML 이 max-age=0 이라 엣지가 매 요청 재검증하므로 무효화는 즉시 반영을 위한 보험일 뿐이다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker>
+</defs>
+<rect width="860" height="340" fill="#FFFFFF"/>
+
+<rect x="20" y="60" width="150" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="95" y="80" text-anchor="middle" class="b">브라우저 캐시</text>
+<text x="95" y="97" text-anchor="middle" class="s">휴리스틱</text>
+<rect x="20" y="140" width="150" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="95" y="160" text-anchor="middle" class="b">브라우저 캐시</text>
+<text x="95" y="177" text-anchor="middle" class="s">휴리스틱</text>
+
+<rect x="320" y="60" width="160" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="400" y="80" text-anchor="middle" class="b">엣지 POP A</text>
+<text x="400" y="97" text-anchor="middle" class="s">캐시본</text>
+<rect x="320" y="140" width="160" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="400" y="160" text-anchor="middle" class="b">엣지 POP B</text>
+<text x="400" y="177" text-anchor="middle" class="s">캐시본</text>
+
+<line x1="170" y1="83" x2="320" y2="83" stroke="#B5B5B5" stroke-width="1.2"/>
+<line x1="170" y1="163" x2="320" y2="163" stroke="#B5B5B5" stroke-width="1.2"/>
+
+<rect x="600" y="100" width="240" height="46" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="720" y="120" text-anchor="middle" class="m">create-invalidation</text>
+<text x="720" y="137" text-anchor="middle" class="m">--paths '/*'</text>
+
+<path d="M600 115 L540 115 L540 83 L484 83" fill="none" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<path d="M600 131 L540 131 L540 163 L484 163" fill="none" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="548" y="72" class="g">모든 POP 을 비운다</text>
+
+<line x1="320" y1="123" x2="178" y2="123" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ao)"/>
+<text x="249" y="117" text-anchor="middle" class="o">✕ 못 닿는다</text>
+<text x="20" y="214" class="o">헤더 없이 받은 응답은 휴리스틱 만료까지 구버전 — 기다릴 수밖에 없다</text>
+
+<rect x="20" y="236" width="400" height="92" rx="8" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="36" y="260" class="b">과금은 경로 단위</text>
+<text x="36" y="282" class="s">경로 200개 열거 → <tspan class="m">200 paths</tspan></text>
+<text x="36" y="302" class="s"><tspan class="m">/*</tspan> → 몇 개를 매칭하든 <tspan class="m">1 path</tspan></text>
+<text x="36" y="320" class="s">월 1,000 path 무료</text>
+
+<rect x="440" y="236" width="400" height="92" rx="8" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="456" y="260" class="b">언제 필요한가</text>
+<text x="456" y="282" class="o">헤더 적용 전 · 구 HTML 이 TTL 24시간 동안 엣지에</text>
+<text x="456" y="300" class="o">→ 전환 최초 1회는 필수</text>
+<text x="456" y="320" class="g">헤더 적용 후 · max-age=0 이라 매 요청 재검증 → 보험</text>
+</svg>

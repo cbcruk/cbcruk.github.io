@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>useEffect + ref 와 ref 콜백의 리스너 수명 비교</title>
+<desc>컴포넌트가 마운트된 동안 DOM 노드가 A 에서 B 로 교체되고, 마지막에 언마운트된다. useEffect + ref: effect 가 한 번 돌아 ref.current(=A) 에 리스너를 붙인다. A 가 떠난 뒤에도 리스너는 떠난 A 에 남아 언마운트까지 가고, B 에는 리스너가 없다. ref 콜백: ref(A) 가 A 에 붙이고 A 가 떠날 때 cleanup 이 abort() 로 떼며, ref(B) 가 B 에 붙이고 B 가 떠날 때 cleanup 이 뗀다. effect 는 컴포넌트 수명, ref 콜백은 노드 수명을 따른다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<rect width="860" height="300" fill="#FFFFFF"/>
+
+<text x="20" y="56" class="b">컴포넌트</text>
+<rect x="150" y="40" width="640" height="22" rx="5" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="470" y="56" text-anchor="middle" class="s">마운트된 채로</text>
+<text x="798" y="56" class="s">언마운트</text>
+
+<text x="20" y="100" class="b">DOM 노드</text>
+<text x="470" y="78" text-anchor="middle" class="s">노드 교체</text>
+<rect x="170" y="84" width="280" height="22" rx="5" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="310" y="100" text-anchor="middle" class="m">A</text>
+<rect x="490" y="84" width="300" height="22" rx="5" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="640" y="100" text-anchor="middle" class="m">B</text>
+
+<line x1="170" y1="106" x2="170" y2="222" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="450" y1="106" x2="450" y2="222" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="490" y1="106" x2="490" y2="222" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="790" y1="62" x2="790" y2="222" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+<text x="20" y="145" class="m">useEffect + ref</text>
+<rect x="170" y="130" width="280" height="22" rx="5" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="310" y="146" text-anchor="middle" class="m">scroll · A</text>
+<rect x="450" y="130" width="340" height="22" rx="5" fill="none" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="620" y="146" text-anchor="middle" class="o">떠난 A 에 남음 · 언마운트까지</text>
+<text x="170" y="172" class="s">effect 1회 → ref.current(=A) 에 add</text>
+<text x="490" y="172" class="o">✕ B 에는 리스너 없음</text>
+
+<text x="20" y="213" class="m">ref 콜백</text>
+<rect x="170" y="198" width="280" height="22" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="310" y="214" text-anchor="middle" class="m">scroll · A</text>
+<rect x="490" y="198" width="300" height="22" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="640" y="214" text-anchor="middle" class="m">scroll · B</text>
+<text x="170" y="240" class="m">ref(A)</text>
+<text x="170" y="256" class="s">add</text>
+<text x="450" y="240" text-anchor="end" class="m">cleanup</text>
+<text x="450" y="256" text-anchor="end" class="s">abort()</text>
+<text x="490" y="240" class="m">ref(B)</text>
+<text x="490" y="256" class="s">add</text>
+<text x="790" y="240" text-anchor="end" class="m">cleanup</text>
+<text x="790" y="256" text-anchor="end" class="s">abort()</text>
+
+<text x="150" y="288" class="o">effect 는 컴포넌트 수명,</text>
+<text x="278" y="288" class="g">ref 콜백은 노드 수명을 따른다</text>
+</svg>

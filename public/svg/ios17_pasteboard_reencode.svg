@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" width="100%" role="img">
+<title>iOS 17.0·17.1 pasteboard 가 공백만 다시 인코딩하는 경로</title>
+<desc>공백 → 인코딩 1회 → %20 → iOS 17.0·17.1 pasteboard 가 NSURL 을 만들며 %20 을 invalid 로 판단해 % 를 다시 인코딩 → %2520. 한글 가 → 인코딩 1회 → %EA%B0%80 → 유효한 UTF-8 이라 통과 → %EA%B0%80 그대로. %2520 은 %25(= %) 뒤에 원래 20 이 붙은 것으로, 공백만 한 번 더 인코딩됐다. 클릭(JS redirect)은 pasteboard 를 거치지 않아 정상이다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="260" fill="#FFFFFF"/>
+
+<text x="90" y="30" text-anchor="middle" class="s">원본</text>
+<text x="270" y="30" text-anchor="middle" class="s">인코딩 1회</text>
+<text x="500" y="30" text-anchor="middle" class="s">복사 · NSURL 생성</text>
+<text x="740" y="30" text-anchor="middle" class="s">붙여넣은 URL</text>
+
+<rect x="30" y="50" width="120" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="90" y="77" text-anchor="middle" class="b">공백</text>
+<rect x="210" y="50" width="120" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="270" y="77" text-anchor="middle" class="m">%20</text>
+
+<rect x="30" y="140" width="120" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="90" y="167" text-anchor="middle" class="b">가</text>
+<rect x="210" y="140" width="120" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="270" y="167" text-anchor="middle" class="m">%EA%B0%80</text>
+
+<rect x="390" y="40" width="220" height="154" rx="10" fill="none" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="500" y="211" text-anchor="middle" class="b">iOS 17.0 · 17.1 pasteboard</text>
+<text x="500" y="66" text-anchor="middle" class="o">%20 을 invalid 로 판단</text>
+<text x="500" y="84" text-anchor="middle" class="o">→ % 를 다시 인코딩</text>
+<text x="500" y="156" text-anchor="middle" class="g">유효한 UTF-8</text>
+<text x="500" y="174" text-anchor="middle" class="g">→ 통과</text>
+
+<rect x="680" y="50" width="120" height="44" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="740" y="77" text-anchor="middle" class="m">%2520</text>
+<rect x="680" y="140" width="120" height="44" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="740" y="167" text-anchor="middle" class="m">%EA%B0%80</text>
+
+<line x1="150" y1="72" x2="206" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="330" y1="72" x2="386" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="610" y1="72" x2="676" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="150" y1="162" x2="206" y2="162" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="330" y1="162" x2="386" y2="162" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="610" y1="162" x2="676" y2="162" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<text x="30" y="238" class="s"><tspan class="m">%2520</tspan> = <tspan class="m">%25</tspan>(= %) + 원래의 <tspan class="m">20</tspan> — 공백만 한 번 더 인코딩됐다 · 클릭(JS redirect)은 pasteboard 를 안 거쳐 정상</text>
+</svg>

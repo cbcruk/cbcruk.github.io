@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="100%" role="img">
+<title>%2520 을 좁혀 가는 흐름</title>
+<desc>① 깨진 값 해독: decodeURIComponent 를 한 번 돌려도 %20 이 남으면 이중 인코딩이고, 한글은 풀리니 공백만 다시 인코딩됐다. ② 경로 좁히기: 액세스 로그의 %2520 요청이 iOS 에 몰리고 Referer 가 비어 있으면 복사-붙여넣기 경로다. ③ 우리 코드 배제: 링크 생성이 인코딩을 한 번만 하면 원인은 밖이고, iOS 버전으로 좁혀 WebKit Bug 261936 을 찾는다. ④ 고칠 수 없으니 막는다: 화이트리스트 라우트에서만 한 번 더 디코딩, 디코딩 뒤 .. // \ 차단, segment 별 재인코딩 후 301. 무조건 이중 디코딩은 ..%252f 를 ../ 로 만들어 path traversal 이 된다. ⑤ 방어 확인: curl -I 로 %2520 URL 은 301 로 정상 경로, ..%252f URL 은 차단되는지 본다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="330" fill="#FFFFFF"/>
+
+<rect x="20" y="30" width="250" height="96" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="145" y="54" text-anchor="middle" class="b">① 깨진 값 해독</text>
+<text x="145" y="76" text-anchor="middle" class="m">decode('%2520') → '%20'</text>
+<text x="145" y="96" text-anchor="middle" class="s">한 번 풀어도 남는다 = 이중 인코딩</text>
+<text x="145" y="114" text-anchor="middle" class="s">한글은 풀림 → 공백만</text>
+
+<rect x="300" y="30" width="250" height="96" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="425" y="54" text-anchor="middle" class="b">② 경로 좁히기</text>
+<text x="425" y="76" text-anchor="middle" class="s">액세스 로그의 %2520 요청</text>
+<text x="425" y="96" text-anchor="middle" class="s">iOS 집중 · Referer 없음</text>
+<text x="425" y="114" text-anchor="middle" class="g">→ 복사-붙여넣기 경로</text>
+
+<rect x="580" y="30" width="260" height="96" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="710" y="54" text-anchor="middle" class="b">③ 우리 코드 배제</text>
+<text x="710" y="76" text-anchor="middle" class="s">링크 생성은 인코딩 1회</text>
+<text x="710" y="96" text-anchor="middle" class="s">→ 밖이다 · iOS 버전으로 검색</text>
+<text x="710" y="114" text-anchor="middle" class="o">WebKit Bug 261936 (17.0·17.1)</text>
+
+<line x1="270" y1="78" x2="296" y2="78" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="550" y1="78" x2="576" y2="78" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M710 126 L710 150 L430 150 L430 166" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="570" y="144" text-anchor="middle" class="s">OS 버그 — 고칠 수 없다</text>
+
+<rect x="20" y="170" width="530" height="118" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="32" y="190" class="b">④ 막는다</text>
+<rect x="32" y="200" width="506" height="24" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="42" y="217" class="s">화이트리스트 라우트에서만 한 번 더 디코딩</text>
+<rect x="32" y="228" width="506" height="24" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="42" y="245" class="s">디코딩 뒤 <tspan class="m">.. // \</tspan> 차단 · segment 별 재인코딩 후 301</text>
+<rect x="32" y="256" width="506" height="24" rx="5" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="42" y="273" class="o">✕ 무조건 이중 디코딩 — <tspan class="m" style="fill:#C2621A">..%252f</tspan> → <tspan class="m" style="fill:#C2621A">../</tspan> path traversal</text>
+
+<rect x="580" y="170" width="260" height="118" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="710" y="194" text-anchor="middle" class="b">⑤ 방어 확인</text>
+<text x="600" y="220" class="m">curl -I …%2520…</text>
+<text x="820" y="220" text-anchor="end" class="g">301 ✓</text>
+<text x="600" y="246" class="m">curl -I …..%252f…</text>
+<text x="820" y="246" text-anchor="end" class="g">차단 ✓</text>
+<text x="710" y="274" text-anchor="middle" class="s">둘 다 맞아야 된 것이다</text>
+<line x1="550" y1="229" x2="576" y2="229" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<text x="20" y="316" class="s">URL 은 디코딩된 원본으로 보관하고 인코딩은 출력 직전 한 번 — 멱등이 아닌 연산에 "방어적으로 한 번 더"는 통하지 않는다</text>
+</svg>

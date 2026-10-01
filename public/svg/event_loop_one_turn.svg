@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="100%" role="img">
+<title>이벤트 루프 한 턴</title>
+<desc>한 턴은 ① task queue 에서 가장 오래된 매크로태스크 1개 실행 → ② microtask checkpoint, 큐가 빌 때까지 전부 드레인(드레인 중 추가된 것도 같은 체크포인트에서 처리) → ③ 필요하면 렌더링 → 다음 턴의 ① 로 돌아간다. 매크로는 드레인 도중 끼어들 수 없어 then·queueMicrotask 는 항상 setTimeout(0) 보다 먼저다. 예: setTimeout(timeout), then(then 안에서 queueMicrotask(nested)), 동기 log(sync) 를 실행하면 순서는 sync → then → nested → timeout 이다 — 스크립트 자체가 첫 매크로이고, then 과 그 안에서 추가된 nested 가 같은 드레인에서 돌고, timeout 은 다음 턴의 매크로다. 중첩이 끝없으면 렌더링과 다음 매크로가 굶는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+</defs>
+<rect width="860" height="330" fill="#FFFFFF"/>
+
+<rect x="30" y="60" width="200" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="83" text-anchor="middle" class="b">① 매크로태스크 1개</text>
+<text x="130" y="102" text-anchor="middle" class="s">task queue 에서 가장 오래된 것</text>
+
+<rect x="300" y="60" width="240" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="420" y="83" text-anchor="middle" class="b">② 마이크로태스크 드레인</text>
+<text x="420" y="102" text-anchor="middle" class="s">큐가 빌 때까지 전부</text>
+<path d="M480 60 C 480 26, 540 26, 536 56" fill="none" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="548" y="36" class="g">드레인 중 추가된 것도 여기서</text>
+
+<rect x="610" y="60" width="200" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="710" y="83" text-anchor="middle" class="b">③ 렌더링</text>
+<text x="710" y="102" text-anchor="middle" class="s">필요할 때만</text>
+
+<line x1="230" y1="88" x2="296" y2="88" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="540" y1="88" x2="606" y2="88" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M710 116 L710 140 L130 140 L130 120" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="420" y="134" text-anchor="middle" class="s">다음 턴</text>
+
+<text x="30" y="184" class="b">예</text>
+<text x="60" y="184" class="m">setTimeout(() =&gt; log('timeout'))</text>
+<text x="60" y="202" class="m">Promise.resolve().then(() =&gt; { log('then'); queueMicrotask(() =&gt; log('nested')) })</text>
+<text x="60" y="220" class="m">log('sync')</text>
+
+<rect x="30" y="240" width="580" height="44" rx="8" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="40" y="236" class="s">턴 1</text>
+<rect x="44" y="248" width="150" height="28" rx="5" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="119" y="267" text-anchor="middle" class="m">sync · 스크립트</text>
+<rect x="210" y="248" width="180" height="28" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="300" y="267" text-anchor="middle" class="m">then</text>
+<rect x="400" y="248" width="196" height="28" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="498" y="267" text-anchor="middle" class="m">nested · 드레인 중 추가</text>
+
+<rect x="630" y="240" width="200" height="44" rx="8" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="640" y="236" class="s">턴 2</text>
+<rect x="644" y="248" width="172" height="28" rx="5" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="730" y="267" text-anchor="middle" class="m">timeout</text>
+
+<text x="30" y="308" class="s">한 턴의 트레이스 = 매크로 하나 + 그 뒤 마이크로 전부 · 매크로는 드레인 도중 못 끼어든다</text>
+<text x="30" y="326" class="o">중첩 마이크로태스크가 끝없으면 렌더링과 다음 매크로가 굶는다</text>
+</svg>

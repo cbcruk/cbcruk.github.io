@@ -5,33 +5,61 @@ title: location.href 는 암묵적 await 가 아니다 — setter 는 동기, na
 tags: ['javascript', 'event-loop', 'navigation']
 status: release
 ctime: 2026-06-23
-mtime: 2026-09-10
+mtime: 2026-10-01
 generated: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
 sources:
   - id: html-spec-navigate
     resource: https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate
-    title: "HTML Standard — navigate"
+    title: 'HTML Standard — navigate'
 ---
 
-`location.href`에 값을 넣으면 그 줄에서 바로 페이지가 이동할 것 같다. 마치 **암묵적 `await`**처럼 거기서 멈춘다고 생각하기 쉽다. 그럼 뒤에 오는 코드는 실행되지 않을까.
+`location.href`에 값을 넣으면 그 줄에서 멈추고 이동할 것 같다 — **암묵적 `await`** 처럼. 그럼 뒤의 코드는 안 돌까. 추측하지 말고 CDP로 깨 본다.
+
+## 1. 실험을 건다
+
+외부 도메인 대신 로컬 서버의 `/a`·`/b`로 이동시킨다(서버는 받은 요청을 기록한다). `Runtime`·`Page`·`Network`를 enable 하고, 마지막 식의 값까지 돌려받게 한 줄을 붙여 `Runtime.evaluate`로 실행한다.
 
 ```js
-location.href = 'https://google.com'
+location.href = '/a'
 console.log('실행됨 1')
-location.href = 'https://google2.com'
+location.href = '/b'
 console.log('실행됨 2')
+// 'evaluate 끝까지 돌았다'
 ```
 
-**둘 다 출력된다. 그리고 이동은 `google2.com`으로 간다.**
+`await`였다면 첫 줄에서 멈춰 `실행됨 1`도 안 찍히고 `/a`로 가야 한다.
 
-`await`였다면 첫 줄에서 멈춰 `실행됨 1`도 출력되지 않고 `google.com`으로 갔어야 한다. 두 결과가 모두 어긋나니 가설은 틀렸다.
+## 2. 이벤트 순서를 읽는다
 
-실제로는 이렇다. setter는 **동기적으로 정상 실행되고 흐름을 끊지 않는다.** 문서를 언로드하고 네트워크 요청을 보내는 실제 작업은 태스크로 넘어가 지금 실행 중인 코드가 끝난 뒤에 시작된다. 그리고 두 번째 navigation이 시작되면 **진행 중이던 첫 번째가 버려진다**[^html-spec-navigate] — 마지막 값이 이기는 건 덮어써서가 아니라 앞의 것이 취소되기 때문이다.
+CDP가 받은 순서 그대로다.[^nav-observed]
+
+| ms  | 이벤트                                              |                                       |
+| --- | --------------------------------------------------- | ------------------------------------- |
+| 514 | `Page.frameRequestedNavigation`                     | `/a` · `scriptInitiated`              |
+| 516 | `Runtime.consoleAPICalled`                          | `실행됨 1`                            |
+| 517 | `Page.frameRequestedNavigation`                     | `/b`                                  |
+| 517 | `Runtime.consoleAPICalled`                          | `실행됨 2`                            |
+| 517 | `Runtime.evaluate` 응답                             | `'evaluate 끝까지 돌았다'`            |
+| 518 | `Page.frameStartedNavigating`                       | `/a`                                  |
+| 520 | `Network.requestWillBeSent`                         | `/a`                                  |
+| 521 | `Network.loadingFailed`                             | `net::ERR_ABORTED` · `canceled: true` |
+| 523 | `Page.frameStartedNavigating` · `requestWillBeSent` | `/b`                                  |
+| 528 | `Page.frameNavigated`                               | `/b`                                  |
+
+- **setter는 동기로 끝나고 흐름을 안 끊는다.** 이동 요청(`frameRequestedNavigation`)이 console 로그 사이사이에 찍히고, `evaluate`가 마지막 식의 값을 돌려준다 — 코드는 끝까지 돌았다.
+- **실제 이동은 그 뒤에 시작된다.** `frameStartedNavigating`은 `evaluate`가 끝난 다음이다. 문서 언로드·페치는 태스크로 넘어가 지금 코드가 끝난 뒤에 돈다.
+- **마지막 값이 이기는 건 앞의 것이 취소되기 때문이다.** `/a`가 시작됐다가 `/b`가 시작되며 `ERR_ABORTED`로 끊긴다.[^html-spec-navigate] 덮어쓴 게 아니다.
 
 <img
   src="/svg/event_loop_nav_slot.svg"
-  alt="location.href setter가 실행되는 시점과 실제 navigation이 처리되는 시점이 분리되는 이벤트 루프 타임라인"
+  alt="JS(콜 스택): href = '/a' → 실행됨 1 → href = '/b' → 실행됨 2 → evaluate 반환까지 끊기지 않고 돈다. href 를 넣을 때는 이동 요청만 등록된다. await 였다면 첫 href 에서 멈췄어야 한다. 브라우저 이동은 evaluate 가 끝난 517ms 뒤에 시작된다: /a 가 시작되어 요청까지 나갔다가 /b 가 시작되며 ERR_ABORTED 로 취소되고, /b 가 요청되어 528ms 에 frameNavigated 로 도착한다. 서버는 /a 와 /b 를 둘 다 받았다. 마지막 값이 이기는 건 덮어써서가 아니라 앞의 이동이 시작됐다가 취소되기 때문이다. 눈금은 비례가 아니다."
 />
 
-[^html-spec-navigate]: *"Set the ongoing navigation for navigable to navigationId. This will have the effect of **aborting other ongoing navigations** of navigable, since at certain points during navigation changes to the ongoing navigation will cause further work to be abandoned."* — 그리고 문서 언로드·페치는 `in parallel` 로 넘어간다. ([HTML Standard — navigate](https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate))
+## 3. 덤 — 버려진 이동도 서버에는 갔다
+
+서버 기록은 `["/a","/b"]`다. `/a`는 `requestWillBeSent`까지 갔다가 클라이언트에서 끊겼을 뿐, 요청은 서버에 도착했다. 이동 전에 서버 부수효과가 있는 URL(로그아웃 링크 같은)이라면 "결국 `/b`로 갔으니 `/a`는 없던 일"이 아니다 — [572](/memo/572)의 "취소는 클라이언트에서만 일어난다"와 같은 이야기다.
+
+[^html-spec-navigate]: _"Set the ongoing navigation for navigable to navigationId. This will have the effect of **aborting other ongoing navigations** of navigable, since at certain points during navigation changes to the ongoing navigation will cause further work to be abandoned."_ — 그리고 문서 언로드·페치는 `in parallel` 로 넘어간다. ([HTML Standard — navigate](https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate))
+
+[^nav-observed]: Chrome 154 headless 에서 raw CDP 로 실측 (2026-10-01). ms 는 스크립트 시작 기준이고, `evaluate` 를 보낸 시각은 512ms 다. 로컬 Node 서버가 문서 요청 경로를 기록했다.

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" width="100%" role="img">
+<title>dnd-kit drop 튕김을 Claude Code 로 좁히는 흐름</title>
+<desc>① 최소 재현: Sortable 리스트에 useQuery 를 붙이고 CDP Input.dispatchMouseEvent 로 드래그한다. ② 숫자로 잡기: requestAnimationFrame 마다 DragOverlay·아이템의 top 을 기록하는 프로브를 먼저 걸고, drop 뒤 최종 배치와 다른 프레임이 있으면 튕김이다. ③ 가설을 하나씩 끈다: dropAnimation={null} 로 사라지면 drop 애니메이션이 즉시 재는 탓, setState 와 setQueryData 를 번갈아 돌려 후자만 튕기면 캐시 알림 경로, notifyManager.setScheduler(queueMicrotask) 로 사라지면 원인 확정. ④ 고친다: 렌더는 local state, 캐시 갱신은 부수효과로. ⑤ 회귀 확인: ② 와 같은 프로브를 refetch 뒤까지 돌린다. 다시 튕기면 refetch 가 옛 순서를 덮음 → isReorderingRef 가드, id 흔들림 → stable id, DragOverlay 만 남음 → dropAnimation={null}.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#8A8A8A"/></marker>
+</defs>
+<rect width="860" height="340" fill="#FFFFFF"/>
+
+<rect x="20" y="50" width="180" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="110" y="76" text-anchor="middle" class="b">① 최소 재현</text>
+<text x="110" y="96" text-anchor="middle" class="s">Sortable + useQuery</text>
+<text x="110" y="114" text-anchor="middle" class="s">CDP 로 드래그</text>
+
+<rect x="230" y="50" width="200" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="330" y="76" text-anchor="middle" class="b">② 숫자로 잡기</text>
+<text x="330" y="96" text-anchor="middle" class="s">rAF 프로브 · top 기록</text>
+<text x="330" y="114" text-anchor="middle" class="s">다른 배치 프레임 = 튕김</text>
+
+<rect x="460" y="34" width="380" height="140" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="472" y="54" class="b">③ 가설을 하나씩 끈다</text>
+<rect x="472" y="64" width="356" height="30" rx="5" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="482" y="84" class="m">dropAnimation={null}</text>
+<text x="818" y="84" text-anchor="end" class="s">사라지면 즉시 재는 탓</text>
+<rect x="472" y="100" width="356" height="30" rx="5" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="482" y="120" class="m">setState ↔ setQueryData</text>
+<text x="818" y="120" text-anchor="end" class="s">후자만 튕기면 알림 경로</text>
+<rect x="472" y="136" width="356" height="30" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="482" y="156" class="m">setScheduler(queueMicrotask)</text>
+<text x="818" y="156" text-anchor="end" class="g">사라지면 확정</text>
+
+<line x1="200" y1="90" x2="226" y2="90" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="430" y1="90" x2="456" y2="90" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<rect x="640" y="200" width="200" height="60" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="740" y="222" text-anchor="middle" class="b">④ 고친다</text>
+<text x="740" y="242" text-anchor="middle" class="s">렌더 = local state · 캐시 = 부수효과</text>
+<line x1="740" y1="174" x2="740" y2="196" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<rect x="400" y="200" width="200" height="60" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="500" y="222" text-anchor="middle" class="b">⑤ 회귀 확인</text>
+<text x="500" y="242" text-anchor="middle" class="s">같은 프로브 · refetch 뒤까지</text>
+<line x1="640" y1="230" x2="604" y2="230" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M420 200 L420 184 L330 184 L330 134" fill="none" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ag)"/>
+<text x="340" y="178" class="s">같은 측정</text>
+
+<line x1="500" y1="260" x2="500" y2="282" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="20" y="280" class="o">⑤ 에서 다시 튕기면</text>
+<rect x="20" y="288" width="262" height="30" rx="5" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<text x="151" y="308" text-anchor="middle" class="s">refetch 가 덮음 → <tspan class="m">isReorderingRef</tspan></text>
+<rect x="292" y="288" width="220" height="30" rx="5" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<text x="402" y="308" text-anchor="middle" class="s">id 흔들림 → stable id</text>
+<rect x="522" y="288" width="318" height="30" rx="5" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<text x="681" y="308" text-anchor="middle" class="s">DragOverlay 만 → <tspan class="m">dropAnimation={null}</tspan></text>
+</svg>

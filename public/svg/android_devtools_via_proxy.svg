@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 380" width="100%" role="img">
+<title>데스크톱 없이 안드로이드 Chrome 을 디버깅하는 연결</title>
+<desc>폰 한 대(Termux) 안에서 순서는 셋이다. ① adb forward 가 Chrome 의 chrome_devtools_remote unix socket 을 localhost:9222 로 연다 — 9222 는 /json 으로 탭 목록을, /devtools/page/{id} 로 페이지별 CDP WebSocket 을 준다. ② 파이썬 aiohttp 프록시를 9223 에 띄우고 /json 으로 탭을 고른다. ③ termux-open-url 로 폰 브라우저에서 appspot.com 의 DevTools 프론트엔드를 ?ws=localhost:9223/{id} 로 연다. 프론트엔드가 9222 에 직접 붙으면 Origin: appspot.com 이 붙어 Chrome 이 403 으로 거부한다(Origin 검사, Chrome 111~). 프록시는 중계가 아니라 프론트엔드 WS 를 종단하고, 파이썬이 Origin 없는 새 WS 로 9222 에 재접속해 통과한다. ws://localhost 는 localhost 가 secure context 라 HTTPS 페이지에서도 안 막힌다. 다른 길 둘 — Chrome 을 --remote-allow-origins=* 로 띄우거나 프론트엔드를 localhost 에 self-host — 은 해보지 않았다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}.n{font-size:13px;font-weight:700;fill:#FFFFFF}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker>
+</defs>
+<rect width="860" height="380" fill="#FFFFFF"/>
+
+<rect x="12" y="36" width="836" height="236" rx="12" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="24" y="28" class="s">안드로이드 폰 한 대 · Termux</text>
+
+<path d="M60 152 C 120 56, 520 60, 590 150" fill="none" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ao)"/>
+<text x="355" y="58" text-anchor="middle" class="o">✕ 직접 붙으면 403 — Origin: appspot.com (Origin 검사, Chrome 111~)</text>
+
+<rect x="30" y="154" width="180" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="120" y="176" text-anchor="middle" class="b">DevTools 프론트엔드</text>
+<text x="120" y="194" text-anchor="middle" class="s">폰 브라우저 · appspot.com</text>
+<text x="120" y="212" text-anchor="middle" class="m">?ws=localhost:9223/{id}</text>
+
+<rect x="270" y="154" width="200" height="70" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="370" y="176" text-anchor="middle" class="b">aiohttp 프록시 :9223</text>
+<text x="370" y="194" text-anchor="middle" class="s">프론트엔드 WS 를 종단하고</text>
+<text x="370" y="212" text-anchor="middle" class="s">파이썬이 새 WS 로 재접속</text>
+
+<rect x="530" y="154" width="150" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="605" y="180" text-anchor="middle" class="m">localhost:9222</text>
+<text x="605" y="198" text-anchor="middle" class="s">/json · 탭 목록</text>
+<text x="605" y="214" text-anchor="middle" class="s">/devtools/page/{id}</text>
+
+<rect x="730" y="154" width="105" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="782" y="182" text-anchor="middle" class="b">Chrome</text>
+<text x="782" y="202" text-anchor="middle" class="s">unix socket</text>
+
+<line x1="210" y1="189" x2="266" y2="189" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="238" y="246" text-anchor="middle" class="s">ws://localhost</text>
+<line x1="470" y1="189" x2="526" y2="189" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="498" y="246" text-anchor="middle" class="g">Origin 없음 ✓</text>
+<line x1="680" y1="189" x2="726" y2="189" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="705" y="246" text-anchor="middle" class="m">adb forward</text>
+
+<circle cx="705" cy="142" r="11" fill="#2F6DB5"/><text x="705" y="147" text-anchor="middle" class="n">1</text>
+<circle cx="370" cy="142" r="11" fill="#2F6DB5"/><text x="370" y="147" text-anchor="middle" class="n">2</text>
+<text x="390" y="140" class="s">/json 으로 탭 고르기</text>
+<circle cx="120" cy="142" r="11" fill="#2F6DB5"/><text x="120" y="147" text-anchor="middle" class="n">3</text>
+<text x="140" y="140" class="m">termux-open-url</text>
+
+<text x="20" y="300" class="s">순서 <tspan class="g">① adb forward → ② 프록시 띄우고 탭 고르기 → ③ termux-open-url</tspan></text>
+<text x="20" y="322" class="s"><tspan class="m">ws://localhost</tspan> 는 HTTPS 페이지에서도 안 막힌다 — localhost 는 secure context. IP·도메인이었으면 wss 강제로 깨진다</text>
+<text x="20" y="344" class="s">다른 길 둘은 해보지 않았다 — Chrome 을 <tspan class="m">--remote-allow-origins=*</tspan> 로 띄우기 · 프론트엔드를 localhost 에 self-host</text>
+<text x="20" y="366" class="s"><tspan class="m">?@f84901f7…</tspan> 는 DevTools 프론트엔드 빌드 리비전 핀</text>
+</svg>

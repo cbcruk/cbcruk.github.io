@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 320" width="100%" role="img">
+<title>영상 → 번역 자막 파이프라인</title>
+<desc>영상 → R1 전사(yap, 단어 타임스탬프) → 단어 타임스탬프 JSON → R4 문장 재조립 → R5 배치 번역 → R6 문맥 보정(선택) → R7 자막 큐 재분할 → R8 WebVTT 직렬화 → R9 mux. 소스 언어를 모르면 R3 이 앞 60초로 locale 을 판별해 R1 을 그 locale 로 재실행한다. R1 이 파일을 못 열면 그때만 R2 가 ffmpeg 로 wav 를 뽑아 전사해 JSON 을 만든다. --srt 로 받으면 큐 경계가 고정돼 R7 에서 다시 쪼갤 수 없다. 회색은 이미 있는 도구(yap·ffmpeg), 파랑은 직접 만드는 것(R4 이후)이다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="320" fill="#FFFFFF"/>
+
+<rect x="150" y="20" width="130" height="46" rx="7" fill="none" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="215" y="40" text-anchor="middle" class="b">R3 언어 판별</text>
+<text x="215" y="57" text-anchor="middle" class="s">앞 60초로 locale</text>
+<line x1="215" y1="66" x2="215" y2="106" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="225" y="92" class="s">모를 때 · 재실행</text>
+
+<text x="310" y="98" class="o">✕ --srt 면 R7 에서 못 쪼갬</text>
+
+<rect x="20" y="110" width="100" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="70" y="140" text-anchor="middle" class="b">영상</text>
+<rect x="150" y="110" width="130" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="215" y="131" text-anchor="middle" class="b">R1 전사</text>
+<text x="215" y="149" text-anchor="middle" class="m">yap</text>
+<rect x="310" y="110" width="140" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="380" y="131" text-anchor="middle" class="s">단어 타임스탬프</text>
+<text x="380" y="149" text-anchor="middle" class="m">JSON</text>
+<rect x="490" y="110" width="140" height="50" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="560" y="131" text-anchor="middle" class="b">R4 문장</text>
+<text x="560" y="149" text-anchor="middle" class="s">단어 → 문장 재조립</text>
+<rect x="680" y="110" width="150" height="50" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="755" y="131" text-anchor="middle" class="b">R5 번역</text>
+<text x="755" y="149" text-anchor="middle" class="s">문장 배치</text>
+
+<rect x="680" y="230" width="150" height="50" rx="7" fill="none" stroke="#2F6DB5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="755" y="251" text-anchor="middle" class="b">R6 문맥 보정</text>
+<text x="755" y="269" text-anchor="middle" class="s">선택</text>
+<rect x="490" y="230" width="140" height="50" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="560" y="251" text-anchor="middle" class="b">R7 큐 재분할</text>
+<text x="560" y="269" text-anchor="middle" class="s">번역문 → 자막 큐</text>
+<rect x="310" y="230" width="140" height="50" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="380" y="251" text-anchor="middle" class="b">R8 WebVTT</text>
+<text x="380" y="269" text-anchor="middle" class="s">직렬화</text>
+<rect x="150" y="230" width="130" height="50" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="215" y="260" text-anchor="middle" class="b">R9 mux</text>
+
+<rect x="20" y="200" width="100" height="46" rx="7" fill="none" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="70" y="220" text-anchor="middle" class="b">R2</text>
+<text x="70" y="237" text-anchor="middle" class="s">ffmpeg → wav</text>
+<path d="M180 160 L180 178 L70 178 L70 196" fill="none" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="126" y="174" text-anchor="middle" class="s">못 열면</text>
+<path d="M120 212 L300 212 L300 190 L380 190 L380 164" fill="none" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a)"/>
+
+<line x1="120" y1="135" x2="146" y2="135" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="280" y1="135" x2="306" y2="135" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="450" y1="135" x2="486" y2="135" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="630" y1="135" x2="676" y2="135" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="755" y1="160" x2="755" y2="226" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="680" y1="255" x2="634" y2="255" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="490" y1="255" x2="454" y2="255" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="310" y1="255" x2="284" y2="255" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<text x="20" y="308" class="s">회색 = 이미 있는 도구 (yap · ffmpeg) · 파랑 = 직접 만드는 것 (R4 이후)</text>
+</svg>

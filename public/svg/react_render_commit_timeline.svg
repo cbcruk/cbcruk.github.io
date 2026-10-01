@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 320" width="100%" role="img">
+<title>한 번의 렌더에서 네 규칙이 걸리는 자리</title>
+<desc>렌더 흐름. 클라이언트: render → commit(DOM 반영·ref 콜백) → useLayoutEffect(페인트 전) → paint → useEffect(페인트 후) → … → 노드 제거(ref cleanup). 서버: render → HTML 문자열, useLayoutEffect 는 실행 안 됨·경고, useEffect 는 실행 안 됨. ① render 중 useMemo: 캐시는 버려질 수 있다, 순수하면 재계산돼도 같은 값, 유지해야 하면 useState(init). ② useLayoutEffect: 페인트 전에 DOM 을 고쳐 flash 를 막는다, 서버엔 이 단계가 없어 경고가 난다, shim 으로 서버에선 useEffect. ③ useEffect: ref.current 가 채워진 뒤라 ownerDocument.defaultView = 노드가 실제로 사는 창. ④ commit 의 ref 콜백이 cleanup 을 반환하고 노드 제거 때 실행된다 → 리스너 수명 = 노드 수명.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+</defs>
+<rect width="860" height="320" fill="#FFFFFF"/>
+
+<text x="20" y="67" class="b">서버</text>
+<rect x="90" y="40" width="100" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="140" y="67" text-anchor="middle" class="m">render</text>
+<rect x="210" y="40" width="120" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="270" y="67" text-anchor="middle" class="s">HTML 문자열</text>
+<rect x="350" y="40" width="120" height="44" rx="7" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="410" y="60" text-anchor="middle" class="s">실행 안 됨</text>
+<text x="410" y="76" text-anchor="middle" class="o">경고</text>
+<rect x="590" y="40" width="110" height="44" rx="7" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="645" y="67" text-anchor="middle" class="s">실행 안 됨</text>
+<line x1="190" y1="62" x2="206" y2="62" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<path d="M270 138 L270 122 L790 122 L790 138" fill="none" stroke="#C2621A" stroke-width="1.5"/>
+<text x="530" y="114" text-anchor="middle" class="o">④ ref 콜백이 cleanup 을 반환 → 리스너 수명 = 노드 수명</text>
+
+<text x="20" y="169" class="b">클라이언트</text>
+<rect x="90" y="140" width="100" height="48" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="140" y="169" text-anchor="middle" class="m">render</text>
+<rect x="210" y="140" width="120" height="48" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="270" y="160" text-anchor="middle" class="m">commit</text>
+<text x="270" y="178" text-anchor="middle" class="s">DOM 반영 · ref 콜백</text>
+<rect x="350" y="140" width="120" height="48" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="410" y="160" text-anchor="middle" class="m">useLayoutEffect</text>
+<text x="410" y="178" text-anchor="middle" class="s">페인트 전</text>
+<rect x="490" y="140" width="80" height="48" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="530" y="169" text-anchor="middle" class="m">paint</text>
+<rect x="590" y="140" width="110" height="48" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="645" y="160" text-anchor="middle" class="m">useEffect</text>
+<text x="645" y="178" text-anchor="middle" class="s">페인트 후</text>
+<rect x="740" y="140" width="100" height="48" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="790" y="160" text-anchor="middle" class="b">노드 제거</text>
+<text x="790" y="178" text-anchor="middle" class="s">ref cleanup</text>
+<line x1="190" y1="164" x2="206" y2="164" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<line x1="330" y1="164" x2="346" y2="164" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<line x1="470" y1="164" x2="486" y2="164" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<line x1="570" y1="164" x2="586" y2="164" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<line x1="700" y1="164" x2="736" y2="164" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#a)"/>
+
+<line x1="140" y1="188" x2="140" y2="222" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="410" y1="188" x2="410" y2="222" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="645" y1="188" x2="645" y2="222" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+<text x="20" y="240" class="b">① render 중 useMemo</text>
+<text x="20" y="258" class="s">캐시는 버려질 수 있다</text>
+<text x="20" y="276" class="s">순수하면 재계산돼도 같은 값</text>
+<text x="20" y="294" class="s">유지해야 하면 useState(init)</text>
+
+<text x="300" y="240" class="b">② useLayoutEffect</text>
+<text x="300" y="258" class="s">페인트 전에 DOM 을 고쳐 flash 를 막는다</text>
+<text x="300" y="276" class="s">서버엔 이 단계가 없어 경고가 난다</text>
+<text x="300" y="294" class="s">→ shim 으로 서버에선 useEffect</text>
+
+<text x="580" y="240" class="b">③ useEffect</text>
+<text x="580" y="258" class="s">ref.current 가 채워진 뒤라</text>
+<text x="580" y="276" class="m">ownerDocument.defaultView</text>
+<text x="580" y="294" class="s">= 노드가 실제로 사는 창</text>
+</svg>

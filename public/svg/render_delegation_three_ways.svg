@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="100%" role="img">
+<title>렌더링할 요소를 밖에서 정하는 세 가지</title>
+<desc>as: 소비자가 태그 이름(as="a")을 넘기면 Button 이 Comp = as 로 그 태그를 렌더하고 props 를 그대로 펼친다 — 단순 태그 변경에 쓴다. asChild: 소비자가 자식 요소(&lt;a href /&gt;)를 넘기면 Button 이 Slot 으로 그 자식을 cloneElement 해 className 병합·핸들러 합성·ref 병합을 암묵적으로 한다 — 기존 컴포넌트 합성에 쓴다. render: 소비자가 render 에 요소나 (props, state) =&gt; 함수를 넘기면 Button 이 ref 포함 DOM props 와 isPressed 같은 상태를 명시적으로 건네고 소비자가 직접 펼친다 — 상태 기반 커스터마이징과 합성에 쓰고 타입 추론이 가장 좋다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="330" fill="#FFFFFF"/>
+
+<text x="20" y="80" class="s">소비자가</text>
+<text x="20" y="96" class="s">넘기는 것</text>
+<text x="20" y="166" class="s">Button 이</text>
+<text x="20" y="182" class="s">하는 일</text>
+<text x="20" y="252" class="s">언제</text>
+
+<text x="200" y="36" text-anchor="middle" class="m" style="font-weight:600">as</text>
+<rect x="110" y="64" width="180" height="40" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="200" y="89" text-anchor="middle" class="m">as="a"</text>
+<line x1="200" y1="104" x2="200" y2="138" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="110" y="142" width="180" height="56" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="200" y="164" text-anchor="middle" class="m">Comp = as</text>
+<text x="200" y="184" text-anchor="middle" class="s">props 를 그대로 펼친다</text>
+<text x="200" y="218" text-anchor="middle" class="s">타입이 복잡해진다</text>
+<rect x="110" y="234" width="180" height="30" rx="6" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="200" y="254" text-anchor="middle" class="s">단순 태그 변경</text>
+
+<text x="430" y="36" text-anchor="middle" class="m" style="font-weight:600">asChild + Slot</text>
+<rect x="340" y="64" width="180" height="40" rx="6" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<text x="430" y="89" text-anchor="middle" class="m">자식 &lt;a href /&gt;</text>
+<line x1="430" y1="104" x2="430" y2="138" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="340" y="142" width="180" height="56" rx="6" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<text x="430" y="164" text-anchor="middle" class="m">cloneElement(child)</text>
+<text x="430" y="184" text-anchor="middle" class="s">className·핸들러·ref 병합</text>
+<text x="430" y="218" text-anchor="middle" class="o">병합이 암묵적</text>
+<rect x="340" y="234" width="180" height="30" rx="6" fill="#FFFFFF" stroke="#C2621A" stroke-width="1.2"/>
+<text x="430" y="254" text-anchor="middle" class="s">기존 컴포넌트 합성</text>
+
+<text x="705" y="36" text-anchor="middle" class="m" style="font-weight:600">render</text>
+<rect x="570" y="64" width="270" height="40" rx="6" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="705" y="89" text-anchor="middle" class="m">render={(props, state) =&gt; …}</text>
+<line x1="705" y1="104" x2="705" y2="138" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="570" y="142" width="270" height="56" rx="6" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="705" y="164" text-anchor="middle" class="s">ref 포함 DOM props + 상태(isPressed…)</text>
+<text x="705" y="184" text-anchor="middle" class="s">를 건네고 소비자가 직접 펼친다</text>
+<text x="705" y="218" text-anchor="middle" class="g">전달이 명시적 · 타입 추론 최고</text>
+<rect x="570" y="234" width="270" height="30" rx="6" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="705" y="254" text-anchor="middle" class="s">상태 기반 커스터마이징 · 합성</text>
+
+<text x="20" y="300" class="s">세 경우 모두 결과는 <tspan class="m">&lt;a&gt;</tspan> 다 — 갈리는 건 <tspan class="b">props 가 어떻게 넘어가느냐</tspan>: 그대로 · 몰래 병합 · 손으로 펼침</text>
+<text x="20" y="320" class="s">Radix 는 asChild, Base UI·React Aria 는 render</text>
+</svg>

@@ -5,5 +5,5 @@ type Props = {
 }
 
 export function MemoRaw({ id }: Props) {
-  return <MemoIdPrimitive href={`/memo/${id}.md`}>raw</MemoIdPrimitive>
+  return <MemoIdPrimitive href={`/memo/${id}.md`}>`#{id}`</MemoIdPrimitive>
 }

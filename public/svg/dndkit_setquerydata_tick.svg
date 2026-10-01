@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>drop 직후 dnd-kit 이 재는 순간과 새 순서가 화면에 닿는 순간</title>
+<desc>drop 하면 onDragEnd 가 돌고, dnd-kit 의 drop 애니메이션은 곧바로(ASAP) 목적지를 잰다. setState 로 바꾸면 그 이벤트 처리 안에서 새 순서가 렌더되어, 잴 때 이미 새 자리라 새 자리로 애니메이션한다. setQueryData 로 바꾸면 캐시는 즉시 바뀌지만 구독자 알림은 notifyManager 의 기본 스케줄러 setTimeout(0) 을 거쳐 다음 매크로태스크에 리렌더된다. 그 사이 dnd-kit 이 옛 순서를 재서 옛 자리로 애니메이션하고, 리렌더 순간 새 자리로 점프한다 — 1~2프레임 튕김. 캐시는 바로, 화면은 한 틱 뒤다. 눈금은 비례가 아니다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#8A8A8A"/></marker>
+</defs>
+<rect width="860" height="300" fill="#FFFFFF"/>
+
+<line x1="200" y1="40" x2="200" y2="250" stroke="#555" stroke-width="1.5"/>
+<text x="200" y="32" text-anchor="middle" class="m">onDragEnd</text>
+<line x1="280" y1="40" x2="280" y2="250" stroke="#C2621A" stroke-width="2" stroke-dasharray="4 3"/>
+<text x="286" y="32" class="o">dnd-kit 이 목적지를 잰다 (ASAP)</text>
+
+<text x="20" y="96" class="m">setState</text>
+<text x="20" y="113" class="s">local state</text>
+<rect x="204" y="82" width="66" height="28" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="237" y="101" text-anchor="middle" class="s">새 순서</text>
+<rect x="290" y="82" width="300" height="28" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="440" y="101" text-anchor="middle" class="g">새 자리를 재고 → 새 자리로 애니메이션 ✓</text>
+<text x="290" y="128" class="s">이벤트 처리 안에서 렌더 — 잴 때 이미 새 순서</text>
+
+<text x="20" y="186" class="m">setQueryData</text>
+<text x="20" y="203" class="s">react-query 캐시</text>
+<rect x="204" y="172" width="66" height="28" rx="5" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="237" y="191" text-anchor="middle" class="s">캐시만</text>
+<rect x="290" y="172" width="250" height="28" rx="5" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="415" y="191" text-anchor="middle" class="o">옛 자리를 재고 → 옛 자리로 애니메이션</text>
+<line x1="540" y1="160" x2="540" y2="212" stroke="#C2621A" stroke-width="2.5"/>
+<rect x="550" y="172" width="120" height="28" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="610" y="191" text-anchor="middle" class="s">새 순서 리렌더</text>
+<text x="546" y="226" class="o">✕ 점프 — 1~2프레임 튕김</text>
+<path d="M237 200 C 300 248, 470 248, 540 214" fill="none" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="330" y="246" class="m">notifyManager → setTimeout(0)</text>
+
+<text x="20" y="276" class="s">캐시는 바로 바뀌고 <tspan class="o">화면은 한 틱 뒤</tspan>에 바뀐다 — 그 사이에 잰다 · <tspan class="m">notifyManager.setScheduler</tspan> 로 스케줄러를 바꿀 수 있다</text>
+<text x="20" y="294" class="s">눈금은 비례 아님 · dnd-kit v6.3.1 기준</text>
+</svg>

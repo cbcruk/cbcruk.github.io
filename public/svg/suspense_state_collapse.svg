@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 280" width="100%" role="img">
+<title>상태를 각각 들 때와 트리로 옮길 때</title>
+<desc>각각 들고 있으면: loading 과 error 가 따로 켜지고 꺼져 네 칸이 생긴다 — 둘 다 꺼짐은 성공, error 만 켜짐은 에러, loading 만 켜짐은 로딩, 둘 다 켜짐은 있을 수 없는 "로딩 + 에러"인데도 적을 수 있다. 그 칸이 한 프레임이라도 그려지면 화면이 튄다. 트리로 옮기면: 로딩(Suspense) → resolve → 성공(본문), 로딩 → reject → 에러(ErrorBoundary), 성공 → 입력 변경으로 promise 를 던지면 → 로딩. 상태는 셋 중 하나라 넷째 칸을 적을 수가 없다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+</defs>
+<rect width="860" height="280" fill="#FFFFFF"/>
+
+<rect x="12" y="34" width="390" height="234" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="24" y="26" class="s">각각 들고 있으면 · loading × error</text>
+
+<text x="180" y="72" text-anchor="middle" class="m">error ✗</text>
+<text x="310" y="72" text-anchor="middle" class="m">error ✓</text>
+<text x="30" y="109" class="m">loading ✗</text>
+<text x="30" y="169" class="m">loading ✓</text>
+
+<rect x="120" y="82" width="120" height="48" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="180" y="111" text-anchor="middle" class="b">성공</text>
+<rect x="250" y="82" width="120" height="48" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="310" y="111" text-anchor="middle" class="b">에러</text>
+<rect x="120" y="142" width="120" height="48" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="180" y="171" text-anchor="middle" class="b">로딩</text>
+<rect x="250" y="142" width="120" height="48" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="310" y="171" text-anchor="middle" class="o">✕ 로딩 + 에러</text>
+
+<text x="30" y="222" class="s">넷이 따로 켜지고 꺼지면 넷째 칸도 적을 수 있다</text>
+<text x="30" y="244" class="o">그 칸이 한 프레임이라도 그려지면 화면이 튄다</text>
+
+<rect x="428" y="34" width="420" height="234" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="440" y="26" class="s">트리로 옮기면</text>
+
+<rect x="450" y="112" width="140" height="56" rx="28" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="520" y="135" text-anchor="middle" class="b">로딩</text>
+<text x="520" y="154" text-anchor="middle" class="m">&lt;Suspense&gt;</text>
+
+<rect x="680" y="62" width="150" height="56" rx="28" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="755" y="85" text-anchor="middle" class="b">성공</text>
+<text x="755" y="104" text-anchor="middle" class="s">본문</text>
+
+<rect x="680" y="172" width="150" height="56" rx="28" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="755" y="195" text-anchor="middle" class="b">에러</text>
+<text x="755" y="214" text-anchor="middle" class="m">&lt;ErrorBoundary&gt;</text>
+
+<line x1="590" y1="130" x2="676" y2="100" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="628" y="106" text-anchor="middle" class="s">resolve</text>
+<line x1="590" y1="152" x2="676" y2="190" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="622" y="186" text-anchor="middle" class="s">reject</text>
+<path d="M690 70 C640 44, 540 50, 520 108" fill="none" stroke="#2F6DB5" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ab)"/>
+<text x="600" y="50" text-anchor="middle" class="s">입력 변경 · promise 던짐</text>
+
+<text x="450" y="254" class="g">상태는 셋 중 하나 — 넷째 칸은 적을 수가 없다</text>
+</svg>

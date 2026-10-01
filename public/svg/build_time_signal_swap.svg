@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 310" width="100%" role="img">
+<title>런타임 어댑터와 빌드 타임 swap</title>
+<desc>런타임 어댑터: 폼 코어 → 어댑터(프레임워크 분기) → 프레임워크 signal. 세 단계가 모두 배포물에 남아 간접층이 인라이닝·tree-shaking 을 막는다. 빌드 타임 swap: 폼 코어는 createSignal 을 이름으로만 import 하고 → 번들러가 타깃별 sibling 으로 import 를 다시 쓴다 → index.vue.ts 는 shallowRef 한 줄, index.solid.ts 는 얇은 래퍼, index.react.ts 는 140줄짜리 pub/sub. 출력물에는 이음매가 없다 — createSignal 이 문자 그대로 shallowRef 가 된다. 가능했던 이유는 계약이 Signal&lt;T&gt; = { value: T } 프로퍼티 하나라서다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="310" fill="#FFFFFF"/>
+
+<text x="20" y="30" class="b">런타임 어댑터</text>
+<rect x="12" y="42" width="600" height="72" rx="10" fill="none" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 4"/>
+<rect x="30" y="56" width="150" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="105" y="83" text-anchor="middle" class="b">폼 코어</text>
+<rect x="220" y="56" width="180" height="44" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="310" y="75" text-anchor="middle" class="b">어댑터</text>
+<text x="310" y="92" text-anchor="middle" class="s">프레임워크 분기</text>
+<rect x="440" y="56" width="155" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="517" y="83" text-anchor="middle" class="b">프레임워크 signal</text>
+<line x1="180" y1="78" x2="216" y2="78" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="400" y1="78" x2="436" y2="78" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="630" y="72" class="o">셋 다 배포물에 남는다</text>
+<text x="630" y="92" class="s">간접층이 인라이닝·tree-shaking 을 막음</text>
+
+<text x="20" y="150" class="b">빌드 타임 swap</text>
+<rect x="20" y="186" width="190" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="115" y="209" text-anchor="middle" class="b">폼 코어</text>
+<text x="115" y="228" text-anchor="middle" class="m">import { createSignal }</text>
+<rect x="245" y="186" width="160" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="325" y="209" text-anchor="middle" class="b">번들러</text>
+<text x="325" y="228" text-anchor="middle" class="s">타깃별 import 재작성</text>
+<line x1="210" y1="214" x2="241" y2="214" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<rect x="450" y="164" width="240" height="30" rx="6" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="462" y="184" class="m">index.vue.ts</text>
+<text x="680" y="184" text-anchor="end" class="s">shallowRef 1줄</text>
+<rect x="450" y="200" width="240" height="30" rx="6" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="462" y="220" class="m">index.solid.ts</text>
+<text x="680" y="220" text-anchor="end" class="s">얇은 래퍼</text>
+<rect x="450" y="236" width="240" height="30" rx="6" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="462" y="256" class="m">index.react.ts</text>
+<text x="680" y="256" text-anchor="end" class="o">pub/sub 140줄</text>
+<path d="M405 214 L428 214 L428 179 L446 179" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="428" y1="215" x2="446" y2="215" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M428 214 L428 251 L446 251" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<text x="712" y="190" class="g">출력물엔 이음매가 없다</text>
+<text x="712" y="212" class="m">createSignal</text>
+<text x="712" y="230" class="m">= shallowRef</text>
+
+<text x="20" y="296" class="s">가능했던 이유 — 계약이 <tspan class="m">Signal&lt;T&gt; = { value: T }</tspan> 프로퍼티 하나다</text>
+</svg>

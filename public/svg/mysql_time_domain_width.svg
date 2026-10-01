@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>TIME 컬럼 위에 겹친 언어 타입의 폭</title>
+<desc>기준선은 MySQL TIME 컬럼의 정의역 -838:59:59 ~ 838:59:59 다. 쓰는 쪽 string·Duration 은 이 범위를 전부 덮는다. 읽는 쪽 LocalTime·datetime.time 은 00:00 ~ 24:00 미만만 덮어서, 그 바깥 구간은 컬럼에 들어갈 수 있는데 읽으면 예외가 난다. 24:00:00 과 -01:00:00 이 그 구간에 있다 — 컬럼 안, LocalTime 밖. 넓은 쓰기 / 좁은 읽기면 시한폭탄이고 반대 방향이면 안전하다. 눈금은 비례가 아니다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}</style>
+<rect width="860" height="300" fill="#FFFFFF"/>
+
+<text x="20" y="62" class="b">쓰는 쪽</text>
+<text x="20" y="79" class="m">string · Duration</text>
+<rect x="150" y="54" width="630" height="24" rx="4" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="465" y="71" text-anchor="middle" class="s">전 범위</text>
+
+<text x="20" y="132" class="b">읽는 쪽</text>
+<text x="20" y="149" class="m">LocalTime</text>
+<rect x="150" y="124" width="180" height="24" rx="4" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="192" y="141" text-anchor="middle" class="o">예외</text>
+<rect x="330" y="124" width="200" height="24" rx="4" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="430" y="141" text-anchor="middle" class="s">00:00 ~ 24:00 미만</text>
+<rect x="530" y="124" width="250" height="24" rx="4" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="718" y="141" text-anchor="middle" class="o">예외</text>
+
+<text x="20" y="202" class="b">컬럼 · 기준선</text>
+<text x="20" y="219" class="m">MySQL TIME</text>
+<rect x="150" y="194" width="630" height="24" rx="4" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+
+<rect x="236" y="48" width="10" height="176" fill="#FFFFFF"/>
+<rect x="650" y="48" width="10" height="176" fill="#FFFFFF"/>
+<line x1="234" y1="226" x2="242" y2="190" stroke="#8A8A8A" stroke-width="1.2"/>
+<line x1="240" y1="226" x2="248" y2="190" stroke="#8A8A8A" stroke-width="1.2"/>
+<line x1="648" y1="226" x2="656" y2="190" stroke="#8A8A8A" stroke-width="1.2"/>
+<line x1="654" y1="226" x2="662" y2="190" stroke="#8A8A8A" stroke-width="1.2"/>
+
+<text x="150" y="240" class="m">-838:59:59</text>
+<text x="330" y="240" text-anchor="middle" class="m">00:00</text>
+<text x="780" y="240" text-anchor="end" class="m">838:59:59</text>
+
+<line x1="533" y1="40" x2="533" y2="222" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="3 3"/>
+<circle cx="533" cy="206" r="5" fill="#C2621A"/>
+<circle cx="533" cy="136" r="5" fill="#C2621A"/>
+<text x="540" y="36" class="m" style="fill:#C2621A">24:00:00</text>
+<line x1="300" y1="40" x2="300" y2="222" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="3 3"/>
+<circle cx="300" cy="206" r="5" fill="#C2621A"/>
+<circle cx="300" cy="136" r="5" fill="#C2621A"/>
+<text x="294" y="36" text-anchor="end" class="m" style="fill:#C2621A">-01:00:00</text>
+
+<text x="20" y="274" class="o">컬럼 안 · LocalTime 밖 — 넓은 쓰기 / 좁은 읽기면 시한폭탄, 반대 방향이면 안전</text>
+<text x="20" y="292" class="s">눈금은 비례 아님</text>
+</svg>

@@ -1,11 +1,10 @@
 ---
 type: note
-kind: Recipe
 title: 'blocking=render 는 <body> 전에만 등록된다 — 뒤에 붙으면 조용한 no-op'
 tags: ['performance', 'rendering', 'fouc', 'html']
 status: release
 ctime: 2026-06-23
-mtime: 2026-09-10
+mtime: 2026-10-01
 generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
 sources:
@@ -16,33 +15,54 @@ sources:
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-**파서를 멈추는 것과 paint를 멈추는 것은 다르다.** 동기 `<script>`는 파서만 세운다. 그 위에 이미 파싱된 청크가 먼저 그려질지는 브라우저 재량이라, **default 상태가 한 프레임 노출되지 않는다는 보장이 없다.** `blocking="render"`가 그 보장을 명시적으로 만든다.
+새로고침하면 한 프레임 동안 스타일이 붙기 전 default 상태가 보인다. **파서를 멈추는 것과 paint를 멈추는 것은 다르다** — 동기 `<script>`는 파서만 세우고, 그 위에 이미 파싱된 청크가 먼저 그려질지는 브라우저 재량이다. `blocking="render"`가 paint까지 막는 걸 보장하는데, **`<body>` 뒤에 붙으면 조용히 아무 일도 안 한다.**
 
-**언제**: 새로고침하면 한 프레임 동안 다른 화면이 보일 때. 먼저 원인을 판별한다.
+## 1. 이 축의 문제인가
 
 | 증상 | 원인 | 처방 |
 |---|---|---|
-| 스타일이 붙기 전 default 상태가 한 프레임 보인다 | 스타일 적용이 첫 페인트보다 늦다 | `blocking="render"` — 아래 절차 |
-| 다크 테마인데 흰 화면이 번쩍인다 | 서버가 사용자 상태를 몰라 기본값으로 렌더했다 | 첫 페인트 전 인라인 스크립트 → [594](/memo/594) R2 |
+| 스타일이 붙기 전 default 상태가 한 프레임 보인다 | 스타일 적용이 첫 페인트보다 늦다 | `blocking="render"` — 여기서 계속 |
+| 다크 테마인데 흰 화면이 번쩍인다 | 서버가 사용자 상태를 몰라 기본값으로 렌더했다 | 첫 페인트 전 인라인 스크립트 → [594](/memo/594) |
 
-뒤쪽은 이 축으로 안 고쳐진다 — 서버가 낸 HTML 자체가 이미 다른 값이라 렌더를 막아도 그 값이 그대로 보인다.
+뒤쪽은 렌더를 막아도 안 고쳐진다 — 서버가 낸 HTML 자체가 이미 다른 값이다.
 
-**절차**
+## 2. 붙였는데 먹었는지 무엇으로 아나
 
-1. `blocking="render"`를 붙인다.
-2. **`<body>`가 열리기 전에 둔다.** 컴포넌트 마크업 안이면 이미 늦다.
+로그도 DOM도 답을 안 준다. `<body>` 뒤에 붙여도 console·`Log`·`Audits` 어디에도 아무것도 안 찍히고, `el.blocking.contains('render')`는 앞이든 뒤든 `true`다.[^rb-observed] 갈리는 건 **첫 페인트 시각** 하나다 — 막는 리소스가 끝나기 전에 칠해졌으면 안 먹은 것이다.
 
-**확인**: 마크업에서 **위치**를 본다 — `<body>`보다 앞인가. 화면으로는 구분이 안 된다(아래).
+## 3. CDP로 잰다
 
-**함정**: `<body>`가 생기는 순간 등록 자체가 닫힌다. 뒤에 붙인 `blocking="render"`는 실패하지 않고 **조용한 no-op**이 된다 — attribute를 모르는 브라우저에서 옛 동작으로 떨어지는 것과 같은 모양이라, **안 먹는다는 사실이 드러나지 않는다.**
+`Page.navigate` → `Page.loadEventFired`를 기다린 뒤, 페이지의 Performance 엔트리를 읽어 둘을 비교한다.
 
-**왜 `<body>`인가**: 스펙은 "head 안에 둬라"라고 말하지 않는다. 대신 등록 창을 이렇게 닫는다.
+```js
+const fcp = performance.getEntriesByName('first-contentful-paint')[0].startTime
+const done = performance.getEntriesByType('resource').find((e) => e.name.includes('slow.js')).responseEnd
+fcp < done // true 면 막는 리소스가 오기 전에 이미 칠했다 — 안 먹었다
+```
+
+800ms 걸리는 `<script async blocking="render" src="/slow.js">` 위치만 바꿔 잰 값이다.[^rb-observed]
+
+| 위치 | FCP | `slow.js` 끝 | 판정 |
+|---|---|---|---|
+| `blocking` 없음 | 68ms | 830ms | default 가 먼저 칠해짐 |
+| `<head>` | 836ms | 816ms | 스크립트 뒤에 첫 페인트 — 먹었다 |
+| `<body>` 안 | 16ms | 807ms | default 가 먼저 칠해짐 — **없는 것과 같다** |
+
+![파서는 head 를 읽고 body 를 연다. body 가 null 인 동안만 render-blocking 등록이 가능하고, body 가 열리는 순간 창이 닫힌다. head 안의 script blocking=render 는 등록되고, body 안의 같은 스크립트는 등록되지 않는데 경고도 없다. 실측: head 안이면 816ms 에 스크립트가 끝난 뒤 836ms 에 styled 상태로 첫 페인트한다. body 안이면 16ms 에 default 가 먼저 칠해지고 807ms 에 스크립트가 끝나서야 styled 로 바뀐다 — 그 사이 default 가 노출된다. 로그와 DOM(el.blocking)으로는 둘이 똑같고 첫 페인트 시각만 갈린다. 눈금은 비례가 아니다.](/svg/render_blocking_body_window.svg)
+
+## 4. `<body>`가 열리기 전에 둔다
+
+컴포넌트 마크업 안이면 이미 늦다. 스펙은 "head 안에 둬라"가 아니라 등록 창을 이렇게 닫는다.
 
 > A `Document` document allows adding render-blocking elements if document's content type is "text/html" and **the body element of document is null**.
 >
 > — [HTML Standard](https://html.spec.whatwg.org/multipage/dom.html#allows-adding-render-blocking-elements)
 
+`<body>`가 생기는 순간 등록이 닫히고, 뒤에 붙인 속성은 실패 없이 무시된다. 속성을 모르는 브라우저가 옛 동작으로 떨어지는 것과 같은 모양이라 3처럼 재지 않으면 드러나지 않는다.
+
 <AutoIframe
   src="/iframe/render_blocking_paint_simulator.html"
   title="세 전략(async·defer / 동기 script / blocking=render)에서 사용자가 보는 화면을 시간순으로 재생해 깨진 프레임 노출 여부를 비교"
 />
+
+[^rb-observed]: Chrome 154 headless 에서 raw CDP 로 실측 (2026-10-01). 로컬 Node 서버가 `/slow.js` 를 800ms 늦게 주고, 스크립트는 `<p>` 텍스트를 바꾼다. `Log`·`Runtime`·`Audits` 를 enable 한 채 `<head>` / `<body>` 두 경우를 봤고 둘 다 메시지 0건이었다.

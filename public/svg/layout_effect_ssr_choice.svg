@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" width="100%" role="img">
+<title>useLayoutEffect 를 쓸지, shim 이 필요한지 고르는 길</title>
+<desc>페인트 전에 DOM 을 고쳐야 하나? 아니오 → useEffect. 예 → SSR 도 하나? 아니오 → useLayoutEffect. 예 → useIsoLayoutEffect. useIsoLayoutEffect 는 서버에선 useEffect 가 되어 실행 안 되고 경고도 없으며, 브라우저에선 useLayoutEffect 가 되어 페인트 전에 실행된다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="260" fill="#FFFFFF"/>
+
+<rect x="20" y="96" width="220" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="119" text-anchor="middle" class="b">페인트 전에 DOM 을</text>
+<text x="130" y="138" text-anchor="middle" class="b">고쳐야 하나?</text>
+
+<rect x="300" y="96" width="140" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="370" y="129" text-anchor="middle" class="b">SSR 도 하나?</text>
+
+<rect x="490" y="96" width="170" height="56" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="575" y="129" text-anchor="middle" class="m">useIsoLayoutEffect</text>
+
+<rect x="60" y="200" width="140" height="44" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="130" y="226" text-anchor="middle" class="m">useEffect</text>
+
+<rect x="300" y="200" width="140" height="44" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="370" y="226" text-anchor="middle" class="m">useLayoutEffect</text>
+
+<rect x="700" y="30" width="148" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="774" y="53" text-anchor="middle" class="m">useEffect</text>
+<text x="774" y="72" text-anchor="middle" class="s">실행 안 됨 · 경고 없음</text>
+
+<rect x="700" y="162" width="148" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="774" y="185" text-anchor="middle" class="m">useLayoutEffect</text>
+<text x="774" y="204" text-anchor="middle" class="s">페인트 전 실행</text>
+
+<line x1="240" y1="124" x2="296" y2="124" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="268" y="116" text-anchor="middle" class="s">예</text>
+<line x1="440" y1="124" x2="486" y2="124" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="463" y="116" text-anchor="middle" class="s">예</text>
+
+<line x1="130" y1="152" x2="130" y2="196" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="140" y="180" class="s">아니오</text>
+<line x1="370" y1="152" x2="370" y2="196" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="380" y="180" class="s">아니오</text>
+
+<path d="M660 112 L680 112 L680 58 L696 58" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="632" y="80" class="s">서버</text>
+<path d="M660 136 L680 136 L680 190 L696 190" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="618" y="176" class="s">브라우저</text>
+</svg>

@@ -1,47 +1,52 @@
 ---
 type: note
 kind: Explainer
-title: 요청 취소의 경계 — 전송이 끝났으면 서버는 받는다
+title: 요청 취소의 경계
 tags: ['http', 'abort', 'cancellation']
 status: release
 ctime: 2026-06-23
-mtime: 2026-09-10
+mtime: 2026-10-01
 generated: { by: claude/opus-5, at: 2026-08-20T02:30:00Z }
 sources:
   - id: fetch-abort
     resource: https://fetch.spec.whatwg.org/#abort-fetch
-    title: "Fetch Standard — abort a fetch"
+    title: 'Fetch Standard — abort a fetch'
   - id: mdn-abortcontroller
     resource: https://developer.mozilla.org/en-US/docs/Web/API/AbortController
-    title: "AbortController — MDN"
+    title: 'AbortController — MDN'
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-**HTTP 요청 취소는 클라이언트에서만 일어난다.**[^fetch-abort] 이미 보낸 바이트를 회수하지도, 서버가 하고 있는 일을 멈추지도 못한다.
+**HTTP 요청 취소는 클라이언트에서만 일어난다.**[^fetch-abort] 이미 보낸 바이트를 회수하지도, 서버가 하고 있는 일을 멈추지도 못한다. **취소한 순간에 요청 전송이 이미 끝나 있었나.** 끝나 있었다면 서버는 그걸 받았고, 받았으면 처리한다. 취소는 그 처리를 못 막는다.
 
-갈리는 건 딱 하나 — **취소한 순간에 요청 전송이 이미 끝나 있었나.** 끝나 있었다면 서버는 그걸 받았고, 받았으면 처리한다. 취소는 그 처리를 못 막는다.
-
-- **reject된 promise와 "서버가 다 처리했다"는 동시에 참일 수 있다.** 전송이 끝난 뒤부터 응답이 오기 전까지가 그 구간이다. 취소했다고 서버에서 아무 일도 없었던 게 아니다.
-- **절약되는 건 클라이언트 쪽뿐** — 응답을 받아 처리하는 비용. 도달했다면 서버 작업은 그대로 수행된다.
-- **네트워크 속도가 결과를 뒤집는다.** `abort()` 를 부르는 시각이 같아도, 네트워크가 느려 전송이 그 시각을 넘겨 끝나면 "서버에 도달함"이 참에서 거짓으로 바뀐다.
-
-요청은 네 구간을 지난다. 취소가 어느 구간에서 걸리느냐로 결과가 달라진다.
-
-| 구간 | 어디 | 여기서 취소하면 |
-|---|---|---|
-| `send` | 클라이언트 | 요청이 다 전송되지 않는다 — 서버는 아무것도 못 받는다 |
-| `in-flight` | 네트워크 | 이미 다 보냈다. 서버는 받는다 |
-| `processing` | 서버 | 서버가 처리 중이고 멈출 방법이 없다 |
-| `resp` | 네트워크 → 클라이언트 | 응답이 오는 중이다. 클라이언트가 안 읽을 뿐 |
+| 구간         | 어디                  | 여기서 취소하면                                             |
+| ------------ | --------------------- | ----------------------------------------------------------- |
+| `send`       | 클라이언트            | 요청이 다 전송되지 않는다 — 헤더·본문 일부는 도착할 수 있다 |
+| `in-flight`  | 네트워크              | 이미 다 보냈다. 서버는 받는다                               |
+| `processing` | 서버                  | 서버가 처리 중이고 멈출 방법이 없다                         |
+| `resp`       | 네트워크 → 클라이언트 | 응답이 오는 중이다. 클라이언트가 안 읽을 뿐                 |
 
 구간 사이 경계는 셋인데 **결과를 가르는 건 첫 번째 하나**다 — `send`와 `in-flight` 사이, 전송이 끝나는 순간. 그 뒤로는 어디서 취소하든 서버 입장에선 똑같다.
+
+![요청은 send(클라이언트) → in-flight(네트워크) → processing(서버) → resp(응답) 네 구간을 지난다. 결과를 가르는 경계는 send 가 끝나는 순간 하나다. 빠른 네트워크에서 전송이 끝난 뒤 abort 하면 promise 는 reject 되지만 서버는 요청을 받아 처리하고, 클라이언트는 응답을 안 읽을 뿐이다. 같은 시각에 abort 해도 네트워크가 느려 전송이 그 시각을 넘겨 끝나면 전송이 끊겨 서버는 요청을 다 받지 못한다(헤더·본문 일부는 도착할 수 있다). 서버가 처리 중일 때 abort 해도 서버 입장에선 전송 뒤 abort 와 같다 — reject 이면서 서버는 처리한다.](/svg/request_abort_boundary.svg)
+
+**클라이언트에서는 네 경우가 똑같이 보인다** — promise는 `AbortError`, CDP는 `Network.loadingFailed`(`canceled: true`, `net::ERR_ABORTED`). 응답 전에 끊기면 `responseReceived`도 안 와서 `timing.sendEnd`조차 없다. "서버가 받았나"의 정답은 **서버 로그에만** 있고, CDP는 취소를 원하는 구간에 정확히 일으키는 데 쓴다.[^abort-observed]
+
+| 구간         | CDP로 일으키기                                                                             | 서버 로그                              |
+| ------------ | ------------------------------------------------------------------------------------------ | -------------------------------------- |
+| `send` 전    | `Fetch.enable({ patterns: [{ requestStage: 'Request' }] })`로 보내기 전에 붙잡고 abort     | 없음                                   |
+| `send` 중    | `Network.emulateNetworkConditions`의 `uploadThroughput`을 낮추고(200KB 본문, 20KB/s) abort | 헤더 + 본문 16KB, 미완료, 핸들러 안 돎 |
+| `processing` | 서버가 오래 걸리는 엔드포인트에서 abort                                                    | 받음, 처리 완료                        |
+| `resp`       | `requestStage: 'Response'`로 응답을 붙잡고 abort                                           | 받음, 처리 완료                        |
+
+`send` 중 줄이 경계를 한 번 더 쪼갠다. 전송 도중 취소하면 서버는 아무것도 못 받는 게 아니라 **헤더와 본문 일부를 받는다.** 본문이 끝나야(`end`) 처리하는 서버라 핸들러가 안 돌았을 뿐이다. 헤더만 보고 일을 시작하는 서버라면 전송 완료 전 취소도 부수효과를 낸다 — "경계는 전송 완료"는 **본문까지 받고 처리하는 서버**에서의 이야기다.
 
 <AutoIframe
   src="/iframe/request_abort_race_sim.html"
   title="취소한 시점이 전송 완료 전이냐 후냐에 따라 promise reject·서버 도달·서버 처리가 어떻게 갈리는지"
 />
 
-곁가지 — 라이브러리가 내부에서 만들고 돌려주지 않는 `AbortController` 는 밖에서 부를 수 없다. 노출된 `signal` 을 받는 요청만 취소가 닿는다.
-
 [^fetch-abort]: Fetch 표준의 abort 알고리즘은 controller 상태를 `aborted`로 바꾸고 이유를 기록할 뿐, 서버로 무엇을 보내라고 정하지 않는다. 연결을 닫거나 응답 읽기를 멈추는 건 구현 재량이다. ([Fetch Standard — abort a fetch](https://fetch.spec.whatwg.org/#abort-fetch))
+
+[^abort-observed]: Chrome 154 headless 에서 raw CDP 로 실측 (2026-10-01). 로컬 Node 서버가 요청 수신·본문 바이트·`end`·응답 완료를 기록했고, 페이지는 `AbortController` 로 POST 를 취소했다. 네 경우 모두 promise `AbortError`, `Network.loadingFailed` `canceled: true` `net::ERR_ABORTED` 로 같았다. `uploadThroughput` 스로틀링은 localhost 요청에도 걸렸다.

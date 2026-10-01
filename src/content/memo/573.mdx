@@ -1,48 +1,61 @@
 ---
 type: note
-kind: Recipe
 title: 로딩 스피너 깜빡임의 두 끝 — 앞쪽은 CSS, 뒤쪽은 JS
 tags: ['react', 'css', 'loading-ux']
 status: release
 ctime: 2026-06-23
-mtime: 2026-09-10
+mtime: 2026-09-30
 generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
 sources:
   - id: starting-style
     resource: https://developer.mozilla.org/en-US/docs/Web/CSS/@starting-style
-    title: "@starting-style — MDN"
+    title: '@starting-style — MDN'
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-로딩 스피너의 깜빡임은 **양 끝에서 따로 생기는데** CSS는 한쪽만 잡는다.
+스피너가 한 프레임 번쩍하고 사라지거나, 떴다가 하드컷으로 끊긴다. 깜빡임은 **양 끝에서 따로 생기는데** CSS는 한쪽만 잡는다. 어느 끝인지는 응답 시각을 붙잡고 **보인 시간**을 재서 가른다 — DOM에 붙어 있던 시간이 아니다.
 
-**언제**: 스피너가 한 프레임 번쩍하고 사라지거나, 떴다가 하드컷으로 끊길 때. 앞쪽인지 뒤쪽인지부터 판별한다.
+![요청 뒤 CSS 지연이 지나야 스피너가 뜬다. 앞쪽: 응답이 지연보다 먼저 오면 스피너는 한 프레임도 안 뜬다 — 지연이 통째로 건너뛰게 한다. 뒤쪽, CSS 만: 지연 뒤에 뜬 스피너가 곧바로 온 응답에 끊겨 짧게 번쩍하고 하드컷된다. 뒤쪽, useMinimumLoading: 응답이 와도 unmount 를 밀어 최소 노출 시간만큼은 보이게 한다. CSS 는 시작(지연)만 정하고, 끝은 응답 시각이 정하는데 CSS 는 그 값을 모른다.](/svg/spinner_flicker_two_ends.svg)
 
-| 증상 | 어느 쪽 | 처방 |
-|---|---|---|
-| 응답이 너무 빨라 스피너가 _뜨기 전이나 직후_ 사라진다 | **앞쪽**(leading) | CSS — `animation-delay`/`transition-delay` |
-| 스피너가 떴는데 _너무 짧게_ 보이고 하드컷된다 | **뒤쪽**(trailing) | JS — `useMinimumLoading` |
+## 흐름
 
-**절차**
+![Claude Code 의 node 스크립트가 Chrome(CDP)에 Fetch.enable 로 */api 를 가로채게 하고, 경계값을 볼 때는 Tracing.start 로 스크린샷도 켠다. hold 를 100·350·700 으로 바꿔 가며 반복한다: 프로브 evaluate 를 기다리지 않고 보낸 뒤 console.timeStamp 와 클릭을 보낸다. 페이지에 스피너가 붙고 fetch /api 가 나가면 Chrome 이 Fetch.requestPaused 를 보내고, 스크립트는 holdMs 를 기다린 뒤 Fetch.continueRequest 로 놓아준다. 요청이 서버에 가고 응답이 오면 스피너가 제거되고 프로브가 firstVisibleAt·visibleFrames·visibleMs 를 JSON 으로 돌려준다. 끝나면 Tracing.end 로 Screenshot 이벤트를 받는다 — 처음 물든 장부터 다음 흰 장까지가 실제로 보인 시간이고, 프로브는 1프레임쯤 더 센다.](/svg/cdp_spinner_measure_sequence.svg)
 
-1. 앞쪽이면 **지연을 준다.** 응답이 지연보다 빨리 오면 **한 프레임도 안 보인다** — 스피너를 통째로 건너뛴다.
-2. 뒤쪽이면 **unmount를 `max(응답 시각, 최소 노출 시간)`으로 민다.** 한 번 뜬 스피너가 최소 노출 시간만큼은 보이게 된다.
+1. headless Chrome + Node 전역 `WebSocket`으로 raw CDP. MCP `emulate`는 프리셋 스로틀링뿐이라 요청 하나를 못 붙잡는다.
+2. 프로브 — 스피너가 사라질 때 보인 시간을 돌려준다.
+3. 경계값이면 `disabled-by-default-devtools.screenshot` trace로 확인한다. 스크린샷은 바뀐 프레임에만 찍히니 처음 물든 장 → 다음 흰 장이 보인 시간이다.
+4. 응답 < 지연인데 보였으면 앞쪽, 응답 > 지연인데 최소 노출보다 짧으면 뒤쪽.
 
-**확인**: 응답을 지연보다 빠르게 만들어 본다 — 스피너가 한 프레임도 안 뜨면 앞쪽이 잡힌 것이다. 응답을 최소 노출 시간보다 빠르게 만들어 본다 — 스피너가 그 시간만큼 유지되면 뒤쪽이 잡힌 것이다.
+| 지연 | 응답 | 최소 노출 | 프로브          | trace                         | 판정           |
+| ---- | ---- | --------- | --------------- | ----------------------------- | -------------- |
+| 0    | 100  | —         | 9프레임 · 133ms |                               | **앞쪽**       |
+| 300  | 100  | —         | 0               | 물든 장 없음                  | 앞쪽 억제됨    |
+| 300  | 350  | —         | 4프레임 · 66ms  | 약 48ms, 불투명도 최대 약 0.8 | **뒤쪽**       |
+| 300  | 350  | 500       | 515ms           |                               | 뒤쪽 잡힘      |
+| 300  | 100  | 500       | 0               |                               | 앞쪽 억제 유지 |
+
+실측 조건은 각주에 있다.[^spinner-observed] 셋째 줄이 뒤쪽 깜빡임의 실제 모습이다 — 페이드가 끝나기 전에 끊겨 **한 번도 제대로 진해지지 못하고** 사라진다.
+
+## 처방
+
+- **앞쪽** — `animation-delay`/`transition-delay`. 응답이 지연보다 빠르면 스피너를 통째로 건너뛴다. `@starting-style` 단독(지연 0)으로는 못 막는다.
+- **뒤쪽** — CSS는 시작만 통제하고 끝은 CSS가 모르는 응답 시각이 정하니, 사라지는 시각을 JS에서 민다(`useMinimumLoading`). 최소 노출은 **처음 보인 시각부터** 잰다: 사라지는 시각 = `max(응답 시각, firstVisibleAt + 최소 노출)`. 요청 시점부터 재면 표 마지막 줄에서 안 떠도 될 스피너를 붙잡는다.
+
+## 밟은 것
+
+- `spawn`한 프로세스만 죽이면 Chrome 자식이 남아 다음 실행이 옛 페이지에 붙는다 → `detached: true` + `process.kill(-pid)`.
+- 옛 페이지에 붙은 채 `Runtime.enable`하면 이전 console 메시지가 다시 온다.
+- 포트가 뜨기 전 `/json`은 `ECONNREFUSED` → 폴링.
+- 첫 측정은 느리다(hold 100에 응답 149ms) → 첫 줄은 다시 잰다.
 
 <AutoIframe
   src="/iframe/loading_flicker_explorer.html"
   title="지연·지속 시간·응답 시각과 최소 노출 시간을 조절하며 앞쪽 억제와 뒤쪽 깜빡임이 어떻게 달라지는지 관찰"
 />
 
-**왜 갈리나**: **CSS는 시작만 통제한다.** 스피너가 보이는 구간은 `[뜬 시각, unmount 시각]`인데, 지연은 앞쪽을 미루고 지속 시간은 애니메이션 길이일 뿐 요소가 DOM에 남는 시간이 아니다. 뒤쪽 끝은 응답이 언제 오느냐가 정하고 **그건 CSS가 모르는 값**이다. 그래서 "최소 몇 ms는 보인다"를 CSS만으로는 보장할 수 없다.
-
-**함정**
-
-- 억제력은 **지연에서만** 나온다 — `@starting-style` 단독(지연 0)으론 앞쪽을 못 막는다.
-- 이미 떴다는 사실은 못 되돌린다. 뒤쪽은 CSS가 가진 두 값(지연·지속 시간)으로 잡을 수 없고 **사라지는 시각 자체를 미뤄야** 한다 — CSS 밖, JS 타이밍이다.
-
 곁가지 — `@starting-style`은 **같은 뿌리의 반대편**이다. transition은 두 상태 사이를 보간하는데, 진입에는 옮겨갈 이전 상태가 없고[^starting-style] 퇴장에는 요소 자체가 이미 사라진다. `@starting-style`은 앞쪽의 출발값을 대신 정해주고(진입 fade-in), `useMinimumLoading`은 뒤쪽의 unmount를 미룬다. 뿌리는 같아도 **손대는 지점이 달라 별개 결정**이다.
 
 [^starting-style]: CSS transition은 요소의 첫 스타일 적용이나 `display: none` → 표시 전환에서는 기본적으로 발동하지 않는다. `@starting-style`이 "무엇에서 출발할지"를 정의해 그걸 가능하게 한다. ([@starting-style — MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/@starting-style))
+
+[^spinner-observed]: Chrome 154 headless 에서 raw CDP 로 실측 (2026-09-30). `/api` 요청을 `Fetch.requestPaused` 로 100·350ms 붙잡고, 스피너(`animation: fade 100ms <지연> both`)의 `opacity` 를 매 `requestAnimationFrame` 마다 읽었다. 프로브를 먼저 걸고 버튼 클릭으로 스피너를 띄운 실행에서도 hold 100 → 0프레임, hold 350 → 2프레임(34ms)으로 같았다. 프로브 대 trace 비교는 스피너를 400px 빨간 상자로 두고 `Tracing` 의 `Screenshot` 이벤트를 받아, JPEG 를 `sips` 로 BMP 로 바꿔 상자 안 한 점의 픽셀을 읽었다 — hold 350 에서 `(255,199,200)` → `(255,109,110)` → `(255,51,52)` → 흰색.

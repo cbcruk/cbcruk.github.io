@@ -36,21 +36,10 @@ export function Memo({ raw = false, preview = false, memo, children }: Props) {
           <h2 className="font-bold text-base mb-4">{title}</h2>
         ))
         .otherwise(() => null)}
-      {folded ? (
-        <>
-          {summary && <MemoSummary>{summary}</MemoSummary>}
-          {when && (
-            <MemoWhen>
-              <b className="font-bold">언제</b> — {when}
-            </MemoWhen>
-          )}
-        </>
-      ) : (
-        <>
-          <MemoBody>{children}</MemoBody>
-          <MemoSources sources={sources} />
-        </>
-      )}
+      <>
+        <MemoBody>{children}</MemoBody>
+        <MemoSources sources={sources} />
+      </>
       <MemoFooter className="mt-4">
         <MemoTags>
           {memo.data.tags.map((tag) => (
@@ -59,8 +48,7 @@ export function Memo({ raw = false, preview = false, memo, children }: Props) {
           {memo.data.embed && <MemoEmbedLink url={memo.data.embed} />}
         </MemoTags>
         <MemoIdAndDate>
-          <MemoId id={memo.id} />
-          {raw && <MemoRaw id={memo.id} />}
+          {raw ? <MemoRaw id={memo.id} /> : <MemoId id={memo.id} />}
           <MemoDate ctime={memo.data.ctime} mtime={memo.data.mtime} />
         </MemoIdAndDate>
       </MemoFooter>

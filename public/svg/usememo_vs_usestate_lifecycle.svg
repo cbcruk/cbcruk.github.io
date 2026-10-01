@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>useMemo 캐시와 useState 값이 사라지는 길</title>
+<desc>useMemo(calc, []): 마운트 → 캐시 없음. 캐시 없음 → 렌더·계산 → 캐시 있음(값 v). 캐시 있음 → deps 같음 → 재사용. 캐시 있음 → 캐시 폐기(HMR·첫 마운트 중 suspend·화면 밖) → 캐시 없음. 다시 계산하면 순수는 같은 v 라 드러나지 않고, 랜덤은 다른 v′ 라 값이 바뀐다. useState(init): 마운트·init 1회 → state(값 v). state → 리렌더·HMR → 유지. state → 언마운트 → 끝. 값이 사라지는 길은 언마운트뿐.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker>
+</defs>
+<rect width="860" height="300" fill="#FFFFFF"/>
+
+<rect x="12" y="34" width="510" height="254" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="24" y="26" class="m">useMemo(calc, [])</text>
+
+<circle cx="105" cy="64" r="5" fill="#555"/>
+<line x1="105" y1="69" x2="105" y2="106" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="115" y="92" class="s">마운트</text>
+
+<rect x="40" y="110" width="130" height="54" rx="27" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="105" y="142" text-anchor="middle" class="b">캐시 없음</text>
+
+<rect x="320" y="110" width="170" height="54" rx="27" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="405" y="133" text-anchor="middle" class="b">캐시 있음</text>
+<text x="405" y="151" text-anchor="middle" class="m">값 v</text>
+
+<line x1="170" y1="137" x2="316" y2="137" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="243" y="129" text-anchor="middle" class="s">렌더 · 계산</text>
+
+<path d="M375 110 C375 66, 435 66, 435 106" fill="none" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="405" y="60" text-anchor="middle" class="s">deps 같음 → 재사용</text>
+
+<path d="M405 164 C405 214, 105 214, 105 168" fill="none" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="255" y="226" text-anchor="middle" class="o">캐시 폐기 — HMR · 첫 마운트 중 suspend · 화면 밖</text>
+
+<text x="32" y="256" class="s">다시 계산하면</text>
+<text x="126" y="256" class="s">순수 → 같은 <tspan class="m">v</tspan> · 드러나지 않는다</text>
+<text x="126" y="276" class="o">랜덤 → 다른 <tspan class="m" style="fill:#C2621A">v′</tspan> · 값이 바뀐다</text>
+
+<rect x="538" y="34" width="310" height="254" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="550" y="26" class="m">useState(init)</text>
+
+<circle cx="665" cy="64" r="5" fill="#555"/>
+<line x1="665" y1="69" x2="665" y2="106" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="675" y="92" class="s">마운트 · init 1회</text>
+
+<rect x="580" y="110" width="170" height="54" rx="27" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="665" y="133" text-anchor="middle" class="b">state</text>
+<text x="665" y="151" text-anchor="middle" class="m">값 v</text>
+
+<path d="M635 164 C635 208, 695 208, 695 168" fill="none" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="665" y="226" text-anchor="middle" class="s">리렌더 · HMR → 유지</text>
+
+<line x1="750" y1="137" x2="800" y2="137" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="776" y="129" text-anchor="middle" class="s">언마운트</text>
+<circle cx="815" cy="137" r="10" fill="none" stroke="#555" stroke-width="1.5"/>
+<circle cx="815" cy="137" r="5" fill="#555"/>
+
+<text x="560" y="266" class="s">값이 사라지는 길은 언마운트뿐</text>
+</svg>

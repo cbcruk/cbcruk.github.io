@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 270" width="100%" role="img">
+<title>모달을 열고 닫을 때 남는 리스너 수 — React 19 와 18</title>
+<desc>모달을 열기 → 닫기 → 열기 → 닫기 → 열기 한 뒤 바깥을 클릭한다. React 19: 열 때 ref(node) 가 mousedown 리스너를 추가하고, 닫을 때 반환한 cleanup 이 제거해 남는 리스너가 1 → 0 → 1 → 0 → 1 이다. 바깥 클릭에 handler 가 한 번만 불린다. React 18 이하: 반환한 cleanup 은 무시되고, 닫을 때 같은 콜백이 ref(null) 로 다시 불려 본문이 또 돈다 — node 가 null 인 리스너가 하나 더 붙는다. 남는 리스너가 1 → 2 → 3 → 4 → 5 로 쌓이고, 바깥 클릭에 handler 가 세 번 불리고 null.contains 에서 TypeError 가 두 번 난다. 18 이하는 리스너를 별도 ref 에 저장하거나 useEffect 를 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}.c{font-size:20px;font-weight:700}</style>
+<rect width="860" height="270" fill="#FFFFFF"/>
+
+<text x="195" y="34" text-anchor="middle" class="s">열기</text>
+<text x="300" y="34" text-anchor="middle" class="s">닫기</text>
+<text x="405" y="34" text-anchor="middle" class="s">열기</text>
+<text x="510" y="34" text-anchor="middle" class="s">닫기</text>
+<text x="615" y="34" text-anchor="middle" class="s">열기</text>
+<text x="750" y="34" text-anchor="middle" class="b">바깥 클릭</text>
+
+<text x="20" y="74" class="b">React 19</text>
+<text x="20" y="91" class="s">cleanup 반환 지원</text>
+<rect x="150" y="56" width="90" height="26" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="195" y="74" text-anchor="middle" class="m">add</text>
+<rect x="255" y="56" width="90" height="26" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="300" y="74" text-anchor="middle" class="m">cleanup</text>
+<rect x="360" y="56" width="90" height="26" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="405" y="74" text-anchor="middle" class="m">add</text>
+<rect x="465" y="56" width="90" height="26" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="510" y="74" text-anchor="middle" class="m">cleanup</text>
+<rect x="570" y="56" width="90" height="26" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="615" y="74" text-anchor="middle" class="m">add</text>
+<text x="195" y="110" text-anchor="middle" class="c" style="fill:#2F6DB5">1</text>
+<text x="300" y="110" text-anchor="middle" class="c" style="fill:#2F6DB5">0</text>
+<text x="405" y="110" text-anchor="middle" class="c" style="fill:#2F6DB5">1</text>
+<text x="510" y="110" text-anchor="middle" class="c" style="fill:#2F6DB5">0</text>
+<text x="615" y="110" text-anchor="middle" class="c" style="fill:#2F6DB5">1</text>
+<rect x="690" y="56" width="140" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="760" y="80" text-anchor="middle" class="b">handler 1번</text>
+<text x="760" y="99" text-anchor="middle" class="g">✓ cleanup 이 돈다</text>
+
+<text x="20" y="164" class="b">React 18 이하</text>
+<text x="20" y="181" class="s">cleanup 무시</text>
+<rect x="150" y="146" width="90" height="26" rx="5" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="195" y="164" text-anchor="middle" class="m">add</text>
+<rect x="255" y="146" width="90" height="26" rx="5" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="300" y="164" text-anchor="middle" class="m" style="fill:#C2621A">ref(null)</text>
+<rect x="360" y="146" width="90" height="26" rx="5" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="405" y="164" text-anchor="middle" class="m">add</text>
+<rect x="465" y="146" width="90" height="26" rx="5" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="510" y="164" text-anchor="middle" class="m" style="fill:#C2621A">ref(null)</text>
+<rect x="570" y="146" width="90" height="26" rx="5" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="615" y="164" text-anchor="middle" class="m">add</text>
+<text x="195" y="200" text-anchor="middle" class="c" style="fill:#C2621A">1</text>
+<text x="300" y="200" text-anchor="middle" class="c" style="fill:#C2621A">2</text>
+<text x="405" y="200" text-anchor="middle" class="c" style="fill:#C2621A">3</text>
+<text x="510" y="200" text-anchor="middle" class="c" style="fill:#C2621A">4</text>
+<text x="615" y="200" text-anchor="middle" class="c" style="fill:#C2621A">5</text>
+<rect x="690" y="146" width="140" height="56" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="760" y="170" text-anchor="middle" class="b">handler 3번</text>
+<text x="760" y="189" text-anchor="middle" class="o">✕ + TypeError 2번</text>
+
+<text x="150" y="232" class="s">큰 숫자 = 그 시점에 남아 있는 <tspan class="m">mousedown</tspan> 리스너 수 · 18 은 <tspan class="m">ref(null)</tspan> 때 본문이 다시 돌아 <tspan class="m">node=null</tspan> 리스너도 붙는다</text>
+<text x="150" y="254" class="s">18 이하는 리스너를 별도 ref 에 저장하거나 <tspan class="m">useEffect</tspan> 를 쓴다</text>
+</svg>

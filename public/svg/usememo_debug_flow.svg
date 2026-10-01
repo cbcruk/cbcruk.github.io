@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 310" width="100%" role="img">
+<title>useMemo 가 안 먹힐 때 디버깅 흐름</title>
+<desc>1 렌더가 느린가(Profiler ms) → 2 재사용되나(calc 횟수) → 3 왜 다시 계산하나(Object.is 로 참조 비교) → 4 누가 새 참조를 만드나(부모로 거슬러 올라가 useMemo) → 5 고쳐졌나(같은 조작으로 횟수와 ms 비교). 1 에서 병목이 아니면 멈춘다. 5 에서 둘 다 줄었으면 해결이고, 횟수는 줄었는데 ms 가 그대로면 병목이 다른 곳이라 1 로 돌아간다. 6 값이 틀리다면 느린 게 아니라 별개 축이다 — stale closure 는 exhaustive-deps 로, 비결정 계산은 두 번 호출 결과 비교나 HMR 로 확인한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker>
+</defs>
+<rect width="860" height="310" fill="#FFFFFF"/>
+
+<path d="M770 86 L770 44 L90 44 L90 82" fill="none" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ao)"/>
+<text x="430" y="36" text-anchor="middle" class="o">횟수는 줄었는데 ms 그대로 → 병목은 다른 곳</text>
+
+<rect x="20" y="86" width="140" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="90" y="109" text-anchor="middle" class="b">1 렌더가 느린가</text>
+<text x="90" y="128" text-anchor="middle" class="s">Profiler ms</text>
+<rect x="190" y="86" width="140" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="260" y="109" text-anchor="middle" class="b">2 재사용되나</text>
+<text x="260" y="128" text-anchor="middle" class="m">calc 횟수</text>
+<rect x="360" y="86" width="140" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="430" y="109" text-anchor="middle" class="b">3 왜 다시 계산</text>
+<text x="430" y="128" text-anchor="middle" class="m">Object.is</text>
+<rect x="530" y="86" width="140" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="600" y="109" text-anchor="middle" class="b">4 누가 새 참조를</text>
+<text x="600" y="128" text-anchor="middle" class="s">부모로 → useMemo</text>
+<rect x="700" y="86" width="140" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="770" y="109" text-anchor="middle" class="b">5 고쳐졌나</text>
+<text x="770" y="128" text-anchor="middle" class="s">같은 조작 · 횟수 + ms</text>
+
+<line x1="160" y1="114" x2="186" y2="114" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="330" y1="114" x2="356" y2="114" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="500" y1="114" x2="526" y2="114" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="670" y1="114" x2="696" y2="114" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<line x1="90" y1="142" x2="90" y2="188" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="100" y="170" class="s">병목 아님</text>
+<rect x="20" y="192" width="140" height="44" rx="7" fill="none" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="90" y="219" text-anchor="middle" class="s">useMemo 볼 이유 없음</text>
+
+<line x1="770" y1="142" x2="770" y2="188" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="760" y="170" text-anchor="end" class="s">둘 다 줄었다</text>
+<rect x="700" y="192" width="140" height="44" rx="7" fill="#2F6DB5" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="770" y="219" text-anchor="middle" class="b" style="fill:#FFFFFF">해결</text>
+
+<rect x="190" y="178" width="480" height="120" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="206" y="200" class="b">6 값이 틀리다면 — 느린 게 아니라 별개 축</text>
+<rect x="206" y="214" width="215" height="66" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="313" y="238" text-anchor="middle" class="b">stale closure</text>
+<text x="313" y="260" text-anchor="middle" class="m">exhaustive-deps</text>
+<rect x="439" y="214" width="215" height="66" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="546" y="238" text-anchor="middle" class="b">비결정 계산</text>
+<text x="546" y="260" text-anchor="middle" class="s">두 번 호출 비교 · HMR</text>
+</svg>

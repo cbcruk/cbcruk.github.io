@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 320" width="100%" role="img">
+<title>take 가 끝나면 return() 이 소스까지 닫는다</title>
+<desc>toArray 가 next() 로 당길 때만 take → filter → fetchPages 순으로 계산이 거슬러 올라가고, 아이템은 fetchPages → filter(isValid) → take(10) → toArray 로 흐른다. fetchPages 는 현재 페이지를 다 당긴 뒤에야 다음 페이지를 요청한다. 예를 들어 10개가 2페이지에서 차면 take 가 끝나며 return() 이 filter 를 거쳐 fetchPages 까지 거슬러 올라가 소스를 닫는다 — finally 가 돌아 연결·커서를 정리하고, 3페이지는 요청되지 않는다. 요청 수를 세면 확인된다. for await 에서 break 해도 같은 return() 이 일어난다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#8A8A8A"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker>
+</defs>
+<rect width="860" height="320" fill="#FFFFFF"/>
+
+<text x="30" y="26" class="s">API 페이지 · 예: 10개가 2페이지에서 찬다</text>
+<rect x="30" y="36" width="56" height="34" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="58" y="58" text-anchor="middle" class="s">1 ✓</text>
+<rect x="92" y="36" width="56" height="34" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="120" y="58" text-anchor="middle" class="s">2 ✓</text>
+<rect x="154" y="36" width="56" height="34" rx="5" fill="none" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="182" y="58" text-anchor="middle" class="o">3 ✕</text>
+<text x="218" y="58" class="o">요청 안 함</text>
+<line x1="120" y1="70" x2="120" y2="146" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="128" y="112" class="s">한 페이지 다 당긴 뒤 다음</text>
+
+<line x1="720" y1="138" x2="164" y2="138" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#a)"/>
+<text x="560" y="130" text-anchor="middle" class="s">next() — 당길 때만 거슬러 올라가 계산한다</text>
+
+<rect x="30" y="150" width="180" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="120" y="172" text-anchor="middle" class="m">fetchPages()</text>
+<text x="120" y="190" text-anchor="middle" class="s">async generator</text>
+<rect x="260" y="150" width="140" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="330" y="180" text-anchor="middle" class="m">filter(isValid)</text>
+<rect x="450" y="150" width="140" height="50" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="520" y="180" text-anchor="middle" class="m">take(10)</text>
+<rect x="640" y="150" width="160" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="720" y="180" text-anchor="middle" class="m">toArray()</text>
+
+<line x1="210" y1="175" x2="256" y2="175" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<line x1="400" y1="175" x2="446" y2="175" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<line x1="590" y1="175" x2="636" y2="175" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+
+<path d="M520 200 L520 222 L330 222 L330 204" fill="none" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+<path d="M330 222 L120 222 L120 204" fill="none" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="525" y="240" class="o">10개 차면 return() 이 거슬러 올라간다</text>
+
+<rect x="30" y="250" width="240" height="30" rx="6" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<text x="150" y="270" text-anchor="middle" class="o">finally — 연결·커서 정리</text>
+<line x1="120" y1="222" x2="120" y2="246" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+
+<text x="30" y="306" class="s">요청 수를 세면 확인된다 · 폴리필 없이 <tspan class="m">for await</tspan> 에서 <tspan class="m">break</tspan> 해도 같은 <tspan class="m">return()</tspan> 이 난다</text>
+</svg>

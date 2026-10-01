@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 320" width="100%" role="img">
+<title>요청 취소가 서버에 닿는가를 가르는 경계</title>
+<desc>요청은 send(클라이언트) → in-flight(네트워크) → processing(서버) → resp(응답) 네 구간을 지난다. 결과를 가르는 경계는 send 가 끝나는 순간 하나다. 빠른 네트워크에서 전송이 끝난 뒤 abort 하면 promise 는 reject 되지만 서버는 요청을 받아 처리하고, 클라이언트는 응답을 안 읽을 뿐이다. 같은 시각에 abort 해도 네트워크가 느려 전송이 그 시각을 넘겨 끝나면 전송이 끊겨 서버는 요청을 다 받지 못한다(헤더·본문 일부는 도착할 수 있다). 서버가 처리 중일 때 abort 해도 서버 입장에선 전송 뒤 abort 와 같다 — reject 이면서 서버는 처리한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}</style>
+<rect width="860" height="320" fill="#FFFFFF"/>
+
+<rect x="150" y="40" width="100" height="24" rx="3" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="200" y="57" text-anchor="middle" class="m">send</text>
+<rect x="250" y="40" width="80" height="24" rx="3" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="290" y="57" text-anchor="middle" class="m">in-flight</text>
+<rect x="330" y="40" width="140" height="24" rx="3" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="400" y="57" text-anchor="middle" class="m">processing</text>
+<rect x="470" y="40" width="90" height="24" rx="3" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="515" y="57" text-anchor="middle" class="m">resp</text>
+<text x="200" y="82" text-anchor="middle" class="s">클라이언트</text>
+<text x="290" y="82" text-anchor="middle" class="s">네트워크</text>
+<text x="400" y="82" text-anchor="middle" class="s">서버</text>
+<text x="515" y="82" text-anchor="middle" class="s">응답</text>
+<line x1="250" y1="30" x2="250" y2="70" stroke="#C2621A" stroke-width="3"/>
+<text x="20" y="57" class="o">경계는 하나 →</text>
+<text x="250" y="24" text-anchor="middle" class="o">전송 완료</text>
+
+<text x="640" y="120" text-anchor="middle" class="s">promise</text>
+<text x="720" y="120" text-anchor="middle" class="s">다 받음</text>
+<text x="800" y="120" text-anchor="middle" class="s">서버 처리</text>
+
+<line x1="290" y1="108" x2="290" y2="206" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="290" y="102" text-anchor="middle" class="m" style="fill:#C2621A">abort()</text>
+
+<text x="20" y="150" class="b">빠른 네트워크</text>
+<rect x="150" y="136" width="100" height="20" rx="3" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<rect x="250" y="136" width="80" height="20" rx="3" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="330" y="136" width="140" height="20" rx="3" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<rect x="470" y="136" width="90" height="20" rx="3" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="515" y="150" text-anchor="middle" class="s">안 읽음</text>
+<text x="640" y="150" text-anchor="middle" class="o">reject</text>
+<text x="720" y="150" text-anchor="middle" class="o">✓</text>
+<text x="800" y="150" text-anchor="middle" class="o">✓</text>
+
+<text x="20" y="190" class="b">느린 네트워크</text>
+<text x="20" y="206" class="s">같은 abort 시각</text>
+<rect x="150" y="176" width="140" height="20" rx="3" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<rect x="290" y="176" width="60" height="20" rx="3" fill="none" stroke="#2F6DB5" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="360" y="191" class="g">전송이 끊김 — 서버는 다 못 받음</text>
+<text x="640" y="190" text-anchor="middle" class="s">reject</text>
+<text x="720" y="190" text-anchor="middle" class="g">✗</text>
+<text x="800" y="190" text-anchor="middle" class="g">✗</text>
+
+<text x="20" y="240" class="b">처리 중 취소</text>
+<rect x="150" y="226" width="100" height="20" rx="3" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<rect x="250" y="226" width="80" height="20" rx="3" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="330" y="226" width="140" height="20" rx="3" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<rect x="470" y="226" width="90" height="20" rx="3" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="400" y1="218" x2="400" y2="254" stroke="#C2621A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="406" y="264" class="m" style="fill:#C2621A">abort()</text>
+<text x="640" y="240" text-anchor="middle" class="o">reject</text>
+<text x="720" y="240" text-anchor="middle" class="o">✓</text>
+<text x="800" y="240" text-anchor="middle" class="o">✓</text>
+
+<text x="20" y="292" class="o">reject 와 "서버가 다 처리했다"는 동시에 참일 수 있다 — 첫째·셋째 줄</text>
+<text x="20" y="310" class="s">abort 시각이 같아도 전송이 그 시각을 넘겨 끝나면 "다 받음"이 참 → 거짓으로 뒤집힌다</text>
+</svg>
