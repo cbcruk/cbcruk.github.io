@@ -16,7 +16,7 @@ sources:
 
 **데스크톱 없이 안드로이드 기기 한 대로 그 기기의 Chrome을 디버깅한다.** 순서를 기억하려고 적어둔 것이다 — 각 단계의 방법이 아니라 밟는 차례가 내용이다.
 
-![폰 한 대(Termux) 안에서 순서는 셋이다. ① adb forward 가 Chrome 의 chrome_devtools_remote unix socket 을 localhost:9222 로 연다 — 9222 는 /json 으로 탭 목록을, /devtools/page/{id} 로 페이지별 CDP WebSocket 을 준다. ② 파이썬 aiohttp 프록시를 9223 에 띄우고 /json 으로 탭을 고른다. ③ termux-open-url 로 폰 브라우저에서 appspot.com 의 DevTools 프론트엔드를 ?ws=localhost:9223/{id} 로 연다. 프론트엔드가 9222 에 직접 붙으면 Origin: appspot.com 이 붙어 Chrome 이 403 으로 거부한다(Origin 검사, Chrome 111~). 프록시는 중계가 아니라 프론트엔드 WS 를 종단하고, 파이썬이 Origin 없는 새 WS 로 9222 에 재접속해 통과한다. ws://localhost 는 localhost 가 secure context 라 HTTPS 페이지에서도 안 막힌다. 다른 길 둘 — Chrome 을 --remote-allow-origins=* 로 띄우거나 프론트엔드를 localhost 에 self-host — 은 해보지 않았다.](/svg/android_devtools_via_proxy.svg)
+![폰 한 대(Termux) 안에서 순서는 셋이다. ① adb forward 가 Chrome 의 chrome_devtools_remote unix socket 을 localhost:9222 로 연다 — 9222 는 /json 으로 탭 목록을, /devtools/page/\{id\} 로 페이지별 CDP WebSocket 을 준다. ② 파이썬 aiohttp 프록시를 9223 에 띄우고 /json 으로 탭을 고른다. ③ termux-open-url 로 폰 브라우저에서 appspot.com 의 DevTools 프론트엔드를 ?ws=localhost:9223/\{id\} 로 연다. 프론트엔드가 9222 에 직접 붙으면 Origin: appspot.com 이 붙어 Chrome 이 403 으로 거부한다(Origin 검사, Chrome 111~). 프록시는 중계가 아니라 프론트엔드 WS 를 종단하고, 파이썬이 Origin 없는 새 WS 로 9222 에 재접속해 통과한다. ws://localhost 는 localhost 가 secure context 라 HTTPS 페이지에서도 안 막힌다. 다른 길 둘 — Chrome 을 --remote-allow-origins=* 로 띄우거나 프론트엔드를 localhost 에 self-host — 은 해보지 않았다.](/svg/android_devtools_via_proxy.svg)
 
 막히는 건 Origin 검사 하나다.[^chromium-devtools-403]
 

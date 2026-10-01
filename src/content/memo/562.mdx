@@ -22,7 +22,7 @@ sources:
 
 핵심은 **런타임 DI vs 빌드 타임 DI**. 런타임 어댑터는 간접층이 배포물에 남아 인라이닝·tree-shaking을 막는다. 빌드 타임 swap은 이음매가 출력물에서 증발한다 — `createSignal`이 문자 그대로 `shallowRef`가 된다. (`#ifdef` 대 런타임 `if`)
 
-![런타임 어댑터: 폼 코어 → 어댑터(프레임워크 분기) → 프레임워크 signal. 세 단계가 모두 배포물에 남아 간접층이 인라이닝·tree-shaking 을 막는다. 빌드 타임 swap: 폼 코어는 createSignal 을 이름으로만 import 하고 → 번들러가 타깃별 sibling 으로 import 를 다시 쓴다 → index.vue.ts 는 shallowRef 한 줄, index.solid.ts 는 얇은 래퍼, index.react.ts 는 140줄짜리 pub/sub. 출력물에는 이음매가 없다 — createSignal 이 문자 그대로 shallowRef 가 된다. 가능했던 이유는 계약이 Signal&lt;T&gt; = { value: T } 프로퍼티 하나라서다.](/svg/build_time_signal_swap.svg)
+![런타임 어댑터: 폼 코어 → 어댑터(프레임워크 분기) → 프레임워크 signal. 세 단계가 모두 배포물에 남아 간접층이 인라이닝·tree-shaking 을 막는다. 빌드 타임 swap: 폼 코어는 createSignal 을 이름으로만 import 하고 → 번들러가 타깃별 sibling 으로 import 를 다시 쓴다 → index.vue.ts 는 shallowRef 한 줄, index.solid.ts 는 얇은 래퍼, index.react.ts 는 140줄짜리 pub/sub. 출력물에는 이음매가 없다 — createSignal 이 문자 그대로 shallowRef 가 된다. 가능했던 이유는 계약이 Signal&lt;T&gt; = \{ value: T \} 프로퍼티 하나라서다.](/svg/build_time_signal_swap.svg)
 
 가능했던 이유는 계약을 극단적으로 좁힌 것이다. `Signal<T>`는 `{ value: T }` **프로퍼티 하나**다. `.value` shape로 모인 Vue·Preact·Qwik은 그래서 한 줄로 충족된다.
 
