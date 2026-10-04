@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240" width="100%" role="img">
+<title>병렬화 — 개수가 아니라 충돌 가능성</title>
+<desc>서로 다른 feature 디렉터리나 다른 앱이면 동시에 돌린다. 공용 타입·디자인 토큰·API 클라이언트는 직렬로 강제한다 — 병렬 이득이 거의 없고 머지 충돌 비용만 는다. 마이그레이션·스키마 변경은 단독 실행. 동시 개수는 1시간에 리뷰 가능한 PR 수 곱하기 자동 검증 통과율을 넘지 않는다. 통과율이 50% 면 개수를 늘려도 사람 병목이 그대로라, 개수를 늘리기 전에 통과율을 올린다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="240" fill="#FFFFFF"/>
+<rect x="20" y="36" width="250" height="64" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="145.0" y="63" text-anchor="middle" class="b">동시 실행</text>
+<text x="145.0" y="81" text-anchor="middle" class="s">서로 다른 feature · 다른 앱</text>
+<rect x="300" y="36" width="250" height="64" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="425.0" y="63" text-anchor="middle" class="b">직렬 강제</text>
+<text x="425.0" y="81" text-anchor="middle" class="s">공용 타입 · 디자인 토큰 · API 클라이언트</text>
+<rect x="580" y="36" width="260" height="64" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="710.0" y="63" text-anchor="middle" class="b">단독 실행</text>
+<text x="710.0" y="81" text-anchor="middle" class="s">마이그레이션 · 스키마 변경</text>
+<text x="430" y="140" text-anchor="middle" class="mb">동시 개수 ≤ 1시간에 리뷰 가능한 PR 수 × 자동 검증 통과율</text>
+<text x="430" y="172" text-anchor="middle" class="s">통과율 50% 면 개수를 늘려도 사람 병목이 그대로</text>
+<text x="430" y="200" text-anchor="middle" class="o">→ 개수를 늘리기 전에 통과율을 올린다</text>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="100%" role="img">
+<title>Knob 표 · Content 표 · 린트</title>
+<desc>Knob 은 data/tuning.ts 한 객체에 모은다. Content 표 PORTS 는 문자열 id 로 쓰고, 거기서 id 리터럴 유니온(PortId)을 타입으로 뽑아 ROUTES 같은 다른 표의 참조를 제약한다 — 없는 id 를 참조하면 타입 에러. 초기화에서 한 번 id → 인덱스 Map 을 만들고 런타임은 인덱스를 쓴다 — 표 중간에 행을 넣어도 안 깨진다. 좌표에서 계산되는 거리 같은 파생값은 표에 넣지 않고, 덮어써야 하면 이름에 드러낸다. 코드의 숫자 리터럴은 린트로 막고 data/ 는 예외다. 표 값을 지역 변수로 복사해 거기에 곱하면 린트가 못 잡으니 리뷰로 본다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="330" fill="#FFFFFF"/>
+<text x="20" y="24" class="b">작성</text>
+<text x="320" y="24" class="b">로드 시 1회</text>
+<text x="600" y="24" class="b">계산 · 강제</text>
+<rect x="20" y="36" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145.0" y="54" text-anchor="middle" class="b">Knob 표 (data/tuning.ts)</text>
+<text x="145.0" y="72" text-anchor="middle" class="s">Knob 을 한 객체에 모은다</text>
+<rect x="20" y="96" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145.0" y="114" text-anchor="middle" class="b">Content 표 (PORTS)</text>
+<text x="145.0" y="132" text-anchor="middle" class="s">참조는 문자열 id 로 쓴다</text>
+<rect x="20" y="156" width="250" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="145.0" y="174" text-anchor="middle" class="b">id 리터럴 유니온 (PortId)</text>
+<text x="145.0" y="192" text-anchor="middle" class="s">표에서 타입으로 뽑는다</text>
+<rect x="20" y="216" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145.0" y="234" text-anchor="middle" class="b">다른 표의 참조 (ROUTES)</text>
+<text x="145.0" y="252" text-anchor="middle" class="g">없는 id → 타입 에러</text>
+<line x1="145" y1="142" x2="145" y2="152" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="145" y1="202" x2="145" y2="212" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="320" y="96" width="230" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="435.0" y="114" text-anchor="middle" class="b">id → 인덱스 Map</text>
+<text x="435.0" y="132" text-anchor="middle" class="s">초기화에서 한 번 만든다</text>
+<rect x="320" y="176" width="230" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="435.0" y="194" text-anchor="middle" class="b">런타임은 인덱스</text>
+<text x="435.0" y="212" text-anchor="middle" class="s">항구를 중간에 넣어도 안 깨진다</text>
+<line x1="270" y1="119" x2="316" y2="119" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="435" y1="142" x2="435" y2="172" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M270 239 L295 239 L295 130 L316 130" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="600" y="36" width="240" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="720.0" y="54" text-anchor="middle" class="b">파생값은 표에 넣지 않는다</text>
+<text x="720.0" y="72" text-anchor="middle" class="s">거리 = 좌표에서 계산</text>
+<text x="720.0" y="90" text-anchor="middle" class="s">덮어쓰려면 이름에 드러낸다</text>
+<rect x="600" y="116" width="240" height="64" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="720.0" y="134" text-anchor="middle" class="b">리터럴 금지 린트</text>
+<text x="720.0" y="152" text-anchor="middle" class="s">코드의 숫자 리터럴 → CI 실패</text>
+<text x="720.0" y="170" text-anchor="middle" class="s">data/ 는 예외</text>
+<rect x="600" y="196" width="240" height="66" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="720.0" y="215" text-anchor="middle" class="r">린트가 못 잡는 것</text>
+<text x="720.0" y="233" text-anchor="middle" class="s">표 값을 지역 변수로 복사해</text>
+<text x="720.0" y="251" text-anchor="middle" class="s">거기에 곱하면 → 리뷰로 본다</text>
+<text x="20" y="300" class="s">확인 — 아무 함수에 숫자를 곱해 넣으면 CI 가 빨개지는가 · 표 중간에 행을 넣어도 아무것도 안 깨지는가</text>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 290" width="100%" role="img">
+<title>롤백이 제자리인 이유 — 리스트와 커서</title>
+<desc>history 를 리스트와 커서로 보면 go(n) 은 리스트를 건드리지 않고 커서만 옮긴다. 커서가 C 에 있을 때 사용자가 뒤로 가면 커서가 B 로 이미 옮겨지고, 롤백 go(+1) 이 커서를 C 로 돌려놓는다 — 리스트는 그대로라 겉보기엔 아무 일도 없었던 것처럼 된다. 다만 롤백은 범위 안에서만 제자리다: 0 ≤ idx + n 을 벗어나는 go 는 아무 일도 하지 않으니, 일어나지도 않은 이동을 되돌리면 오히려 진짜로 움직인다. 이 패턴에선 이동이 없으면 navigate 가 안 떠 롤백을 부를 일이 없다. 브라우저가 사용자를 위해 막아둔 걸 되돌리는 우회라 정말 붙잡아야 할 때만 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="290" fill="#FFFFFF"/>
+<text x="20" y="56" class="b">지금</text>
+<rect x="220" y="30" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="260.0" y="54" text-anchor="middle" class="mb">A</text>
+<rect x="310" y="30" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="350.0" y="54" text-anchor="middle" class="mb">B</text>
+<rect x="400" y="30" width="80" height="40" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="440.0" y="54" text-anchor="middle" class="mb">C</text>
+<rect x="490" y="30" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="530.0" y="54" text-anchor="middle" class="mb">D</text>
+<text x="440" y="86" text-anchor="middle" class="o">▲ 커서</text>
+<text x="20" y="120" class="b">뒤로 — 이미 움직임</text>
+<rect x="220" y="94" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="260.0" y="118" text-anchor="middle" class="mb">A</text>
+<rect x="310" y="94" width="80" height="40" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="350.0" y="118" text-anchor="middle" class="mb">B</text>
+<rect x="400" y="94" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="440.0" y="118" text-anchor="middle" class="mb">C</text>
+<rect x="490" y="94" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="530.0" y="118" text-anchor="middle" class="mb">D</text>
+<text x="350" y="150" text-anchor="middle" class="o">▲ 커서</text>
+<text x="20" y="184" class="b">롤백 go(+1)</text>
+<rect x="220" y="158" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="260.0" y="182" text-anchor="middle" class="mb">A</text>
+<rect x="310" y="158" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="350.0" y="182" text-anchor="middle" class="mb">B</text>
+<rect x="400" y="158" width="80" height="40" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="440.0" y="182" text-anchor="middle" class="mb">C</text>
+<rect x="490" y="158" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="530.0" y="182" text-anchor="middle" class="mb">D</text>
+<text x="440" y="214" text-anchor="middle" class="o">▲ 커서</text>
+<text x="600" y="184" class="g">제자리</text>
+<text x="600" y="56" class="s">리스트는 그대로</text>
+<text x="600" y="76" class="s">커서만 옮긴다</text>
+<text x="20" y="244" class="o">함정 — 범위 밖 go 는 아무 일도 안 한다 → 일어나지 않은 이동을 되돌리면 진짜로 움직인다 (이동이 없으면 navigate 도 안 뜬다)</text>
+<text x="20" y="268" class="s">브라우저가 사용자를 위해 막아둔 걸 되돌리는 우회 — 정말 붙잡아야 할 때만</text>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" width="100%" role="img">
+<title>해소 — 후보 리스트를 하나로 접기</title>
+<desc>후보 리스트(공변 기준, 반변은 관계를 반대로 본다)에서 익명 객체·배열 리터럴이 여럿이면 먼저 union 한다(named 타입끼리는 안 한다). 그다음 ① 전부 같은 base 의 리터럴이면 union — f('a', 'b') 는 "a" | "b". ② 아니면 다른 모두의 strict 상위인 후보가 있으면 그것 — f(d, a) 는 Animal. ③ 없으면 왼쪽부터 접고, 상위가 리스트에 없으면 첫 후보 — f(d, c) 는 Dog, f('a', 1) 은 "a". 철칙: 결과는 리스트에 없는 타입이 될 수 없다. f(d, c) 는 공통 상위 Animal 도 Dog | Cat 도 아니다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="340" fill="#FFFFFF"/>
+<rect x="20" y="36" width="220" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130.0" y="54" text-anchor="middle" class="b">후보 리스트</text>
+<text x="130.0" y="72" text-anchor="middle" class="s">공변 기준 · 반변은 관계 반대로</text>
+<rect x="290" y="36" width="270" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="425.0" y="54" text-anchor="middle" class="s">익명 객체·배열 리터럴이 여럿이면</text>
+<text x="425.0" y="72" text-anchor="middle" class="s">먼저 union  (named 끼리는 안 함)</text>
+<line x1="240" y1="59" x2="286" y2="59" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="425" y1="82" x2="425" y2="106" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="290" y="110" width="270" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="425.0" y="137" text-anchor="middle" class="s">① 전부 같은 base 의 리터럴?</text>
+<line x1="560" y1="133" x2="606" y2="133" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="583" y="126" text-anchor="middle" class="s">예</text>
+<rect x="610" y="110" width="230" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="725.0" y="128" text-anchor="middle" class="b">union</text>
+<text x="725.0" y="146" text-anchor="middle" class="m">f('a', 'b') → "a" | "b"</text>
+<line x1="425" y1="156" x2="425" y2="176" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="433" y="172" class="s">아니오</text>
+<rect x="290" y="180" width="270" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="425.0" y="207" text-anchor="middle" class="s">② 다른 모두의 strict 상위 후보?</text>
+<line x1="560" y1="203" x2="606" y2="203" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="583" y="196" text-anchor="middle" class="s">예</text>
+<rect x="610" y="180" width="230" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="725.0" y="198" text-anchor="middle" class="b">그 후보</text>
+<text x="725.0" y="216" text-anchor="middle" class="m">f(d, a) → Animal</text>
+<line x1="425" y1="226" x2="425" y2="246" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="433" y="242" class="s">아니오</text>
+<rect x="290" y="250" width="270" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="425.0" y="268" text-anchor="middle" class="s">③ 왼쪽부터 접는다</text>
+<text x="425.0" y="286" text-anchor="middle" class="s">상위가 리스트에 없으면 첫 후보</text>
+<line x1="560" y1="273" x2="606" y2="273" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="610" y="250" width="230" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="725.0" y="268" text-anchor="middle" class="b">첫 후보</text>
+<text x="725.0" y="286" text-anchor="middle" class="m">f(d, c) → Dog · f('a', 1) → "a"</text>
+<text x="20" y="326" class="r">철칙 — 리스트에 없는 타입은 나오지 않는다. f(d, c) 는 Animal 도 Dog | Cat 도 아니다</text>
+</svg>

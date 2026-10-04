@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>feature map — 앱이 뭔지 알려준다</title>
+<desc>검증 스킬만 있으면 에이전트는 앱을 실행할 수는 있지만 그 앱이 뭔지 모른다. 라우팅 정의와 최상위 레이아웃부터 읽고, 전부가 아니라 문의가 많은 화면 10개만 기록한다. 화면마다 사용자가 부르는 이름(컴포넌트명 아님), 도달 경로(URL + 클릭 순서), 선택자(없으면 없음), 담당 디렉터리, 진입 조건(인증·권한·데이터 상태). 진짜 산출물은 선택자 없음 목록이다 — 검증 자동화가 어디서 막히는지가 거기 나오고, 그게 다음 스프린트의 작업이다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="20" y="36" width="200" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="120.0" y="54" text-anchor="middle" class="b">라우팅 · 최상위 레이아웃</text>
+<text x="120.0" y="72" text-anchor="middle" class="s">부터 읽는다</text>
+<text x="120.0" y="90" text-anchor="middle" class="s">컴포넌트를 무작위로 열지 않는다</text>
+<rect x="260" y="36" width="160" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="340.0" y="63" text-anchor="middle" class="b">문의 많은 화면</text>
+<text x="340.0" y="81" text-anchor="middle" class="s">10개만</text>
+<rect x="460" y="30" width="200" height="112" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="560.0" y="54" text-anchor="middle" class="b">화면마다</text>
+<text x="560.0" y="72" text-anchor="middle" class="s">사용자가 부르는 이름</text>
+<text x="560.0" y="90" text-anchor="middle" class="s">도달 경로 (URL + 클릭)</text>
+<text x="560.0" y="108" text-anchor="middle" class="o">선택자 — 없으면 "없음"</text>
+<text x="560.0" y="126" text-anchor="middle" class="s">담당 디렉터리 · 진입 조건</text>
+<rect x="700" y="36" width="140" height="64" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="770.0" y="63" text-anchor="middle" class="b">선택자 없음 목록</text>
+<text x="770.0" y="81" text-anchor="middle" class="o">= 진짜 산출물</text>
+<line x1="220" y1="68" x2="256" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="420" y1="68" x2="456" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="660" y1="68" x2="696" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="770" y="124" text-anchor="middle" class="s">→ 다음 스프린트 작업</text>
+<text x="20" y="186" class="s">검증 스킬만으로는 앱을 실행할 수는 있어도 "사이드바"까지 가는 길을 모른다</text>
+</svg>

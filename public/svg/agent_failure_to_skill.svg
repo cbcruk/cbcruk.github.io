@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 290" width="100%" role="img">
+<title>실패 모드를 스킬로 승격</title>
+<desc>툴 콜과 thinking 블록을 펼쳐 읽고 실패를 다섯 유형으로 나눈다. 미탐색(읽지도 않고 원인 단언) → 스킬: 추측 전 검색 강제. 조기 확신(첫 가설을 검증 없이 채택) → 스킬: 가설 2개 + 배제 근거. 도달 실패(UI 에서 기능까지 못 감) → R03 보강. 도구 부재 → R02 확장. 범위 이탈(시키지 않은 리팩터링) → R06 하드 제약. 같은 유형이 3회 이상 나올 때만 스킬로 만든다. 스킬 하나에 유형 하나, 하지 마라보다 대신 이걸 해라, description 에 언제 쓰지 말아야 하는지 한 줄.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="290" fill="#FFFFFF"/>
+<rect x="20" y="100" width="170" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="105.0" y="118" text-anchor="middle" class="b">툴 콜 · thinking</text>
+<text x="105.0" y="136" text-anchor="middle" class="s">을 펼쳐 읽는다</text>
+<text x="105.0" y="154" text-anchor="middle" class="s">최종 출력만 보면 안 보인다</text>
+<rect x="230" y="20" width="300" height="38" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="380.0" y="43" text-anchor="middle" class="s">미탐색 — 읽지도 않고 원인 단언</text>
+<rect x="580" y="20" width="260" height="38" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="710.0" y="43" text-anchor="middle" class="s">스킬: 추측 전 검색 강제</text>
+<line x1="530" y1="39" x2="576" y2="39" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="190" y1="132" x2="230" y2="39" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="230" y="66" width="300" height="38" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="380.0" y="89" text-anchor="middle" class="s">조기 확신 — 첫 가설을 검증 없이 채택</text>
+<rect x="580" y="66" width="260" height="38" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="710.0" y="89" text-anchor="middle" class="s">스킬: 가설 2개 + 배제 근거</text>
+<line x1="530" y1="85" x2="576" y2="85" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="190" y1="132" x2="230" y2="85" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="230" y="112" width="300" height="38" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="380.0" y="135" text-anchor="middle" class="s">도달 실패 — UI 에서 기능까지 못 감</text>
+<rect x="580" y="112" width="260" height="38" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="710.0" y="135" text-anchor="middle" class="s">R03 보강</text>
+<line x1="530" y1="131" x2="576" y2="131" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="190" y1="132" x2="230" y2="131" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="230" y="158" width="300" height="38" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="380.0" y="181" text-anchor="middle" class="s">도구 부재 — 확인할 방법이 없다</text>
+<rect x="580" y="158" width="260" height="38" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="710.0" y="181" text-anchor="middle" class="s">R02 확장</text>
+<line x1="530" y1="177" x2="576" y2="177" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="190" y1="132" x2="230" y2="177" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="230" y="204" width="300" height="38" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="380.0" y="227" text-anchor="middle" class="s">범위 이탈 — 시키지 않은 리팩터링</text>
+<rect x="580" y="204" width="260" height="38" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="710.0" y="227" text-anchor="middle" class="s">R06 하드 제약</text>
+<line x1="530" y1="223" x2="576" y2="223" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="190" y1="132" x2="230" y2="223" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="20" y="274" class="o">같은 유형 3회 이상일 때만 스킬로 · 스킬 하나에 유형 하나 · "하지 마라" 보다 "대신 이걸 해라" · description 에 "언제 쓰지 말지"</text>
+</svg>

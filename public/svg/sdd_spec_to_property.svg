@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>명세가 곧 테스트의 원천 — SDD 에서 PBT 까지</title>
+<desc>보통은 코드를 짠 뒤 테스트를 짠다. SDD(Kiro)는 스펙을 requirements → design → tasks 로 문서화하면서 acceptance criteria 에서 검증 가능한 불변식(testable property)을 먼저 뽑는다 — 명세가 곧 테스트의 원천이다. 그 property 를 순수 함수에서는 fast-check 로 PBT 하고, UI 로 넓히면 Bombadil 이 action generator + property 로 검증한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<text x="20" y="24" class="b">보통</text>
+<rect x="80" y="10" width="120" height="26" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="140.0" y="27" text-anchor="middle" class="s">코드</text>
+<line x1="200" y1="23" x2="236" y2="23" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="240" y="10" width="120" height="26" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="300.0" y="27" text-anchor="middle" class="s">테스트</text>
+<text x="20" y="82" class="b">SDD</text>
+<rect x="80" y="66" width="96" height="28" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="128.0" y="84" text-anchor="middle" class="m">requirements</text>
+<rect x="190" y="66" width="96" height="28" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="238.0" y="84" text-anchor="middle" class="m">design</text>
+<line x1="176" y1="80" x2="188" y2="80" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="300" y="66" width="96" height="28" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="348.0" y="84" text-anchor="middle" class="m">tasks</text>
+<line x1="286" y1="80" x2="298" y2="80" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="80" y="116" width="316" height="44" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="238.0" y="133" text-anchor="middle" class="mb">acceptance criteria</text>
+<text x="238.0" y="151" text-anchor="middle" class="s">에서 불변식을 먼저 뽑는다</text>
+<line x1="238" y1="94" x2="238" y2="116" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<rect x="450" y="116" width="170" height="44" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="535.0" y="133" text-anchor="middle" class="mb">testable property</text>
+<text x="535.0" y="151" text-anchor="middle" class="o">명세가 곧 테스트의 원천</text>
+<line x1="396" y1="138" x2="446" y2="138" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="670" y="66" width="170" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="755.0" y="86" text-anchor="middle" class="mb">fast-check</text>
+<text x="755.0" y="104" text-anchor="middle" class="s">PBT · 순수 함수에 강하다</text>
+<rect x="670" y="150" width="170" height="60" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="755.0" y="166" text-anchor="middle" class="mb">Bombadil</text>
+<text x="755.0" y="184" text-anchor="middle" class="s">UI — action generator</text>
+<text x="755.0" y="202" text-anchor="middle" class="s">+ property</text>
+<line x1="620" y1="130" x2="666" y2="96" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="620" y1="146" x2="666" y2="176" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="236" class="o">테스트를 코드 뒤가 아니라 명세 단계에서 — 검증 가능한 불변식을 먼저 규정한다</text>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>브랜치명 해시로 결정적 포트</title>
+<desc>브랜치(워크트리) 이름을 shasum 으로 해시해 숫자만 6자리 뽑고, 6000 으로 나눈 나머지에 3100 을 더해 PORT 로 .env.local 에 쓴다. 같은 브랜치는 항상 같은 포트라 재현되고 URL 을 기억할 수 있다. macOS 엔 md5sum 이 없으니 shasum·cksum 을 쓴다. 10# 은 선행 0 을 8진수로 읽어 간헐적으로 죽는 걸 막는다. 해시 충돌은 드물지만 결정적이라 한 번 나면 그 브랜치쌍은 영원히 충돌한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<rect x="20" y="40" width="150" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="95.0" y="72" text-anchor="middle" class="mb">브랜치 이름</text>
+<rect x="186" y="40" width="150" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="261.0" y="63" text-anchor="middle" class="mb">shasum</text>
+<text x="261.0" y="81" text-anchor="middle" class="s">macOS 엔 md5sum 없음</text>
+<line x1="170" y1="68" x2="184" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="352" y="40" width="150" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="427.0" y="63" text-anchor="middle" class="mb">숫자 6자리</text>
+<text x="427.0" y="81" text-anchor="middle" class="s">10# — 8진수로 읽지 않게</text>
+<line x1="336" y1="68" x2="350" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="518" y="40" width="150" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="593.0" y="63" text-anchor="middle" class="mb">% 6000 + 3100</text>
+<text x="593.0" y="81" text-anchor="middle" class="s">3100 ~ 9099</text>
+<line x1="502" y1="68" x2="516" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="684" y="40" width="150" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="759.0" y="63" text-anchor="middle" class="mb">.env.local</text>
+<text x="759.0" y="81" text-anchor="middle" class="s">PORT · VITE_PORT</text>
+<line x1="668" y1="68" x2="682" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="140" class="g">같은 브랜치 → 항상 같은 포트 — 재현되고 URL 을 기억할 수 있다</text>
+<text x="20" y="166" class="o">함정 — 충돌은 드물지만 결정적이라 한 번 나면 그 브랜치쌍은 영원히 충돌한다</text>
+</svg>

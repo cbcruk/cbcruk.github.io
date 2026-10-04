@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 332" width="100%" role="img">
+<title>useGenerator — reducer 전이와 재진입 정책</title>
+<desc>useGenerator 의 상태는 useReducer 하나다. idle 에서 start 로 running 이 되고(에러도 함께 비운다), yield 는 status 를 두고 value 만 바꾸며, generator 가 끝나면 done, 본문 어디서든 throw 하면 catch 에서 error 로 errored 다. cancel 은 abort 하고 idle 로 되돌린다 — 안 하면 running 에 멈춘다. unmount 되면 cleanup 이 abort 하고, 기다리던 await wait 가 reject 돼 throw 가 나지만 aborted 라 에러로 치지 않는다. 같은 훅을 쓰는 쪽이 재진입 정책을 고른다: LoadingButton 은 running 동안 disabled 로 다시 못 누르게 하고 JSX 를 yield 하면 그대로 라벨이 된다. 검색은 run(q) 마다 직전 실행을 abort 하고 다시 시작해, a 다음 ab 를 치면 a 의 remote 결과가 끼어들지 않는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="332" fill="#FFFFFF"/>
+<text x="20" y="74" class="b">status</text>
+<rect x="90" y="55" width="110" height="30" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145.0" y="74" text-anchor="middle" class="mb">idle</text>
+<rect x="240" y="55" width="110" height="30" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="295.0" y="74" text-anchor="middle" class="mb">running</text>
+<rect x="410" y="55" width="110" height="30" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="465.0" y="74" text-anchor="middle" class="mb">done</text>
+<rect x="410" y="105" width="110" height="30" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="465.0" y="124" text-anchor="middle" class="mb">errored</text>
+<line x1="200" y1="70" x2="236" y2="70" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="218" y="100" text-anchor="middle" class="m">start</text>
+<line x1="350" y1="70" x2="406" y2="70" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="378" y="64" text-anchor="middle" class="m">done</text>
+<path d="M270 55 C270 22 320 22 320 51" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="295" y="24" text-anchor="middle" class="s">yield — value 만 바꾼다</text>
+<path d="M295 85 L295 120 L406 120" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="350" y="114" text-anchor="middle" class="m">error (throw)</text>
+<rect x="600" y="40" width="240" height="74" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="720.0" y="63" text-anchor="middle" class="mb">cancel</text>
+<text x="720.0" y="81" text-anchor="middle" class="s">abort + idle 로</text>
+<text x="720.0" y="99" text-anchor="middle" class="o">안 하면 running 에 멈춘다</text>
+<rect x="20" y="156" width="820" height="50" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="430.0" y="176" text-anchor="middle" class="b">unmount → cleanup 이 abort</text>
+<text x="430.0" y="194" text-anchor="middle" class="s">기다리던 await wait 가 reject → throw 가 나지만 aborted 라 에러로 치지 않는다</text>
+<text x="20" y="238" class="b">같은 훅, 쓰는 쪽이 재진입 정책을 고른다</text>
+<rect x="20" y="250" width="400" height="64" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="220.0" y="268" text-anchor="middle" class="mb">LoadingButton</text>
+<text x="220.0" y="286" text-anchor="middle" class="s">running 동안 disabled → 다시 못 누른다</text>
+<text x="220.0" y="304" text-anchor="middle" class="s">JSX 를 yield 하면 그대로 라벨</text>
+<rect x="440" y="250" width="400" height="64" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="640.0" y="268" text-anchor="middle" class="mb">Search — run(q) 마다</text>
+<text x="640.0" y="286" text-anchor="middle" class="s">직전 실행을 abort 하고 다시 시작</text>
+<text x="640.0" y="304" text-anchor="middle" class="g">a 다음 ab → a:remote 가 끼어들지 않는다</text>
+</svg>

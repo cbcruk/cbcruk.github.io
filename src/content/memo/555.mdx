@@ -3,9 +3,9 @@ type: note
 kind: Explainer
 title: Navigation API 이탈 방지의 두 갈래 — 사전 차단과 사후 롤백
 tags: ['navigation-api', 'router']
-status: draft
+status: release
 ctime: 2026-06-15
-mtime: 2026-09-10
+mtime: 2026-10-03
 generated: { by: claude/opus-5, at: 2026-08-21T03:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-21T03:00:00Z }
 sources:
@@ -19,41 +19,15 @@ sources:
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-Navigation API로 라우터를 만들면 **떠나는 모든 경로가 `navigate` 이벤트 하나로 모인다** — 링크 클릭·폼 제출·프로그램 호출은 물론 `history.pushState()`까지. 라우터가 가로채야 할 것을 한 자리에서 잡는다.
-
-그런데 라우터가 흔히 제공하는 기능 하나에서 막힌다 — **이탈 방지**(저장 안 된 폼에서 "정말 나가시겠습니까"). `preventDefault()`가 있으니 될 것 같은데, `push`·`replace`·`reload`는 되고 **뒤로·앞으로(`traverse`)만 안 된다.**
-
-그리고 이건 누락이 아니라 **의도된 설계**다.[^chrome-navigation-api]
-
-> 사용자가 브라우저의 뒤로·앞으로 버튼을 누르는 경우엔 `preventDefault()`로 취소할 수 없다 — **사용자를 사이트에 가둘 수 있으면 안 되기 때문이다.**
-
-## 그래서 라우터 안에 경로가 둘 생긴다
-
 **언제**: Navigation API로 만든 라우터에 이탈 방지(저장 안 된 폼에서 "정말 나가시겠습니까")를 붙일 때.
 
-셋은 **사전 차단**, 뒤로·앞으로는 이미 움직였으니 **사후 롤백**이다. 블로커가 켜져 있을 때:
+![링크 클릭·폼 제출·프로그램 호출·history.pushState()·뒤로·앞으로까지 떠나는 모든 경로가 navigate 이벤트 하나로 모인다. 블로커가 켜져 있을 때 navigationType 이 push·replace·reload 면 preventDefault() 로 아예 안 움직이게 막는다(사전 차단) — 이때 destination.index 는 -1 이다. traverse(뒤로·앞으로)는 사용자를 사이트에 가둘 수 없도록 preventDefault() 로 취소할 수 없어 이미 움직인 뒤다. 그래서 history.go(현재 index − destination.index) 로 되돌린다(사후 롤백) — destination.index 는 traverse 일 때만 목적지 커서 값을 준다. API 자체가 같은 선을 긋고 있어 블로커 하나로 통일할 수 없고 라우터 안에 두 갈래가 남는다.](/svg/nav_two_paths.svg)
 
-```js
-onNavigate(e) {
-  if (e.navigationType !== 'traverse') return e.preventDefault()   // 아예 안 움직임
-  history.go(navigation.currentEntry.index - e.destination.index)  // 일어난 뒤 되돌림
-}
-```
+![history 를 리스트와 커서로 보면 go(n) 은 리스트를 건드리지 않고 커서만 옮긴다. 커서가 C 에 있을 때 사용자가 뒤로 가면 커서가 B 로 이미 옮겨지고, 롤백 go(+1) 이 커서를 C 로 돌려놓는다 — 리스트는 그대로라 겉보기엔 아무 일도 없었던 것처럼 된다. 다만 롤백은 범위 안에서만 제자리다: 0 ≤ idx + n 을 벗어나는 go 는 아무 일도 하지 않으니, 일어나지도 않은 이동을 되돌리면 오히려 진짜로 움직인다. 이 패턴에선 이동이 없으면 navigate 가 안 떠 롤백을 부를 일이 없다. 브라우저가 사용자를 위해 막아둔 걸 되돌리는 우회라 정말 붙잡아야 할 때만 쓴다.](/svg/nav_cursor_rollback.svg)
 
-되돌릴 거리는 API가 준다 — `destination.index`가 목적지 커서고, 지금 커서와의 차이가 곧 이동량이다.
-
-**그런데 그 `index`는 `traverse`일 때만 값이 있다. 나머지 셋에서는 `-1`이다.**[^mdn-navigation-destination] 라우터가 억지로 나눈 게 아니라 **API 자체가 같은 선을 긋고 있다.** blocker 하나로 통일할 수 없고, 라이브러리 안에서 두 갈래를 계속 유지해야 한다.
-
-## 롤백이 정말 제자리인가
-
-history를 **리스트 + 커서**로 보면 그렇다. `go(n)`은 리스트를 건드리지 않고 **커서만** 옮긴다. 그러니 `go(n)` 다음 `go(-n)`은 커서를 원래 자리로 돌려놓는다 — 겉보기엔 아무 일도 없었던 것처럼 된다.
+근거 — 뒤로·앞으로는 취소할 수 없도록 설계됐고[^chrome-navigation-api], `destination.index` 는 `traverse` 일 때만 값이 있다.[^mdn-navigation-destination]
 
 **확인**: 블로커를 켠 채 다섯 가지 이동을 다 해본다. `push`·`replace`·`reload`는 **아예 안 움직이고**, 뒤로·앞으로는 움직였다 제자리로 돌아오면 된 것이다.
-
-**함정**
-
-- **롤백은 범위 안에서만 제자리다.** `0 ≤ idx + n`을 벗어나는 `go`는 아무 일도 하지 않는다 — 그러니 일어나지도 않은 이동을 되돌리면 오히려 진짜로 움직인다. 이 패턴에선 그럴 일이 없지만(이동이 없으면 `navigate` 이벤트도 안 뜨니 롤백을 부를 일이 없다), 등식이 무조건 성립하는 건 아니다.
-- **우회라는 걸 알고 쓴다.** 브라우저가 사용자를 위해 막아둔 걸 되돌리는 것이라, 정말 붙잡아야 할 때만 쓴다.
 
 <AutoIframe
   src="/iframe/traverse-rollback-explorer.html"

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>searchTiers — 새 입력이 이전 tier 를 끊는다</title>
+<desc>0ms 에 a 를 치면 run(a) 가 시작해 100ms 대기 뒤 a:local 을 yield 하고, 300ms 더 기다려 400ms 에 a:remote 를 낼 참이다. 그런데 150ms 에 ab 를 치면 run(ab) 가 직전 실행을 abort 하고, a 가 기다리던 wait 가 reject 돼 그 자리에서 멈춘다 — a:remote 는 오지 않는다. run(ab) 는 250ms 에 ab:local, 550ms 에 ab:local,ab:remote 를 내고 done 이 된다. 화면에는 a:local → ab:local → ab:local,ab:remote 순서로만 보인다. tier 경계(await wait)가 그대로 취소 지점이라 debounce 가 필요 없다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="300" fill="#FFFFFF"/>
+<line x1="120" y1="230" x2="780.0" y2="230" stroke="#555" stroke-width="1.2"/>
+<line x1="120.0" y1="226" x2="120.0" y2="234" stroke="#555" stroke-width="1.2"/>
+<text x="120.0" y="250" text-anchor="middle" class="s">0ms</text>
+<line x1="230.0" y1="226" x2="230.0" y2="234" stroke="#555" stroke-width="1.2"/>
+<text x="230.0" y="250" text-anchor="middle" class="s">100ms</text>
+<line x1="340.0" y1="226" x2="340.0" y2="234" stroke="#555" stroke-width="1.2"/>
+<text x="340.0" y="250" text-anchor="middle" class="s">200ms</text>
+<line x1="450.0" y1="226" x2="450.0" y2="234" stroke="#555" stroke-width="1.2"/>
+<text x="450.0" y="250" text-anchor="middle" class="s">300ms</text>
+<line x1="560.0" y1="226" x2="560.0" y2="234" stroke="#555" stroke-width="1.2"/>
+<text x="560.0" y="250" text-anchor="middle" class="s">400ms</text>
+<line x1="670.0" y1="226" x2="670.0" y2="234" stroke="#555" stroke-width="1.2"/>
+<text x="670.0" y="250" text-anchor="middle" class="s">500ms</text>
+<line x1="780.0" y1="226" x2="780.0" y2="234" stroke="#555" stroke-width="1.2"/>
+<text x="780.0" y="250" text-anchor="middle" class="s">600ms</text>
+<text x="20" y="54" class="mb">run('a')</text>
+<rect x="120.0" y="38" width="110.00000000000001" height="28" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="175.0" y="56" text-anchor="middle" class="s">wait 100</text>
+<rect x="230.0" y="38" width="55.00000000000001" height="28" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="257.5" y="56" text-anchor="middle" class="s">wait</text>
+<rect x="285.0" y="38" width="275.0" height="28" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="422.5" y="56" text-anchor="middle" class="s">wait 300 의 나머지 — 끊김</text>
+<text x="291.0" y="84" class="r">abort → wait reject → 그 자리에서 멈춤</text>
+<text x="230.0" y="30" text-anchor="middle" class="m">yield a:local</text>
+<line x1="230.0" y1="34" x2="230.0" y2="66" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="560.0" y="30" text-anchor="middle" class="r">a:remote — 오지 않는다</text>
+<line x1="560.0" y1="34" x2="560.0" y2="66" stroke="#B3261E" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="20" y="124" class="mb">run('ab')</text>
+<rect x="285.0" y="108" width="110.00000000000001" height="28" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="340.0" y="126" text-anchor="middle" class="s">wait 100</text>
+<rect x="395.0" y="108" width="330.0" height="28" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="560.0" y="126" text-anchor="middle" class="s">wait 300</text>
+<text x="395.0" y="100" text-anchor="middle" class="m">yield ab:local</text>
+<line x1="395.0" y1="104" x2="395.0" y2="136" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="725.0" y="100" text-anchor="middle" class="m">yield +remote → done</text>
+<line x1="725.0" y1="104" x2="725.0" y2="136" stroke="#2F6DB5" stroke-width="1.2"/>
+<line x1="285.0" y1="20" x2="285.0" y2="226" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="289.0" y="216" class="o">ab 입력 → 직전 abort</text>
+<text x="20" y="180" class="b">화면</text>
+<rect x="230.0" y="164" width="165.0" height="28" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="312.5" y="182" text-anchor="middle" class="m">a:local</text>
+<rect x="395.0" y="164" width="330.0" height="28" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="560.0" y="182" text-anchor="middle" class="m">ab:local</text>
+<rect x="725.0" y="164" width="85.0" height="28" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="767.5" y="182" text-anchor="middle" class="m">+remote</text>
+<text x="20" y="284" class="o">tier 경계(await wait)가 그대로 취소 지점 — debounce 없이도 늦은 결과가 끼어들지 않는다</text>
+</svg>

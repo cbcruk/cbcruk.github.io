@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 440" width="100%" role="img">
+<title>표 중심 개발 — 레시피 13개와 튜닝 루프</title>
+<desc>기반 네 단계는 순서대로다: 01 숫자를 Shape·Knob·Content 로 가르고, 02 Knob 표를 만들고 리터럴 금지 린트로 강제하고, 03 표는 ID 로 참조하고 파생값을 저장하지 않으며, 04 검증기가 표 확장 속도의 상한을 정한다. 측정 인프라 세 단계도 순서대로다: 05 시드 고정 RNG, 06 UI 없는 헤드리스 시뮬, 07 Random·Greedy·Optimizer 봇 셋의 결과가 갈려야 한다. 지표 넷은 순서 무관: 08 유의미한 선택지가 3 아래면 플레이어는 관객, 09 행동 분포 엔트로피가 1 bit 아래로 떨어지는 고착 시점, 10 무한 차익은 음수 사이클로 찾아 validate 에 넣고, 11 20 시드 중앙값 기준선과 비교해 15% 넘는 변화만 본다. 이것들이 표 수정 → validate → sim과 봇 → 지표 diff → 다시 표 수정의 루프를 닫고, 한 바퀴가 몇 분 안에 돌아야 한다. 언제든 쓰는 둘: 12 콘텐츠를 채우기 전에 24시간 안에 버릴 Shape 스파이크로 곡선 모양을 보고, 13 콘텐츠 대량 생산은 validate 통과를 완료 조건으로 건다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="440" fill="#FFFFFF"/>
+<text x="20" y="24" class="b">기반 — 순서대로</text>
+<rect x="20" y="36" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145.0" y="54" text-anchor="middle" class="b">01 튜닝 표면 파악</text>
+<text x="145.0" y="72" text-anchor="middle" class="s">Shape · Knob · Content 로 가른다</text>
+<rect x="20" y="94" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145.0" y="112" text-anchor="middle" class="b">02 Knob 표 + 리터럴 금지 린트</text>
+<text x="145.0" y="130" text-anchor="middle" class="s">강제 없는 규칙은 이틀을 못 간다</text>
+<line x1="145.0" y1="82" x2="145.0" y2="92" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="20" y="152" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145.0" y="170" text-anchor="middle" class="b">03 스키마</text>
+<text x="145.0" y="188" text-anchor="middle" class="s">참조는 ID · 파생값은 저장하지 않는다</text>
+<line x1="145.0" y1="140" x2="145.0" y2="150" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="20" y="210" width="250" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="145.0" y="228" text-anchor="middle" class="b">04 검증기</text>
+<text x="145.0" y="246" text-anchor="middle" class="s">표 확장 속도의 상한</text>
+<line x1="145.0" y1="198" x2="145.0" y2="208" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="305" y="24" class="b">측정 인프라 — 순서대로</text>
+<rect x="305" y="36" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="430.0" y="54" text-anchor="middle" class="b">05 시드 고정 RNG</text>
+<text x="430.0" y="72" text-anchor="middle" class="s">같은 시드 → 같은 결과</text>
+<rect x="305" y="94" width="250" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="430.0" y="112" text-anchor="middle" class="b">06 헤드리스 시뮬</text>
+<text x="430.0" y="130" text-anchor="middle" class="s">UI 없이 N턴</text>
+<line x1="430.0" y1="82" x2="430.0" y2="92" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="305" y="152" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="430.0" y="170" text-anchor="middle" class="b">07 봇 3종</text>
+<text x="430.0" y="188" text-anchor="middle" class="s">Random · Greedy · Optimizer 가 갈려야</text>
+<line x1="430.0" y1="140" x2="430.0" y2="150" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="590" y="24" class="b">지표 — 순서 무관</text>
+<rect x="590" y="36" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="715.0" y="54" text-anchor="middle" class="b">08 선택지 폭</text>
+<text x="715.0" y="72" text-anchor="middle" class="s">유의미한 행동 &lt; 3 이면 관객</text>
+<rect x="590" y="94" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="715.0" y="112" text-anchor="middle" class="b">09 고착 시점</text>
+<text x="715.0" y="130" text-anchor="middle" class="s">행동 엔트로피 &lt; 1 bit</text>
+<rect x="590" y="152" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="715.0" y="170" text-anchor="middle" class="b">10 무한 차익</text>
+<text x="715.0" y="188" text-anchor="middle" class="s">음수 사이클 → validate 에 넣는다</text>
+<rect x="590" y="210" width="250" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="715.0" y="228" text-anchor="middle" class="b">11 기준선 diff</text>
+<text x="715.0" y="246" text-anchor="middle" class="s">20 시드 중앙값 · 15% 넘는 변화</text>
+<line x1="270" y1="59" x2="301" y2="59" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="555" y1="59" x2="586" y2="59" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="296" class="b">튜닝 루프</text>
+<rect x="20" y="306" width="190" height="42" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="115.0" y="331" text-anchor="middle" class="b">표 수정</text>
+<rect x="230" y="306" width="190" height="42" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="325.0" y="322" text-anchor="middle" class="b">validate</text>
+<text x="325.0" y="340" text-anchor="middle" class="s">04 · 10</text>
+<rect x="440" y="306" width="190" height="42" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="535.0" y="322" text-anchor="middle" class="b">sim + 봇</text>
+<text x="535.0" y="340" text-anchor="middle" class="s">06 · 07</text>
+<rect x="650" y="306" width="190" height="42" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="745.0" y="322" text-anchor="middle" class="b">지표 diff</text>
+<text x="745.0" y="340" text-anchor="middle" class="s">08 · 09 · 11</text>
+<line x1="210" y1="327" x2="226" y2="327" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="420" y1="327" x2="436" y2="327" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="630" y1="327" x2="646" y2="327" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M745 348 L745 364 L115 364 L115 352" fill="none" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="430" y="380" text-anchor="middle" class="o">한 바퀴가 몇 분 안에 — 개발 속도의 상한 · 표는 싸다, 루프는 안 싸다</text>
+<rect x="20" y="394" width="400" height="40" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="220.0" y="418" text-anchor="middle" class="s">12 Shape 스파이크 — 콘텐츠 전, 24시간 안에 버릴 것</text>
+<rect x="440" y="394" width="400" height="40" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="640.0" y="418" text-anchor="middle" class="s">13 대량 생산 — 완료 조건 = validate 통과</text>
+<text x="20" y="390" class="s"></text>
+</svg>

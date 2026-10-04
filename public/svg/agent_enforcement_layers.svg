@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 350" width="100%" role="img">
+<title>강제 계층 — 위로 갈수록 강하다</title>
+<desc>강제 수단을 강한 순서로 놓으면 1 코드베이스 구조(디렉터리 규약, feature 코로케이션 — 에이전트는 기존 패턴을 복사한다), 2 타입 시스템(strict, 브랜디드 타입), 3 CI·린트·의존성 검사, 4 hooks(PreToolUse 차단, 로컬), 여기까지 하드. 5 rules·skills·CLAUDE.md 는 소프트, 6 코드 리뷰는 최악. 5·6 만 있으면 무너지는 건 시간 문제다. hooks: PreToolUse 는 exit 2 로 차단하고 사유가 stderr 로 가 자가 수정된다, PostToolUse 는 변경 파일에 한정한다(전체 타입체크는 루프를 끊는다), SubagentStop 은 출력 계약 위반을 반려한다. 하드 후보: 신규 파일 useEffect 금지, 컴포넌트의 fetch 직접 호출 금지, feature 간 cross-import 금지, any·as 신규 추가 금지, 왜가 없는 주석 금지.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="350" fill="#FFFFFF"/>
+<rect x="110" y="20" width="260" height="38" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="240.0" y="43" text-anchor="middle" class="s">1 코드베이스 구조  —  기존 패턴을 복사한다</text>
+<rect x="92" y="66" width="296" height="38" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="240.0" y="89" text-anchor="middle" class="s">2 타입 시스템  —  strict · 브랜디드 타입</text>
+<rect x="74" y="112" width="332" height="38" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="240.0" y="135" text-anchor="middle" class="s">3 CI · 린트 · 의존성 검사  —  하드</text>
+<rect x="56" y="158" width="368" height="38" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="240.0" y="181" text-anchor="middle" class="s">4 hooks  —  하드 (로컬)</text>
+<rect x="38" y="204" width="404" height="38" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="240.0" y="227" text-anchor="middle" class="s">5 rules · skills · CLAUDE.md  —  소프트</text>
+<rect x="20" y="250" width="440" height="38" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="240.0" y="273" text-anchor="middle" class="s">6 코드 리뷰  —  최악</text>
+<text x="20" y="316" class="s">파란 칸 = 하드 · 점선 = 소프트 · 빨간 칸 = 최악</text>
+<text x="490" y="30" class="b">hooks</text>
+<text x="500" y="52" class="s">PreToolUse — exit 2 차단, 사유가 stderr 로 → 자가 수정</text>
+<text x="500" y="72" class="s">PostToolUse — 변경 파일만 (전체 타입체크는 루프를 끊는다)</text>
+<text x="500" y="92" class="s">SubagentStop — 출력 계약 위반 반려</text>
+<text x="490" y="140" class="b">하드로 박을 후보</text>
+<text x="500" y="162" class="s">신규 파일 useEffect 금지 (기존은 허용 → 점진 이행)</text>
+<text x="500" y="182" class="s">컴포넌트에서 fetch 직접 호출 금지</text>
+<text x="500" y="202" class="s">feature 간 cross-import 금지</text>
+<text x="500" y="222" class="s">any · as 신규 추가 금지</text>
+<text x="500" y="242" class="s">"왜" 가 없는 주석 금지</text>
+<text x="20" y="340" class="o">5 · 6 만 있으면 무너지는 건 시간 문제다</text>
+</svg>

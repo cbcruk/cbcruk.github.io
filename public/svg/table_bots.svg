@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>봇 3종 — 셋이 갈려야 게임이 살아 있다</title>
+<desc>Random 은 합법 행동 중 균등 추출이라 여기서 안 죽으면 긴장감이 없다. Greedy 는 1스텝 기대이익 최대라 여기서 이기면 전략 깊이가 없다. Optimizer 는 빔서치나 3~5턴 룩어헤드로 지배 전략을 찾는다. Random 과 Greedy 가 비슷하면 플레이어 선택이 결과에 영향을 못 주고, Greedy 와 Optimizer 가 비슷하면 앞을 내다볼 이유가 없다. 셋의 결과가 뚜렷이 갈려야 한다. Optimizer 를 너무 강하게 만들면 게임이 아니라 봇을 튜닝하게 된다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<rect x="20" y="30" width="240" height="74" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="140.0" y="53" text-anchor="middle" class="b">Random</text>
+<text x="140.0" y="71" text-anchor="middle" class="s">합법 행동 균등 추출</text>
+<text x="140.0" y="89" text-anchor="middle" class="s">여기서 안 죽으면 → 긴장감 없음</text>
+<rect x="310" y="30" width="240" height="74" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="430.0" y="53" text-anchor="middle" class="b">Greedy</text>
+<text x="430.0" y="71" text-anchor="middle" class="s">1스텝 기대이익 최대</text>
+<text x="430.0" y="89" text-anchor="middle" class="s">여기서 이기면 → 전략 깊이 없음</text>
+<rect x="600" y="30" width="240" height="74" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="720.0" y="53" text-anchor="middle" class="b">Optimizer</text>
+<text x="720.0" y="71" text-anchor="middle" class="s">빔서치 · 룩어헤드 3~5턴</text>
+<text x="720.0" y="89" text-anchor="middle" class="s">지배 전략을 찾는다</text>
+<text x="275" y="130" text-anchor="middle" class="mb">Random ≈ Greedy</text>
+<text x="275" y="150" text-anchor="middle" class="r">→ 선택이 결과에 영향 없음</text>
+<text x="565" y="130" text-anchor="middle" class="mb">Greedy ≈ Optimizer</text>
+<text x="565" y="150" text-anchor="middle" class="r">→ 앞을 볼 이유 없음</text>
+<text x="430" y="190" text-anchor="middle" class="g">셋이 뚜렷이 갈려야 한다</text>
+<text x="430" y="214" text-anchor="middle" class="o">함정 — Optimizer 가 너무 강하면 게임이 아니라 봇을 튜닝하게 된다</text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 270" width="100%" role="img">
+<title>gitignore 된 파일 승계</title>
+<desc>새 워크트리엔 .env·로컬 인증서·빌드 캐시가 없어 에이전트가 첫 명령에서 실패하고 원인을 추측하다 세션 절반을 태운다. 승계 목록을 리포의 .worktreeinclude 에 선언하고 훅이 rsync 로 복사한 뒤 pnpm install 한다. 심링크는 금지 — 워크트리에서 값을 바꾸면 메인과 다른 워크트리 전부가 동시에 오염된다. 승계 목록이 곧 유출 경로라 자격증명을 넣으면 워크트리 개수만큼 사본이 늘므로 WorktreeRemove 에서 확실히 지운다. 설치가 오래 걸리면 훅 timeout 을 늘린다 — 타임아웃은 생성 실패다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="270" fill="#FFFFFF"/>
+<rect x="20" y="40" width="200" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="120.0" y="58" text-anchor="middle" class="mb">.worktreeinclude</text>
+<text x="120.0" y="76" text-anchor="middle" class="s">.env · .env.local</text>
+<text x="120.0" y="94" text-anchor="middle" class="s">.certs/ · .tool-versions</text>
+<rect x="260" y="40" width="160" height="64" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="340.0" y="67" text-anchor="middle" class="mb">rsync -R 로 복사</text>
+<text x="340.0" y="85" text-anchor="middle" class="s">cp --parents 는 GNU 전용</text>
+<rect x="460" y="40" width="160" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="540.0" y="67" text-anchor="middle" class="mb">pnpm install</text>
+<text x="540.0" y="85" text-anchor="middle" class="s">오래 걸리면 timeout ↑</text>
+<rect x="660" y="40" width="180" height="64" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="750.0" y="76" text-anchor="middle" class="g">첫 명령부터 돈다</text>
+<line x1="220" y1="72" x2="256" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="420" y1="72" x2="456" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="620" y1="72" x2="656" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="146" class="b">심링크 금지</text>
+<rect x="20" y="158" width="120" height="40" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="80.0" y="182" text-anchor="middle" class="s">워크트리 A</text>
+<rect x="180" y="158" width="120" height="40" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="240.0" y="182" text-anchor="middle" class="s">메인 .env</text>
+<rect x="340" y="158" width="120" height="40" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="400.0" y="182" text-anchor="middle" class="s">워크트리 B</text>
+<line x1="140" y1="178" x2="176" y2="178" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="340" y1="178" x2="304" y2="178" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="220" class="r">한 곳에서 값을 바꾸면 전부 동시에 오염된다</text>
+<rect x="520" y="146" width="320" height="70" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="680.0" y="167" text-anchor="middle" class="b">승계 목록 = 유출 경로</text>
+<text x="680.0" y="185" text-anchor="middle" class="s">자격증명을 넣으면 워크트리 수만큼 사본</text>
+<text x="680.0" y="203" text-anchor="middle" class="o">WorktreeRemove 에서 확실히 지운다</text>
+<text x="20" y="252" class="s">없으면 — 에이전트가 첫 명령에서 실패하고 원인을 추측하다 세션 절반을 태운다</text>
+</svg>

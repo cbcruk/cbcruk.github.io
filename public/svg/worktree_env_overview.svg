@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="100%" role="img">
+<title>에이전트 코딩 환경 — 실행 순서</title>
+<desc>실행 순서: R6 dotfiles 리포(나머지 전부의 저장소) → R5-1 토큰 축소(30분·1회·효과 최대, 격리 설계를 기다릴 이유가 없다) → R1 워크트리 위치(훅 하나) → R2·R3(R1 의 setup() 채우기) → R7 설계 결정 → R4 프리뷰 서버(외부 접근이면 프록시) → R5-2 실행 격리(네이티브 의존이면 컨테이너 불가) → R8 원격 호스트(24시간 호스트가 있을 때만). 각 단계가 독립적으로 가치를 내므로 중간에 멈춰도 된다. 프로젝트 종류가 섞이면 격리 정책도 프로젝트별로 가른다 — 단일 정책은 가장 약한 쪽으로 수렴한다. 유통기한: R1 의 절반은 언젠가 설정 한 줄로 대체되지만 R2·R3·R5·R7 은 워크플로 설계 문제라 대체되지 않는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="330" fill="#FFFFFF"/>
+<rect x="20" y="36" width="190" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="115.0" y="54" text-anchor="middle" class="mb">R6</text>
+<text x="115.0" y="72" text-anchor="middle" class="b">dotfiles 리포</text>
+<text x="115.0" y="90" text-anchor="middle" class="s">나머지의 저장소</text>
+<rect x="230" y="36" width="190" height="64" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="325.0" y="54" text-anchor="middle" class="mb">R5-1</text>
+<text x="325.0" y="72" text-anchor="middle" class="b">토큰 축소</text>
+<text x="325.0" y="90" text-anchor="middle" class="s">30분 · 1회 · 효과 최대</text>
+<line x1="210" y1="68" x2="226" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="440" y="36" width="190" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="535.0" y="54" text-anchor="middle" class="mb">R1</text>
+<text x="535.0" y="72" text-anchor="middle" class="b">워크트리 위치</text>
+<text x="535.0" y="90" text-anchor="middle" class="s">훅 하나</text>
+<line x1="420" y1="68" x2="436" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="650" y="36" width="190" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="745.0" y="54" text-anchor="middle" class="mb">R2 · R3</text>
+<text x="745.0" y="72" text-anchor="middle" class="b">포트 · 파일 승계</text>
+<text x="745.0" y="90" text-anchor="middle" class="s">R1 의 setup() 채우기</text>
+<line x1="630" y1="68" x2="646" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M745 100 L745 116 L115 116 L115 128" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="20" y="132" width="190" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="115.0" y="159" text-anchor="middle" class="mb">R7</text>
+<text x="115.0" y="177" text-anchor="middle" class="b">설계 결정</text>
+<rect x="230" y="132" width="190" height="64" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="325.0" y="150" text-anchor="middle" class="mb">R4</text>
+<text x="325.0" y="168" text-anchor="middle" class="b">프리뷰 서버</text>
+<text x="325.0" y="186" text-anchor="middle" class="s">외부 접근? → 프록시</text>
+<line x1="210" y1="164" x2="226" y2="164" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="440" y="132" width="190" height="64" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="535.0" y="150" text-anchor="middle" class="mb">R5-2</text>
+<text x="535.0" y="168" text-anchor="middle" class="b">실행 격리</text>
+<text x="535.0" y="186" text-anchor="middle" class="s">네이티브 의존? → 불가</text>
+<line x1="420" y1="164" x2="436" y2="164" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="650" y="132" width="190" height="64" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="745.0" y="150" text-anchor="middle" class="mb">R8</text>
+<text x="745.0" y="168" text-anchor="middle" class="b">원격 호스트</text>
+<text x="745.0" y="186" text-anchor="middle" class="s">24시간 호스트가 있을 때만</text>
+<line x1="630" y1="164" x2="646" y2="164" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="226" class="s">점선 = 세 갈래 질문에 따라 축소 · 폐기된다 · 각 단계가 독립적으로 가치를 내므로 중간에 멈춰도 된다</text>
+<text x="20" y="250" class="o">프로젝트가 섞여 있으면 격리 정책도 프로젝트별로 — 단일 정책은 가장 약한 쪽으로 수렴한다</text>
+<text x="20" y="284" class="b">유통기한</text>
+<text x="90" y="284" class="s">R1 의 절반은 언젠가 설정 한 줄로 대체된다 (기본값 문제)</text>
+<text x="90" y="306" class="s">R2 · R3 · R5 · R7 은 도구가 아니라 워크플로 설계라 대체되지 않는다</text>
+</svg>

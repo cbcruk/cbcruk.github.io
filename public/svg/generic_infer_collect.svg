@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 290" width="100%" role="img">
+<title>TRow 후보 줍기 — Props 와 넘긴 값을 나란히 놓는다</title>
+<desc>Props&lt;TRow&gt; 와 넘긴 props 를 칸마다 나란히 놓는다. rows: TRow[] 자리에는 { name: string }[] 이 와서 배열 안의 맨몸 TRow 자리에서 { name: string } 을 후보로 줍는다. renderRow 의 row 는 타입을 안 적었으니 주울 게 없다. extends Record&lt;string, any&gt; 는 넘긴 값이 아니라 후보가 아니고 검사에만 쓰인다. 후보로 TRow = { name: string } 이 정해지면 그 타입이 거꾸로 renderRow 의 row 로 흘러가서 row.name 을 쓸 수 있다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker>
+</defs>
+<rect width="860" height="290" fill="#FFFFFF"/>
+<text x="20" y="26" class="b">Props&lt;TRow&gt;</text>
+<text x="320" y="26" class="b">넘긴 값</text>
+<text x="640" y="26" class="b">후보</text>
+
+<rect x="20" y="38" width="270" height="48" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="67" text-anchor="middle" class="m">rows: TRow[]</text>
+<rect x="320" y="38" width="270" height="48" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="455" y="58" text-anchor="middle" class="m">rows={[{ name: 'lee' }]}</text>
+<text x="455" y="76" text-anchor="middle" class="s">{ name: string }[]</text>
+<rect x="640" y="38" width="200" height="48" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="740" y="67" text-anchor="middle" class="mb">{ name: string }</text>
+<line x1="590" y1="62" x2="636" y2="62" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="305" y="66" text-anchor="middle" class="s">↔</text>
+
+<rect x="20" y="98" width="270" height="48" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="127" text-anchor="middle" class="m">renderRow: (row: TRow, …) =&gt; …</text>
+<rect x="320" y="98" width="270" height="48" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="455" y="118" text-anchor="middle" class="m">(row, index) =&gt; …</text>
+<text x="455" y="136" text-anchor="middle" class="s">row 에 타입을 안 적었다</text>
+<text x="305" y="126" text-anchor="middle" class="s">↔</text>
+<text x="640" y="126" class="s">없음 — 나중에 받아 간다</text>
+
+<rect x="20" y="158" width="270" height="48" rx="7" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="155" y="187" text-anchor="middle" class="m">TRow extends Record&lt;string, any&gt;</text>
+<text x="330" y="187" class="s">넘긴 값이 아니다</text>
+<text x="640" y="187" class="s">후보 아님 — 검사에만</text>
+
+<line x1="740" y1="86" x2="740" y2="100" stroke="#555" stroke-width="1.5"/>
+<path d="M740 100 L850 100 L850 236 L844 236" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="640" y="216" width="200" height="40" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="740" y="241" text-anchor="middle" class="mb">TRow = { name: string }</text>
+
+<path d="M640 236 L560 236 L560 150" fill="none" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="320" y="276" class="o">정해진 TRow 가 거꾸로 row 로 흘러간다 → row.name 을 쓸 수 있다</text>
+</svg>

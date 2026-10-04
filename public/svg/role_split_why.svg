@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="100%" role="img">
+<title>역할 분리 — 입력을 좁혀 성공 기준을 가른다</title>
+<desc>같은 모델이라도 입력이 다르면 무엇을 성공으로 보는지가 갈린다. 구현자는 원본과 자기 추론을 받아 머지되기를 원하고, 리뷰어는 diff 만 받고 이 코드는 틀렸다고 가정하라는 지시를 받아 버그를 찾기를 원한다. 그래서 입력 자체를 잘라야 한다. 64개 병렬은 결과지 원인이 아니다 — 일을 성립시킨 건 컨텍스트 비대칭, 기계적으로 생성되는 큐, 언어를 바꿔도 통하는 합격 판정 기준(테스트 오라클) 셋이다. 판정 기준이 없으면 여기서 멈춘다: Bun 의 Rust 포팅에는 4,174개 파일 6만여 개 expect() 의 TypeScript 테스트가 있었고 스킵·삭제가 0개였다. 없으면 리뷰어를 둘 붙여도 검증되지 않은 코드를 빠르게 생산할 뿐이라, 실패를 열거 가능한 상태(타입 에러 목록·스냅샷·시각 회귀)를 먼저 만든다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="330" fill="#FFFFFF"/>
+<text x="20" y="24" class="b">같은 모델, 다른 입력 → 다른 성공 기준</text>
+<rect x="20" y="36" width="390" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="215.0" y="54" text-anchor="middle" class="b">구현자</text>
+<text x="215.0" y="72" text-anchor="middle" class="s">원본 + 자기 추론</text>
+<text x="215.0" y="90" text-anchor="middle" class="o">→ 머지되기를 원한다</text>
+<rect x="450" y="36" width="390" height="64" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="645.0" y="54" text-anchor="middle" class="b">리뷰어</text>
+<text x="645.0" y="72" text-anchor="middle" class="s">diff 만 + "이 코드는 틀렸다고 가정하라"</text>
+<text x="645.0" y="90" text-anchor="middle" class="g">→ 버그를 찾기를 원한다</text>
+<text x="20" y="136" class="b">일을 성립시킨 셋 — 64개 병렬은 결과지 원인이 아니다</text>
+<rect x="20" y="148" width="260" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="150.0" y="168" text-anchor="middle" class="b">컨텍스트 비대칭</text>
+<text x="150.0" y="186" text-anchor="middle" class="s">입력을 자른다</text>
+<rect x="300" y="148" width="260" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="430.0" y="168" text-anchor="middle" class="b">기계적으로 생성되는 큐</text>
+<text x="430.0" y="186" text-anchor="middle" class="s">실패 목록이 파일로</text>
+<rect x="580" y="148" width="260" height="50" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="710.0" y="168" text-anchor="middle" class="b">테스트 오라클</text>
+<text x="710.0" y="186" text-anchor="middle" class="s">언어를 바꿔도 통하는 합격 기준</text>
+<rect x="20" y="222" width="820" height="94" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="430.0" y="246" text-anchor="middle" class="r">오라클이 없으면 여기서 멈춘다</text>
+<text x="430.0" y="264" text-anchor="middle" class="s">Bun 의 Rust 포팅 — 4,174개 파일 · 6만여 개 expect() · 스킵 · 삭제 0개</text>
+<text x="430.0" y="282" text-anchor="middle" class="s">없으면 리뷰어를 둘 붙여도 검증되지 않은 코드를 빠르게 생산할 뿐</text>
+<text x="430.0" y="300" text-anchor="middle" class="o">→ 실패를 열거 가능하게 먼저 (타입 에러 목록 · 스냅샷 · 시각 회귀), 에이전트는 그다음</text>
+<line x1="700" y1="198" x2="700" y2="222" stroke="#B3261E" stroke-width="1.2" stroke-dasharray="3 3"/>
+</svg>

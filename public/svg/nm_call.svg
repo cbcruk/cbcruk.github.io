@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>Native Messaging 3 — background 에서만 부른다</title>
+<desc>sendNativeMessage·connectNative 는 background(service worker)에서만 부를 수 있다. content script 는 통로 밖이라 흐름이 두 파일로 갈라진다: content.js 는 페이지에서 값만 뽑아 runtime.sendMessage 로 넘기고, background.js 가 네이티브 통신을 한다 — 응답이 비동기라 onMessage 리스너에서 true 를 돌려 채널을 열어둔다. sendNativeMessage 는 첫 응답 뒤 프로세스가 끝나 값 던지고 끝에 맞고, 진행률을 흘려보내려면 connectNative 로 Port 를 열어둔다. 크기 제한이 비대칭이다: 호스트 → Chrome 은 1MB, Chrome → 호스트는 64MiB. 돌려보낼 게 크면 잘라 보내거나(stderr 를 500자로) connectNative 로 나눠 보낸다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="300" fill="#FFFFFF"/>
+<rect x="20" y="36" width="160" height="56" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="100.0" y="59" text-anchor="middle" class="mb">content.js</text>
+<text x="100.0" y="77" text-anchor="middle" class="s">값만 뽑아 넘긴다</text>
+<rect x="290" y="36" width="200" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="390.0" y="59" text-anchor="middle" class="mb">background.js</text>
+<text x="390.0" y="77" text-anchor="middle" class="s">네이티브 통신은 여기서만</text>
+<line x1="180" y1="64" x2="286" y2="64" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="233" y="56" text-anchor="middle" class="s">sendMessage</text>
+<text x="20" y="140" class="s">onMessage 에서 return true — 비동기 응답이라 채널을 열어둔다</text>
+<rect x="540" y="20" width="300" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="690.0" y="43" text-anchor="middle" class="mb">sendNativeMessage</text>
+<text x="690.0" y="61" text-anchor="middle" class="s">첫 응답 뒤 프로세스가 끝난다 — 던지고 끝</text>
+<rect x="540" y="86" width="300" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="690.0" y="109" text-anchor="middle" class="mb">connectNative → Port</text>
+<text x="690.0" y="127" text-anchor="middle" class="s">열어둔다 — 진행률 · 나눠 보내기</text>
+<line x1="490" y1="56" x2="536" y2="48" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="490" y1="72" x2="536" y2="112" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="172" class="b">크기 제한이 비대칭이다</text>
+<rect x="20" y="186" width="400" height="46" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="220.0" y="204" text-anchor="middle" class="b">Chrome → 호스트</text>
+<text x="220.0" y="222" text-anchor="middle" class="mb">64MiB</text>
+<rect x="440" y="186" width="400" height="46" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="640.0" y="204" text-anchor="middle" class="b">호스트 → Chrome</text>
+<text x="640.0" y="222" text-anchor="middle" class="mb">1MB</text>
+<text x="440" y="256" class="s">돌려보낼 게 크면 → 잘라 보내거나 (stderr 500자)</text>
+<text x="440" y="276" class="s">connectNative 로 나눠 보낸다</text>
+</svg>

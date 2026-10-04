@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>프리뷰 서버 — 열리고 secure context 여야 한다</title>
+<desc>에이전트가 주는 URL 은 실제로 열려야 하고 secure context 여야 한다(crypto.subtle·클립보드·서비스 워커). 로컬 전용이면 http://localhost:&lt;port&gt; 가 이미 secure context 라 R2 포트만 있으면 되고, AGENTS.md 에 .env.local 의 PORT 를 쓰고 점유돼 있으면 죽이지 말고 보고하라고만 적는다. 외부 접근이면 0.0.0.0 바인딩 + IP 접근은 secure context 가 아니다. 프로젝트 dev 스크립트를 고치지 말고(환경 관례가 리포에 침투한다) 래퍼 바이너리를 만들어 하네스가 부르게 한다. 이 규약은 확률적 층이라 결정적으로 하려면 PreToolUse 훅에서 dev 명령을 잡아 차단하거나 래퍼로 치환한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<text x="20" y="24" class="s">secure context 가 필요한 것 — crypto.subtle · 클립보드 · 서비스 워커</text>
+<rect x="20" y="44" width="400" height="100" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="220.0" y="62" text-anchor="middle" class="b">로컬 전용</text>
+<text x="220.0" y="80" text-anchor="middle" class="m">http://localhost:&lt;port&gt;</text>
+<text x="220.0" y="98" text-anchor="middle" class="g">이미 secure context ✓</text>
+<text x="220.0" y="116" text-anchor="middle" class="s">R2 포트 + AGENTS.md 한 줄</text>
+<text x="220.0" y="134" text-anchor="middle" class="s">점유돼 있으면 죽이지 말고 보고</text>
+<rect x="440" y="44" width="400" height="100" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="640.0" y="62" text-anchor="middle" class="b">외부 접근</text>
+<text x="640.0" y="80" text-anchor="middle" class="m">0.0.0.0 + IP 직접 접근</text>
+<text x="640.0" y="98" text-anchor="middle" class="r">secure context 아님 ✗</text>
+<text x="640.0" y="116" text-anchor="middle" class="s">dev 스크립트를 고치지 말 것</text>
+<text x="640.0" y="134" text-anchor="middle" class="s">→ 래퍼 바이너리를 하네스가 부른다</text>
+<rect x="20" y="170" width="820" height="50" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="430.0" y="190" text-anchor="middle" class="b">규약은 확률적 층 — 결정적으로 내리려면</text>
+<text x="430.0" y="208" text-anchor="middle" class="s">PreToolUse 훅에서 dev 명령 패턴을 잡아 차단하거나 래퍼로 치환</text>
+</svg>

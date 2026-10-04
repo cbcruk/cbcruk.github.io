@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 310" width="100%" role="img">
+<title>서랍 인벤토리 — 사진이 정본, 아이템은 파생</title>
+<desc>서랍을 열고 조건 없이 1~3장 찍는다. 사진은 아이템이 아니라 컨테이너에 붙는 View 이고, 재촬영은 같은 파일을 교체한다. VLM(API 직접 호출)이 사진에서 아이템 노드를 파생한다. 그래서 셔터 1회가 그 서랍의 모든 아이템 재검증이 된다. 재파생에서 사진에서 사라진 아이템은 confirmed false 면 폐기, 사람이 만진 true 면 '최근 사진에서 안 보임'으로 표시한다. 장소·서랍·파우치·케이블은 모두 parentId 하나로 잇는 같은 노드다 — 파우치는 아이템이면서 컨테이너다. 검색 결과가 없을 때 itemsComplete 가 true 면 물건이 없다는 뜻이고, false 면 모른다는 뜻이라 사진을 본다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="310" fill="#FFFFFF"/>
+
+<text x="20" y="28" class="b">사진이 정본, 아이템 DB 는 파생</text>
+<rect x="20" y="44" width="170" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="105" y="70" text-anchor="middle" class="b">셔터 1~3회</text>
+<text x="105" y="90" text-anchor="middle" class="s">열고 찰칵 · 휘젓고 찰칵</text>
+<rect x="240" y="44" width="180" height="64" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="330" y="66" text-anchor="middle" class="b">View</text>
+<text x="330" y="84" text-anchor="middle" class="s">컨테이너에 붙는다</text>
+<text x="330" y="100" text-anchor="middle" class="s">재촬영 = 같은 파일 교체</text>
+<rect x="470" y="44" width="140" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="540" y="70" text-anchor="middle" class="b">VLM</text>
+<text x="540" y="90" text-anchor="middle" class="s">API 직접 호출</text>
+<rect x="660" y="44" width="180" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="750" y="70" text-anchor="middle" class="b">아이템 노드</text>
+<text x="750" y="90" text-anchor="middle" class="m">derivedFrom</text>
+<line x1="190" y1="76" x2="236" y2="76" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="420" y1="76" x2="466" y2="76" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="610" y1="76" x2="656" y2="76" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<path d="M240 122 L240 128 L840 128 L840 122" fill="none" stroke="#C2621A" stroke-width="1.5"/>
+<text x="540" y="146" text-anchor="middle" class="o">셔터 1회 = 그 서랍의 모든 아이템 재검증</text>
+<text x="540" y="166" text-anchor="middle" class="s">사진에서 사라진 아이템 — confirmed: false 는 폐기, true(사람이 만짐)는 "최근 사진에서 안 보임"</text>
+
+<text x="20" y="206" class="b">노드 하나로 트리 · 경계는 itemsComplete</text>
+<rect x="20" y="222" width="100" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="70" y="242" text-anchor="middle" class="b">책상</text>
+<text x="70" y="258" text-anchor="middle" class="s">place</text>
+<rect x="144" y="222" width="100" height="44" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="194" y="242" text-anchor="middle" class="b">2번 서랍</text>
+<text x="194" y="258" text-anchor="middle" class="s">container</text>
+<rect x="268" y="222" width="130" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="333" y="242" text-anchor="middle" class="b">파우치</text>
+<text x="333" y="258" text-anchor="middle" class="s">item 이자 container</text>
+<rect x="422" y="222" width="90" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="467" y="242" text-anchor="middle" class="b">케이블</text>
+<text x="467" y="258" text-anchor="middle" class="s">item</text>
+<line x1="120" y1="244" x2="140" y2="244" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="244" y1="244" x2="264" y2="244" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="398" y1="244" x2="418" y2="244" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="292" class="s">잇는 건 parentId 하나 — 옮기면 그 값만 바뀐다</text>
+
+<rect x="560" y="222" width="100" height="44" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="610" y="242" text-anchor="middle" class="b">검색 결과</text>
+<text x="610" y="258" text-anchor="middle" class="b">없음</text>
+<rect x="690" y="212" width="150" height="28" rx="6" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="765" y="231" text-anchor="middle" class="s">true → 물건이 없다</text>
+<rect x="690" y="248" width="150" height="28" rx="6" fill="#FFFFFF" stroke="#C2621A" stroke-width="1.5"/>
+<text x="765" y="267" text-anchor="middle" class="o">false → 모른다, 사진을 본다</text>
+<line x1="660" y1="236" x2="686" y2="228" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="660" y1="252" x2="686" y2="260" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="840" y="292" text-anchor="end" class="s">전수 등록이 아니라 전수 등록된 경계를 안다</text>
+</svg>

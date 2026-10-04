@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 320" width="100%" role="img">
+<title>Shape 스파이크와 콘텐츠 대량 생산</title>
+<desc>Shape 는 표로 못 고치므로 콘텐츠를 채우기 전에 스파이크로 본다: 항구 2개, 교역품 3종, 발견물 5개, UI 없이 sim 만, 24시간 안에 버릴 수 있어야 한다. 볼 것은 재미가 아니라 곡선 모양 — 선택지 폭이 0 으로 수렴하지 않는가, 자금 곡선이 지수가 아닌가, 봇 셋이 갈리는가. 통과하면 콘텐츠를 채우고, 못 하면 채우지 않는다. 대량 생산은 LLM 작업 단위를 표 하나 + 불변식 + 지표 하나로 두고, 완료 조건을 validate 통과로 건다. 그냥 두면 LLM 은 숫자를 코드에 박고, 02 의 린트가 유일하게 믿을 만한 방어선이다. CLAUDE.md 에는 숫자 리터럴 금지, validate 통과 의무, 파생값 저장 금지, docs/shape.md 항목은 먼저 묻기를 넣는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="320" fill="#FFFFFF"/>
+<text x="20" y="24" class="b">12 Shape 스파이크</text>
+<text x="480" y="24" class="b">13 콘텐츠 대량 생산</text>
+<rect x="20" y="36" width="200" height="64" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="120.0" y="54" text-anchor="middle" class="s">항구 2 · 교역품 3</text>
+<text x="120.0" y="72" text-anchor="middle" class="s">발견물 5 · sim 만</text>
+<text x="120.0" y="90" text-anchor="middle" class="o">24시간 안에 버릴 것</text>
+<rect x="250" y="36" width="200" height="82" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="350.0" y="54" text-anchor="middle" class="b">곡선 모양을 본다</text>
+<text x="350.0" y="72" text-anchor="middle" class="s">선택지 폭 → 0 ?</text>
+<text x="350.0" y="90" text-anchor="middle" class="s">자금이 지수 ?</text>
+<text x="350.0" y="108" text-anchor="middle" class="s">봇 셋이 갈리나 ?</text>
+<line x1="220" y1="68" x2="246" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="250" y="150" width="200" height="40" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="350.0" y="174" text-anchor="middle" class="g">통과 → 콘텐츠 채우기</text>
+<rect x="20" y="150" width="200" height="40" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="120.0" y="174" text-anchor="middle" class="r">실패 → 채우지 않는다</text>
+<line x1="350" y1="118" x2="350" y2="146" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M300 118 L300 134 L120 134 L120 146" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="480" y="36" width="360" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="660.0" y="54" text-anchor="middle" class="b">작업 단위 = 표 하나 + 불변식 + 지표 하나</text>
+<text x="660.0" y="72" text-anchor="middle" class="s">기능 단위면 코드를, 데이터 단위면 표를 만든다</text>
+<rect x="480" y="96" width="360" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="660.0" y="114" text-anchor="middle" class="m">"항구 40개 추가하고 validate 를 통과시켜"</text>
+<text x="660.0" y="132" text-anchor="middle" class="s">완료 조건 = validate 통과</text>
+<rect x="480" y="150" width="360" height="56" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="660.0" y="173" text-anchor="middle" class="r">그냥 두면 숫자를 코드에 박는다</text>
+<text x="660.0" y="191" text-anchor="middle" class="s">02 의 린트가 유일한 방어선</text>
+<line x1="660" y1="82" x2="660" y2="92" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="240" class="o">항구 2개로 지루하면 40개여도 지루하다</text>
+<text x="20" y="262" class="s">버릴 수 없는 프로토타입은 프로토타입이 아니라 레거시다</text>
+<text x="20" y="300" class="s">CLAUDE.md 에 넣을 것 — 숫자 리터럴 금지 · validate 통과 의무 · 파생값 저장 금지 · docs/shape.md 항목은 먼저 묻기</text>
+</svg>

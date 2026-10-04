@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>추론하고 싶은 타입변수가 인자에 안 드러날 때</title>
+<desc>foo&lt;K, V, T extends Map&lt;K, V&gt;&gt;(map: T, key: K) 에 foo(new Map([[42, '42']]), 42) 를 넘기면 map 에서 T = Map&lt;number, string&gt;, key 에서 K = number 를 줍지만 V 는 바운드에만 있어 후보가 없고 unknown 이 된다. 해법은 둘이고 둘 다는 안 된다. extractor 타입 GetV&lt;T&gt; 로 T 에서 infer V 를 꺼내면 union 인자를 지원하지만 반환에 캐스트가 필요하다. map: T &amp; Map&lt;K, V&gt; 로 V 를 매개변수 위치에 드러내면 캐스트가 필요 없지만 union 인자에서 깨진다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="300" fill="#FFFFFF"/>
+<text x="20" y="24" class="m">foo&lt;K, V, T extends Map&lt;K, V&gt;&gt;(map: T, key: K): [T, V]   ·   foo(new Map([[42, '42']]), 42)</text>
+<rect x="20" y="44" width="250" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="145.0" y="62" text-anchor="middle" class="m">map: T</text>
+<text x="145.0" y="80" text-anchor="middle" class="mb">T = Map&lt;number, string&gt;</text>
+<rect x="300" y="44" width="250" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="425.0" y="62" text-anchor="middle" class="m">key: K</text>
+<text x="425.0" y="80" text-anchor="middle" class="mb">K = number</text>
+<rect x="580" y="44" width="260" height="46" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="710.0" y="62" text-anchor="middle" class="s">V 는 바운드에만 → 후보 없음</text>
+<text x="710.0" y="80" text-anchor="middle" class="mb">V = unknown</text>
+<text x="20" y="130" class="b">해법 둘 — 둘 다는 안 된다</text>
+<rect x="20" y="146" width="390" height="110" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="215.0" y="178" text-anchor="middle" class="b">1) extractor 타입</text>
+<text x="215.0" y="196" text-anchor="middle" class="m">GetV&lt;T&gt; = T extends Map&lt;unknown, infer V&gt; ? V : never</text>
+<text x="215.0" y="214" text-anchor="middle" class="g">✓ union 인자 지원</text>
+<text x="215.0" y="232" text-anchor="middle" class="r">✗ 반환에 캐스트 필요</text>
+<rect x="450" y="146" width="390" height="110" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="645.0" y="178" text-anchor="middle" class="b">2) map: T &amp; Map&lt;K, V&gt;</text>
+<text x="645.0" y="196" text-anchor="middle" class="s">V 를 매개변수 위치에 드러낸다</text>
+<text x="645.0" y="214" text-anchor="middle" class="g">✓ 캐스트 불필요</text>
+<text x="645.0" y="232" text-anchor="middle" class="r">✗ union 인자에서 깨짐</text>
+<text x="430" y="205" text-anchor="middle" class="o">↔</text>
+<text x="20" y="284" class="o">extends 바운드는 후보를 만들지 않는다 — 그래서 V 가 비었다</text>
+</svg>

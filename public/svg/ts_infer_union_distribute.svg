@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" width="100%" role="img">
+<title>union source 는 가지마다 따로 수집한다</title>
+<desc>source 가 union S1 | S2 이고 target 이 맨몸 T 가 아니면, 가지마다 따로 walk 해서 후보 c1, c2 를 얻는다. 두 후보는 같은 리스트에 쌓이지만 다시 union 되지 않는다. 그래서 해소 규칙이 리스트에서 하나를 고르고, 결과가 c1 | c2 가 아닐 수 있다 — union 인자에서만 실패하는 이유다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="210" fill="#FFFFFF"/>
+<text x="20" y="24" class="b">source 가 union 이고 target 이 맨몸 T 가 아닐 때</text>
+<rect x="20" y="74" width="140" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="90.0" y="101" text-anchor="middle" class="mb">S1 | S2</text>
+<rect x="220" y="44" width="160" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="300.0" y="68" text-anchor="middle" class="m">S1 로 walk → c1</text>
+<rect x="220" y="108" width="160" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="300.0" y="132" text-anchor="middle" class="m">S2 로 walk → c2</text>
+<line x1="160" y1="90" x2="216" y2="66" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="160" y1="104" x2="216" y2="126" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="440" y="70" width="180" height="54" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="530.0" y="92" text-anchor="middle" class="mb">후보 리스트 [c1, c2]</text>
+<text x="530.0" y="110" text-anchor="middle" class="o">다시 union 하지 않는다</text>
+<line x1="380" y1="64" x2="436" y2="88" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="380" y1="128" x2="436" y2="108" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="680" y="70" width="160" height="54" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="760.0" y="92" text-anchor="middle" class="s">해소 규칙으로</text>
+<text x="760.0" y="110" text-anchor="middle" class="s">하나를 고른다</text>
+<line x1="620" y1="97" x2="676" y2="97" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="180" class="o">결과가 c1 | c2 가 아닐 수 있다 → union 인자에서만 실패한다</text>
+</svg>

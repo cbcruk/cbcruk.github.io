@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>리뷰 코멘트를 하드 제약으로</title>
+<desc>같은 지적을 두 번 하는 순간이 트리거다. PR 코멘트에서 시작해 CLAUDE.md 규칙(소프트, 임시) → 린트·hook(하드, 목표) → 타입으로 표현 불가능하게(최선) → 구조적으로 제거(최고) 로 올린다. 판단은 위에서부터: 애초에 불가능하게 만들 수 있나(API 설계) → 타입으로 막을 수 있나 → 린트·hook 으로 막을 수 있나 → 셋 다 안 되면 정말 안 되는지, 귀찮은지 묻는다. 귀찮다면 아직 안 된 게 아니다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<rect x="20" y="40" width="150" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="95.0" y="60" text-anchor="middle" class="b">PR 코멘트</text>
+<text x="95.0" y="78" text-anchor="middle" class="s">두 번째 지적이 트리거</text>
+<rect x="186" y="40" width="150" height="50" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="261.0" y="60" text-anchor="middle" class="b">CLAUDE.md</text>
+<text x="261.0" y="78" text-anchor="middle" class="s">소프트 · 임시</text>
+<line x1="170" y1="65" x2="184" y2="65" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="352" y="40" width="150" height="50" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="427.0" y="60" text-anchor="middle" class="b">린트 / hook</text>
+<text x="427.0" y="78" text-anchor="middle" class="s">하드 · 목표</text>
+<line x1="336" y1="65" x2="350" y2="65" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="518" y="40" width="150" height="50" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="593.0" y="60" text-anchor="middle" class="b">타입으로 불가능하게</text>
+<text x="593.0" y="78" text-anchor="middle" class="s">최선</text>
+<line x1="502" y1="65" x2="516" y2="65" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="684" y="40" width="150" height="50" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="759.0" y="60" text-anchor="middle" class="b">구조적으로 제거</text>
+<text x="759.0" y="78" text-anchor="middle" class="s">최고</text>
+<line x1="668" y1="65" x2="682" y2="65" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="132" class="b">판단은 오른쪽부터 —</text>
+<text x="170" y="132" class="s">① 애초에 불가능하게 (API 설계)  ② 타입으로  ③ 린트 / hook 으로  ④ 셋 다 안 되면?</text>
+<rect x="20" y="156" width="820" height="50" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="430.0" y="176" text-anchor="middle" class="b">④ 정말 안 되는가, 귀찮은가?</text>
+<text x="430.0" y="194" text-anchor="middle" class="o">"귀찮다" 가 답이면 아직 안 된 게 아니다</text>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>무한 차익 — 한 바퀴 돌면 돈이 불어나는 고리</title>
+<desc>항구를 꼭짓점, 교역 왕복을 간선으로 두면 무한 차익은 한 바퀴 돌았을 때 수익률을 곱한 값이 1 보다 큰 고리다. 간선 가중치를 -log(수익률) 로 바꾸면 곱이 1 보다 크다는 건 합이 0 보다 작다는 것이 되어, 음수 사이클을 찾는 Bellman-Ford 로 풀린다. 수익률에는 항해 일수·보급 소모·위험도를 반영해야 실제로는 손해인 루트가 잡히지 않는다. validate 에 넣되 완전 제거가 아니라 임계(예: 왕복 수익률 1.5배 초과)만 실패시킨다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<rect x="40" y="40" width="90" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="85.0" y="64" text-anchor="middle" class="b">항구 A</text>
+<rect x="230" y="40" width="90" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="275.0" y="64" text-anchor="middle" class="b">항구 B</text>
+<rect x="135" y="140" width="90" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="180.0" y="164" text-anchor="middle" class="b">항구 C</text>
+<line x1="130" y1="60" x2="226" y2="60" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="260" y1="80" x2="210" y2="136" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="150" y1="140" x2="100" y2="84" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="178" y="52" text-anchor="middle" class="m">r1</text>
+<text x="252" y="114" class="m">r2</text>
+<text x="104" y="114" text-anchor="end" class="m">r3</text>
+<text x="380" y="54" class="b">한 바퀴 돌면 돈이 불어난다</text>
+<text x="380" y="76" class="m">r1 × r2 × r3 &gt; 1</text>
+<text x="380" y="110" class="b">가중치를 −log r 로 바꾸면</text>
+<text x="380" y="132" class="m">−log r1 − log r2 − log r3 &lt; 0  → 음수 사이클</text>
+<text x="380" y="154" class="s">→ Bellman-Ford 로 찾는다</text>
+<text x="20" y="214" class="s">r 에는 항해 일수 · 보급 소모 · 위험도를 반영 — 아니면 실제론 손해인 루트가 잡힌다</text>
+<text x="20" y="236" class="o">validate 에 넣되 임계만 실패 (예: 왕복 1.5배 초과) — 어느 정도의 우위 루트는 플레이어가 찾는 재미다</text>
+</svg>

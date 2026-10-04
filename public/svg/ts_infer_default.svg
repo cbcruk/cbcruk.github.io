@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>빈 후보 리스트 — 기본값은 해소 대상 파라미터에서 찾는다</title>
+<desc>type Result&lt;V, E = never&gt; = { okay: V } | { error: E } 이고 function f&lt;V, E&gt;(x: Result&lt;V, E&gt;) 에 f({ okay: 42 }) 를 넘기면 E 자리에 온 값이 없어 후보가 비어 있다. 빈 리스트면 해소 대상인 f 의 E 에서 기본값을 찾는데 없으니 E = unknown. Result 의 never 기본값은 Result&lt;X&gt; 처럼 인자를 생략할 때만 쓰여서 여기서는 안 본다. never 를 원하면 function f&lt;V, E = never&gt; 로 선언한다. 해소값이 바운드를 못 지키면 바운드로 교체된다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<text x="20" y="24" class="m">type Result&lt;V, E = never&gt; = { okay: V } | { error: E }</text>
+<text x="20" y="44" class="m">function f&lt;V, E&gt;(x: Result&lt;V, E&gt;)   ·   f({ okay: 42 })</text>
+<rect x="20" y="66" width="180" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="110.0" y="84" text-anchor="middle" class="s">E 후보</text>
+<text x="110.0" y="102" text-anchor="middle" class="s">없음 — error 가 없다</text>
+<rect x="250" y="66" width="230" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="365.0" y="84" text-anchor="middle" class="s">f 의 E 에 기본값?</text>
+<text x="365.0" y="102" text-anchor="middle" class="m">function f&lt;V, E&gt;</text>
+<rect x="530" y="66" width="150" height="46" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="605.0" y="93" text-anchor="middle" class="mb">E = unknown</text>
+<line x1="200" y1="89" x2="246" y2="89" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="480" y1="89" x2="526" y2="89" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="503" y="82" text-anchor="middle" class="s">없음</text>
+<rect x="250" y="144" width="230" height="46" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="365.0" y="162" text-anchor="middle" class="m">Result 의 E = never</text>
+<text x="365.0" y="180" text-anchor="middle" class="r">여기는 안 본다</text>
+<text x="500" y="162" class="s">Result&lt;X&gt; 처럼 인자를 생략할 때만 쓰인다</text>
+<rect x="530" y="196" width="310" height="40" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="685.0" y="220" text-anchor="middle" class="m">function f&lt;V, E = never&gt;  →  E = never</text>
+<text x="20" y="220" class="s">해소값이 바운드를 못 지키면 → 바운드로 교체</text>
+</svg>

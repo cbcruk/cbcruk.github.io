@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 310" width="100%" role="img">
+<title>역할 분리 — 리뷰어 하나부터 세운다</title>
+<desc>한꺼번에 세우지 않는다. 1 adversarial-reviewer 하나만 만들어 memory: project 로 몇 주 돌린다 — 도구는 Read·Grep·Glob 뿐, diff 하나를 받아 틀린 이유만 찾고 최소 3개의 실패 시나리오를 낸다. 2 쌓인 지적 패턴이 거절 규칙 목록이 된다: 한 문단짜리 주석으로 우회를 정당화하면 코드가 틀린 것, 스텁·TODO·조건부 비활성화로 컴파일만 통과시킨 건 미완성, 테스트를 고쳐 통과시킨 변경은 무조건 거절. 3 그 뒤에 porter(구현, isolation: worktree)와 fixer(지적만 반영, 새 기능 금지)를 붙인다. porter 의 변경은 .work/&lt;id&gt;.diff 로 나가고 리뷰어는 diff 경로와 원본 경로만 받는다. 큐는 세션 밖에서 돈다 — 실패 목록을 파일로 만들고 claude -p 를 반복한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="310" fill="#FFFFFF"/>
+<rect x="20" y="36" width="260" height="100" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="150.0" y="63" text-anchor="middle" class="b">1 adversarial-reviewer 하나만</text>
+<text x="150.0" y="81" text-anchor="middle" class="m">tools: Read · Grep · Glob</text>
+<text x="150.0" y="99" text-anchor="middle" class="m">memory: project · 몇 주</text>
+<text x="150.0" y="117" text-anchor="middle" class="s">"이 diff 는 틀렸다" · 실패 시나리오 ≥ 3</text>
+<rect x="300" y="36" width="260" height="100" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="430.0" y="63" text-anchor="middle" class="b">2 지적 패턴 = 거절 규칙</text>
+<text x="430.0" y="81" text-anchor="middle" class="s">변명 주석이 필요하면 코드가 틀림</text>
+<text x="430.0" y="99" text-anchor="middle" class="s">스텁 · TODO 로 컴파일만 = 미완성</text>
+<text x="430.0" y="117" text-anchor="middle" class="s">테스트를 고쳐 통과 = 무조건 거절</text>
+<rect x="580" y="36" width="260" height="100" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="710.0" y="72" text-anchor="middle" class="b">3 porter · fixer 추가</text>
+<text x="710.0" y="90" text-anchor="middle" class="s">porter — 구현, isolation: worktree</text>
+<text x="710.0" y="108" text-anchor="middle" class="s">fixer — 지적만 반영, 새 기능 금지</text>
+<line x1="280" y1="86" x2="296" y2="86" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="560" y1="86" x2="576" y2="86" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="176" class="b">흐름</text>
+<rect x="20" y="188" width="140" height="52" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="90.0" y="209" text-anchor="middle" class="mb">실패 목록 파일</text>
+<text x="90.0" y="227" text-anchor="middle" class="s">claude -p 반복</text>
+<rect x="190" y="188" width="140" height="52" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="260.0" y="209" text-anchor="middle" class="mb">porter</text>
+<text x="260.0" y="227" text-anchor="middle" class="s">세션 밖 큐에서</text>
+<rect x="360" y="188" width="140" height="52" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="430.0" y="218" text-anchor="middle" class="mb">.work/&lt;id&gt;.diff</text>
+<rect x="530" y="188" width="140" height="52" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="600.0" y="209" text-anchor="middle" class="mb">reviewer</text>
+<text x="600.0" y="227" text-anchor="middle" class="s">diff · 원본 경로만</text>
+<rect x="700" y="188" width="140" height="52" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="770.0" y="209" text-anchor="middle" class="mb">fixer</text>
+<text x="770.0" y="227" text-anchor="middle" class="s">지적만</text>
+<line x1="160" y1="214" x2="186" y2="214" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="330" y1="214" x2="356" y2="214" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="500" y1="214" x2="526" y2="214" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="670" y1="214" x2="696" y2="214" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="284" class="o">실패가 나오면 코드가 아니라 프롬프트(거절 규칙)를 고친다</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="100%" role="img">
+<title>선택지 폭과 고착 시점 — 개념도</title>
+<desc>왼쪽: 매 턴 유의미한 행동 수(최선 대비 meaningfulRatio 이상 나오는 행동)를 그린다. 3 아래로 내려간 지점부터 플레이어는 관객이다. 세 시드의 곡선이 비슷하면 구조 문제, 제각각이면 초기 조건 문제. 오른쪽: Greedy 봇의 action·port 분포 엔트로피를 100턴 창으로 재고 1 bit 아래로 떨어진 턴이 고착 시점이다. 고착 자체보다 그때까지 본 콘텐츠 비율이 문제다 — 발견물 60% 에서 고착되면 나머지 40% 는 아무도 안 본다. 총 턴의 20% 지점에서 고착되면 게임의 80% 가 반복이다. 선택지 판정에 쓰는 estimateGain 은 Greedy 봇과 공유하므로 봇이 멍청하면 지표도 멍청하다. 실측 그래프가 아니라 개념도다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="330" fill="#FFFFFF"/>
+<line x1="70" y1="40" x2="70" y2="190" stroke="#555" stroke-width="1.2"/>
+<line x1="70" y1="190" x2="390" y2="190" stroke="#555" stroke-width="1.2"/>
+<text x="64" y="48" text-anchor="end" class="s">선택지</text>
+<text x="390" y="208" text-anchor="end" class="s">턴</text>
+<line x1="70" y1="150" x2="390" y2="150" stroke="#B3261E" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="394" y="154" class="r">3</text>
+<path d="M70 60 C140 70 200 110 250 150 S340 180 390 184" fill="none" stroke="#555" stroke-width="1.5"/>
+<line x1="250" y1="40" x2="250" y2="190" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="256" y="54" class="o">여기부터 관객</text>
+<text x="70" y="230" class="s">유의미 = 최선 대비 meaningfulRatio 이상</text>
+<text x="70" y="250" class="s">세 시드가 비슷 → 구조 문제 · 제각각 → 초기 조건</text>
+<text x="20" y="300" class="o">함정 — estimateGain 은 Greedy 봇과 공유한다. 봇이 멍청하면 지표도 멍청하다</text>
+<line x1="500" y1="40" x2="500" y2="190" stroke="#555" stroke-width="1.2"/>
+<line x1="500" y1="190" x2="820" y2="190" stroke="#555" stroke-width="1.2"/>
+<text x="494" y="48" text-anchor="end" class="s">엔트로피</text>
+<text x="820" y="208" text-anchor="end" class="s">턴</text>
+<line x1="500" y1="140" x2="820" y2="140" stroke="#B3261E" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="824" y="144" class="r">1 bit</text>
+<path d="M500 70 C580 72 620 90 660 140 S760 170 820 172" fill="none" stroke="#555" stroke-width="1.5"/>
+<line x1="660" y1="40" x2="660" y2="190" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="666" y="54" class="o">고착</text>
+<rect x="500" y="210" width="160" height="22" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="580.0" y="225" text-anchor="middle" class="s">본 콘텐츠 60%</text>
+<rect x="660" y="210" width="160" height="22" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="740.0" y="225" text-anchor="middle" class="r">40% 는 아무도 안 본다</text>
+<text x="500" y="256" class="s">100턴 창 · Greedy 봇의 action:port 분포</text>
+<text x="500" y="278" class="s">총 턴의 20% 지점에서 고착 → 게임의 80% 가 반복</text>
+<text x="20" y="322" class="s">개념도 — 실측 아님</text>
+</svg>

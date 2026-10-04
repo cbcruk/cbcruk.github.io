@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 280" width="100%" role="img">
+<title>세션 밖에 남길 것 — 전역 설정과 설계 결정</title>
+<desc>R6: settings.json·훅·스킬·AGENTS.md 가 홈에 흩어져 이력도 백업도 없다. private 리포 하나 + 심링크로 끝난다 — 머신이 하나면 chezmoi 는 과잉이지만 이력과 백업은 머신 수와 무관하다. 하네스가 파일을 rename 으로 대체하면 심링크가 깨지니 ls -l 로 확인하고, .gitignore 에 *.local.json·.env*·*credentials* 를 넣고 첫 커밋 전 git diff --cached 를 훑는다. R7: 트랜스크립트가 설계 결정의 유일한 기록일 때 세션 히스토리 백업은 틀린 프레이밍이다 — 신호 대 잡음비가 최악이라 참조 대상이 안 된다. 기각한 대안이 있었을 때만 코드와 같은 커밋에 docs/decisions/NNNN-slug.md 를 추가한다: 맥락·결정·기각한 대안과 이유·결과, 한 화면 이내, 결론만.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="280" fill="#FFFFFF"/>
+<text x="20" y="24" class="b">R6 전역 설정</text>
+<rect x="20" y="36" width="170" height="64" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="105.0" y="54" text-anchor="middle" class="mb">~/.claude/</text>
+<text x="105.0" y="72" text-anchor="middle" class="s">settings · 훅 · 스킬</text>
+<text x="105.0" y="90" text-anchor="middle" class="r">이력 · 백업 없음</text>
+<rect x="230" y="36" width="180" height="64" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="320.0" y="54" text-anchor="middle" class="b">private 리포</text>
+<text x="320.0" y="72" text-anchor="middle" class="s">+ 심링크</text>
+<text x="320.0" y="90" text-anchor="middle" class="s">chezmoi 는 머신 2대부터</text>
+<line x1="190" y1="68" x2="226" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="128" class="s">rename 으로 대체되면 심링크가 깨진다 → ls -l</text>
+<text x="20" y="148" class="s">.gitignore: *.local.json · .env* · *credentials*</text>
+<text x="20" y="168" class="s">첫 커밋 전 git diff --cached 를 눈으로</text>
+<text x="460" y="24" class="b">R7 설계 결정</text>
+<rect x="460" y="36" width="160" height="64" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="540.0" y="54" text-anchor="middle" class="b">세션 트랜스크립트</text>
+<text x="540.0" y="72" text-anchor="middle" class="r">잡음 최악</text>
+<text x="540.0" y="90" text-anchor="middle" class="s">백업해도 참조 안 됨</text>
+<rect x="660" y="36" width="180" height="64" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="750.0" y="54" text-anchor="middle" class="mb">docs/decisions/</text>
+<text x="750.0" y="72" text-anchor="middle" class="m">NNNN-slug.md</text>
+<text x="750.0" y="90" text-anchor="middle" class="s">코드와 같은 커밋에</text>
+<line x1="620" y1="68" x2="656" y2="68" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="460" y="128" class="s">맥락 · 결정 · 기각한 대안과 이유 · 결과</text>
+<text x="460" y="148" class="s">한 화면 이내 · 대화가 아니라 결론만</text>
+<text x="460" y="168" class="o">기각한 대안이 있었을 때만 — 아니면 사소한 것까지 쓴다</text>
+<text x="20" y="220" class="o">"세션을 백업하고 싶다" 는 도구 문제가 아니다 — 결정을 어디에 커밋하느냐의 문제다</text>
+<text x="20" y="250" class="s">확인 — "왜 이렇게 했지?" 의 답이 리포 안에서 나오면 성공, git log · 트랜스크립트를 뒤지면 실패</text>
+</svg>

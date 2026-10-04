@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" width="100%" role="img">
+<title>그린필드가 더 위험하다</title>
+<desc>브라운필드에는 이미 컨벤션과 가드레일이 있어 에이전트가 그걸 따른다. 그린필드에서 가드레일 없이 태스크를 주면 에이전트는 가장 편한 방법으로 풀고, 시간이 지나면 지름길에 최적화된 사람이 이해 못 하는 코드베이스가 남는다. 코드 한 줄 쓰기 전에: feature 코로케이션(작업의 80% 가 한 디렉터리에서), 의존성 경계 + CI 검사, 명사 정의(에이전트는 이름이 있는 것을 복사한다), strict 최대치(나중에 켜는 건 사실상 불가능), 최단 경로 = 정답 경로. 새 기능 하나를 시켜 건드린 디렉터리가 3개를 넘으면 구조가 잘못됐다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="260" fill="#FFFFFF"/>
+<rect x="20" y="36" width="260" height="64" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="150.0" y="54" text-anchor="middle" class="b">브라운필드</text>
+<text x="150.0" y="72" text-anchor="middle" class="s">컨벤션 · 가드레일이 이미 있다</text>
+<text x="150.0" y="90" text-anchor="middle" class="g">→ 에이전트가 따른다</text>
+<rect x="20" y="116" width="260" height="64" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="150.0" y="134" text-anchor="middle" class="b">그린필드 · 가드레일 없음</text>
+<text x="150.0" y="152" text-anchor="middle" class="s">가장 편한 방법으로 푼다</text>
+<text x="150.0" y="170" text-anchor="middle" class="r">→ 지름길에 최적화된 코드베이스</text>
+<text x="330" y="30" class="b">코드 한 줄 쓰기 전에</text>
+<text x="330" y="54" class="b">☐ feature 코로케이션</text>
+<text x="520" y="54" class="s">작업의 80% 가 한 디렉터리에서</text>
+<text x="330" y="84" class="b">☐ 의존성 경계 + CI 검사</text>
+<text x="520" y="84" class="s"></text>
+<text x="330" y="114" class="b">☐ 명사 정의</text>
+<text x="520" y="114" class="s">에이전트는 이름이 있는 것을 복사한다</text>
+<text x="330" y="144" class="b">☐ strict 최대치</text>
+<text x="520" y="144" class="s">나중에 켜는 건 사실상 불가능</text>
+<text x="330" y="174" class="b">☐ 최단 경로 = 정답 경로</text>
+<text x="520" y="174" class="s"></text>
+<line x1="280" y1="148" x2="320" y2="110" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="230" class="o">확인 — 새 기능 하나를 시켜 건드린 디렉터리를 센다. 3개를 넘으면 구조가 잘못됐다</text>
+</svg>

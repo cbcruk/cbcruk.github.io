@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" width="100%" role="img">
+<title>Exclude 로 막기 — 파라미터 위치에서 추론하는 형태만 동작한다</title>
+<desc>제네릭 함수 안에서는 타입변수가 미확정이라 조건부를 평가할 수 없다. foo(x: Exclude&lt;unknown, number&gt;) 는 타입변수가 없어 바로 unknown 으로 줄어 foo(42) 를 못 막는다. bar&lt;X&gt;(x: Exclude&lt;X, number&gt;) 는 파라미터 위치에서 X = number 를 추론해 Exclude&lt;number, number&gt; = never 가 되고 bar(42) 가 에러 — 이것만 막는다. quz&lt;X, Y extends Exclude&lt;X, number&gt;&gt;(x: Y) 는 X 가 바운드에만 있어 추론되지 않고 unknown 이라 못 막는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="260" fill="#FFFFFF"/>
+<text x="20" y="24" class="s">함수</text>
+<text x="130" y="24" class="s">시그니처</text>
+<text x="420" y="24" class="s">42 를 넘기면</text>
+<text x="680" y="24" class="s">결과</text>
+<text x="20" y="66" class="mb">foo</text>
+<rect x="130" y="38" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="255.0" y="65" text-anchor="middle" class="m">x: Exclude&lt;unknown, number&gt;</text>
+<rect x="420" y="38" width="220" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="530.0" y="65" text-anchor="middle" class="s">타입변수 없음 → unknown 으로 축약</text>
+<rect x="680" y="38" width="160" height="46" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="760.0" y="65" text-anchor="middle" class="r">못 막는다</text>
+<line x1="380" y1="61" x2="416" y2="61" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="640" y1="61" x2="676" y2="61" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="128" class="mb">bar</text>
+<rect x="130" y="100" width="250" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="255.0" y="127" text-anchor="middle" class="m">x: Exclude&lt;X, number&gt;</text>
+<rect x="420" y="100" width="220" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="530.0" y="127" text-anchor="middle" class="s">X = number → Exclude&lt;…&gt; = never</text>
+<rect x="680" y="100" width="160" height="46" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="760.0" y="127" text-anchor="middle" class="g">에러 — 막는다</text>
+<line x1="380" y1="123" x2="416" y2="123" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="640" y1="123" x2="676" y2="123" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="190" class="mb">quz</text>
+<rect x="130" y="162" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="255.0" y="189" text-anchor="middle" class="m">Y extends Exclude&lt;X, number&gt;, x: Y</text>
+<rect x="420" y="162" width="220" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="530.0" y="189" text-anchor="middle" class="s">X 는 바운드에만 → unknown</text>
+<rect x="680" y="162" width="160" height="46" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="760.0" y="189" text-anchor="middle" class="r">못 막는다</text>
+<line x1="380" y1="185" x2="416" y2="185" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="640" y1="185" x2="676" y2="185" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="244" class="o">넘겨 쓸 때는 Exclude&lt;V, number&gt; 를 그대로 재현한다 — 조건을 못 평가해도 구조가 같아 통과</text>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>eval 하네스 — 스킬이 미신이 되지 않게</title>
+<desc>코디네이터가 기대 동작이 아니라 채점 항목으로 루브릭을 먼저 만든다. 서브에이전트를 각각 독립 디렉터리에서 실행하고, 다른 모델의 judge 로 채점한다 — 같은 모델은 자기 출력에 후하다. 점수를 기록하고 스킬을 고쳐 다시 돈다. 반복은 3회까지, 못 가면 스킬 설계를 의심한다. 에이전트는 평가받는 걸 감지하면 행동이 바뀌므로 디렉터리명·파일명·프롬프트 어디에도 eval·test·평가 를 넣지 않고 평범한 프로젝트 복제본처럼 보이게 한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<rect x="20" y="40" width="190" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="115.0" y="60" text-anchor="middle" class="b">루브릭</text>
+<text x="115.0" y="78" text-anchor="middle" class="s">채점 항목으로</text>
+<rect x="230" y="40" width="190" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="325.0" y="60" text-anchor="middle" class="b">서브에이전트</text>
+<text x="325.0" y="78" text-anchor="middle" class="s">독립 디렉터리마다</text>
+<rect x="440" y="40" width="190" height="50" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="535.0" y="60" text-anchor="middle" class="b">judge</text>
+<text x="535.0" y="78" text-anchor="middle" class="s">다른 모델</text>
+<rect x="650" y="40" width="190" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="745.0" y="60" text-anchor="middle" class="b">점수 기록</text>
+<text x="745.0" y="78" text-anchor="middle" class="s">→ 스킬 수정</text>
+<line x1="210" y1="65" x2="226" y2="65" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="420" y1="65" x2="436" y2="65" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="630" y1="65" x2="646" y2="65" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M745 90 L745 116 L325 116 L325 94" fill="none" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="535" y="136" text-anchor="middle" class="o">반복 ≤ 3회 — 못 가면 스킬 설계를 의심</text>
+<text x="535" y="158" text-anchor="middle" class="s">같은 모델이 채점하면 자기 출력에 후하다</text>
+<rect x="20" y="180" width="820" height="50" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="430.0" y="200" text-anchor="middle" class="r">함정 — 평가받는 걸 감지하면 행동이 바뀐다</text>
+<text x="430.0" y="218" text-anchor="middle" class="s">디렉터리 · 파일 · 프롬프트 어디에도 eval · test · 평가 를 넣지 않는다 — 평범한 프로젝트 복제본처럼</text>
+</svg>

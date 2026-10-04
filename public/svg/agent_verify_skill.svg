@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 270" width="100%" role="img">
+<title>검증 스킬 부트스트랩</title>
+<desc>먼저 사람이 손으로 한 번 한다: dev 서버 기동 → 특정 화면 도달 → 관찰. 여기서 막히면 에이전트도 막힌다. 재료는 헤드리스 기동 명령, 조작 채널(CDP·Playwright MCP), 관찰 채널(콘솔·네트워크·DOM 스냅샷). 그 과정을 boot.sh·snapshot.sh 로 스크립트화해 .claude/skills/verify-app/ 으로 감싸고, 출력 계약을 고정한다. cannot_verify 를 1급 값으로 둔다 — 없으면 pass/fail 을 억지로 고른다. evidence 에 코드 인용이 들어가면 검증이 아니다. 구현 에이전트를 같이 만들지 않는다 — 검증 스킬을 다듬을 동기가 사라진다. 트레이스 수집도 처음엔 넣지 않는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="270" fill="#FFFFFF"/>
+<rect x="20" y="36" width="230" height="82" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="135.0" y="63" text-anchor="middle" class="b">① 사람이 손으로 한 번</text>
+<text x="135.0" y="81" text-anchor="middle" class="s">기동 → 화면 도달 → 관찰</text>
+<text x="135.0" y="99" text-anchor="middle" class="o">여기서 막히면 에이전트도 막힌다</text>
+<rect x="300" y="36" width="230" height="82" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="415.0" y="63" text-anchor="middle" class="b">② 스크립트화</text>
+<text x="415.0" y="81" text-anchor="middle" class="m">boot.sh · snapshot.sh</text>
+<text x="415.0" y="99" text-anchor="middle" class="m">→ skills/verify-app/</text>
+<rect x="580" y="36" width="260" height="82" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="710.0" y="63" text-anchor="middle" class="b">③ 출력 계약 고정</text>
+<text x="710.0" y="81" text-anchor="middle" class="m">pass | fail | cannot_verify</text>
+<text x="710.0" y="99" text-anchor="middle" class="s">+ steps_taken · evidence · unverified</text>
+<line x1="250" y1="77" x2="296" y2="77" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="530" y1="77" x2="576" y2="77" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="146" class="s">재료 — 헤드리스 기동 명령 · 조작 채널(CDP · Playwright MCP) · 관찰 채널(콘솔 · 네트워크 · DOM)</text>
+<rect x="580" y="136" width="260" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="710.0" y="160" text-anchor="middle" class="s">cannot_verify 가 없으면 억지로 고른다</text>
+<rect x="580" y="184" width="260" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="710.0" y="208" text-anchor="middle" class="s">evidence 에 코드 인용 = 검증 아님</text>
+<line x1="710" y1="118" x2="710" y2="136" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="20" y="196" class="o">함정 — 구현 에이전트를 같이 만들지 않는다</text>
+<text x="20" y="216" class="s">구현자가 있으면 검증 없이도 진행돼 검증 스킬을 다듬을 동기가 사라진다</text>
+<text x="20" y="240" class="s">트레이스는 나중에 — 기동 + 도달 + 콘솔로 시작</text>
+</svg>

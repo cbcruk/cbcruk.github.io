@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>조건부 — 수집이 걸은 가지와 체크가 걷는 가지</title>
+<desc>type Pair&lt;A, B&gt; = A extends string ? Map&lt;A, B&gt; : [A, B] 에 f(['a', 'b']) 를 넘긴다. 수집은 조건을 평가하지 않고 두 결과 가지에 모두 맞춰 보며, 맞는 [A, B] 가지에서 A = string, B = string 을 줍는다. 체크는 정해진 A = string 으로 조건을 평가해 첫 번째 가지 Map&lt;string, string&gt; 으로 가고, string[] 은 거기에 대입할 수 없어 TS2345. f([1, 2]) 는 수집과 체크가 둘 다 [A, B] 가지라 통과한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="300" fill="#FFFFFF"/>
+<text x="20" y="24" class="m">type Pair&lt;A, B&gt; = A extends string ? Map&lt;A, B&gt; : [A, B]   ·   f(['a', 'b'])</text>
+<text x="20" y="78" class="b">① 수집</text>
+<text x="20" y="98" class="s">조건은 안 본다</text>
+<rect x="130" y="52" width="130" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="195.0" y="79" text-anchor="middle" class="mb">string[]</text>
+<rect x="320" y="40" width="180" height="34" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="410.0" y="61" text-anchor="middle" class="m">Map&lt;A, B&gt;  ✗ 안 맞음</text>
+<rect x="320" y="82" width="180" height="34" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="410.0" y="103" text-anchor="middle" class="m">[A, B]  ✓ 맞음</text>
+<line x1="260" y1="70" x2="316" y2="58" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="260" y1="80" x2="316" y2="98" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="500" y1="99" x2="556" y2="99" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="560" y="76" width="280" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="700.0" y="103" text-anchor="middle" class="mb">A = string, B = string</text>
+<text x="20" y="188" class="b">③ 체크</text>
+<text x="20" y="208" class="s">조건을 평가한다</text>
+<rect x="130" y="166" width="130" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="195.0" y="193" text-anchor="middle" class="mb">A = string</text>
+<rect x="320" y="166" width="180" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="410.0" y="184" text-anchor="middle" class="m">A extends string ?</text>
+<text x="410.0" y="202" text-anchor="middle" class="s">→ 참</text>
+<rect x="560" y="166" width="280" height="46" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="700.0" y="184" text-anchor="middle" class="mb">Map&lt;string, string&gt;</text>
+<text x="700.0" y="202" text-anchor="middle" class="r">string[] 대입 불가 → TS2345</text>
+<line x1="260" y1="189" x2="316" y2="189" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="500" y1="189" x2="556" y2="189" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M700 122 L700 140 L195 140 L195 162" fill="none" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="20" y="252" class="o">수집이 걸은 가지 ≠ 체크가 걷는 가지</text>
+<text x="20" y="274" class="s">f([1, 2]) 는 조건이 거짓이라 체크도 [A, B] 가지로 간다 → 통과</text>
+</svg>

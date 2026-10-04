@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>자동 머지 진입 조건</title>
+<desc>전제: 자동 머지 대상은 본인이 재설계한 코드베이스고, 같은 회사의 기존 코드베이스에는 하지 않는다(회귀가 계속 난다) — 자동 머지는 에이전트 신뢰의 결과가 아니라 아키텍처 저작권자의 특권이다. 여섯 가지가 전부 예여야 한다: 아키텍처를 설계했거나 완전히 이해한다, 위반 시 CI 가 빨개지는 하드 제약이 5개 이상, cannot_verify 비율 20% 미만, 롤백 5분 안, 장애를 24시간 안에 자동 인지, PR 이 원자적. 위험은 폭발 반경 × 발견 지연 × 되돌리기 비용이다. 내부 운영 도구는 가능, 공개 웹(SEO)은 인덱싱 회복이 느려 신중, 결제·예약·인증은 하지 않는다 — 실패한 사용자는 롤백으로 돌아오지 않는다. 영역마다 신뢰 수준이 달라도 된다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="300" fill="#FFFFFF"/>
+<text x="20" y="24" class="b">전부 예여야 한다</text>
+<text x="30" y="50" class="s">☐ 아키텍처를 설계했거나 완전히 이해한다</text>
+<text x="30" y="74" class="s">☐ 위반 시 CI 가 빨개지는 하드 제약 ≥ 5</text>
+<text x="30" y="98" class="s">☐ cannot_verify 비율 &lt; 20%</text>
+<text x="30" y="122" class="s">☐ 롤백 5분 안</text>
+<text x="30" y="146" class="s">☐ 장애를 24시간 안에 자동 인지</text>
+<text x="30" y="170" class="s">☐ PR 이 원자적</text>
+<text x="20" y="210" class="o">자동 머지는 신뢰의 결과가 아니라</text>
+<text x="20" y="230" class="o">아키텍처 저작권자의 특권이다</text>
+<text x="440" y="24" class="mb">위험 = 폭발 반경 × 발견 지연 × 되돌리기 비용</text>
+<rect x="440" y="44" width="400" height="40" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="640.0" y="68" text-anchor="middle" class="g">내부 운영 도구 — 가능</text>
+<rect x="440" y="94" width="400" height="40" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="640.0" y="118" text-anchor="middle" class="s">공개 웹 (SEO) — 신중 · 인덱싱 회복이 느리다</text>
+<rect x="440" y="144" width="400" height="50" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="640.0" y="164" text-anchor="middle" class="r">결제 · 예약 · 인증 — 하지 않는다</text>
+<text x="640.0" y="182" text-anchor="middle" class="s">실패한 사용자는 롤백으로 돌아오지 않는다</text>
+<text x="440" y="220" class="s">같은 사람이 영역마다 다른 신뢰 수준으로 일해도 된다</text>
+<text x="20" y="280" class="s">전제 — 본인이 재설계한 코드베이스. 같은 회사의 기존 코드베이스에는 하지 않는다 — 회귀가 계속 난다</text>
+</svg>

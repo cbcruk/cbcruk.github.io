@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>Native Messaging 2 — 길이 먼저 주고받는다</title>
+<desc>Chrome 이 path 의 바이너리를 자식 프로세스로 spawn 하고, 대화는 소켓도 HTTP 도 아니고 stdin/stdout 이다. 메시지마다 네이티브 바이트 순서의 4바이트 길이 헤더 다음에 UTF-8 JSON 본문이 온다. 읽을 때는 4바이트를 읽어 길이를 풀고 그만큼 본문을 읽는다 — 4바이트가 비어 있으면 Chrome 이 파이프를 닫은 것이니 종료한다. 보낼 때도 길이를 먼저 쓰고 본문을 쓰고 flush 한다. stdout 에 print 로 글자 하나라도 새면 그게 길이 헤더 자리에 끼어 프로토콜이 깨지니 로그는 stderr 로 보낸다. 호스트가 부르는 프로그램(yt-dlp)도 절대경로로 부른다 — GUI 로 띄운 Chrome 은 .zshrc 를 안 읽고 호스트는 사용자 셸 환경을 물려받지 않는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="300" fill="#FFFFFF"/>
+<text x="20" y="24" class="b">메시지 하나</text>
+<rect x="20" y="36" width="170" height="40" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="105.0" y="51" text-anchor="middle" class="mb">4바이트 길이</text>
+<text x="105.0" y="69" text-anchor="middle" class="s">네이티브 바이트 순서</text>
+<rect x="190" y="36" width="330" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="355.0" y="60" text-anchor="middle" class="mb">UTF-8 JSON 본문</text>
+<text x="560" y="24" class="b">읽기</text>
+<text x="570" y="46" class="s">1  4바이트를 읽는다 — 비었으면 종료</text>
+<text x="570" y="66" class="s">2  길이를 푼다</text>
+<text x="570" y="86" class="s">3  그만큼 본문을 읽는다</text>
+<text x="560" y="116" class="b">쓰기 — 길이 → 본문 → flush</text>
+<text x="20" y="112" class="s">Chrome ⇄ 호스트 — 소켓도 HTTP 도 아니고 stdin / stdout</text>
+<rect x="20" y="150" width="400" height="72" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="220.0" y="172" text-anchor="middle" class="r">stdout 에 print 한 글자</text>
+<text x="220.0" y="190" text-anchor="middle" class="s">→ 길이 헤더 자리에 끼어든다 → 프로토콜이 깨진다</text>
+<text x="220.0" y="208" text-anchor="middle" class="o">로그는 stderr 로</text>
+<rect x="440" y="150" width="400" height="72" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="640.0" y="172" text-anchor="middle" class="b">호스트 안의 프로그램도 절대경로로</text>
+<text x="640.0" y="190" text-anchor="middle" class="s">GUI Chrome 은 .zshrc 를 안 읽는다</text>
+<text x="640.0" y="208" text-anchor="middle" class="s">호스트는 사용자 셸 환경을 물려받지 않는다</text>
+<text x="20" y="260" class="s">Chrome 이 파이프를 닫으면 4바이트 읽기가 비어 돌아온다 → 그때 종료</text>
+</svg>

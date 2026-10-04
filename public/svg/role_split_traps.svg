@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>역할 분리의 함정</title>
+<desc>컨텍스트 비대칭은 저절로 유지되지 않는다 — 위임 프롬프트를 부모가 쓰므로 그냥 두면 구현 근거를 요약해 리뷰어에게 넘긴다. .work/&lt;id&gt;.diff 를 경유시키고 리뷰어에게는 diff 경로와 원본 경로만 준다는 걸 CLAUDE.md 규약으로 박는다. 역할 분리를 프롬프트로 하면 무너지니 리뷰어 tools 에서 Edit·Write 를 빼 권한으로 막는다. 같은 모델 둘은 실패 상관관계가 높아 리뷰어를 둘 둘 거면 하나는 model 을 다르게 준다. -p(비대화형)에서는 fork mode 가 꺼져 subagent 가 포그라운드로 도는 경우가 있어 병렬은 셸에서 잡는다. 병목은 모델이 아니라 디스크 IOPS 였다 — 느린 grep 하나가 디스크를 몇 분씩 얼렸다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="300" fill="#FFFFFF"/>
+<rect x="20" y="20" width="300" height="44" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="170.0" y="46" text-anchor="middle" class="b">비대칭은 저절로 유지되지 않는다</text>
+<text x="340" y="38" class="s">부모가 구현 근거를 요약해 넘긴다</text>
+<text x="340" y="56" class="o">→ diff · 원본 경로만 — CLAUDE.md 규약으로</text>
+<rect x="20" y="74" width="300" height="44" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="170.0" y="100" text-anchor="middle" class="b">역할 분리를 프롬프트로 하면 무너진다</text>
+<text x="340" y="92" class="s">프롬프트 지시로는 막히지 않는다</text>
+<text x="340" y="110" class="o">→ 리뷰어 tools 에 Edit · Write 없음</text>
+<rect x="20" y="128" width="300" height="44" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="170.0" y="154" text-anchor="middle" class="b">같은 모델 둘은 실패가 겹친다</text>
+<text x="340" y="146" class="s">리뷰어를 둘 두면</text>
+<text x="340" y="164" class="o">→ 하나는 model 을 다르게</text>
+<rect x="20" y="182" width="300" height="44" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="170.0" y="208" text-anchor="middle" class="b">-p 에선 fork mode 가 꺼질 수 있다</text>
+<text x="340" y="200" class="s">subagent 가 포그라운드로 돈다</text>
+<text x="340" y="218" class="o">→ 병렬은 셸 레벨에서</text>
+<rect x="20" y="236" width="300" height="44" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="170.0" y="262" text-anchor="middle" class="b">병목은 모델이 아니라 디스크 IOPS</text>
+<text x="340" y="254" class="s">느린 grep 하나가 디스크 읽기 · 쓰기를</text>
+<text x="340" y="272" class="s">몇 분씩 얼렸다</text>
+</svg>

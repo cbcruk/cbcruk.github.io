@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>수집 — target 과 source 를 나란히 walk</title>
+<desc>f&lt;A, B, C&gt;(x: A, y: (a: B) =&gt; C) 에 f(true, (it: number) =&gt; 'hello') 를 넘기면 target 과 source 를 같은 자리끼리 맞춘다. x 자리의 A 는 true 를 받아 A = boolean, 함수 매개변수 자리의 B 는 number 를 받아 B = number, 반환 자리의 C 는 'hello' 를 받아 C = string. 함수 매개변수 자리만 반변이고 나머지는 공변이라 후보가 두 리스트에 나뉘어 쌓인다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<text x="20" y="24" class="m">function f&lt;A, B, C&gt;(x: A, y: (a: B) =&gt; C)   ·   f(true, (it: number) =&gt; 'hello')</text>
+<text x="20" y="78" class="b">target</text>
+<text x="20" y="158" class="b">source</text>
+<rect x="110" y="50" width="220" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="220.0" y="77" text-anchor="middle" class="mb">x: A</text>
+<rect x="110" y="130" width="220" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="220.0" y="157" text-anchor="middle" class="m">true</text>
+<line x1="220" y1="96" x2="220" y2="130" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="220" y="206" text-anchor="middle" class="mb">A = boolean</text>
+<text x="220" y="226" text-anchor="middle" class="s">공변 — 값을 내준다</text>
+<rect x="360" y="50" width="220" height="46" rx="7" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="470.0" y="77" text-anchor="middle" class="mb">(a: B)</text>
+<rect x="360" y="130" width="220" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="470.0" y="157" text-anchor="middle" class="m">(it: number)</text>
+<line x1="470" y1="96" x2="470" y2="130" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="470" y="206" text-anchor="middle" class="mb">B = number</text>
+<text x="470" y="226" text-anchor="middle" class="o">반변 — 함수 매개변수</text>
+<rect x="610" y="50" width="220" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="720.0" y="77" text-anchor="middle" class="mb">=&gt; C</text>
+<rect x="610" y="130" width="220" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="720.0" y="157" text-anchor="middle" class="m">=&gt; 'hello'</text>
+<line x1="720" y1="96" x2="720" y2="130" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="720" y="206" text-anchor="middle" class="mb">C = string</text>
+<text x="720" y="226" text-anchor="middle" class="s">공변 — 반환</text>
+</svg>

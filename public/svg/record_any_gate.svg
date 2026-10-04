@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>extends 조건별로 통과하는 row 타입</title>
+<desc>Record&lt;string, any&gt; 는 { [key: string]: any } 로 펼쳐진다. 값이 any 인 인덱스 시그니처는 원시값만 빼고 다 받아서 type 별칭 객체·interface·배열·함수가 통과하고 원시값만 막힌다. Record&lt;string, unknown&gt; 은 암묵적 인덱스 시그니처가 있는 type 별칭 객체만 통과한다 — interface 는 선언 병합으로 속성이 늘 수 있어 암묵적 인덱스 시그니처를 받지 못하고, 배열·함수도 막힌다. object 는 원시값만 막는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.ok{font-size:15px;fill:#2E7D32;font-weight:600}.no{font-size:15px;fill:#B3261E;font-weight:600}</style>
+<rect width="860" height="300" fill="#FFFFFF"/>
+
+<text x="360" y="30" text-anchor="middle" class="mb">Record&lt;string, any&gt;</text>
+<text x="360" y="48" text-anchor="middle" class="s">{ [key: string]: any }</text>
+<text x="560" y="30" text-anchor="middle" class="mb">Record&lt;string, unknown&gt;</text>
+<text x="560" y="48" text-anchor="middle" class="s">{ [key: string]: unknown }</text>
+<text x="760" y="30" text-anchor="middle" class="mb">object</text>
+<text x="760" y="48" text-anchor="middle" class="s">원시값이 아닌 것</text>
+
+<rect x="275" y="60" width="170" height="168" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+
+<text x="20" y="86" class="m">type T = { name: string }</text>
+<text x="20" y="128" class="m">interface I { name: string }</text>
+<text x="20" y="170" class="m">number[] · () =&gt; void</text>
+<text x="20" y="212" class="m">'str' · 42</text>
+<line x1="20" y1="102" x2="840" y2="102" stroke="#E2E2E2"/>
+<line x1="20" y1="144" x2="840" y2="144" stroke="#E2E2E2"/>
+<line x1="20" y1="186" x2="840" y2="186" stroke="#E2E2E2"/>
+
+<text x="360" y="87" text-anchor="middle" class="ok">✓</text>
+<text x="560" y="87" text-anchor="middle" class="ok">✓</text>
+<text x="760" y="87" text-anchor="middle" class="ok">✓</text>
+<text x="360" y="129" text-anchor="middle" class="ok">✓</text>
+<text x="560" y="129" text-anchor="middle" class="no">✗</text>
+<text x="760" y="129" text-anchor="middle" class="ok">✓</text>
+<text x="360" y="171" text-anchor="middle" class="ok">✓</text>
+<text x="560" y="171" text-anchor="middle" class="no">✗</text>
+<text x="760" y="171" text-anchor="middle" class="ok">✓</text>
+<text x="360" y="213" text-anchor="middle" class="no">✗</text>
+<text x="560" y="213" text-anchor="middle" class="no">✗</text>
+<text x="760" y="213" text-anchor="middle" class="no">✗</text>
+
+<text x="360" y="252" text-anchor="middle" class="s">값이 any 면</text>
+<text x="360" y="270" text-anchor="middle" class="s">원시값 빼고 다 받는다</text>
+<text x="560" y="252" text-anchor="middle" class="s">암묵적 인덱스 시그니처가</text>
+<text x="560" y="270" text-anchor="middle" class="s">있는 type 객체만</text>
+<text x="560" y="288" text-anchor="middle" class="s">interface 는 속성이 늘 수 있어 못 받는다</text>
+<text x="760" y="252" text-anchor="middle" class="s">원시값만 막는다</text>
+<text x="760" y="270" text-anchor="middle" class="s">더 엄격히 하려면 이쪽</text>
+</svg>

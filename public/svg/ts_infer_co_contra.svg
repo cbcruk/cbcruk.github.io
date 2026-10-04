@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 280" width="100%" role="img">
+<title>공변 후보와 반변 후보가 둘 다 있을 때</title>
+<desc>f&lt;T&gt;(x: T, sink: (t: T) =&gt; void) 에 f(new Dog(), (_: Animal) =&gt; {}) 를 넘기면 공변 결과 Dog 와 반변 결과 Animal 이 나온다. 공변 결과가 반변 결과의 하위 타입이면 더 정밀한 공변이 이긴다 — Dog 는 Animal 의 하위라 T = Dog. 아니면 기본은 반변이 이기고, 반변 결과가 바운드를 못 지키면 공변으로 폴백한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="280" fill="#FFFFFF"/>
+<text x="20" y="24" class="m">function f&lt;T&gt;(x: T, sink: (t: T) =&gt; void)   ·   f(new Dog(), (_: Animal) =&gt; {})</text>
+<rect x="20" y="50" width="200" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="120.0" y="68" text-anchor="middle" class="s">공변 결과</text>
+<text x="120.0" y="86" text-anchor="middle" class="mb">Dog</text>
+<rect x="20" y="120" width="200" height="46" rx="7" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="120.0" y="138" text-anchor="middle" class="s">반변 결과</text>
+<text x="120.0" y="156" text-anchor="middle" class="mb">Animal</text>
+<rect x="270" y="80" width="270" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="405.0" y="107" text-anchor="middle" class="s">공변 결과가 반변 결과의 하위 타입?</text>
+<line x1="220" y1="73" x2="266" y2="95" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="220" y1="143" x2="266" y2="111" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="540" y1="103" x2="586" y2="103" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="563" y="96" text-anchor="middle" class="s">예</text>
+<rect x="590" y="80" width="250" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="715.0" y="98" text-anchor="middle" class="b">공변이 이긴다 (더 정밀)</text>
+<text x="715.0" y="116" text-anchor="middle" class="s">Dog 는 Animal 의 하위 → T = Dog</text>
+<line x1="405" y1="126" x2="405" y2="162" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="413" y="148" class="s">아니오</text>
+<rect x="270" y="166" width="270" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="405.0" y="193" text-anchor="middle" class="s">반변 결과가 바운드를 지키나?</text>
+<line x1="540" y1="189" x2="586" y2="189" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="563" y="182" text-anchor="middle" class="s">예</text>
+<rect x="590" y="166" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="715.0" y="193" text-anchor="middle" class="b">반변 (기본)</text>
+<line x1="405" y1="212" x2="405" y2="228" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="413" y="224" class="s">아니오</text>
+<rect x="270" y="232" width="270" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="405.0" y="256" text-anchor="middle" class="b">공변으로 폴백</text>
+</svg>

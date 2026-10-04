@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 280" width="100%" role="img">
+<title>Native Messaging 1 — 미리 등록해둔다</title>
+<desc>호스트를 OS 의 정해진 자리에 manifest 로 올린다 — Windows 는 레지스트리 키, macOS·Linux 는 지정된 디렉터리(macOS 는 ~/Library/Application Support/Google/Chrome/NativeMessagingHosts/). manifest 는 name·description·path·type(stdio)·allowed_origins 를 갖는다. path 는 절대경로여야 한다. allowed_origins 가 게이트다: 확장이 호출하면 Chrome 이 이 목록에 그 확장이 있는지 대조해 있을 때만 path 의 바이너리를 띄운다. 와일드카드는 못 쓴다 — 확장이 아무 프로그램이나 실행하지 못하는 이유다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="280" fill="#FFFFFF"/>
+<text x="20" y="24" class="b">어디에</text>
+<rect x="20" y="36" width="300" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="170.0" y="54" text-anchor="middle" class="b">Windows</text>
+<text x="170.0" y="72" text-anchor="middle" class="s">레지스트리 키</text>
+<rect x="20" y="92" width="300" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="170.0" y="110" text-anchor="middle" class="b">macOS · Linux</text>
+<text x="170.0" y="128" text-anchor="middle" class="s">지정된 디렉터리</text>
+<text x="20" y="160" class="m">~/Library/Application Support/</text>
+<text x="20" y="178" class="m">  Google/Chrome/NativeMessagingHosts/</text>
+<text x="380" y="24" class="b">manifest</text>
+<rect x="380" y="36" width="150" height="24" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="455.0" y="52" text-anchor="middle" class="m">name</text>
+<text x="545" y="53" class="s">com.example.ytdlp</text>
+<rect x="380" y="66" width="150" height="24" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="455.0" y="82" text-anchor="middle" class="m">description</text>
+<text x="545" y="83" class="s"></text>
+<rect x="380" y="96" width="150" height="24" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="455.0" y="112" text-anchor="middle" class="m">path</text>
+<text x="545" y="113" class="o">절대경로여야 한다</text>
+<rect x="380" y="126" width="150" height="24" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="455.0" y="142" text-anchor="middle" class="m">type</text>
+<text x="545" y="143" class="s">stdio</text>
+<rect x="380" y="156" width="150" height="24" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="455.0" y="172" text-anchor="middle" class="m">allowed_origins</text>
+<text x="545" y="173" class="o">게이트 — 와일드카드 불가</text>
+<text x="20" y="226" class="b">확장 호출</text>
+<rect x="110" y="210" width="220" height="30" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="220.0" y="229" text-anchor="middle" class="s">allowed_origins 에 이 확장?</text>
+<line x1="330" y1="225" x2="376" y2="225" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="353" y="218" text-anchor="middle" class="s">예</text>
+<rect x="380" y="210" width="200" height="30" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="480.0" y="229" text-anchor="middle" class="g">path 의 바이너리를 띄운다</text>
+<line x1="220" y1="240" x2="220" y2="252" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="228" y="262" class="r">아니오 → 거부 — 확장이 아무 프로그램이나 못 돌리는 이유</text>
+</svg>

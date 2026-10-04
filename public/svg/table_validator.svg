@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 270" width="100%" role="img">
+<title>검증기 — 표 확장 속도의 상한</title>
+<desc>모든 표가 validate 를 거친다. 규칙은 여섯: ID 유일성, 좌표 충돌, 해로 연결성(시작 항구에서 BFS 로 다 닿는가), 발견물 도달 가능성, 범위(basePrice &gt; 0), 진행 가능성(초기 자금으로 흑자 경로가 하나는 있는가). 하나라도 어기면 exit 1. 확인은 일부러 깨 보는 것 — 항구를 육지 안쪽으로 옮기면 unreachable-port 가 떠야 하고, 모든 규칙은 한 번은 실패해 봐야 한다. 표를 추가하는 PR 에는 validate 규칙이 같이 온다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="270" fill="#FFFFFF"/>
+<rect x="20" y="70" width="170" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="105.0" y="88" text-anchor="middle" class="b">표들</text>
+<text x="105.0" y="106" text-anchor="middle" class="m">PORTS · ROUTES</text>
+<text x="105.0" y="124" text-anchor="middle" class="s">교역품 · 발견물 …</text>
+<rect x="240" y="30" width="380" height="144" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="430" y="56" text-anchor="middle" class="mb">validate</text>
+<text x="262" y="94" class="s">1  ID 유일성</text>
+<text x="440" y="94" class="s">4  발견물 도달 가능성</text>
+<text x="262" y="118" class="s">2  좌표 충돌</text>
+<text x="440" y="118" class="s">5  범위 (basePrice &gt; 0)</text>
+<text x="262" y="142" class="s">3  해로 연결성 (BFS)</text>
+<text x="440" y="142" class="s">6  흑자 경로 ≥ 1</text>
+<line x1="190" y1="102" x2="236" y2="102" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="670" y="40" width="170" height="40" rx="7" fill="#FFFFFF" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="755.0" y="64" text-anchor="middle" class="g">exit 0</text>
+<rect x="670" y="124" width="170" height="40" rx="7" fill="#FFFFFF" stroke="#B3261E" stroke-width="1.5"/>
+<text x="755.0" y="148" text-anchor="middle" class="r">exit 1 · 규칙 이름</text>
+<line x1="620" y1="70" x2="666" y2="60" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="620" y1="134" x2="666" y2="144" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="214" class="b">확인 — 일부러 깬다</text>
+<text x="170" y="214" class="s">항구를 육지 안쪽으로 → unreachable-port 가 뜨는가 · 모든 규칙은 한 번은 실패해 봐야 한다</text>
+<text x="20" y="244" class="o">함정 — 표만 추가하고 불변식은 안 쓰는 것. 표 추가 PR = 표 + validate 규칙</text>
+</svg>

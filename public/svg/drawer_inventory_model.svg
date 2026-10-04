@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 400" width="100%" role="img">
+<title>서랍 인벤토리 — 데이터 모델</title>
+<desc>Node 는 parentId 로 자기 자신을 가리키는 단일 트리다(null 이면 최상위 장소). kind 는 UI 힌트일 뿐 제약이 아니다. View 는 nodeId 로 Node 에 붙고(한 노드에 여럿), Node 는 faceViewId 로 그중 하나를 커버로, 아이템이면 derivedFrom(viewId·blobHash)으로 자기를 파생한 View 를 가리킨다. confirmed 는 사람이 만졌다는 뜻이라 재파생이 덮지 못한다. View 의 uri 는 저장하지 않고 id 로 조합하며, 그 경로의 blob 은 재촬영 때 덮어쓴다. Tag 는 mergedInto 로 자기 자신을 가리켜 병합을 비파괴로 하고, Node 는 tagIds 로 원본 Tag 를 유지한다 — 초기엔 스키마만 있고 UI 는 없다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.d{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#8A8A8A}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker>
+</defs>
+<rect width="860" height="400" fill="#FFFFFF"/>
+
+<rect x="40" y="40" width="300" height="259" rx="7" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.5"/>
+<path d="M40 68 L40 47 Q40 40 47 40 L333 40 Q340 40 340 47 L340 68 Z" fill="#DCEBFA"/>
+<line x1="40" y1="68" x2="340" y2="68" stroke="#2F6DB5" stroke-width="1"/>
+<text x="54" y="59" class="b">Node</text>
+<text x="326" y="59" text-anchor="end" class="s">장소 · 컨테이너 · 아이템</text>
+<text x="54" y="83" class="m">id</text>
+<text x="54" y="104" class="m">parentId</text><text x="200" y="104" class="s">null = 최상위 장소</text>
+<text x="54" y="125" class="m">kind</text><text x="200" y="125" class="s">UI 힌트, 제약 아님</text>
+<text x="54" y="146" class="m">alias</text><text x="200" y="146" class="s">"책상 2번 서랍"</text>
+<text x="54" y="167" class="m">faceViewId</text>
+<text x="54" y="188" class="m">tagIds</text>
+<text x="54" y="209" class="m">derivedFrom</text><text x="200" y="209" class="s">viewId · blobHash</text>
+<text x="54" y="230" class="m">confirmed</text><text x="200" y="230" class="s">재파생이 못 덮는다</text>
+<text x="54" y="251" class="m">lastSeenBlobHash</text>
+<text x="54" y="272" class="m">itemsComplete</text><text x="200" y="272" class="o">전수 등록됐나</text>
+<text x="54" y="293" class="m">updatedAt</text>
+
+<path d="M40 100 L24 100 L24 79 L36 79" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<rect x="560" y="40" width="280" height="133" rx="7" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.5"/>
+<path d="M560 68 L560 47 Q560 40 567 40 L833 40 Q840 40 840 47 L840 68 Z" fill="#DCEBFA"/>
+<line x1="560" y1="68" x2="840" y2="68" stroke="#2F6DB5" stroke-width="1"/>
+<text x="574" y="59" class="b">View</text>
+<text x="826" y="59" text-anchor="end" class="s">컨테이너의 한 층 사진</text>
+<text x="574" y="83" class="m">id</text>
+<text x="574" y="104" class="m">nodeId</text>
+<text x="574" y="125" class="m">label</text><text x="680" y="125" class="s">"1" · "인시투" · "전수"</text>
+<text x="574" y="146" class="m">shotAt</text><text x="680" y="146" class="s">신선도</text>
+<text x="574" y="167" class="d">uri</text><text x="680" y="167" class="s">id 로 조합 · 저장 안 함</text>
+
+<line x1="700" y1="173" x2="700" y2="196" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="590" y="196" width="220" height="48" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="700" y="216" text-anchor="middle" class="m">views/&lt;id&gt;.jpg</text>
+<text x="700" y="234" text-anchor="middle" class="s">재촬영 = 덮어쓰기, append 없음</text>
+
+<path d="M700 40 L700 22 L190 22 L190 36" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="445" y="16" text-anchor="middle" class="s">nodeId — 한 노드에 View 여럿</text>
+
+<path d="M340 163 L380 163 L380 80 L556 80" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="388" y="125" class="s">커버</text>
+<path d="M340 205 L440 205 L440 92 L556 92" fill="none" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="448" y="150" class="o">파생</text>
+
+<rect x="560" y="290" width="280" height="91" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5"/>
+<path d="M560 318 L560 297 Q560 290 567 290 L833 290 Q840 290 840 297 L840 318 Z" fill="#F2F2F2"/>
+<line x1="560" y1="318" x2="840" y2="318" stroke="#8A8A8A" stroke-width="1"/>
+<text x="574" y="309" class="b">Tag</text>
+<text x="826" y="309" text-anchor="end" class="s">스키마만 · 초기 UI 없음</text>
+<text x="574" y="333" class="m">id</text>
+<text x="574" y="354" class="m">label</text>
+<text x="574" y="375" class="m">mergedInto</text><text x="680" y="375" class="s">비파괴 병합</text>
+<path d="M840 371 L852 371 L852 329 L844 329" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<path d="M40 184 L30 184 L30 329 L556 329" fill="none" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#a)"/>
+<text x="300" y="322" text-anchor="middle" class="s">tagIds — 원본 tagId 를 유지, 조회 때 별칭 체인을 푼다</text>
+</svg>

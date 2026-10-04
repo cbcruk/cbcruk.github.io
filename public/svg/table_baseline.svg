@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>회귀 기준선 — 코드가 아니라 결과를 버전 관리</title>
+<desc>시드 20개로 시뮬을 돌려 지표마다 중앙값을 낸다. 커밋된 metrics/baseline.json 과 비교해 15% 넘게 변한 지표만 표시한다 — 예: lockInTurn 1840 → 620 (-66.3%), 의도한 변경인가. 기준선 갱신은 의도적으로만 한다. 자동 갱신하면 서서히 나빠지는 걸 못 본다. 단일 시드면 분산이 변화로 오인된다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="20" y="40" width="150" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="95.0" y="58" text-anchor="middle" class="b">시드 20개</text>
+<text x="95.0" y="76" text-anchor="middle" class="s">단일 시드 X</text>
+<rect x="210" y="40" width="150" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="285.0" y="67" text-anchor="middle" class="mb">sim × 20</text>
+<rect x="400" y="40" width="150" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="475.0" y="67" text-anchor="middle" class="b">지표별 중앙값</text>
+<rect x="590" y="40" width="250" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="715.0" y="58" text-anchor="middle" class="m">metrics/baseline.json 과 비교</text>
+<text x="715.0" y="76" text-anchor="middle" class="s">15% 넘는 변화만 표시</text>
+<line x1="170" y1="63" x2="206" y2="63" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="360" y1="63" x2="396" y2="63" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="550" y1="63" x2="586" y2="63" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="615" y="116" class="m">⚠ lockInTurn: 1840 → 620 (-66.3%)</text>
+<text x="615" y="136" class="o">← 의도한 변경인가?</text>
+<path d="M475 86 L475 160 L605 160 L605 90" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#a)"/>
+<text x="480" y="182" class="s">기준선 갱신은 의도적으로만 — 자동이면 서서히 나빠지는 걸 못 본다</text>
+</svg>
