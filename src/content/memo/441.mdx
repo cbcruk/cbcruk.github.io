@@ -1,18 +1,34 @@
 ---
 type: bookmarks
 tags: ['generator', 'javascript']
-status: archive
+status: release
 ctime: 2025-03-03
-mtime: 2025-03-03
+mtime: 2026-10-05
 ---
 
 import QuoteLink from '@components/QuoteLink.astro'
 
-<QuoteLink url="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Generator">
+<QuoteLink url="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator">
   Generator
 </QuoteLink>
 
+> The `Generator` object is returned by a generator function and it conforms to both the iterable protocol and the iterator protocol.
+
+![소비자가 next() 를 부를 때만 generator 가 다음 yield 까지 돌고 멈춘다 — 다음 next() 전에는 한 줄도 계산하지 않고, next(v) 의 v 는 멈춰 있던 yield 식의 값이 된다. break 하면 return() 이 finally 를 돌리고 닫힌다. 이 리듬에서 셋이 나온다: 당긴 만큼만 계산하니 무한 수열도 된다, async generator 는 앞 페이지를 다 쓴 뒤에야 다음 페이지를 요청한다, for await 에서 끊어도 finally 의 정리가 실행된다.](/svg/generator_pull_rhythm.svg)
+
 ---
 
+- [`useGenerator` — 핸들러를 async generator 로 받아 yield 마다 상태를 바꾼다](/memo/540)
+- [Iterator Helpers — async generator 페이지네이션을 `take` 로 조기 종료](/memo/564)
+- [Maybe Monad — generator 로 early return](/memo/533)
+- [MobX `flow` — `await` 대신 `yield`](/memo/223)
+
+---
+
+- [Async iterators and generators - JakeArchibald.com](https://jakearchibald.com/2017/async-iterators-and-generators/)[^441-1]
 - [How to consume a paginated API using JavaScript async generators](https://jrsinclair.com/articles/2023/how-to-consume-a-paginated-api-using-javascript-async-generators/)
 - [Why would anyone need JavaScript generator functions?](https://jrsinclair.com/articles/2022/why-would-anyone-need-javascript-generator-functions/)
+
+---
+
+[^441-1]: Streaming 작업 시 비동기처리 방법을 알려주고 있는데...경험이 없어서 일단 메모.

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 435" width="100%" role="img" xml:space="preserve">
+<title>generator 는 당길 때만 한 칸 돈다</title>
+<desc>소비자가 next() 를 부르면 generator 가 다음 yield 까지 돌고 값을 내준 뒤 멈춘다. 다음 next() 전에는 한 줄도 계산하지 않는다. next(v) 로 넘긴 v 는 멈춰 있던 yield 식의 값이 된다. 소비자가 break 하면 return() 이 불려 finally 가 돌고 done: true 로 닫힌다. 이 리듬에서 세 가지가 나온다. 당긴 만큼만 계산하므로 중간 배열 없이 무한 수열도 다룰 수 있다(jrsinclair 2022). async generator 는 await 로 페이지를 받아 yield* 로 아이템을 흘려서, 다음 페이지는 앞 페이지를 다 쓴 뒤에야 요청한다(jrsinclair 2023). for await 에서 break 해도 return() 이 finally 까지 돌려 reader.releaseLock() 같은 정리가 실행된다(jakearchibald 2017).</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{white-space:pre;font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}.x{font-size:10.5px;fill:#8A8A8A}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#8A8A8A"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker>
+</defs>
+<rect width="860" height="435" fill="#FFFFFF"/>
+
+<text x="30" y="22" class="s">시간 →  소비자가 next() 로 당길 때만 generator 가 한 칸 돈다</text>
+
+<text x="30" y="54" class="b">소비자</text>
+<line x1="110" y1="50" x2="830" y2="50" stroke="#BDBDBD" stroke-width="1.2"/>
+<text x="30" y="144" class="b">generator</text>
+<line x1="110" y1="140" x2="680" y2="140" stroke="#BDBDBD" stroke-width="1.2" stroke-dasharray="4 4"/>
+
+<line x1="140" y1="56" x2="140" y2="132" stroke="#8A8A8A" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="146" y="96" class="m">next()</text>
+<rect x="140" y="135" width="80" height="10" rx="2" fill="#2F6DB5"/>
+<line x1="220" y1="132" x2="220" y2="58" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="226" y="96" class="g">yield 1</text>
+<text x="290" y="164" text-anchor="middle" class="s">멈춤 (계산 없음)</text>
+
+<line x1="360" y1="56" x2="360" y2="132" stroke="#8A8A8A" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="366" y="96" class="m">next(v)</text>
+<rect x="360" y="135" width="80" height="10" rx="2" fill="#2F6DB5"/>
+<text x="360" y="164" class="s">x = yield 1 ← v</text>
+<line x1="440" y1="132" x2="440" y2="58" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="446" y="96" class="g">yield 2</text>
+<text x="520" y="164" text-anchor="middle" class="s">멈춤</text>
+
+<line x1="580" y1="56" x2="580" y2="132" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="574" y="122" text-anchor="end" class="o">break → return()</text>
+<rect x="580" y="135" width="80" height="10" rx="2" fill="#C2621A"/>
+<text x="620" y="164" text-anchor="middle" class="o">finally 실행</text>
+<line x1="660" y1="132" x2="660" y2="58" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
+<text x="666" y="80" class="m">{ done: true }</text>
+<text x="690" y="144" class="x">닫힘</text>
+
+<rect x="30" y="200" width="250" height="220" rx="8" fill="#F4F8FD" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="44" y="222" class="b">지연 · 무한</text>
+<text x="44" y="248" class="m">function* nat() {</text>
+<text x="44" y="265" class="m">  let n = 0</text>
+<text x="44" y="282" class="m">  while (true) yield n++</text>
+<text x="44" y="299" class="m">}</text>
+<text x="44" y="316" class="m">take(3, nat()) // 0,1,2</text>
+<text x="44" y="372" class="s">당긴 만큼만 계산한다</text>
+<text x="44" y="389" class="s">중간 배열 없이, 무한 수열도 된다</text>
+<text x="44" y="410" class="x">jrsinclair.com (2022)</text>
+
+<rect x="305" y="200" width="250" height="220" rx="8" fill="#F4F8FD" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="319" y="222" class="b">async · 페이지네이션</text>
+<text x="319" y="248" class="m">async function* items() {</text>
+<text x="319" y="265" class="m">  while (url) {</text>
+<text x="319" y="282" class="m">    const r = await get(url)</text>
+<text x="319" y="299" class="m">    yield* r.values</text>
+<text x="319" y="316" class="m">    url = r.next</text>
+<text x="319" y="333" class="m">  }</text>
+<text x="319" y="350" class="m">}</text>
+<text x="319" y="372" class="s">await 하고 yield 한다 —</text>
+<text x="319" y="389" class="s">다음 페이지는 앞 페이지를 다 쓴 뒤</text>
+<text x="319" y="410" class="x">jrsinclair.com (2023)</text>
+
+<rect x="580" y="200" width="250" height="220" rx="8" fill="#FDF6F0" stroke="#C2621A" stroke-width="1.2"/>
+<text x="594" y="222" class="b">중간에 끊어도 정리</text>
+<text x="594" y="248" class="m">async function* read(s) {</text>
+<text x="594" y="265" class="m">  const reader = s.getReader()</text>
+<text x="594" y="282" class="m">  try { … yield value }</text>
+<text x="594" y="299" class="m">  finally {</text>
+<text x="594" y="316" class="m">    reader.releaseLock()</text>
+<text x="594" y="333" class="m">  }</text>
+<text x="594" y="350" class="m">}</text>
+<text x="594" y="372" class="s">for await 에서 break 해도</text>
+<text x="594" y="389" class="s">return() 이 finally 까지 돌린다</text>
+<text x="594" y="410" class="x">jakearchibald.com (2017)</text>
+</svg>
