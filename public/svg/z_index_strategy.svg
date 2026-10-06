@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 520" width="100%" role="img">
+<title>z-index 전략</title>
+<desc>z-index 는 전역이 아니라 같은 쌓임 맥락 안에서만 비교된다. header 가 z-index 2, main 이 z-index 1 이면 main 안의 tooltip 은 z-index 999999 여도 header 아래에 깔린다 — 999999 는 main 안의 형제끼리만 비교되고, 맥락 밖으로 빠져나올 방법은 없다. 맥락은 z-index 를 준 positioned 요소 말고도 opacity 1 미만, transform·filter·clip-path, flex·grid 자식의 z-index, will-change, mix-blend-mode 로 의도치 않게 생긴다. 전략은 둘이다. 컴포넌트 안에서는 바깥 요소에 isolation: isolate 를 걸어 z-index 없이 맥락을 만든다 — 안쪽 1~5 는 그 안에서만 비교되고 밖으로 새지 않아, 컴포넌트가 바깥 z-index 값을 정하지 않아도 된다. 앱 레벨에서는 값을 숫자가 아니라 관계로 정의한다: base 0, above 1, below -1 을 두고 openButton 은 above + backdrop, dropdown 은 above + openButton 처럼 무엇 위에 있는지를 적는다. 상수는 쌓임 맥락별로 묶어 컴포넌트 옆에 둔다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.u{font-size:12px;fill:#2F6DB5}</style>
+<rect width="860" height="520" fill="#FFFFFF"/>
+
+<text x="40" y="30" class="b">z-index 는 같은 맥락 안에서만 비교된다</text>
+<rect x="40" y="44" width="430" height="176" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="56" y="64" class="m" style="fill:#8A8A8A">root 맥락</text>
+<rect x="60" y="74" width="390" height="36" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="76" y="97" class="m">header · z-index 2</text>
+<rect x="60" y="120" width="390" height="86" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="76" y="142" class="m">main · z-index 1</text>
+<rect x="76" y="154" width="300" height="38" rx="6" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="90" y="178" class="m">tooltip · z-index 999999</text>
+<text x="255" y="240" text-anchor="middle" class="o">999999 는 main 안에서만 센다 → tooltip 은 header 아래</text>
+
+<rect x="500" y="44" width="320" height="176" rx="10" fill="#FFFFFF" stroke="#B5B5B5" stroke-width="1.2"/>
+<text x="516" y="68" class="b">맥락이 생기는 곳 — 대부분 의도치 않게</text>
+<text x="516" y="94" class="s">· position + z-index</text>
+<text x="516" y="114" class="s">· opacity &lt; 1</text>
+<text x="516" y="134" class="s">· transform · filter · clip-path</text>
+<text x="516" y="154" class="s">· flex·grid 자식의 z-index</text>
+<text x="516" y="174" class="s">· will-change · mix-blend-mode</text>
+<text x="516" y="200" class="u">· isolation: isolate — 이것만 맥락만 만든다</text>
+
+<line x1="40" y1="264" x2="820" y2="264" stroke="#E2E2E2" stroke-width="1"/>
+
+<rect x="40" y="284" width="380" height="216" rx="8" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="56" y="308" class="b">컴포넌트 안 — 가둔다</text>
+<rect x="56" y="322" width="348" height="96" rx="7" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="70" y="342" class="m" style="fill:#2F6DB5">isolation: isolate</text>
+<rect x="70" y="356" width="72" height="44" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="106" y="383" text-anchor="middle" class="m">1</text>
+<rect x="152" y="356" width="72" height="44" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="188" y="383" text-anchor="middle" class="m">3</text>
+<rect x="234" y="356" width="72" height="44" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="270" y="383" text-anchor="middle" class="m">4</text>
+<rect x="316" y="356" width="72" height="44" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="352" y="383" text-anchor="middle" class="m">2 | 5</text>
+<text x="56" y="446" class="s">z-index 없이 맥락만 만든다 — 안쪽 숫자는</text>
+<text x="56" y="466" class="s">그 안에서만 비교되고 밖으로 새지 않는다</text>
+<text x="56" y="486" class="s">→ 컴포넌트가 바깥 z-index 값을 정하지 않아도 된다</text>
+
+<rect x="440" y="284" width="380" height="216" rx="8" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="456" y="308" class="b">앱 레벨 — 숫자 대신 관계로</text>
+<text x="456" y="338" class="m">base = 0 · above = 1 · below = -1</text>
+<text x="456" y="366" class="m">backdrop   = base</text>
+<text x="456" y="386" class="m">openButton = above + backdrop</text>
+<text x="456" y="406" class="m">dropdown   = above + openButton</text>
+<text x="456" y="446" class="s"><tspan class="m">9999</tspan> 대신 "무엇 위에" 를 적는다</text>
+<text x="456" y="466" class="s">상수는 맥락별로 묶어 컴포넌트 옆에 둔다</text>
+</svg>

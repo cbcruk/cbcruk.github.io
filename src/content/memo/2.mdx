@@ -1,0 +1,33 @@
+---
+type: bookmarks
+tags: ['promise', 'javascript', 'async-await']
+status: release
+ctime: 2022-04-09
+mtime: 2026-10-06
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+  Promise
+</QuoteLink>
+
+---
+
+- [Promises From The Ground Up • Josh W. Comeau](https://www.joshwcomeau.com/javascript/promises/)
+- [⭐️🎀 JavaScript Visualized: Promises &amp; Async/Await - DEV Community](https://dev.to/lydiahallie/javascript-visualized-promises-async-await-5gke)
+- [JavaScript Visualized - Promise Execution](https://www.lydiahallie.com/blog/promise-execution)
+- [Running Promises In Parallel: A Visual Guide | JulesBlom.com](https://julesblom.com/writing/running-promises-in-parallel)
+- [await vs return vs return await - JakeArchibald.com](https://jakearchibald.com/2017/await-vs-return-vs-return-await/)[^2-3]
+- [The gotcha of unhandled promise rejections - JakeArchibald.com](https://jakearchibald.com/2023/unhandled-rejections/)
+- [14 Linting Rules To Help You Write Asynchronous Code in JavaScript - Maxim Orlov](https://maximorlov.com/linting-rules-for-asynchronous-code-in-javascript/)[^2-4]
+- [Async/Await without Try/Catch Block in JavaScript](https://www.robinwieruch.de/javascript-async-await-without-try-catch)[^2-2]
+- [Cancelable Async Flows](https://github.com/getify/CAF)[^2-1]
+- [ECMAScript 2024 feature: `Promise.withResolvers()`](https://2ality.com/2024/05/proposal-promise-with-resolvers.html)
+
+---
+
+[^2-1]: 페이지 로딩 중 unmount 될때 이미지 요청 취소 기능을 위해 찾아봤다.
+[^2-2]: `try/catch`문을 사용할 경우 결과값을 다시 변수에 할당 해야 하는데 그럴 경우 문법적 간결함이 애매해 지기 때문에 `.catch`로 체이닝해서 다음 구문에 조건문으로 처리하는 방법을 알려주고 있다.
+[^2-3]: async 함수를 실행할때 리턴과 관련된 예제로 해당 기능을 설명해주고 있다.
+[^2-4]: reject 는 `Error` 객체로 — 문자열로 거부하면 스택 트레이스가 남지 않는다.

@@ -1,0 +1,29 @@
+---
+type: bookmarks
+tags: ['css', 'clamp']
+status: release
+ctime: 2022-04-09
+mtime: 2026-10-05
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/clamp">
+  clamp()
+</QuoteLink>
+
+> The clamp() CSS function clamps a value within a range of values between a defined minimum bound and a maximum bound. The function takes three parameters: a minimum value, a preferred value, and a maximum allowed value.
+
+![가로축 뷰포트 폭, 세로축 글자 크기. 360px 에서 1rem, 840px 에서 3.5rem 두 점을 직선으로 잇는다 — 기울기 2.5rem ÷ 30rem = 0.0833, 100 을 곱해 8.333vw. 직선을 폭 0 까지 늘린 y절편이 -0.875rem 이라 clamp(1rem, -0.875rem + 8.333vw, 3.5rem) 이 되고, 600px 에서 정확히 가운데인 2.25rem 이다. 폭도 rem 으로 바꿔 계산하는데 16 으로 나누는 건 루트 글자 크기가 16px 일 때만 맞다. 함정은 확대: 확대하면 CSS 뷰포트가 좁아져 vw 가 줄어서, 800px 창에서 200% 확대하면 화면 픽셀 52.7px 가 38.7px 로 오히려 작아진다(WCAG 1.4.4). 그래서 min·max 차이가 큰 제목에만 쓴다.](/svg/clamp_fluid_line.svg)
+
+![1vw 는 창 폭의 1% 다. 600px 창이면 1vw = 6px 이라 8.333vw = 50px, 여기에 y절편 -0.875rem(-14px) 를 더해 36px = 2.25rem 이고 clamp 가 16px~56px 로 자른다. 창 폭만 바꾸면 vw 몫은 창에 비례해 30·50·70·100px 로 늘지만 -14px 는 그대로라, 결과는 16·36·56·86px 이고 1200px 창의 86px 은 max 56px 에서 잘린다. vw 만 쓰면 원점을 지나는 비례선이라, 고정 rem 을 더해 선을 평행이동해야 원하는 두 점을 지난다.](/svg/clamp_vw_compute.svg)
+
+- [Clamp | Utopia](https://utopia.fyi/blog/clamp/)[^109-1]
+- [Linearly Scale font-size with CSS clamp() Based on the Viewport | CSS-Tricks](https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/)[^109-2]
+- [Modern Fluid Typography Using CSS Clamp — Smashing Magazine](https://www.smashingmagazine.com/2022/01/modern-fluid-typography-css-clamp/)
+
+---
+
+[^109-1]: 유토피아는 디자이너와 개발자가 반응형 디자인의 유동성에 대한 체계적인 접근 방식을 공유할 때 나타납니다. x 개의 임의 중단점에 대해 설계하는 대신 요소가 비례하고 유동적으로 확장되는 시스템을 설계할 수 있습니다.
+
+[^109-2]: viewport 기반의 글꼴 크기를 clamp로 어떻게 구현하는지 설명해주고 있다.

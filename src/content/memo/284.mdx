@@ -1,19 +1,30 @@
 ---
 type: bookmarks
 tags: ['prosemirror']
-status: archive
+status: release
 ctime: 2023-07-02
-mtime: 2024-03-22
+mtime: 2026-10-06
 ---
 
 import QuoteLink from '@components/QuoteLink.astro'
 
 <QuoteLink url="https://prosemirror.net/">ProseMirror</QuoteLink>
 
+> A toolkit for building rich-text editors on the web
+
 ---
 
-- https://remirror.io/
-- https://github.com/ponymessenger/use-prosemirror
-- https://github.com/TeemuKoivisto/prosemirror-react-typescript-example
-- https://smoores.dev/post/why_i_rebuilt_prosemirror_view/
-  - https://nytimes.github.io/oak-byo-react-prosemirror-redux/post/prosemirror-basics/
+- [Why I rebuilt ProseMirror’s renderer in React](https://smoores.dev/post/why_i_rebuilt_prosemirror_view/) [^284-1]
+- [Review: ProseMirror Basics](https://nytimes.github.io/oak-byo-react-prosemirror-redux/post/prosemirror-basics/) [^284-2]
+
+---
+
+- [remirror](https://github.com/remirror/remirror)
+- [use-prosemirror](https://github.com/ponymessenger/use-prosemirror)
+- [prosemirror-react-typescript-example](https://github.com/TeemuKoivisto/prosemirror-react-typescript-example)
+
+---
+
+[^284-1]: NYT 편집기 Oak 팀이 React 와 ProseMirror 를 붙이다 겪은 문제와 해법. React 는 render → commit 2단계, ProseMirror 는 동기로 한 번에 DOM 을 고치고 브라우저 편집을 읽어 들이는 양방향이라, `useLayoutEffect` 로 `view.updateState()` 하면 좌표가 낡고 state tearing 이 난다. 결국 `EditorView` 를 상속해 `setProps` 를 부수효과 없는 `pureSetProps` 와 `runPendingEffects` 로 쪼개고 렌더러를 React 로 다시 썼다 (`@handlewithcare/react-prosemirror`).
+
+[^284-2]: Oak 팀 교육 자료. ProseMirror 를 Redux + React 에 대응시킨다 — `EditorView` = store, transaction = action(대부분 ProseMirror 가 입력에서 만든다), plugin = reducer 확장·subscribe, `dispatchTransaction` = middleware, node spec 의 `toDOM` = 컴포넌트(`0` 이 children 자리).

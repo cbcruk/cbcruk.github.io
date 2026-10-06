@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 400" width="100%" role="img">
+<title>clamp 는 두 점을 잇는 직선에 양 끝을 고정한다</title>
+<desc>가로축은 뷰포트 폭, 세로축은 글자 크기다. 360px 에서 1rem, 840px 에서 3.5rem 이라는 두 점을 직선으로 잇는다. 기울기는 크기 차 2.5rem 을 폭 차 30rem(480px) 로 나눈 0.0833 이고, 100 을 곱하면 8.333vw 가 된다. 직선을 폭 0 까지 늘리면 -0.875rem 에서 만나고 이게 y절편이다. 그래서 clamp(1rem, -0.875rem + 8.333vw, 3.5rem) 이 되고, 360px 아래는 1rem, 840px 위는 3.5rem 에 고정되며, 600px 에서는 정확히 가운데인 2.25rem 이다. 폭은 rem 으로 바꿔 계산하는데 16 으로 나누는 건 루트 글자 크기가 16px 일 때만 맞다. 함정은 확대다. 브라우저를 확대하면 CSS 뷰포트가 좁아지므로 vw 부분이 줄어든다. 800px 창에서 200% 확대하면 화면 픽셀 기준 52.7px 이던 글자가 38.7px 로 오히려 작아져 WCAG 1.4.4(200% 확대)를 못 지킬 수 있다. 그래서 최소와 최대 차이가 큰 제목에만 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{white-space:pre;font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.g{font-size:12px;fill:#2F6DB5}.x{font-size:10.5px;fill:#8A8A8A}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#8A8A8A"/></marker>
+</defs>
+<rect width="860" height="400" fill="#FFFFFF"/>
+
+<text x="80" y="28" class="s">글자 크기 (rem)</text>
+<line x1="80" y1="290" x2="80" y2="40" stroke="#8A8A8A" stroke-width="1.2" marker-end="url(#a)"/>
+<line x1="80" y1="232" x2="510" y2="232" stroke="#8A8A8A" stroke-width="1.2" marker-end="url(#a)"/>
+<text x="510" y="270" text-anchor="end" class="s">뷰포트 폭 →</text>
+<text x="72" y="236" text-anchor="end" class="x">0</text>
+<text x="72" y="188" text-anchor="end" class="x">1</text>
+<text x="72" y="128" text-anchor="end" class="x">2.25</text>
+<text x="72" y="68" text-anchor="end" class="x">3.5</text>
+
+<line x1="231" y1="232" x2="231" y2="184" stroke="#D0D0D0" stroke-dasharray="3 3"/>
+<line x1="332" y1="232" x2="332" y2="124" stroke="#D0D0D0" stroke-dasharray="3 3"/>
+<line x1="433" y1="232" x2="433" y2="64" stroke="#D0D0D0" stroke-dasharray="3 3"/>
+<line x1="80" y1="124" x2="332" y2="124" stroke="#D0D0D0" stroke-dasharray="3 3"/>
+<line x1="80" y1="64" x2="433" y2="64" stroke="#D0D0D0" stroke-dasharray="3 3"/>
+<text x="231" y="250" text-anchor="middle" class="x">360px</text>
+<text x="332" y="250" text-anchor="middle" class="x">600px</text>
+<text x="433" y="250" text-anchor="middle" class="x">840px</text>
+
+<line x1="231" y1="184" x2="80" y2="274" stroke="#2F6DB5" stroke-width="1.2" stroke-dasharray="5 4"/>
+<circle cx="80" cy="274" r="3.5" fill="#2F6DB5"/>
+<text x="90" y="290" class="g">y절편 -0.875rem (폭 0 까지 늘린 선)</text>
+
+<line x1="80" y1="184" x2="231" y2="184" stroke="#222" stroke-width="3"/>
+<line x1="231" y1="184" x2="433" y2="64" stroke="#2F6DB5" stroke-width="3"/>
+<line x1="433" y1="64" x2="500" y2="64" stroke="#222" stroke-width="3"/>
+<circle cx="231" cy="184" r="4" fill="#2F6DB5"/>
+<circle cx="433" cy="64" r="4" fill="#2F6DB5"/>
+<circle cx="332" cy="124" r="4" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.5"/>
+
+<text x="155" y="176" text-anchor="middle" class="s">min 고정</text>
+<text x="466" y="56" text-anchor="middle" class="s">max 고정</text>
+<text x="340" y="150" class="g">600px → 2.25rem (정중앙)</text>
+<text x="110" y="96" class="g">기울기 = 2.5rem ÷ 30rem</text>
+<text x="110" y="112" class="g">= 0.0833 → ×100 = 8.333vw</text>
+
+<text x="80" y="330" class="m" fill="#2F6DB5">→ clamp(1rem, -0.875rem + 8.333vw, 3.5rem)</text>
+
+<rect x="540" y="30" width="290" height="190" rx="8" fill="#F4F8FD" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="554" y="52" class="b">두 점 → clamp</text>
+<text x="554" y="78" class="m">slope = (max − min)</text>
+<text x="554" y="95" class="m">      / (maxW − minW)</text>
+<text x="554" y="112" class="m">icept = min − minW × slope</text>
+<text x="554" y="140" class="m">clamp(min,</text>
+<text x="554" y="157" class="m">  icept + slope×100vw, max)</text>
+<text x="554" y="183" class="s">폭도 rem 으로 바꿔 계산한다 (÷16 은</text>
+<text x="554" y="200" class="s">루트 글자 크기가 16px 일 때만 맞다)</text>
+
+<rect x="540" y="236" width="290" height="140" rx="8" fill="#FDF6F0" stroke="#C2621A" stroke-width="1.2"/>
+<text x="554" y="258" class="b">확대 함정 (WCAG 1.4.4)</text>
+<text x="554" y="282" class="s">확대하면 CSS 뷰포트가 좁아져 vw 가 준다</text>
+<text x="554" y="304" class="o">800px 창 · 200% 확대</text>
+<text x="554" y="322" class="o">52.7px → 38.7px (화면 픽셀) — 작아진다</text>
+<text x="554" y="346" class="s">min·max 차이가 큰 제목에만 쓴다</text>
+<text x="554" y="364" class="x">css-tricks · utopia.fyi · smashingmagazine</text>
+</svg>

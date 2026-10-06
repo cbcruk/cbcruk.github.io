@@ -1,0 +1,25 @@
+---
+type: bookmarks
+tags: ['crdt']
+status: archive
+ctime: 2025-02-17
+mtime: 2026-10-06
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type">
+  Conflict-free replicated data type
+</QuoteLink>
+
+> In distributed computing, a conflict-free replicated data type (CRDT) is a data structure that is replicated across multiple computers in a network, with the following features:
+
+---
+
+- [An Interactive Intro to CRDTs](https://jakelazaroff.com/words/an-interactive-intro-to-crdts/) [^419-1]
+- [About CRDTs • Conflict-free Replicated Data Types](https://crdt.tech/) [^419-2]
+
+---
+
+[^419-1]: 수학 없이 CRDT 를 처음부터 만드는 인터랙티브 연재. state-based(전체 상태를 보내 병합) 대 operation-based(동작만 보내지만 정확히 한 번·인과 순서 전달이 필요) 를 가르고, Last Write Wins Register → Map 을 직접 짠 뒤 협업 픽셀 아트 에디터로 이어간다.
+[^419-2]: Kleppmann·Bieniusa·Shapiro 가 관리하는 CRDT 허브 — 개요·논문·구현체·용어집. 복제본 충돌을 다루는 길은 강한 일관성(조정하느라 느리고 오프라인이면 못 쓴다)과 낙관적 복제(아무 복제본이나 바로 고치고 나중에 병합) 둘인데, CRDT 는 후자에서 병합을 자동으로 해준다. 서버 하나를 전제하지 않아 P2P 에서도 되는 게 Google Docs·Figma 방식과 다른 점.

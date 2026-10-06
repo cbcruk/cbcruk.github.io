@@ -3,7 +3,7 @@ type: bookmarks
 tags: ['devtools']
 status: archive
 ctime: 2025-03-04
-mtime: 2025-03-04
+mtime: 2026-10-06
 ---
 
 import QuoteLink from '@components/QuoteLink.astro'
@@ -12,9 +12,24 @@ import QuoteLink from '@components/QuoteLink.astro'
   Chrome DevTools Protocol
 </QuoteLink>
 
-- [GitHub - ChromeDevTools/devtools-frontend: The Chrome DevTools UI](https://github.com/ChromeDevTools/devtools-frontend)
-- [GitHub - cyrus-and/chrome-remote-interface: Chrome Debugging Protocol interface for Node.js](https://github.com/cyrus-and/chrome-remote-interface)
-- [GitHub - paulirish/awesome-chrome-devtools: Awesome tooling and resources in the Chrome DevTools &amp; DevTools Protocol ecosystem](https://github.com/paulirish/awesome-chrome-devtools)
-- [GitHub - Tencent/vConsole: A lightweight, extendable front-end developer tool for mobile web page.](https://github.com/Tencent/vConsole)
-- [GitHub - liriliri/chii: Remote debugging tool](https://github.com/liriliri/chii)
-- [Chrome Devtools를 활용하여 나만의 웹뷰 디버깅 환경 만들기](https://tech.kakao.com/posts/617)
+> The Chrome DevTools Protocol (CDP) is a JSON-based protocol that connects debug and automation targets (such as browsing contexts and workers) with trusted debug and automation clients. It allows tools to instrument, inspect, debug, and profile Chromium, Chrome, and other Blink-based browsers.
+
+---
+
+- [ChromeDevTools/devtools-frontend](https://github.com/ChromeDevTools/devtools-frontend)[^452-1]
+- [cyrus-and/chrome-remote-interface](https://github.com/cyrus-and/chrome-remote-interface)[^452-2]
+- [paulirish/awesome-chrome-devtools](https://github.com/paulirish/awesome-chrome-devtools)[^452-3]
+- [Tencent/vConsole](https://github.com/Tencent/vConsole)[^452-4]
+- [liriliri/chii](https://github.com/liriliri/chii)[^452-5]
+
+---
+
+[^452-1]: DevTools 화면 자체(TypeScript·CSS 웹앱). 이 프런트엔드가 CDP 로 대상과 대화하므로, 떼어다 다른 곳에 붙이면 자기만의 디버거가 된다 — 아래 chii 가 그렇게 쓴다.
+
+[^452-2]: Node 에서 CDP 를 부르는 클라이언트. 명령·이벤트를 JS API 로 감싸서, 예컨대 페이지를 열고 나가는 요청을 전부 덤프하는 걸 몇 줄로 짠다.
+
+[^452-3]: DevTools·CDP 생태계 링크 모음 — 학습 자료, 프로토콜 클라이언트, DevTools 프런트엔드를 다른 플랫폼에 쓰는 법, 확장. 마지막 커밋이 2021-01 이라 최신 도구는 빠져 있다.
+
+[^452-4]: 모바일 웹 페이지 안에 띄우는 가벼운 콘솔 패널(로그·네트워크·요소·스토리지). CDP 없이 페이지 안에서 돈다 — WeChat 미니프로그램의 공식 디버깅 도구.
+
+[^452-5]: weinre 같은 원격 디버거인데 화면을 최신 devtools-frontend 로 바꿨다. 디버깅할 페이지에 스크립트를 넣고, 다른 기기의 브라우저에서 DevTools 로 붙는다.

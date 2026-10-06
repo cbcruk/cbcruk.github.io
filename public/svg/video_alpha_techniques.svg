@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 400" width="100%" role="img">
+<title>웹 투명 비디오 기법</title>
+<desc>웹 투명 비디오는 alpha 를 누가 들고 오느냐로 갈린다. 1 코덱이 싣는다: video 에 source 두 개를 두고 HEVC .mov 를 먼저, VP9 .webm 을 다음에 둔다. Safari 는 VP9 의 alpha 를 못 써서 HEVC 가 먼저 와야 한다. JS 없이 되지만 HEVC alpha 인코딩은 macOS 에서만 되고, 예제 기준 1.1MB 와 3.4MB 로 무겁다. Safari 27 베타에 WebM alpha 가 들어오는 중이다(2026-08). 2 animated AVIF 를 img 로: AV1 스트림 두 개(색, 밝기로 된 alpha)라 504kB 로 작지만 Safari 에서 깨지고 60fps 도 버거우며, img 라 재생 제어·소리·source 대체가 없어 아직 못 쓴다. 3 직접 싣는다: 위는 색, 아래는 alpha 를 밝기로 쌓은 일반 영상 하나를 WebGL 이 rgb 는 위에서, alpha 는 아래 밝기에서 가져와 합친다. 예제 기준 460kB 이고 alpha 쪽은 8kB 만 더했다. ffmpeg 의 alphaextract 와 vstack 으로 만든다. seeThru 는 같은 발상을 2012 년에 canvas 2D 로 한 것이다. 가장 작지만 JS 와 WebGL 이 필요하다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.t{font-size:10.5px;font-family:ui-monospace,Menlo,monospace;fill:#555}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.u{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="400" fill="#FFFFFF"/>
+
+<text x="40" y="30" class="b">alpha 를 누가 들고 오나</text>
+
+<rect x="40" y="46" width="246" height="334" rx="8" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="54" y="70" class="b">1 코덱이 싣는다</text>
+<text x="272" y="70" text-anchor="end" class="u">JS 없이</text>
+<rect x="54" y="84" width="218" height="88" rx="6" fill="none" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="64" y="101" class="t">&lt;video&gt;</text>
+<rect x="64" y="110" width="198" height="24" rx="4" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="74" y="127" class="m">1 HEVC .mov</text>
+<text x="252" y="127" text-anchor="end" class="s">Safari</text>
+<rect x="64" y="140" width="198" height="24" rx="4" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="74" y="157" class="m">2 VP9 .webm</text>
+<text x="252" y="157" text-anchor="end" class="s">그 외</text>
+<text x="54" y="198" class="s">· HEVC 가 먼저 — Safari 는</text>
+<text x="64" y="216" class="s">VP9 의 alpha 를 못 쓴다</text>
+<text x="54" y="238" class="s">· HEVC alpha 인코딩은 macOS 만</text>
+<text x="54" y="260" class="s">· 예제 1.1MB / 3.4MB 로 무겁다</text>
+<text x="54" y="282" class="s">· Safari 27 베타에 WebM alpha</text>
+<text x="64" y="300" class="s">가 들어오는 중 (2026-08)</text>
+<text x="54" y="360" class="u">안전한 기본값</text>
+
+<rect x="307" y="46" width="246" height="334" rx="8" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="321" y="70" class="b">2 animated AVIF</text>
+<rect x="321" y="84" width="218" height="88" rx="6" fill="none" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="331" y="101" class="t">&lt;img src="….avif"&gt;</text>
+<rect x="331" y="110" width="198" height="24" rx="4" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="341" y="127" class="s">AV1 — 색</text>
+<rect x="331" y="140" width="198" height="24" rx="4" fill="#555555" stroke="#555555" stroke-width="1.2"/>
+<text x="341" y="157" class="s" style="fill:#FFFFFF">AV1 — alpha (밝기)</text>
+<text x="321" y="198" class="s">· 504kB 로 작다</text>
+<text x="321" y="220" class="s">· Safari 에서 깨지고</text>
+<text x="331" y="238" class="s">60fps 도 버겁다</text>
+<text x="321" y="260" class="s">· &lt;img&gt; 라 재생 제어 · 소리 ·</text>
+<text x="331" y="278" class="s">&lt;source&gt; 대체가 없다</text>
+<text x="321" y="360" class="o">아직 못 쓴다</text>
+
+<rect x="574" y="46" width="246" height="334" rx="8" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="588" y="70" class="b">3 직접 싣는다</text>
+<text x="806" y="70" text-anchor="end" class="u">가장 작다</text>
+<rect x="590" y="90" width="64" height="38" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="622" y="114" text-anchor="middle" class="s">색</text>
+<rect x="590" y="128" width="64" height="38" fill="#555555" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="622" y="152" text-anchor="middle" class="s" style="fill:#FFFFFF">alpha</text>
+<line x1="658" y1="128" x2="680" y2="128" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="684" y="106" width="122" height="44" rx="6" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="745" y="124" text-anchor="middle" class="b">WebGL</text>
+<text x="745" y="141" text-anchor="middle" class="t">rgb=위 · a=아래</text>
+<text x="588" y="198" class="s">· 위는 색, 아래는 alpha 를</text>
+<text x="598" y="216" class="s">밝기로 쌓은 영상 1개</text>
+<text x="588" y="238" class="s">· 예제 460kB (alpha +8kB)</text>
+<text x="588" y="260" class="s">· ffmpeg <tspan class="t">alphaextract</tspan></text>
+<text x="598" y="278" class="s">→ <tspan class="t">vstack</tspan></text>
+<text x="588" y="300" class="s">· seeThru 는 같은 발상의</text>
+<text x="598" y="318" class="s">2012년 canvas 2D 판</text>
+<text x="588" y="360" class="u">대신 JS · WebGL 이 필요하다</text>
+</svg>

@@ -1,13 +1,36 @@
 ---
 type: bookmarks
 tags: ['state']
-status: archive
+status: release
 ctime: 2025-03-05
-mtime: 2025-03-05
+mtime: 2026-10-05
 ---
 
 import QuoteLink from '@components/QuoteLink.astro'
 
-<QuoteLink url="https://www.state-designer.com/designing-state">
-  Designing State
+<QuoteLink url="https://en.wikipedia.org/wiki/State_(computer_science)">
+  State (computer science)
 </QuoteLink>
+
+> In information technology and computer science, a system is described as stateful if it is designed to remember preceding events or user interactions. The remembered information is called the state of the system.
+
+![상태가 없는 시스템은 출력이 지금 입력만으로 정해져 같은 입력이면 늘 같은 출력이 나온다. 상태가 있는 시스템은 지난 입력에서 얻은 정보를 기억해 두고, 출력이 지금 입력과 그 기억으로 정해진다. 처리할 때마다 지금 상태를 읽고 다음 상태를 써 넣는다. 이 기억이 상태다. 입력이 하나씩 들어올 때마다 상태가 s0 에서 s1 으로 바뀌고, 어떤 입력은 상태를 바꾸지 않으며, 다음 입력에서 s2 가 된다. 시스템이 과거에 대해 아는 것은 지금 상태가 전부다. 가능한 상태를 모두 모은 것이 상태 공간이다. 0 또는 1 을 담는 기억 칸이 N 개면 상태는 최대 2 의 N 제곱 가지다 — 칸이 둘이면 00, 01, 10, 11 네 가지.](/svg/state_definition.svg)
+
+---
+
+- [Designing State](https://www.state-designer.com/designing-state)
+
+---
+
+- [`idle`·`loading`·`success`·`failure` — 버튼 비활성화는 앱 로직이 아니다](/memo/47)
+- [상태 머신 — 스테이트차트·UML 표기·TypeStates](/memo/219)
+- [Signal — 읽은 곳만 다시 계산하는 반응성](/memo/296)
+- [State Reducer 패턴 — reducer 를 넘겨 훅 동작을 바꾼다](/memo/36)
+- [Redux 스타일 store 직접 구현](/memo/484)
+- [`useGenerator` — 핸들러를 async generator 로 받아 yield 마다 상태를 바꾼다](/memo/540)
+
+---
+
+- [The 5 Types Of React Application State - James K Nelson](http://jamesknelson.com/5-types-react-application-state/)
+- [All kinds of state management in React | Typeonce](https://www.typeonce.dev/article/all-kinds-of-state-management-in-react)
+- [Simple Global State In React](https://emnudge.dev/notes/simple-global-state/)

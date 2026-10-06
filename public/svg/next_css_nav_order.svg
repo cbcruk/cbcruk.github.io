@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" width="100%" role="img">
+<title>Next.js 클라이언트 이동 뒤 CSS 순서가 바뀌는 경로</title>
+<desc>명시도가 같으면 뒤에 온 규칙이 이긴다. /b 로 바로 들어오면 head 에 vendor.css(.btn 회색) 다음 shared.css(.btn 파랑)가 와서 파랑이 이긴다. /a 에서 /b 로 이동하면 shared.css 는 /a 가 이미 불러와 앞에 그대로 있고 vendor.css 만 뒤에 붙어 회색이 이긴다. 같은 두 시트인데 순서만 다르다. 순서를 바꾸는 곳은 셋이다. 1 주입: 이미 있는 href 는 건너뛰고 없는 시트만 추가하며 App Router 는 시트를 지우지 않는다. 2 빌드 청킹: 14.2.0 의 새 CSS 청킹(#63157)이 여러 페이지의 CSS 를 한 청크로 병합해 청크 안 순서가 페이지마다 맞지 않을 수 있다. global CSS 는 병합하지 않게 고친 게 #67373(v15), CSS Modules 의 sideEffects 를 true 로 고정한 문제를 고치는 #70087 은 열려 있다. 3 Pages Router 의 반대 증상: 이동 뒤 서버 렌더 시트(data-n-p)를 지우는데 동적 import CSS 는 이미 있어 건너뛰었으므로 아예 사라진다. #72959 가 동적 CSS 에 data-n-p 를 붙이지 않게 고쳤다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.u{font-size:12px;fill:#2F6DB5}</style>
+<rect width="860" height="470" fill="#FFFFFF"/>
+
+<text x="220" y="30" text-anchor="middle" class="b">/b 로 바로 들어오면</text>
+<rect x="40" y="44" width="360" height="118" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="56" y="64" class="m" style="fill:#8A8A8A">&lt;head&gt;</text>
+<rect x="56" y="74" width="328" height="34" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="68" y="96" class="m">vendor.css</text>
+<text x="372" y="96" text-anchor="end" class="m" style="fill:#555">.btn { gray }</text>
+<rect x="56" y="114" width="328" height="34" rx="6" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="68" y="136" class="m">shared.css</text>
+<text x="372" y="136" text-anchor="end" class="m" style="fill:#2F6DB5">.btn { blue }</text>
+<text x="220" y="182" text-anchor="middle" class="u">뒤에 온 shared.css 가 이긴다 → 파랑</text>
+
+<text x="640" y="30" text-anchor="middle" class="b">/a 에서 /b 로 이동하면</text>
+<rect x="460" y="44" width="360" height="118" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="476" y="64" class="m" style="fill:#8A8A8A">&lt;head&gt;</text>
+<rect x="476" y="74" width="328" height="34" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="488" y="96" class="m">shared.css</text>
+<text x="792" y="96" text-anchor="end" class="s">/a 가 이미 불러옴 · 그 자리에 남음</text>
+<rect x="476" y="114" width="328" height="34" rx="6" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="488" y="136" class="m">vendor.css</text>
+<text x="792" y="136" text-anchor="end" class="s">새로 필요한 것만 뒤에 붙음</text>
+<text x="640" y="182" text-anchor="middle" class="o">뒤에 온 vendor.css 가 이긴다 → 회색</text>
+
+<text x="430" y="214" text-anchor="middle" class="s">명시도가 같으면 뒤에 온 규칙이 이긴다 — 같은 두 시트인데 순서만 다르다</text>
+
+<line x1="40" y1="232" x2="820" y2="232" stroke="#E2E2E2" stroke-width="1"/>
+<text x="40" y="258" class="b">순서를 바꾸는 곳</text>
+
+<rect x="40" y="272" width="240" height="180" rx="8" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="56" y="296" class="b">1 주입</text>
+<text x="56" y="322" class="s">이미 있는 href 는 건너뛰고</text>
+<text x="56" y="340" class="s">없는 시트만 추가한다</text>
+<text x="56" y="366" class="s">App Router 는 이전 페이지</text>
+<text x="56" y="384" class="s">시트를 지우지 않는다</text>
+<text x="56" y="410" class="s">→ 위 그림의 순서 역전</text>
+
+<rect x="310" y="272" width="240" height="180" rx="8" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="326" y="296" class="b">2 빌드 청킹</text>
+<text x="326" y="322" class="s">14.2.0 새 CSS 청킹 <tspan class="m">#63157</tspan></text>
+<text x="326" y="340" class="s">여러 페이지 CSS 를 한 청크로</text>
+<text x="326" y="358" class="s">병합 → 청크 안 순서가 고정</text>
+<text x="326" y="384" class="s">global 은 병합 금지 <tspan class="m">#67373</tspan> (v15)</text>
+<text x="326" y="410" class="s">CSS Modules sideEffects</text>
+<text x="326" y="428" class="s">true 고정 <tspan class="m">#70087</tspan> (열림)</text>
+
+<rect x="580" y="272" width="240" height="180" rx="8" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="596" y="296" class="b">3 Pages Router 는 반대</text>
+<text x="596" y="322" class="s">이동 뒤 서버 렌더 시트</text>
+<text x="596" y="340" class="s">(<tspan class="m">data-n-p</tspan>)를 지운다</text>
+<text x="596" y="366" class="s">동적 import CSS 는 이미 있어</text>
+<text x="596" y="384" class="s">건너뛰었으니 → 아예 사라짐</text>
+<text x="596" y="410" class="s">동적 CSS 엔 data-n-p 를</text>
+<text x="596" y="428" class="s">안 붙인다 <tspan class="m">#72959</tspan></text>
+</svg>

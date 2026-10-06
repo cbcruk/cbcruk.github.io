@@ -1,0 +1,44 @@
+---
+type: bookmarks
+tags: ['extensions', 'cookies', 'i18n']
+status: release
+ctime: 2022-04-09
+mtime: 2026-10-05
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://developer.mozilla.org/ko/docs/Mozilla/Add-ons/WebExtensions">
+  WebExtensions
+</QuoteLink>
+
+---
+
+- [Native Messaging — 확장이 로컬 바이너리를 실행하는 법](/memo/553)
+- [확장 설치 여부 판별 — `chrome-extension://` 리소스 로드](/memo/207)
+
+---
+
+- [Extensions - Chrome Developers](https://developer.chrome.com/docs/extensions/)[^127-1]
+- [Migrating to Manifest V3 - Chrome Developers](https://developer.chrome.com/docs/extensions/mv3/intro/mv3-migration/)[^127-2]
+- [Migrating from background pages to service workers - Chrome Developers](https://developer.chrome.com/docs/extensions/mv3/migrating_to_service_workers/)[^127-3]
+- [WebExtensions - Mozilla | MDN](https://developer.mozilla.org/ko/docs/Mozilla/Add-ons/WebExtensions)[^127-4]
+- [Helpful Tips for Starting a Next.js Chrome Extension | CSS-Tricks - CSS-Tricks](https://css-tricks.com/nextjs-chrome-extension-starter/)[^127-5]
+- [chrome.runtime](https://developer.chrome.com/docs/extensions/reference/runtime/#method-connect)
+- [WXT](https://wxt.dev/)
+- [Work with the Cookies API - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Work_with_the_Cookies_API)
+- [cookies - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/cookies)
+- [Internationalization - Mozilla | MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Internationalization)
+- [Internationalize your extension - Chrome Developers](https://developer.chrome.com/docs/webstore/i18n/)
+
+---
+
+[^127-1]: 새롭게 문서사이트가 개편되면서 현실적인 도움이 된다.
+
+[^127-2]: v3로 이전하기 위한 대략적인 가이드. 직접 옮겨보니 `host_permissions`으로 분리, `action`으로 통합(두군데 수정이 필요하다) — [webext 커밋](https://github.com/cbcruk/webext/commit/cbb36355871fb36d5f6c21752aae3400d2a97abf#diff-0f354ef5fd807996fa3f5a7a83ceb74025aa8f85862e321b8938988031e99711L3-L25)
+
+[^127-3]: service_worker로 변경되면서 추가적으로 가이드 문서가 새로 생겼다.
+
+[^127-4]: mdn 스타일이 좋다면 이쪽 문서도 괜찮다.
+
+[^127-5]: next 구성으로 익스텐션 만들기

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 480" width="100%" role="img">
+<title>상태의 정의</title>
+<desc>상태가 없는 시스템은 출력이 지금 입력만으로 정해져 같은 입력이면 늘 같은 출력이 나온다. 상태가 있는 시스템은 지난 입력에서 얻은 정보를 기억해 두고, 출력이 지금 입력과 그 기억으로 정해진다. 처리할 때마다 지금 상태를 읽고 다음 상태를 써 넣는다. 이 기억이 상태다. 입력이 하나씩 들어올 때마다 상태가 s0 에서 s1 으로 바뀌고, 어떤 입력은 상태를 바꾸지 않으며, 다음 입력에서 s2 가 된다. 시스템이 과거에 대해 아는 것은 지금 상태가 전부다. 가능한 상태를 모두 모은 것이 상태 공간이다. 0 또는 1 을 담는 기억 칸이 N 개면 상태는 최대 2 의 N 제곱 가지다 — 칸이 둘이면 00, 01, 10, 11 네 가지.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.u{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+</defs>
+<rect width="860" height="480" fill="#FFFFFF"/>
+
+<rect x="40" y="20" width="370" height="200" rx="10" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="56" y="44" class="b">상태가 없으면</text>
+<text x="80" y="110" text-anchor="middle" class="s">입력</text>
+<line x1="100" y1="106" x2="166" y2="106" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="170" y="84" width="80" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="210" y="111" text-anchor="middle" class="b">처리</text>
+<line x1="250" y1="106" x2="316" y2="106" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="340" y="110" text-anchor="middle" class="s">출력</text>
+<text x="225" y="196" text-anchor="middle" class="s">같은 입력이면 늘 같은 출력</text>
+
+<rect x="450" y="20" width="370" height="200" rx="10" fill="none" stroke="#2F6DB5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="466" y="44" class="b">상태가 있으면</text>
+<text x="490" y="94" text-anchor="middle" class="s">입력</text>
+<line x1="510" y1="90" x2="576" y2="90" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="580" y="68" width="80" height="44" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="620" y="95" text-anchor="middle" class="b">처리</text>
+<line x1="660" y1="90" x2="726" y2="90" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="750" y="94" text-anchor="middle" class="s">출력</text>
+<rect x="580" y="150" width="80" height="40" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="620" y="175" text-anchor="middle" class="b">기억</text>
+<line x1="604" y1="150" x2="604" y2="116" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="596" y="138" text-anchor="end" class="u">지금 상태</text>
+<line x1="636" y1="112" x2="636" y2="146" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="644" y="134" class="u">다음 상태</text>
+<text x="635" y="210" text-anchor="middle" class="s">출력 = 지금 입력 + 기억 · 이 기억이 상태</text>
+
+<text x="40" y="262" class="b">입력이 들어올 때마다</text>
+<rect x="60" y="282" width="100" height="36" rx="18" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="110" y="305" text-anchor="middle" class="m">s0</text>
+<line x1="160" y1="300" x2="266" y2="300" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="214" y="292" text-anchor="middle" class="s">입력 1</text>
+<rect x="270" y="282" width="100" height="36" rx="18" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="320" y="305" text-anchor="middle" class="m">s1</text>
+<line x1="370" y1="300" x2="476" y2="300" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="424" y="292" text-anchor="middle" class="s">입력 2</text>
+<text x="424" y="318" text-anchor="middle" class="s">안 바뀔 수도</text>
+<rect x="480" y="282" width="100" height="36" rx="18" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="530" y="305" text-anchor="middle" class="m">s1</text>
+<line x1="580" y1="300" x2="686" y2="300" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="634" y="292" text-anchor="middle" class="s">입력 3</text>
+<rect x="690" y="282" width="100" height="36" rx="18" fill="#2F6DB5" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="740" y="305" text-anchor="middle" class="m" style="fill:#FFFFFF">s2</text>
+<text x="740" y="340" text-anchor="middle" class="o">과거에 대해 아는 건 이게 전부</text>
+
+<line x1="40" y1="364" x2="820" y2="364" stroke="#E2E2E2" stroke-width="1"/>
+<text x="40" y="392" class="b">가능한 상태의 모음 = 상태 공간</text>
+<text x="40" y="416" class="s">0/1 을 담는 기억 칸이 N 개면</text>
+<text x="40" y="436" class="s">상태는 최대 <tspan class="m">2^N</tspan> 가지</text>
+<text x="410" y="430" text-anchor="end" class="s">칸이 둘이면 →</text>
+<rect x="430" y="404" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="470" y="429" text-anchor="middle" class="m">00</text>
+<rect x="526" y="404" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="566" y="429" text-anchor="middle" class="m">01</text>
+<rect x="622" y="404" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="662" y="429" text-anchor="middle" class="m">10</text>
+<rect x="718" y="404" width="80" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="758" y="429" text-anchor="middle" class="m">11</text>
+</svg>

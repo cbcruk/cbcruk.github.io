@@ -1,21 +1,15 @@
 ---
-type: bookmarks
+type: note
 tags: ['next', 'css']
-status: archive
+status: release
 ctime: 2025-03-05
-mtime: 2025-03-05
+mtime: 2026-10-05
 ---
 
-import QuoteLink from '@components/QuoteLink.astro'
-
-<QuoteLink url="https://github.com/vercel/next.js/pull/72959">
-  dynamic css missing style after client navigation
-</QuoteLink>
+![명시도가 같으면 뒤에 온 규칙이 이긴다. /b 로 바로 들어오면 head 에 vendor.css(.btn 회색) 다음 shared.css(.btn 파랑)가 와서 파랑이 이긴다. /a 에서 /b 로 이동하면 shared.css 는 /a 가 이미 불러와 앞에 그대로 있고 vendor.css 만 뒤에 붙어 회색이 이긴다. 같은 두 시트인데 순서만 다르다. 순서를 바꾸는 곳은 셋이다. 1 주입: 이미 있는 href 는 건너뛰고 없는 시트만 추가하며 App Router 는 시트를 지우지 않는다. 2 빌드 청킹: 14.2.0 의 새 CSS 청킹(#63157)이 여러 페이지의 CSS 를 한 청크로 병합한다. global CSS 는 병합하지 않게 고친 게 #67373(v15), CSS Modules 의 sideEffects 를 true 로 고정한 문제를 고치는 #70087 은 열려 있다. 3 Pages Router 의 반대 증상: 이동 뒤 서버 렌더 시트(data-n-p)를 지우는데 동적 import CSS 는 이미 있어 건너뛰었으므로 아예 사라진다. #72959 가 동적 CSS 에 data-n-p 를 붙이지 않게 고쳤다.](/svg/next_css_nav_order.svg)
 
 ---
 
-- [fix(build): fix css modules out of order issue from libraries by piratetaco · Pull Request #70087 · vercel/next.js · GitHub](https://github.com/vercel/next.js/pull/70087)
-
-- [Release v14.1.4](https://github.com/vercel/next.js/releases/tag/v14.1.4)
-- [Release v14.2.0](https://github.com/vercel/next.js/releases/tag/v14.2.0)
-  - [avoid merging global css in a way that leaks into other chunk groups by sokra · Pull Request #67373 · vercel/next.js · GitHub](https://github.com/vercel/next.js/pull/67373)
+- [v14.1.4](https://github.com/vercel/next.js/releases/tag/v14.1.4) → [v14.2.0](https://github.com/vercel/next.js/releases/tag/v14.2.0) — 이 사이에 CSS 청킹이 바뀌었다 ([#63157](https://github.com/vercel/next.js/pull/63157))
+- [avoid merging global css in a way that leaks into other chunk groups · #67373](https://github.com/vercel/next.js/pull/67373) — v15 canary 부터, 14.2.x 엔 없다
+- [fix(build): fix css modules out of order issue from libraries · #70087](https://github.com/vercel/next.js/pull/70087) — 열림, webpack 쪽 수정을 기다리는 중

@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 540" width="100%" role="img">
+<title>MP3 태그가 기록되는 자리</title>
+<desc>MP3 파일은 ID3v2 태그, 오디오 프레임들, ID3v1 태그 순으로 놓인다. 오디오 프레임은 각각 11비트 sync(FF Ex)로 시작하고, 디코더는 이 패턴을 찾아 재생하며 그 밖의 바이트는 건너뛴다. 그래서 태그는 오디오를 건드리지 않고 앞뒤에 붙인 바이트 덩어리다. ID3v2 는 맨 앞에 붙는 가변 길이 컨테이너다: 10바이트 헤더("ID3", 버전 2, 플래그 1, 크기 4 syncsafe) 뒤에 프레임이 반복된다. 프레임은 ID 4(TIT2 제목, TPE1 아티스트, TALB 앨범, APIC 커버), 크기 4, 플래그 2, 본문이고, 텍스트 본문의 첫 바이트가 인코딩이다(00 ISO-8859-1, 01 UTF-16 BOM, 02 UTF-16BE, 03 UTF-8). 마지막 프레임 뒤에 00 으로 채운 패딩을 둘 수 있다. ID3v1 은 맨 끝 128바이트 고정 칸이다: TAG 3, 제목 30, 아티스트 30, 앨범 30, 연도 4, 코멘트 30, 장르 번호 1. v1.1 은 코멘트를 28 로 줄이고 00 다음 1바이트에 트랙 번호를 넣는다. 인코딩을 적을 칸은 없다. 장치 셋: 크기는 바이트마다 최상위 비트를 0 으로 둔 syncsafe 정수라(7비트 × 4 = 28비트, 최대 256MB) 크기 값이 sync 로 읽히지 않는다. 본문에 거짓 sync FF Ex 가 생기면 FF 00 Ex 로 바꾼다(unsynchronisation). 태그가 패딩 안에서 커지면 태그만 고쳐 쓰고, 넘치면 오디오를 밀어 파일 전체를 다시 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.t{font-size:10.5px;font-family:ui-monospace,Menlo,monospace;fill:#555}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}</style>
+<rect width="860" height="540" fill="#FFFFFF"/>
+
+<text x="40" y="30" class="b">MP3 파일 한 개</text>
+<rect x="40" y="42" width="160" height="40" rx="6" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="120" y="67" text-anchor="middle" class="b">ID3v2</text>
+<rect x="200" y="42" width="115" height="40" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="315" y="42" width="115" height="40" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="430" y="42" width="115" height="40" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<rect x="545" y="42" width="115" height="40" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="208" y="57" class="t">FF Ex…</text>
+<text x="323" y="57" class="t">FF Ex…</text>
+<text x="438" y="57" class="t">FF Ex…</text>
+<text x="553" y="57" class="t">FF Ex…</text>
+<text x="430" y="34" text-anchor="middle" class="s">오디오 프레임 — 손대지 않는다</text>
+<rect x="660" y="42" width="160" height="40" rx="6" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="740" y="67" text-anchor="middle" class="b">ID3v1</text>
+<text x="430" y="106" text-anchor="middle" class="s">디코더는 sync <tspan class="m">FF Ex</tspan>(1비트 11개)를 찾아 재생하고 그 밖의 바이트는 건너뛴다 → 태그는 앞뒤에 붙인 덩어리</text>
+
+<rect x="40" y="126" width="430" height="262" rx="8" fill="none" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="56" y="148" class="b">ID3v2 — 맨 앞, 가변 길이</text>
+<text x="56" y="172" class="s">헤더 10바이트</text>
+<rect x="56" y="180" width="70" height="30" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="91" y="200" text-anchor="middle" class="m">"ID3"</text>
+<rect x="126" y="180" width="70" height="30" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="161" y="200" text-anchor="middle" class="s">버전 2</text>
+<rect x="196" y="180" width="80" height="30" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="236" y="200" text-anchor="middle" class="s">플래그 1</text>
+<rect x="276" y="180" width="178" height="30" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="365" y="200" text-anchor="middle" class="s">태그 크기 4 · syncsafe</text>
+<text x="56" y="232" class="s">프레임 × n — TIT2 제목 · TPE1 아티스트 · TALB 앨범 · APIC 커버</text>
+<rect x="56" y="240" width="70" height="30" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="91" y="260" text-anchor="middle" class="m">TIT2</text>
+<rect x="126" y="240" width="70" height="30" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="161" y="260" text-anchor="middle" class="s">크기 4</text>
+<rect x="196" y="240" width="80" height="30" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="236" y="260" text-anchor="middle" class="s">플래그 2</text>
+<rect x="276" y="240" width="40" height="30" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<text x="296" y="260" text-anchor="middle" class="m">03</text>
+<rect x="316" y="240" width="138" height="30" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="385" y="260" text-anchor="middle" class="s">텍스트 … 00</text>
+<text x="276" y="290" class="o">본문 첫 바이트 = 인코딩</text>
+<text x="276" y="308" class="t">00 Latin-1 · 01 UTF-16</text>
+<text x="276" y="324" class="t">02 UTF-16BE · 03 UTF-8</text>
+<text x="56" y="350" class="s">마지막 프레임 뒤</text>
+<rect x="56" y="358" width="398" height="22" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="255" y="374" text-anchor="middle" class="t">00 00 00 00 … 패딩</text>
+
+<rect x="490" y="126" width="330" height="262" rx="8" fill="none" stroke="#C2621A" stroke-width="1.5"/>
+<text x="506" y="148" class="b">ID3v1 — 맨 끝 128바이트 고정</text>
+<rect x="506" y="160" width="298" height="24" fill="#FDEBD8" stroke="#C2621A" stroke-width="1"/>
+<text x="518" y="177" class="m">"TAG"</text><text x="792" y="177" text-anchor="end" class="t">3</text>
+<rect x="506" y="184" width="298" height="24" fill="#FFFFFF" stroke="#C2621A" stroke-width="1"/>
+<text x="518" y="201" class="s">제목</text><text x="792" y="201" text-anchor="end" class="t">30</text>
+<rect x="506" y="208" width="298" height="24" fill="#FFFFFF" stroke="#C2621A" stroke-width="1"/>
+<text x="518" y="225" class="s">아티스트</text><text x="792" y="225" text-anchor="end" class="t">30</text>
+<rect x="506" y="232" width="298" height="24" fill="#FFFFFF" stroke="#C2621A" stroke-width="1"/>
+<text x="518" y="249" class="s">앨범</text><text x="792" y="249" text-anchor="end" class="t">30</text>
+<rect x="506" y="256" width="298" height="24" fill="#FFFFFF" stroke="#C2621A" stroke-width="1"/>
+<text x="518" y="273" class="s">연도</text><text x="792" y="273" text-anchor="end" class="t">4</text>
+<rect x="506" y="280" width="298" height="24" fill="#FFFFFF" stroke="#C2621A" stroke-width="1"/>
+<text x="518" y="297" class="s">코멘트</text><text x="792" y="297" text-anchor="end" class="t">30</text>
+<rect x="506" y="304" width="298" height="24" fill="#FFFFFF" stroke="#C2621A" stroke-width="1"/>
+<text x="518" y="321" class="s">장르 — 목록의 번호</text><text x="792" y="321" text-anchor="end" class="t">1</text>
+<text x="506" y="352" class="s">v1.1: 코멘트 28 + <tspan class="m">00</tspan> + 트랙 번호 1</text>
+<text x="506" y="374" class="o">인코딩을 적을 칸이 없다</text>
+
+<text x="40" y="422" class="b">sync 와 겹치지 않게, 다시 쓰지 않게</text>
+<rect x="40" y="434" width="250" height="88" rx="8" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="54" y="456" class="b">syncsafe 정수</text>
+<text x="54" y="478" class="m">0xxxxxxx × 4 = 28비트</text>
+<text x="54" y="498" class="s">최상위 비트가 늘 0 → 최대 256MB</text>
+<text x="54" y="514" class="s">크기 값이 sync 로 읽히지 않는다</text>
+<rect x="305" y="434" width="250" height="88" rx="8" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="319" y="456" class="b">unsynchronisation</text>
+<text x="319" y="478" class="m">FF Ex → FF 00 Ex</text>
+<text x="319" y="498" class="s">본문에 생긴 거짓 sync 사이에</text>
+<text x="319" y="514" class="s">00 을 끼워 넣는다</text>
+<rect x="570" y="434" width="250" height="88" rx="8" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="584" y="456" class="b">패딩</text>
+<text x="584" y="478" class="s">패딩 안에서 커지면 태그만 고친다</text>
+<text x="584" y="498" class="o">넘치면 오디오를 밀어</text>
+<text x="584" y="514" class="o">파일 전체를 다시 쓴다</text>
+</svg>
