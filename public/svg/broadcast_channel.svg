@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 500" width="100%" role="img">
+<title>BroadcastChannel 이 메시지를 보내는 범위</title>
+<desc>같은 출처, 정확히는 같은 저장소 파티션 안에서 같은 이름(예: 'auth')으로 BroadcastChannel 을 만든 곳은 모두 한 채널에 들어간다. 탭 A 가 postMessage 하면 같은 이름을 만든 탭 B, iframe, worker 에 message 이벤트가 간다. 보낸 탭 A 자신의 onmessage 는 불리지 않는다. 이름이 다른 채널('cart')을 만든 탭 C 는 받지 않는다. 같은 출처여도 다른 최상위 사이트(a.com) 안에 박힌 iframe 은 저장소 파티션이 달라 받지 못한다. 쓰는 법은 네 단계다: new BroadcastChannel('auth') 로 이름을 대고 들어가면 처음일 때 채널이 생긴다, postMessage(data) 는 구조화된 복제라 객체·Blob·Map 도 보낸다, 다른 곳에서 onmessage 의 e.data 로 받는다, close() 로 나가면 가비지 컬렉션된다. window.postMessage 는 상대 창의 참조가 있어야 보낼 수 있지만 BroadcastChannel 은 참조 없이 이름만으로 일대다로 보낸다 — 다른 탭의 로그인·로그아웃 감지 같은 데 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.t{font-size:10.5px;font-family:ui-monospace,Menlo,monospace;fill:#555}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.u{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker>
+</defs>
+<rect width="860" height="500" fill="#FFFFFF"/>
+
+<text x="40" y="30" class="b">같은 이름을 만든 모든 곳에 간다 — 보낸 자신만 빼고</text>
+<rect x="40" y="44" width="560" height="244" rx="10" fill="none" stroke="#2F6DB5" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="56" y="64" class="u">같은 출처 · 같은 저장소 파티션 (b.com)</text>
+
+<rect x="60" y="112" width="150" height="62" rx="8" fill="#2F6DB5" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="135" y="137" text-anchor="middle" class="b" style="fill:#FFFFFF">탭 A · 'auth'</text>
+<text x="135" y="158" text-anchor="middle" class="m" style="fill:#FFFFFF">postMessage(…)</text>
+<text x="135" y="194" text-anchor="middle" class="s">자기 onmessage 는</text>
+<text x="135" y="210" text-anchor="middle" class="s">불리지 않는다</text>
+
+<rect x="380" y="78" width="200" height="40" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="480" y="103" text-anchor="middle" class="b">탭 B · 'auth'</text>
+<rect x="380" y="128" width="200" height="40" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="480" y="153" text-anchor="middle" class="b">iframe · 'auth'</text>
+<rect x="380" y="178" width="200" height="40" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="480" y="203" text-anchor="middle" class="b">worker · 'auth'</text>
+<line x1="210" y1="134" x2="374" y2="99" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="210" y1="143" x2="374" y2="148" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="210" y1="152" x2="374" y2="197" stroke="#2F6DB5" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="250" y="100" text-anchor="middle" class="t">message 이벤트</text>
+
+<rect x="380" y="234" width="200" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="480" y="259" text-anchor="middle" class="b" style="fill:#8A8A8A">탭 C · 'cart'</text>
+<text x="370" y="259" text-anchor="end" class="s">이름이 다르면 안 받는다</text>
+
+<rect x="620" y="44" width="200" height="244" rx="10" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="636" y="64" class="s">다른 최상위 사이트 (a.com)</text>
+<rect x="640" y="128" width="160" height="40" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="720" y="153" text-anchor="middle" class="b" style="fill:#8A8A8A">b.com iframe · 'auth'</text>
+<text x="720" y="198" text-anchor="middle" class="o">같은 출처여도</text>
+<text x="720" y="216" text-anchor="middle" class="o">파티션이 달라 못 받는다</text>
+
+<line x1="40" y1="310" x2="820" y2="310" stroke="#E2E2E2" stroke-width="1"/>
+<text x="40" y="338" class="b">쓰는 법 — 네 줄</text>
+<rect x="40" y="352" width="180" height="62" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="130" y="376" text-anchor="middle" class="m">new BroadcastChannel</text>
+<text x="130" y="398" text-anchor="middle" class="s">이름으로 입장 · 처음이면 생성</text>
+<rect x="240" y="352" width="180" height="62" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="330" y="376" text-anchor="middle" class="m">postMessage(data)</text>
+<text x="330" y="398" text-anchor="middle" class="s">구조화된 복제 · Blob·Map 도</text>
+<rect x="440" y="352" width="180" height="62" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="530" y="376" text-anchor="middle" class="m">onmessage → e.data</text>
+<text x="530" y="398" text-anchor="middle" class="s">다른 곳들이 받는다</text>
+<rect x="640" y="352" width="180" height="62" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="730" y="376" text-anchor="middle" class="m">close()</text>
+<text x="730" y="398" text-anchor="middle" class="s">나가기 · GC 가능</text>
+
+<text x="40" y="448" class="s"><tspan class="m">window.postMessage</tspan> 는 상대 창의 참조가 있어야 보낸다 —</text>
+<text x="40" y="468" class="u">BroadcastChannel 은 참조 없이 이름만으로 일대다. 예: 다른 탭의 로그인·로그아웃 감지</text>
+</svg>

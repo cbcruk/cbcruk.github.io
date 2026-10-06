@@ -1,0 +1,37 @@
+---
+type: bookmarks
+tags: ['git']
+status: release
+ctime: 2022-09-23
+mtime: 2026-10-06
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://git-scm.com/doc">
+  Git Documentation
+</QuoteLink>
+
+---
+
+- [`git log` 포맷 · 마지막 커밋 해시](/memo/101)
+- [변경 사항 버리기 — `checkout` · `restore`](/memo/105)
+- [`.gitignore` 가 적용되지 않을 때](/memo/189)
+- [다른 저장소 히스토리 합치기 — `--allow-unrelated-histories`](/memo/202)
+- [스택 PR — 서로 의존하는 PR 의 연쇄](/memo/272)
+
+---
+
+- subtree
+  - [Git subtree를 활용한 코드 공유 | blog.rhostem.com](https://blog.rhostem.com/posts/2020-01-03-code-sharing-with-git-subtree)
+  - [[Git] Subtree 사용법 - ThreeSnakes의 개발 삽질 기록장 및 다이어리](https://www.three-snakes.com/git/git-subtree)
+- submodule
+  - [git submodule로 중요한 정보 관리하기](https://tecoble.techcourse.co.kr/post/2021-07-31-git-submodule/)
+  - [Git submodule 사용하기](https://pinedance.github.io/blog/2019/05/28/Git-Submodule)
+- 이름 변경 추적
+  - [View commit history across file renames and moves - GitHub Changelog](https://github.blog/changelog/2022-06-06-view-commit-history-across-file-renames-and-moves/)[^201-1]
+  - https://stackoverflow.com/questions/72165668/losing-history-when-moving-files-with-git
+
+---
+
+[^201-1]: 파일 이름이 변경되거나 새 디렉터리로 이동되었지만 콘텐츠의 절반은 그대로인 경우, 커밋 기록은 이제 `git log --follow`와 유사하게 파일 이름이 변경되었음을 표시합니다.

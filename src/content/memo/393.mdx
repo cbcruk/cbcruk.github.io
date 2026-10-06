@@ -1,0 +1,19 @@
+---
+type: bookmarks
+tags: ['broadcast-channel']
+status: release
+ctime: 2025-02-08
+mtime: 2026-10-06
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://developer.mozilla.org/ko/docs/Web/API/BroadcastChannel">
+  BroadcastChannel
+</QuoteLink>
+
+![같은 출처, 정확히는 같은 저장소 파티션 안에서 같은 이름(예: 'auth')으로 BroadcastChannel 을 만든 곳은 모두 한 채널에 들어간다. 탭 A 가 postMessage 하면 같은 이름을 만든 탭 B, iframe, worker 에 message 이벤트가 간다. 보낸 탭 A 자신의 onmessage 는 불리지 않는다. 이름이 다른 채널('cart')을 만든 탭 C 는 받지 않는다. 같은 출처여도 다른 최상위 사이트(a.com) 안에 박힌 iframe 은 저장소 파티션이 달라 받지 못한다. 쓰는 법은 네 단계다: new BroadcastChannel('auth') 로 이름을 대고 들어가면 처음일 때 채널이 생긴다, postMessage(data) 는 구조화된 복제라 객체·Blob·Map 도 보낸다, 다른 곳에서 onmessage 의 e.data 로 받는다, close() 로 나가면 가비지 컬렉션된다. window.postMessage 는 상대 창의 참조가 있어야 보낼 수 있지만 BroadcastChannel 은 참조 없이 이름만으로 일대다로 보낸다 — 다른 탭의 로그인·로그아웃 감지 같은 데 쓴다.](/svg/broadcast_channel.svg)
+
+---
+
+- https://developer.chrome.com/blog/broadcastchannel?hl=ko

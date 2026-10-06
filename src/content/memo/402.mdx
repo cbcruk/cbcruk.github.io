@@ -1,0 +1,23 @@
+---
+type: bookmarks
+tags: ['clipboard']
+status: archive
+ctime: 2025-02-11
+mtime: 2026-10-06
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://developer.mozilla.org/en-US/docs/Web/API/Clipboard">
+  Clipboard
+</QuoteLink>
+
+> The Clipboard interface of the Clipboard API provides read and write access to the contents of the system clipboard.
+
+---
+
+- https://alexharri.com/blog/clipboard [^402-1]
+
+---
+
+[^402-1]: 클립보드는 한 번 복사에 여러 표현(MIME 타입)을 함께 담는다 — Google Docs 는 `text/html`, VS Code 는 `text/plain` 을 꺼낸다. async Clipboard API 는 `text/plain`·`text/html`·`image/png` 외 타입을 거부하고, copy 이벤트의 `clipboardData.setData` 는 다른 타입도 받는다. Figma 는 자기 데이터를 `text/html` 안 `data-buffer` 속성에 base64 로 숨겨 붙여넣기를 지원한다. Chromium 의 Web Custom Formats(`"web "` 접두사)가 이 제약을 푸는 제안.

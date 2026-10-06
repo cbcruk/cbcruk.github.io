@@ -1,0 +1,53 @@
+---
+type: snippet
+tags: ['ffmpeg', 'video']
+status: release
+ctime: 2022-04-09
+mtime: 2026-10-06
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://www.ffmpeg.org/">FFmpeg</QuoteLink>
+
+> A complete, cross-platform solution to record, convert and stream audio and video.
+
+---
+
+```shell
+# $1 = frames로 사용될 파일들
+extractFrames() {
+  ffmpeg -i $1 -vf fps=30 output_frame_%d.png
+}
+
+# $1 = frames로 사용될 파일들
+# $2 = output 파일
+# Example: concatFrames ./frame_%5d.png output.webm
+concatFrames() {
+  ffmpeg -framerate 30 -i $1 -c:v libvpx-vp9 -pix_fmt yuva420p $2
+}
+
+# $1 = frame로 사용될 파일
+# $2 = output 파일
+# Example: frameToVideo frame.jpg output.mp4
+frameToVideo() {
+  ffmpeg -loop 1 -i $1 -c:v libx264 -t 10 -pix_fmt yuv420p $2
+}
+
+# $1 = 인코딩할 영상 video.mp4
+# $2 = output 파일명
+encodingVideo() {
+  ffmpeg -an -i $1 -vcodec libx264 -pix_fmt yuv420p -profile:v baseline -level 3 "${$2}.mp4"
+  ffmpeg -i "${$2}.mp4" -vcodec libvpx-vp9 -b:v 1M -acodec libvorbis "${$2}.webm"
+}
+
+# $1 = 자를 영상, $2 = 시작, $3 = 끝, $4 = output 파일
+# Example: cutVideo input.mp4 00:00:00 00:01:00 output.mp4
+cutVideo() {
+  ffmpeg -i $1 -ss $2 -to $3 -c:v copy -c:a copy $4
+}
+```
+
+---
+
+- [FFmpeg - Ultimate Guide | IMG.LY Blog](https://img.ly/blog/ultimate-guide-to-ffmpeg/)

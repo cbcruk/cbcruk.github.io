@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 560" width="100%" role="img">
+<title>MP4 오디오 유무를 hdlr 로 판별</title>
+<desc>1 MP4 는 아톰의 계층이고 moov 안의 트랙(trak)마다 mdia 안에 hdlr 아톰이 하나 있다. hdlr 은 크기 4바이트, 타입 'hdlr' 4바이트, version 1 과 flags 3, component type 4, component subtype 4 순이다. MP4 에서는 version·flags·component type 이 모두 0 이라 'hdlr' 바로 8바이트 뒤가 subtype 이고, 오디오 트랙이면 'soun', 비디오 트랙이면 'vide' 다. 그래서 파일 바이트에 hdlr 다음 0 이 8개, 그다음 soun 이 이어진 16바이트가 있으면 오디오가 있다. MOV 는 component type 에 'mhlr' 이 들어갈 수 있어 이 패턴이 맞지 않는다. 2 파일 전체를 받지 않고 Range 로 앞에서부터 66KB 를 받아 패턴을 찾는다. 있으면 오디오 있음. 없는데 응답이 요청한 만큼 꽉 찼고 다음 단계가 남았으면 범위를 1MB, 2MB, 4MB, 8MB, 16MB 로 늘려 다시 받는다. 응답이 덜 왔거나(파일 끝) 마지막 단계까지 없으면 오디오 없음. soun 은 큰 파일일수록 뒤에 있다: 13MB 파일은 7.3KB, 742MB 파일은 573KB 안에서 나왔다. 3 함정: Range 헤더는 예전에는 CORS safelist 밖이라 교차 출처 요청에 preflight 가 나가고, 서버의 Access-Control-Allow-Headers 에 Range 가 없으면 실패한다. safelist 에 들어온 건 Chrome 99, Safari iOS 16.1, Firefox 117 부터다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.t{font-size:10.5px;font-family:ui-monospace,Menlo,monospace;fill:#555}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.u{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="560" fill="#FFFFFF"/>
+
+<text x="40" y="30" class="b">1 어디를 보나 — hdlr 에서 8바이트 뒤가 트랙 종류</text>
+<rect x="40" y="44" width="200" height="132" rx="6" fill="none" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="52" y="62" class="m">moov</text>
+<rect x="56" y="70" width="168" height="98" rx="5" fill="none" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="68" y="88" class="m">trak</text>
+<rect x="72" y="96" width="136" height="64" rx="5" fill="none" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="84" y="114" class="m">mdia</text>
+<rect x="88" y="122" width="104" height="28" rx="4" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="140" y="141" text-anchor="middle" class="m">hdlr</text>
+<text x="140" y="196" text-anchor="middle" class="t">트랙마다 하나</text>
+
+<line x1="192" y1="136" x2="266" y2="110" stroke="#2F6DB5" stroke-width="1" stroke-dasharray="3 3"/>
+<rect x="270" y="90" width="80" height="40" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="310" y="108" text-anchor="middle" class="s">크기</text>
+<text x="310" y="123" text-anchor="middle" class="t">4</text>
+<rect x="350" y="90" width="90" height="40" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="395" y="115" text-anchor="middle" class="m">'hdlr'</text>
+<rect x="440" y="90" width="110" height="40" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="495" y="108" text-anchor="middle" class="s">version·flags</text>
+<text x="495" y="123" text-anchor="middle" class="t">00 00 00 00</text>
+<rect x="550" y="90" width="110" height="40" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="605" y="108" text-anchor="middle" class="s">component type</text>
+<text x="605" y="123" text-anchor="middle" class="t">00 00 00 00</text>
+<rect x="660" y="90" width="90" height="40" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="705" y="108" text-anchor="middle" class="s">subtype</text>
+<text x="705" y="123" text-anchor="middle" class="m">'soun'</text>
+<path d="M442 84 V76 H658 V84" fill="none" stroke="#555" stroke-width="1"/>
+<text x="550" y="70" text-anchor="middle" class="s">MP4 에선 전부 0 — 8바이트</text>
+<text x="705" y="150" text-anchor="middle" class="t">비디오면 'vide'</text>
+<text x="270" y="166" class="s">찾을 16바이트:</text>
+<text x="370" y="166" class="m">hdlr</text><text x="406" y="166" class="t">00×8</text><text x="446" y="166" class="m" style="fill:#C2621A">soun</text>
+<text x="270" y="188" class="o">MOV 는 component type 에 'mhlr' 이 들어갈 수 있어 패턴이 안 맞는다</text>
+
+<line x1="40" y1="214" x2="820" y2="214" stroke="#E2E2E2" stroke-width="1"/>
+<text x="40" y="242" class="b">2 어떻게 아껴 받나 — Range 로 앞에서부터 늘려 가며</text>
+<rect x="40" y="258" width="150" height="48" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="115" y="278" text-anchor="middle" class="s">Range 로 받기</text>
+<text x="115" y="296" text-anchor="middle" class="t">bytes=0-66KB</text>
+<line x1="190" y1="282" x2="236" y2="282" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="240" y="258" width="150" height="48" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="315" y="287" text-anchor="middle" class="s">16바이트 패턴 있나</text>
+<line x1="390" y1="282" x2="476" y2="282" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="433" y="274" text-anchor="middle" class="s">있다</text>
+<rect x="480" y="258" width="130" height="48" rx="7" fill="#2F6DB5" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="545" y="287" text-anchor="middle" class="b" style="fill:#FFFFFF">오디오 있음</text>
+<line x1="315" y1="306" x2="315" y2="338" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="323" y="326" class="s">없다</text>
+<rect x="220" y="342" width="190" height="52" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="315" y="363" text-anchor="middle" class="s">응답이 요청만큼 꽉 찼고</text>
+<text x="315" y="381" text-anchor="middle" class="s">다음 단계가 남았나</text>
+<path d="M220 368 H115 V310" fill="none" stroke="#2F6DB5" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="52" y="390" class="u">예 → 범위를 늘려 다시</text>
+<text x="52" y="408" class="t">1MB · 2MB · 4MB · 8MB · 16MB</text>
+<line x1="410" y1="368" x2="476" y2="368" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="443" y="360" text-anchor="middle" class="s">아니오</text>
+<rect x="480" y="344" width="130" height="48" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="545" y="373" text-anchor="middle" class="b">오디오 없음</text>
+<rect x="640" y="258" width="180" height="134" rx="8" fill="#F2F2F2" stroke="#B5B5B5" stroke-width="1.2"/>
+<text x="652" y="280" class="s">soun 이 나온 자리 (실측)</text>
+<text x="652" y="304" class="t">13MB   →  7.3KB 안</text>
+<text x="652" y="322" class="t">25MB   →  21.4KB 안</text>
+<text x="652" y="340" class="t">186MB  →  89.4KB 안</text>
+<text x="652" y="358" class="t">742MB  →  572.9KB 안</text>
+<text x="652" y="380" class="s">큰 파일일수록 뒤에 있다</text>
+
+<line x1="40" y1="420" x2="820" y2="420" stroke="#E2E2E2" stroke-width="1"/>
+<text x="40" y="448" class="b">3 어디서 깨지나 — Range 가 CORS safelist 밖이던 브라우저</text>
+<rect x="40" y="462" width="780" height="80" rx="8" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="56" y="486" class="s">교차 출처 요청에 <tspan class="m">Range</tspan> 를 붙이면 예전 브라우저는 preflight 를 보내고,</text>
+<text x="56" y="506" class="s">서버 응답의 <tspan class="m">Access-Control-Allow-Headers</tspan> 에 Range 가 없으면 요청이 실패한다</text>
+<text x="56" y="530" class="o">safelist 에 들어온 시점: Chrome 99 · Safari iOS 16.1 · Firefox 117</text>
+</svg>

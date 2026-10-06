@@ -4,14 +4,10 @@ tags: ['mp4', 'file-reader', 'hdlr', 'ffmpeg']
 embed: https://stackblitz.com/edit/vitejs-vite-zmgejjyi?file=src%2FApp.tsx
 status: release
 ctime: 2025-01-31
-mtime: 2025-01-31
+mtime: 2026-10-06
 ---
 
-import QuoteLink from '@components/QuoteLink.astro'
-
-<QuoteLink url="https://techblog.lycorp.co.jp/ko/check-mp4-file-has-audio-using-filereader-in-front-end">
-프런트엔드 영역에서 FileReader를 이용해 MP4 파일 내 오디오 존재 여부 확인하기
-</QuoteLink>
+![1 MP4 는 아톰의 계층이고 moov 안의 트랙(trak)마다 mdia 안에 hdlr 아톰이 하나 있다. hdlr 은 크기 4바이트, 타입 'hdlr' 4바이트, version 1 과 flags 3, component type 4, component subtype 4 순이다. MP4 에서는 version·flags·component type 이 모두 0 이라 'hdlr' 바로 8바이트 뒤가 subtype 이고, 오디오 트랙이면 'soun', 비디오 트랙이면 'vide' 다. 그래서 파일 바이트에 hdlr 다음 0 이 8개, 그다음 soun 이 이어진 16바이트가 있으면 오디오가 있다. MOV 는 component type 에 'mhlr' 이 들어갈 수 있어 이 패턴이 맞지 않는다. 2 파일 전체를 받지 않고 Range 로 앞에서부터 66KB 를 받아 패턴을 찾는다. 있으면 오디오 있음. 없는데 응답이 요청한 만큼 꽉 찼고 다음 단계가 남았으면 범위를 1MB, 2MB, 4MB, 8MB, 16MB 로 늘려 다시 받는다. 응답이 덜 왔거나(파일 끝) 마지막 단계까지 없으면 오디오 없음. soun 은 큰 파일일수록 뒤에 있다: 13MB 파일은 7.3KB, 742MB 파일은 573KB 안에서 나왔다. 3 함정: Range 헤더는 예전에는 CORS safelist 밖이라 교차 출처 요청에 preflight 가 나가고, 서버의 Access-Control-Allow-Headers 에 Range 가 없으면 실패한다. safelist 에 들어온 건 Chrome 99, Safari iOS 16.1, Firefox 117 부터다.](/svg/mp4_audio_hdlr.svg)
 
 - 프런트엔드(클라이언트)에서 MP4 파일의 오디오 존재 여부를 확인하기
 - 브라우저 API 사용 시 호환성 문제 발생 (Chrome, Safari, Firefox 각각 다른 API 사용)
@@ -32,3 +28,7 @@ const data = await ffmpeg.readFile('output.txt')
 ```
 
 ...하지만 [ffmpeg](https://www.ffmpeg.org/)의 중요성을 깨달았다.
+
+---
+
+- [프런트엔드 영역에서 FileReader를 이용해 MP4 파일 내 오디오 존재 여부 확인하기](https://techblog.lycorp.co.jp/ko/check-mp4-file-has-audio-using-filereader-in-front-end)
