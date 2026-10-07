@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" width="100%" role="img">
+<title>CSS perspective 와 transform 읽기</title>
+<desc>perspective 는 보는 눈에서 물체까지의 거리다. 값이 작을수록 3D 효과가 강하다 — perspective: 100px 은 작은 곤충이 큰 물체를 보듯 크게 일그러지고, 2000px 은 쌍안경으로 멀리서 보듯 약하다. perspective 가 없으면 Z 축으로 움직여도 크기가 그대로다. 거는 자리는 둘이다. 요소마다 transform: perspective() 를 걸면 요소마다 소실점이 따로 생겨 여러 개를 나란히 놓으면 어긋난다. 부모에 perspective 속성을 걸면 자식들이 소실점 하나를 공유해 한 공간에 있는 것처럼 이어진다. 소실점은 기본으로 가운데이고 perspective-origin 으로 옮긴다. JS 로 translate 값을 읽으려면 getComputedStyle(el).transform 이 돌려주는 행렬을 본다. 2D 변환이면 값 6개인 matrix 이고 5번째가 translateX, 6번째가 translateY 다. 3D 변환이면 값 16개인 matrix3d 이고 13·14·15번째가 translateX·Y·Z 다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.t{font-size:10.5px;font-family:ui-monospace,Menlo,monospace;fill:#555}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.u{font-size:12px;fill:#2F6DB5}</style>
+<rect width="860" height="470" fill="#FFFFFF"/>
+
+<text x="40" y="30" class="b">perspective = 보는 눈까지의 거리</text>
+<text x="56" y="84" class="m">100px</text>
+<polygon points="130,58 210,78 210,110 130,130" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="230" y="90" class="o">작을수록 강하다</text>
+<text x="230" y="108" class="s">곤충이 큰 물체를 보듯</text>
+<text x="56" y="176" class="m">2000px</text>
+<polygon points="130,152 210,157 210,199 130,204" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="230" y="174" class="u">클수록 약하다</text>
+<text x="230" y="192" class="s">쌍안경으로 멀리서 보듯</text>
+<text x="56" y="236" class="s">perspective 가 없으면 Z 로 움직여도 크기가 그대로</text>
+
+<line x1="430" y1="20" x2="430" y2="246" stroke="#E2E2E2" stroke-width="1"/>
+<text x="450" y="30" class="b">어디에 거나 — 소실점을 나누나, 공유하나</text>
+
+<rect x="450" y="46" width="170" height="150" rx="8" fill="none" stroke="#C2621A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="460" y="64" class="t">요소마다 perspective()</text>
+<polygon points="462,112 498,120 498,140 462,148" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<polygon points="517,112 553,120 553,140 517,148" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<polygon points="572,112 608,120 608,140 572,148" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<circle cx="480" cy="172" r="3" fill="#C2621A"/><circle cx="535" cy="172" r="3" fill="#C2621A"/><circle cx="590" cy="172" r="3" fill="#C2621A"/>
+<text x="535" y="190" text-anchor="middle" class="o">소실점 셋 — 어긋난다</text>
+
+<rect x="640" y="46" width="180" height="150" rx="8" fill="none" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="650" y="64" class="t">부모에 perspective</text>
+<polygon points="652,108 688,116 688,144 652,152" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<polygon points="712,114 748,120 748,140 712,146" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<polygon points="772,118 808,122 808,138 772,142" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<circle cx="730" cy="172" r="3.5" fill="#2F6DB5"/>
+<text x="730" y="190" text-anchor="middle" class="u">소실점 하나 — 이어진다</text>
+<text x="450" y="222" class="s">소실점은 기본 가운데 · <tspan class="m">perspective-origin</tspan> 으로 옮긴다</text>
+
+<line x1="40" y1="258" x2="820" y2="258" stroke="#E2E2E2" stroke-width="1"/>
+<text x="40" y="286" class="b">JS 로 translate 읽기 — <tspan class="m">getComputedStyle(el).transform</tspan></text>
+
+<text x="40" y="324" class="m">matrix</text>
+<text x="40" y="340" class="t">2D · 6값</text>
+<g font-size="11" text-anchor="middle">
+<rect x="130" y="304" width="56" height="30" fill="#F2F2F2" stroke="#8A8A8A"/><text x="158" y="324" class="t">a</text>
+<rect x="186" y="304" width="56" height="30" fill="#F2F2F2" stroke="#8A8A8A"/><text x="214" y="324" class="t">b</text>
+<rect x="242" y="304" width="56" height="30" fill="#F2F2F2" stroke="#8A8A8A"/><text x="270" y="324" class="t">c</text>
+<rect x="298" y="304" width="56" height="30" fill="#F2F2F2" stroke="#8A8A8A"/><text x="326" y="324" class="t">d</text>
+<rect x="354" y="304" width="56" height="30" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/><text x="382" y="324" class="m">tx</text>
+<rect x="410" y="304" width="56" height="30" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/><text x="438" y="324" class="m">ty</text>
+</g>
+<text x="486" y="324" class="s">5번째 · 6번째</text>
+
+<text x="40" y="384" class="m">matrix3d</text>
+<text x="40" y="400" class="t">3D · 16값</text>
+<g>
+<rect x="130" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+<rect x="166" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+<rect x="202" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+<rect x="238" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+<rect x="274" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+<rect x="310" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+<rect x="346" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+<rect x="382" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+<rect x="418" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+<rect x="454" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+<rect x="490" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+<rect x="526" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+<rect x="562" y="364" width="36" height="30" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<rect x="598" y="364" width="36" height="30" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<rect x="634" y="364" width="36" height="30" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<rect x="670" y="364" width="36" height="30" fill="#F2F2F2" stroke="#8A8A8A"/>
+</g>
+<text x="580" y="384" text-anchor="middle" class="m">tx</text>
+<text x="616" y="384" text-anchor="middle" class="m">ty</text>
+<text x="652" y="384" text-anchor="middle" class="m">tz</text>
+<text x="616" y="414" text-anchor="middle" class="s">13 · 14 · 15번째</text>
+<text x="40" y="448" class="s">2D 변환만 썼으면 <tspan class="m">matrix</tspan>, Z 축 변환이 하나라도 있으면 <tspan class="m">matrix3d</tspan> 로 나온다</text>
+</svg>

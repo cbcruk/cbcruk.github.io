@@ -1,0 +1,30 @@
+---
+type: bookmarks
+tags: ['axios']
+status: release
+ctime: 2022-09-23
+mtime: 2026-10-07
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://axios.rest/">axios</QuoteLink>
+
+> axios is a simple HTTP client for the browser and Node.js
+
+---
+
+- [GitHub - softonic/axios-retry: Axios plugin that intercepts failed requests and retries them whenever possible](https://github.com/softonic/axios-retry)[^205-2]
+  - [Is it possible to add a retry method to axios? · Issue #934 · axios/axios · GitHub](https://github.com/axios/axios/issues/934#partial-timeline)[^205-1]
+- [GitHub - kuitos/axios-extensions: 🍱 axios extensions lib, including throttle, cache, retry features etc...](https://github.com/kuitos/axios-extensions)[^205-3]
+  - cacheAdapterEnhancer
+  - throttleAdapterEnhancer
+  - retryAdapterEnhancer
+
+---
+
+[^205-1]: 어떤 방식으로 접근하는지에 대한 설명들이 있다.
+
+[^205-2]: 인터셉터로 실패한 요청을 가로채 다시 보낸다. `axiosRetry(axios, { retries: 3 })` 한 줄이고, 지연은 없음·지수 백오프·선형·직접 지정 중에 고르며 인스턴스별·요청별 설정도 된다.
+
+[^205-3]: 인터셉터가 아니라 **어댑터를 감싸는** 방식. 캐시(같은 자원 중복 읽기 방지)·스로틀(짧은 시간의 GET 중복 합치기)·재시도 세 enhancer 를 어댑터 파이프라인에 겹쳐 쌓는다.

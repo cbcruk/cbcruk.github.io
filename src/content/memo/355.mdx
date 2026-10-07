@@ -1,9 +1,9 @@
 ---
 type: bookmarks
 tags: ['event', 'bubbling', 'capturing']
-status: archive
+status: release
 ctime: 2025-01-12
-mtime: 2026-10-06
+mtime: 2026-10-07
 ---
 
 import QuoteLink from '@components/QuoteLink.astro'
@@ -18,8 +18,15 @@ import QuoteLink from '@components/QuoteLink.astro'
 
 - https://www.robinwieruch.de/react-event-bubbling-capturing/ [^355-1]
 - https://cssence.com/2024/form-label-event-bubbling/ [^355-2]
+- [JavaScript eventing deep dive](https://web.dev/eventing-deepdive/)[^355-3]
+- [Monitor Events and Function Calls via Console](https://davidwalsh.name/monitorevents)[^355-4]
 
 ---
 
 [^355-1]: React 로 보는 버블링·캡처링 입문. 이벤트는 문서에서 타깃까지 내려가고(캡처) 다시 올라온다(버블) — 바깥 요소 핸들러가 같이 불리는 이유. `stopPropagation()` 으로 올라가는 걸 끊고, `target` 대 `currentTarget` 을 구분하며, 캡처 단계에서 가로채려면 `onClickCapture` 나 `addEventListener` 의 세 번째 인자 `true` 를 쓴다.
+
 [^355-2]: `<label>` 을 클릭하면 버블링이 두 번 일어난다 — 라벨에서 조상까지 올라간 뒤, 브라우저가 라벨된 요소(`for` 로 이어진 `<input>` 등)를 대신 클릭해 거기서 다시 올라간다. 라벨 안에 input 을 중첩하면 라벨 핸들러가 두 번 불리고, 막으려면 `stopPropagation` 도 두 번 필요할 수 있다.
+
+[^355-3]: 이벤트
+
+[^355-4]: [`monitorEvents`](https://developer.chrome.com/blog/quickly-monitor-events-from-the-console-panel-2/)를 활용한 디버깅

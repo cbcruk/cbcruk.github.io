@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 560" width="100%" role="img">
+<title>JSON 질의 라이브러리의 구현</title>
+<desc>JSON 질의 라이브러리는 세 갈래로 구현된다. 1 작은 인터프리터(jsonata, GROQ 의 groq-js, mistql): 질의 문자열을 렉서가 토큰으로 자르고, 파서가 AST 로 만든다 — jsonata 는 Pratt 의 하향식 연산자 우선순위 파서를 쓴다. 평가기가 그 AST 를 걸으며 JSON 데이터에 적용한다. 예를 들어 Order[Price > 30].Product 는 경로 노드 아래 Order 단계(필터 Price > 30 이 붙음)와 Product 단계로 파싱되고, Order 배열의 원소마다 필터를 적용한 뒤 남은 원소의 Product 를 모은다. 2 엔진을 빌린다(defiant.js): JSON 을 XML 로 바꾼 뒤 XPath 질의를 브라우저 내장 XPath 엔진(node.evaluate)에 맡기고, 찾은 XML 노드를 다시 JSON 으로 바꾼다. 3 질의 언어가 아니라 색인이다(js-search): 문서의 글자를 소문자로 맞추고 단어로 자른 뒤 접두어로 펼쳐(cat 을 c, ca, cat 으로) 토큰에서 문서로 가는 역색인을 만든다. 검색할 때는 검색어를 같은 방식으로 자르고 토큰마다 문서 집합을 찾아 교집합을 낸 뒤 TF-IDF 로 정렬한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.t{font-size:10.5px;font-family:ui-monospace,Menlo,monospace;fill:#555}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.u{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="560" fill="#FFFFFF"/>
+
+<text x="40" y="30" class="b">1 작은 인터프리터 — jsonata · GROQ · mistql</text>
+<rect x="40" y="46" width="160" height="52" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="120" y="66" text-anchor="middle" class="s">질의 문자열</text>
+<text x="120" y="86" text-anchor="middle" class="t">Order[Price&gt;30].Product</text>
+<line x1="200" y1="72" x2="224" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="228" y="46" width="110" height="52" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="283" y="68" text-anchor="middle" class="b">렉서</text>
+<text x="283" y="86" text-anchor="middle" class="s">토큰으로 자름</text>
+<line x1="338" y1="72" x2="362" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="366" y="46" width="120" height="52" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="426" y="68" text-anchor="middle" class="b">파서</text>
+<text x="426" y="86" text-anchor="middle" class="t">jsonata: Pratt</text>
+<line x1="486" y1="72" x2="510" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="514" y="46" width="90" height="52" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="559" y="77" text-anchor="middle" class="b">AST</text>
+<line x1="604" y1="72" x2="628" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="632" y="46" width="188" height="52" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="726" y="68" text-anchor="middle" class="b">평가기</text>
+<text x="726" y="86" text-anchor="middle" class="s">AST 를 걸으며 데이터에 적용</text>
+
+<rect x="40" y="114" width="380" height="124" rx="8" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="56" y="134" class="t">AST</text>
+<rect x="170" y="128" width="70" height="26" rx="5" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="205" y="145" text-anchor="middle" class="m">path</text>
+<line x1="190" y1="154" x2="130" y2="176" stroke="#2F6DB5" stroke-width="1.2"/>
+<line x1="222" y1="154" x2="300" y2="176" stroke="#2F6DB5" stroke-width="1.2"/>
+<rect x="70" y="176" width="120" height="26" rx="5" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="130" y="193" text-anchor="middle" class="m">step Order</text>
+<line x1="130" y1="202" x2="130" y2="210" stroke="#2F6DB5" stroke-width="1.2"/>
+<rect x="70" y="210" width="120" height="22" rx="5" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.2"/>
+<text x="130" y="225" text-anchor="middle" class="t">filter Price&gt;30</text>
+<rect x="240" y="176" width="120" height="26" rx="5" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="300" y="193" text-anchor="middle" class="m">step Product</text>
+
+<rect x="440" y="114" width="380" height="124" rx="8" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="456" y="134" class="t">데이터 위에서</text>
+<text x="456" y="160" class="t">Order: [ {Price:50, Product:'A'},</text>
+<text x="512" y="176" class="t">{Price:10, Product:'B'} ]</text>
+<text x="456" y="202" class="s">원소마다 필터 → 남은 것의 Product</text>
+<text x="456" y="226" class="m" style="fill:#2F6DB5">→ 'A'</text>
+
+<line x1="40" y1="258" x2="820" y2="258" stroke="#E2E2E2" stroke-width="1"/>
+<text x="40" y="286" class="b">2 엔진을 빌린다 — defiant.js</text>
+<rect x="40" y="300" width="110" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="95" y="328" text-anchor="middle" class="b">JSON</text>
+<line x1="150" y1="323" x2="176" y2="323" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="165" y="362" text-anchor="middle" class="t">toXML</text>
+<rect x="180" y="300" width="110" height="46" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="235" y="328" text-anchor="middle" class="b">XML 문서</text>
+<line x1="290" y1="323" x2="316" y2="323" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="320" y="300" width="240" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="440" y="319" text-anchor="middle" class="s">브라우저 내장 XPath 엔진</text>
+<text x="440" y="337" text-anchor="middle" class="t">node.evaluate(XPath, …)</text>
+<line x1="560" y1="323" x2="586" y2="323" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="575" y="362" text-anchor="middle" class="t">toJSON</text>
+<rect x="590" y="300" width="110" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="645" y="328" text-anchor="middle" class="b">결과 JSON</text>
+<text x="716" y="320" class="s">파서·평가기를</text>
+<text x="716" y="336" class="s">직접 안 만든다</text>
+
+<line x1="40" y1="370" x2="820" y2="370" stroke="#E2E2E2" stroke-width="1"/>
+<text x="40" y="398" class="b">3 질의 언어가 아니라 색인 — js-search</text>
+<text x="40" y="432" class="s">미리</text>
+<rect x="80" y="412" width="90" height="34" rx="6" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="125" y="434" text-anchor="middle" class="s">문서</text>
+<line x1="170" y1="429" x2="190" y2="429" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="194" y="412" width="96" height="34" rx="6" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="242" y="434" text-anchor="middle" class="s">소문자로</text>
+<line x1="290" y1="429" x2="310" y2="429" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="314" y="412" width="96" height="34" rx="6" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="362" y="434" text-anchor="middle" class="s">단어로 자름</text>
+<line x1="410" y1="429" x2="430" y2="429" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="434" y="412" width="150" height="34" rx="6" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="509" y="434" text-anchor="middle" class="t">cat → c · ca · cat</text>
+<line x1="584" y1="429" x2="604" y2="429" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="608" y="412" width="212" height="34" rx="6" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="714" y="434" text-anchor="middle" class="s">역색인 — 토큰 → 문서들</text>
+
+<text x="40" y="496" class="s">찾을 때</text>
+<rect x="94" y="476" width="200" height="34" rx="6" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="194" y="498" text-anchor="middle" class="s">검색어도 같은 방식으로 자름</text>
+<line x1="294" y1="493" x2="314" y2="493" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="318" y="476" width="260" height="34" rx="6" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="448" y="498" text-anchor="middle" class="s">토큰마다 문서 집합 → 교집합</text>
+<line x1="578" y1="493" x2="598" y2="493" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="602" y="476" width="218" height="34" rx="6" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="711" y="498" text-anchor="middle" class="s">TF-IDF 로 정렬</text>
+<text x="40" y="540" class="o">구조를 따라가는 게 아니라, 미리 만든 표를 찾아본다 — 한 토큰이라도 없으면 결과는 비어 있다</text>
+</svg>

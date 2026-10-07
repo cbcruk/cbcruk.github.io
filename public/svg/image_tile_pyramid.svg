@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" width="100%" role="img">
+<title>이미지 타일 피라미드</title>
+<desc>큰 이미지를 미리 여러 해상도로 줄여 두고, 해상도마다 256px 정사각형 타일로 잘라 둔다. 줌 0 은 그림 전체가 타일 하나, 줌 1 은 2×2, 줌 2 는 4×4 이고, 줌이 하나 오를 때마다 가로세로 해상도가 두 배가 된다. 맨 위 줌에서 원본과 1:1 이 된다. 뷰어는 지금 줌에서 화면에 걸친 타일만 /z/x/y.png 로 요청한다 — 줌 2 에서 화면이 가운데 네 칸에 걸치면 그 네 장만 받는다. 그래서 900MB 짜리 그림도 화면 하나 분량만 내려받는다. 최대 줌은 긴 변을 256 으로 나눈 값의 log2 를 올림한 것이다 — 2000×3000 이미지면 log2(3000/256)=3.55 라 4. gdal2tiles-leaflet 의 -l 옵션은 기준점 [0,0] 을 지리 좌표처럼 왼쪽 아래가 아니라 그림처럼 왼쪽 위에 두고, leaflet-rastercoords 는 최대 줌 기준으로 그림의 픽셀 (x, y) 와 지도 좌표를 서로 바꿔 마커를 픽셀 위치에 놓게 한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.t{font-size:10.5px;font-family:ui-monospace,Menlo,monospace;fill:#555}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.u{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="470" fill="#FFFFFF"/>
+
+<text x="40" y="30" class="b">미리 잘라 둔다 — 줌마다 해상도 두 배, 256px 타일</text>
+
+<rect x="60" y="80" width="64" height="64" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="92" y="166" text-anchor="middle" class="m">z0</text>
+<text x="92" y="182" text-anchor="middle" class="t">1장</text>
+
+<g stroke="#8A8A8A" stroke-width="1.2" fill="#F2F2F2">
+<rect x="160" y="64" width="48" height="48"/><rect x="208" y="64" width="48" height="48"/>
+<rect x="160" y="112" width="48" height="48"/><rect x="208" y="112" width="48" height="48"/>
+</g>
+<text x="208" y="182" text-anchor="middle" class="m">z1</text>
+<text x="208" y="198" text-anchor="middle" class="t">2×2</text>
+
+<g stroke="#8A8A8A" stroke-width="1.2" fill="#F2F2F2">
+<rect x="292" y="48" width="36" height="36"/><rect x="328" y="48" width="36" height="36"/><rect x="364" y="48" width="36" height="36"/><rect x="400" y="48" width="36" height="36"/>
+<rect x="292" y="84" width="36" height="36"/><rect x="328" y="84" width="36" height="36" fill="#DCEBFA" stroke="#2F6DB5"/><rect x="364" y="84" width="36" height="36" fill="#DCEBFA" stroke="#2F6DB5"/><rect x="400" y="84" width="36" height="36"/>
+<rect x="292" y="120" width="36" height="36"/><rect x="328" y="120" width="36" height="36" fill="#DCEBFA" stroke="#2F6DB5"/><rect x="364" y="120" width="36" height="36" fill="#DCEBFA" stroke="#2F6DB5"/><rect x="400" y="120" width="36" height="36"/>
+<rect x="292" y="156" width="36" height="36"/><rect x="328" y="156" width="36" height="36"/><rect x="364" y="156" width="36" height="36"/><rect x="400" y="156" width="36" height="36"/>
+</g>
+<rect x="320" y="76" width="88" height="88" fill="none" stroke="#C2621A" stroke-width="2" stroke-dasharray="5 3"/>
+<text x="364" y="214" text-anchor="middle" class="m">z2</text>
+<text x="364" y="230" text-anchor="middle" class="t">4×4</text>
+
+<text x="472" y="124" class="b">…</text>
+<rect x="500" y="48" width="144" height="144" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="572" y="116" text-anchor="middle" class="s">최대 줌</text>
+<text x="572" y="134" text-anchor="middle" class="s">원본과 1:1</text>
+<text x="572" y="214" text-anchor="middle" class="m">z4</text>
+
+<text x="672" y="80" class="o">점선 = 지금 화면</text>
+<text x="672" y="102" class="s">화면에 걸친 타일만 요청</text>
+<text x="672" y="126" class="t">GET /2/1/1.png</text>
+<text x="672" y="142" class="t">GET /2/2/1.png</text>
+<text x="672" y="158" class="t">GET /2/1/2.png</text>
+<text x="672" y="174" class="t">GET /2/2/2.png</text>
+<text x="672" y="200" class="u">900MB 그림도 화면 분량만</text>
+
+<line x1="40" y1="256" x2="820" y2="256" stroke="#E2E2E2" stroke-width="1"/>
+
+<rect x="40" y="276" width="380" height="160" rx="8" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="56" y="300" class="b">최대 줌은 몇인가</text>
+<text x="56" y="326" class="s">긴 변이 256px 타일 몇 번 반으로 접혀야 하나</text>
+<text x="56" y="354" class="m">ceil( log2( max(w, h) / 256 ) )</text>
+<text x="56" y="384" class="s">2000×3000 → log2(3000/256) = 3.55 → <tspan class="b">4</tspan></text>
+<text x="56" y="408" class="t">gdal2tiles -l -p raster -z 0-4 …</text>
+<text x="56" y="426" class="s">이보다 작게 자르면 원본 해상도까지 못 간다</text>
+
+<rect x="440" y="276" width="380" height="160" rx="8" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="456" y="300" class="b">좌표를 그림에 맞춘다</text>
+<rect x="470" y="318" width="110" height="76" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.2"/>
+<circle cx="470" cy="318" r="4" fill="#C2621A"/>
+<text x="480" y="336" class="t">[0,0]</text>
+<circle cx="538" cy="364" r="4" fill="#2F6DB5"/>
+<text x="546" y="368" class="t">(x,y)</text>
+<text x="600" y="330" class="s"><tspan class="m">-l</tspan> : 기준점을 왼쪽 위로</text>
+<text x="600" y="348" class="t">(지리 좌표는 왼쪽 아래)</text>
+<text x="600" y="376" class="s">rastercoords : 최대 줌에서</text>
+<text x="600" y="394" class="s">픽셀 (x,y) ↔ 지도 좌표</text>
+<text x="456" y="426" class="u">마커를 그림의 픽셀 위치에 놓는다</text>
+</svg>

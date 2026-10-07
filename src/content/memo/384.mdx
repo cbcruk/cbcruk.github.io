@@ -1,21 +1,13 @@
 ---
 type: bookmarks
 tags: ['react', 'runtime', 'jsx']
-status: archive
+status: release
 embed: https://stackblitz.com/edit/vitejs-vite-ag8h7uwy?file=src%2FApp.tsx
 ctime: 2025-02-02
-mtime: 2026-10-06
+mtime: 2026-10-07
 ---
 
-import QuoteLink from '@components/QuoteLink.astro'
-
-<QuoteLink url="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/Function#creating_a_function_object_from_a_function_declaration_or_function_expression">
-  Function() constructor
-</QuoteLink>
-
----
-
-- [ES Module Shims 2.0](/memo/488)
+![런타임에 받는 것에 따라 렌더 방식이 셋으로 갈린다. 1 JSX 문자열: react-jsx-parser 는 acorn-jsx 로 AST 를 만들고 그 AST 를 걸으며 React.createElement 를 직접 부른다 — 코드를 실행하지 않는다. react-live 는 sucrase 로 JS 로 바꾼 뒤 new Function 에 scope 의 이름들을 인자로 넘겨 실행하고, playroom 도 sucrase 로 바꾼 뒤 scope-eval 로 iframe 프레임마다 실행한다. 둘 다 scope 로 넘긴 컴포넌트만 코드에서 보인다. 2 프로젝트 파일: devjar 는 파일 여러 개를 Web Worker 의 wasm 컴파일러로 변환하고, 모듈마다 인라인 URL 을 만들어 iframe 안에서 import() 로 실행한다. 의존성은 esm.sh 에서 받는다. iframe 은 호스트와 같은 출처다. 3 번들 URL: remote-component 는 이미 빌드된 CommonJS 번들을 URL 에서 fetch 해 new Function('require', 'module', 'exports', code) 로 실행하고, require 는 미리 주입한 의존성만 돌려준다. 결과 컴포넌트는 호스트 React 트리에 렌더된다. 코드를 실행하는 갈래(react-live, playroom, devjar, remote-component)는 믿는 코드만 넣어야 하고, 해석만 하는 react-jsx-parser 는 실행 단계가 없다.](/svg/runtime_react_render.svg)
 
 ---
 

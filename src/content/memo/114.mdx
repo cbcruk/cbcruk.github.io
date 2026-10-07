@@ -1,0 +1,26 @@
+---
+type: bookmarks
+tags: ['css', '3d']
+status: release
+ctime: 2022-04-09
+mtime: 2026-10-07
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Transforms">
+  CSS transforms
+</QuoteLink>
+
+![perspective 는 보는 눈에서 물체까지의 거리다. 값이 작을수록 3D 효과가 강하다 — perspective: 100px 은 작은 곤충이 큰 물체를 보듯 크게 일그러지고, 2000px 은 쌍안경으로 멀리서 보듯 약하다. perspective 가 없으면 Z 축으로 움직여도 크기가 그대로다. 거는 자리는 둘이다. 요소마다 transform: perspective() 를 걸면 요소마다 소실점이 따로 생겨 여러 개를 나란히 놓으면 어긋난다. 부모에 perspective 속성을 걸면 자식들이 소실점 하나를 공유해 한 공간에 있는 것처럼 이어진다. 소실점은 기본으로 가운데이고 perspective-origin 으로 옮긴다. JS 로 translate 값을 읽으려면 getComputedStyle(el).transform 이 돌려주는 행렬을 본다. 2D 변환이면 값 6개인 matrix 이고 5번째가 translateX, 6번째가 translateY 다. 3D 변환이면 값 16개인 matrix3d 이고 13·14·15번째가 translateX·Y·Z 다.](/svg/css_perspective.svg)
+
+---
+
+- [How CSS Perspective Works | CSS-Tricks](https://css-tricks.com/how-css-perspective-works/)[^114-1]
+- [Getting CSS Translate values with JavaScript | Zell Liew](https://zellwk.com/blog/css-translate-values-in-javascript/)[^114-2]
+- [Perspective &middot; Intro to CSS 3D transforms](https://3dtransforms.desandro.com/perspective)
+
+---
+
+[^114-1]: css 3d 작업시 `perspective`에 따른 변화와 원리를 설명해준 글
+[^114-2]: translate 값을 얻기 위해서 `getComputedStyle`로 matrix값을 얻은 다음 2d, 3d에 따라서 해당 값을 체크

@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 520" width="100%" role="img">
+<title>런타임에 받은 코드를 렌더하는 세 갈래</title>
+<desc>런타임에 받는 것에 따라 렌더 방식이 셋으로 갈린다. 1 JSX 문자열: react-jsx-parser 는 acorn-jsx 로 AST 를 만들고 그 AST 를 걸으며 React.createElement 를 직접 부른다 — 코드를 실행하지 않는다. react-live 는 sucrase 로 JS 로 바꾼 뒤 new Function 에 scope 의 이름들을 인자로 넘겨 실행하고, playroom 도 sucrase 로 바꾼 뒤 scope-eval 로 iframe 프레임마다 실행한다. 둘 다 scope 로 넘긴 컴포넌트만 코드에서 보인다. 2 프로젝트 파일: devjar 는 파일 여러 개를 Web Worker 의 wasm 컴파일러로 변환하고, 모듈마다 인라인 URL 을 만들어 iframe 안에서 import() 로 실행한다. 의존성은 esm.sh 에서 받는다. iframe 은 호스트와 같은 출처다. 3 번들 URL: remote-component 는 이미 빌드된 CommonJS 번들을 URL 에서 fetch 해 new Function('require', 'module', 'exports', code) 로 실행하고, require 는 미리 주입한 의존성만 돌려준다. 결과 컴포넌트는 호스트 React 트리에 렌더된다. 코드를 실행하는 갈래(react-live, playroom, devjar, remote-component)는 믿는 코드만 넣어야 하고, 해석만 하는 react-jsx-parser 는 실행 단계가 없다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.t{font-size:10.5px;font-family:ui-monospace,Menlo,monospace;fill:#555}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.u{font-size:12px;fill:#2F6DB5}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="520" fill="#FFFFFF"/>
+
+<text x="40" y="74" class="s">받는 것</text>
+<text x="40" y="150" class="s">변환</text>
+<text x="40" y="240" class="s">실행</text>
+<text x="40" y="340" class="s">렌더</text>
+
+<text x="275" y="30" text-anchor="middle" class="b">1 JSX 문자열</text>
+<rect x="110" y="50" width="330" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="275" y="75" text-anchor="middle" class="m">'&lt;Button&gt;hi&lt;/Button&gt;'</text>
+<line x1="189" y1="90" x2="189" y2="122" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="361" y1="90" x2="361" y2="122" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<rect x="110" y="126" width="158" height="40" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="189" y="151" text-anchor="middle" class="s">acorn-jsx → AST</text>
+<rect x="282" y="126" width="158" height="40" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="361" y="151" text-anchor="middle" class="s">sucrase → JS</text>
+<line x1="189" y1="166" x2="189" y2="198" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="361" y1="166" x2="361" y2="198" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<rect x="110" y="202" width="158" height="78" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="189" y="226" text-anchor="middle" class="s">AST 를 걸으며</text>
+<text x="189" y="244" text-anchor="middle" class="t">createElement</text>
+<text x="189" y="268" text-anchor="middle" class="u">코드 실행 없음</text>
+<rect x="282" y="202" width="158" height="78" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="361" y="224" text-anchor="middle" class="t">new Function(scope)</text>
+<text x="361" y="242" text-anchor="middle" class="t">scope-eval</text>
+<text x="361" y="266" text-anchor="middle" class="s">scope 에 준 것만 보인다</text>
+<line x1="189" y1="280" x2="189" y2="316" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="361" y1="280" x2="361" y2="316" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<rect x="110" y="320" width="158" height="40" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="189" y="345" text-anchor="middle" class="s">호스트 React 트리</text>
+<rect x="282" y="320" width="158" height="40" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="361" y="338" text-anchor="middle" class="s">호스트 트리</text>
+<text x="361" y="353" text-anchor="middle" class="t">playroom: iframe 마다</text>
+<text x="189" y="384" text-anchor="middle" class="b">react-jsx-parser</text>
+<text x="361" y="384" text-anchor="middle" class="b">react-live · playroom</text>
+
+<text x="550" y="30" text-anchor="middle" class="b">2 프로젝트 파일</text>
+<rect x="460" y="50" width="180" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="550" y="75" text-anchor="middle" class="t">{ 'App.tsx': …, … }</text>
+<line x1="550" y1="90" x2="550" y2="122" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="460" y="126" width="180" height="40" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="550" y="144" text-anchor="middle" class="s">Web Worker 의</text>
+<text x="550" y="160" text-anchor="middle" class="s">wasm 컴파일러</text>
+<line x1="550" y1="166" x2="550" y2="198" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="460" y="202" width="180" height="78" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="550" y="224" text-anchor="middle" class="s">모듈마다 인라인 URL</text>
+<text x="550" y="242" text-anchor="middle" class="t">→ iframe 에서 import()</text>
+<text x="550" y="266" text-anchor="middle" class="s">의존성은 esm.sh</text>
+<line x1="550" y1="280" x2="550" y2="316" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="460" y="320" width="180" height="40" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="550" y="338" text-anchor="middle" class="s">iframe</text>
+<text x="550" y="353" text-anchor="middle" class="t">호스트와 같은 출처</text>
+<text x="550" y="384" text-anchor="middle" class="b">devjar</text>
+
+<text x="740" y="30" text-anchor="middle" class="b">3 번들 URL</text>
+<rect x="660" y="50" width="160" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="740" y="69" text-anchor="middle" class="s">빌드된 CommonJS</text>
+<text x="740" y="84" text-anchor="middle" class="t">https://…/main.js</text>
+<line x1="740" y1="90" x2="740" y2="122" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="660" y="126" width="160" height="40" rx="7" fill="#FFFFFF" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="740" y="151" text-anchor="middle" class="s">없음 — 이미 빌드됨</text>
+<line x1="740" y1="166" x2="740" y2="198" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="660" y="202" width="160" height="78" rx="7" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="740" y="222" text-anchor="middle" class="s">fetch →</text>
+<text x="740" y="240" text-anchor="middle" class="t">new Function(require,</text>
+<text x="740" y="254" text-anchor="middle" class="t">module, exports, code)</text>
+<text x="740" y="272" text-anchor="middle" class="s">require 는 주입한 것만</text>
+<line x1="740" y1="280" x2="740" y2="316" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="660" y="320" width="160" height="40" rx="7" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="1.2"/>
+<text x="740" y="345" text-anchor="middle" class="s">호스트 React 트리</text>
+<text x="740" y="384" text-anchor="middle" class="b">remote-component</text>
+
+<line x1="40" y1="410" x2="820" y2="410" stroke="#E2E2E2" stroke-width="1"/>
+<rect x="40" y="426" width="380" height="76" rx="8" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.2"/>
+<text x="56" y="450" class="b">해석만 한다</text>
+<text x="56" y="472" class="s">react-jsx-parser — 문자열이 코드로 실행되지 않는다.</text>
+<text x="56" y="490" class="s">대신 표현식은 지원하는 만큼만 된다</text>
+<rect x="440" y="426" width="380" height="76" rx="8" fill="#FDEBD8" stroke="#C2621A" stroke-width="1.5"/>
+<text x="456" y="450" class="b">실행한다</text>
+<text x="456" y="472" class="s">나머지 넷 — 받은 코드가 호스트 출처에서 돈다.</text>
+<text x="456" y="490" class="o">믿는 코드만 넣는다</text>
+</svg>

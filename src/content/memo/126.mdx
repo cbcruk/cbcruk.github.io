@@ -1,0 +1,23 @@
+---
+type: bookmarks
+tags: ['json', 'schema']
+status: release
+ctime: 2022-04-09
+mtime: 2026-10-07
+---
+
+import QuoteLink from '@components/QuoteLink.astro'
+
+<QuoteLink url="https://json-schema.org/">JSON Schema</QuoteLink>
+
+> JSON Schema enables the confident and reliable use of the JSON data format.
+
+---
+
+- [ajv-validator/ajv](https://github.com/ajv-validator/ajv)[^126-1]
+- [rjsf-team/react-jsonschema-form](https://github.com/rjsf-team/react-jsonschema-form)[^126-2]
+
+---
+
+[^126-1]: 스키마로 JSON 을 검증하는 라이브러리(Node·브라우저). draft-04 부터 2020-12 까지와 JSON Type Definition(RFC 8927)을 지원하고, 스키마를 검증 코드로 미리 만들어 두는 standalone 모드가 있다.
+[^126-2]: JSON Schema 를 주면 웹 폼을 선언적으로 만들어 주는 React 컴포넌트. Ant Design·MUI·Chakra·shadcn 등 UI 테마를 골라 쓰고, 검증은 `@rjsf/validator-ajv8` — 위 ajv 를 쓴다.
