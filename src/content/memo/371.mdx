@@ -3,7 +3,7 @@ type: snippet
 tags: ['css']
 status: release
 ctime: 2025-01-17
-mtime: 2025-01-17
+mtime: 2026-10-29
 ---
 
 import QuoteLink from '@components/QuoteLink.astro'
@@ -25,11 +25,9 @@ Exporting values variables
 ```
 
 
-CSS 모듈에서 변수를 값으로 내보내고 사용하는 방법
+`@value` 로 가져온 이름은 선언 값뿐 아니라 셀렉터 안에서도 치환된다[^icss-selector] — 다른 모듈의 클래스 `b` 를 가져오면 `:global(.b)` 가 그 모듈의 해시된 클래스(`._b_15lvz_1`)가 된다. `@value` 줄이 없으면 문자 그대로 `.b` 라 아무것도 안 잡힌다.
 
-- PostCSS와 `postcss-modules-values` 플러그인을 사용하여 CSS 모듈 내에서 변수 값 내보내기 지원
-- 색상 변수를 정의하는 파일 생성
-  - 변수 선언: `@value` 구문 사용
-- 다른 CSS 모듈 파일에서 해당 변수를 가져와서 사용
-  - 변수 가져오기 및 CSS 클래스에 적용
+---
+
+[^icss-selector]: [icss-utils `replaceSymbols.js`](https://github.com/css-modules/icss-utils/blob/c4e53fefa32df5db7786dd0fc6f053963f12ea02/src/replaceSymbols.js#L7-L11) — `postcss-modules-values` 가 모은 정의를 이 함수로 치환하는데, 선언(`decl`)뿐 아니라 규칙의 셀렉터(`rule.selector`)도 돈다.
 
