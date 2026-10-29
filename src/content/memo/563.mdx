@@ -4,7 +4,7 @@ title: React 밖 상태를 useSyncExternalStore로 구독하기
 tags: ['react', 'usesyncexternalstore', 'event-target']
 status: release
 ctime: 2026-06-21
-mtime: 2026-09-28
+mtime: 2026-10-29
 ---
 
 ```js
@@ -36,3 +36,6 @@ const toasts = useSyncExternalStore(subscribe, () => toastManager.toasts)
 ---
 
 - 출처: [React: Singletons aren't as evil as you think — Andrew Bone](https://dev.to/link2twenty/react-singletons-arent-as-evil-as-you-think-44m8)
+- 원리: [useSyncExternalStore — React](https://react.dev/reference/react/useSyncExternalStore)[^react-usesyncexternalstore]
+
+[^react-usesyncexternalstore]: *"While the store has not changed, repeated calls to `getSnapshot` must return the same value. If the store changes and the returned value is different (as compared by `Object.is`), React re-renders the component."* / *"if you always return a different value, you will enter an infinite loop"*

@@ -3,7 +3,7 @@ type: snippet
 tags: ['parallel', 'serial']
 status: release
 ctime: 2025-03-05
-mtime: 2025-03-05
+mtime: 2026-10-29
 ---
 
 import QuoteLink from '@components/QuoteLink.astro'
@@ -35,7 +35,7 @@ class ParallelTaskRunner extends TaskRunner {
       task((result) => {
         this.results.push(result)
 
-        if (this.results.size === totalTasks) {
+        if (this.results.length === totalTasks) {
           callback([...this.results])
         }
       })

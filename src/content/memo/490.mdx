@@ -3,7 +3,7 @@ type: snippet
 tags: ['visibility-state']
 status: release
 ctime: 2025-03-25
-mtime: 2025-03-25
+mtime: 2026-10-29
 ---
 
 import QuoteLink from '@components/QuoteLink.astro'
@@ -11,6 +11,8 @@ import QuoteLink from '@components/QuoteLink.astro'
 <QuoteLink url="https://github.com/nkzw-tech/use-visibility-state/">
   use-visibility-state
 </QuoteLink>
+
+`visibilitychange` 는 탭 전환·최소화·앱 전환처럼 보임 상태가 바뀔 때 document 에서 발생한다.[^490-1]
 
 ```ts
 const isVisible = document.visibilityState === 'visible'
@@ -21,13 +23,13 @@ document.addEventListener('visibilitychange', onChange)
 
 ---
 
+시스템이 잠들면 `visibilitychange` 가 안 올 때가 있다 — hidden 상태일 때만 입력으로 복귀를 잡는다.[^490-2]
+
 ```ts
-/**
- * `visibilitychange` 이벤트는 정상적인 탭 전환 시에는 잘 작동하지만, 시스템 슬립, 화면 잠금, 또는 브라우저가 백그라운드에서 복귀할 때는 누락될 수 있다.
- * 그래서 수동으로 처리되는 부분이 필요
- */
-document.addEventListener('mousemove', setVisible)
-document.addEventListener('keydown', setVisible)
+if (document.visibilityState === 'hidden') {
+  document.addEventListener('mouseenter', setVisible)
+  document.addEventListener('keydown', setVisible)
+}
 ```
 
 ---
@@ -55,3 +57,6 @@ useEffect(() => {
 ---
 
 - [`document.visibilityState`](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilityState)
+
+[^490-1]: [Document: visibilitychange event - MDN](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event): *"The visibilitychange event is fired at the document when its visibility status changes — for example, when the user switches browser tabs, navigates to a new page, minimizes or closes the browser, or on mobile, switches to a different app."*
+[^490-2]: [use-visibility-state/src/index.tsx](https://github.com/nkzw-tech/use-visibility-state/blob/e4caf2ab50a7bd0d19d0dff7d04bf60b67469857/src/index.tsx#L22-L27): *"When the system goes to sleep, sometimes the `visibilitychange` event is not fired. In that case, we can use `mouseenter` or `keydown` to detect when the window is focused."*

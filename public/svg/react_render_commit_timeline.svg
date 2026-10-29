@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 320" width="100%" role="img">
 <title>한 번의 렌더에서 네 규칙이 걸리는 자리</title>
-<desc>렌더 흐름. 클라이언트: render → commit(DOM 반영·ref 콜백) → useLayoutEffect(페인트 전) → paint → useEffect(페인트 후) → … → 노드 제거(ref cleanup). 서버: render → HTML 문자열, useLayoutEffect 는 실행 안 됨·경고, useEffect 는 실행 안 됨. ① render 중 useMemo: 캐시는 버려질 수 있다, 순수하면 재계산돼도 같은 값, 유지해야 하면 useState(init). ② useLayoutEffect: 페인트 전에 DOM 을 고쳐 flash 를 막는다, 서버엔 이 단계가 없어 경고가 난다, shim 으로 서버에선 useEffect. ③ useEffect: ref.current 가 채워진 뒤라 ownerDocument.defaultView = 노드가 실제로 사는 창. ④ commit 의 ref 콜백이 cleanup 을 반환하고 노드 제거 때 실행된다 → 리스너 수명 = 노드 수명.</desc>
+<desc>렌더 흐름. 클라이언트: render → commit(DOM 반영·ref 콜백) → useLayoutEffect(페인트 전) → paint → useEffect(페인트 후) → … → 노드 제거(ref cleanup). 서버: render → HTML 문자열, useLayoutEffect 는 실행 안 됨·경고(React 18 이하), useEffect 는 실행 안 됨. ① render 중 useMemo: 캐시는 버려질 수 있다, 순수하면 재계산돼도 같은 값, 유지해야 하면 useState(init). ② useLayoutEffect: 페인트 전에 DOM 을 고쳐 flash 를 막는다, 서버엔 이 단계가 없어 React 18 이하는 경고가 난다, shim 으로 서버에선 useEffect. ③ useEffect: ref.current 가 채워진 뒤라 ownerDocument.defaultView = 노드가 실제로 사는 창. ④ commit 의 ref 콜백이 cleanup 을 반환하고 노드 제거 때 실행된다 → 리스너 수명 = 노드 수명.</desc>
 <style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}</style>
 <defs>
 <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
@@ -15,7 +15,7 @@
 <text x="270" y="67" text-anchor="middle" class="s">HTML 문자열</text>
 <rect x="350" y="40" width="120" height="44" rx="7" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="5 4"/>
 <text x="410" y="60" text-anchor="middle" class="s">실행 안 됨</text>
-<text x="410" y="76" text-anchor="middle" class="o">경고</text>
+<text x="410" y="76" text-anchor="middle" class="o">경고 (≤18)</text>
 <rect x="590" y="40" width="110" height="44" rx="7" fill="none" stroke="#B5B5B5" stroke-width="1.2" stroke-dasharray="5 4"/>
 <text x="645" y="67" text-anchor="middle" class="s">실행 안 됨</text>
 <line x1="190" y1="62" x2="206" y2="62" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
@@ -57,7 +57,7 @@
 
 <text x="300" y="240" class="b">② useLayoutEffect</text>
 <text x="300" y="258" class="s">페인트 전에 DOM 을 고쳐 flash 를 막는다</text>
-<text x="300" y="276" class="s">서버엔 이 단계가 없어 경고가 난다</text>
+<text x="300" y="276" class="s">서버엔 이 단계가 없어 18 이하는 경고</text>
 <text x="300" y="294" class="s">→ shim 으로 서버에선 useEffect</text>
 
 <text x="580" y="240" class="b">③ useEffect</text>

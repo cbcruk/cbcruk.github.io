@@ -4,7 +4,7 @@ kind: Explainer
 tags: ['react']
 status: release
 ctime: 2024-08-13
-mtime: 2026-09-01
+mtime: 2026-10-29
 generated: { by: human:cbcruk, at: 2024-08-24T18:51:43Z }
 verified: { by: claude/opus-5, at: 2026-08-19T00:00:00Z }
 sources:
@@ -22,7 +22,7 @@ import { code } from './311.code'
 
 > Avoiding premature abstraction with Unstyled React Components ([buildui.com](https://buildui.com/posts/avoiding-premature-abstraction-with-unstyled-react-components))
 
-React 컴포넌트를 작성할 때, 불필요한 추상화를 피하고 컴포넌트의 유연성을 유지하는 방법. 특히 스타일이 없는 컴포넌트를 통해 어떻게 컴포넌트의 기능에 집중할 수 있는지를 설명.
+공유할 것이 동작(로딩 UI)뿐이면 그것만 스타일 없는 컴포넌트로 뽑고, 스타일은 호출부에 맡긴다 — 스타일까지 묶은 섣부른 추상화를 피한다[^311-1].
 
 <Code
   code={code}
@@ -31,4 +31,6 @@ React 컴포넌트를 작성할 때, 불필요한 추상화를 피하고 컴포�
   meta="{}"
 />
 
-이 패턴은 컴포넌트를 작성할 때 불필요한 스타일링이나 구조를 미리 정의하지 않고, 각 컴포넌트가 자신의 역할에 충실할 수 있도록 도와줍니다. 이를 통해 코드의 유연성을 유지하고, 필요에 따라 컴포넌트를 확장하거나 수정할 수 있는 여지를 남겨두게 됩니다.
+---
+
+[^311-1]: [Avoiding premature abstraction with Unstyled React Components](https://buildui.com/posts/avoiding-premature-abstraction-with-unstyled-react-components): *"This is really what we're trying to share, and it's a perfect use case for extracting an Unstyled Component."* … *"They're unstyled, so the caller is responsible for all the styling code."*

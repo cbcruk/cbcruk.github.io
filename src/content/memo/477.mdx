@@ -3,7 +3,7 @@ type: snippet
 tags: ['emoji']
 status: release
 ctime: 2025-03-05
-mtime: 2025-03-05
+mtime: 2026-10-29
 ---
 
 import QuoteLink from '@components/QuoteLink.astro'
@@ -11,6 +11,8 @@ import QuoteLink from '@components/QuoteLink.astro'
 <QuoteLink url="https://github.com/ealush/emoji-picker-react/blob/master/src/dataUtils/parseNativeEmoji.ts#L1">
   parseNativeEmoji.ts
 </QuoteLink>
+
+`String.fromCodePoint` 는 `0xFFFF` 를 넘는 코드 포인트도 받아 서로게이트 쌍을 만든다 — `fromCharCode` 로는 안 된다.[^477-1]
 
 ```ts
 export function parseNativeEmoji(unified: string): string {
@@ -28,3 +30,5 @@ export function parseNativeEmoji(unified: string): string {
 ---
 
 - [GitHub - iamcal/emoji-data: Easy to parse data and spritesheets for emoji](https://github.com/iamcal/emoji-data)
+
+[^477-1]: [String.fromCodePoint() - MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint): *"String.fromCharCode() cannot return supplementary characters (i.e., code points 0x010000 – 0x10FFFF) by specifying their code point."* / *"String.fromCodePoint(), on the other hand, can return 4-byte supplementary characters, as well as the more common 2-byte BMP characters, by specifying their code point …"*

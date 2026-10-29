@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
 <title>useMemo 캐시와 useState 값이 사라지는 길</title>
-<desc>useMemo(calc, []): 마운트 → 캐시 없음. 캐시 없음 → 렌더·계산 → 캐시 있음(값 v). 캐시 있음 → deps 같음 → 재사용. 캐시 있음 → 캐시 폐기(HMR·첫 마운트 중 suspend·화면 밖) → 캐시 없음. 다시 계산하면 순수는 같은 v 라 드러나지 않고, 랜덤은 다른 v′ 라 값이 바뀐다. useState(init): 마운트·init 1회 → state(값 v). state → 리렌더·HMR → 유지. state → 언마운트 → 끝. 값이 사라지는 길은 언마운트뿐.</desc>
+<desc>useMemo(calc, []): 마운트 → 캐시 없음. 캐시 없음 → 렌더·계산 → 캐시 있음(값 v). 캐시 있음 → deps 같음 → 재사용. 캐시 있음 → 캐시 폐기(HMR·첫 마운트 중 suspend, 앞으로는 화면 밖도) → 캐시 없음. 다시 계산하면 순수는 같은 v 라 드러나지 않고, 랜덤은 다른 v′ 라 값이 바뀐다. useState(init): 마운트·init 1회 → state(값 v). state → 리렌더·HMR → 유지. state → 언마운트 → 끝. 값이 사라지는 길은 언마운트뿐.</desc>
 <style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}</style>
 <defs>
 <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
@@ -30,7 +30,7 @@
 <text x="405" y="60" text-anchor="middle" class="s">deps 같음 → 재사용</text>
 
 <path d="M405 164 C405 214, 105 214, 105 168" fill="none" stroke="#C2621A" stroke-width="1.5" marker-end="url(#ao)"/>
-<text x="255" y="226" text-anchor="middle" class="o">캐시 폐기 — HMR · 첫 마운트 중 suspend · 화면 밖</text>
+<text x="255" y="226" text-anchor="middle" class="o">캐시 폐기 — HMR · 첫 마운트 중 suspend · (향후) 화면 밖</text>
 
 <text x="32" y="256" class="s">다시 계산하면</text>
 <text x="126" y="256" class="s">순수 → 같은 <tspan class="m">v</tspan> · 드러나지 않는다</text>

@@ -3,7 +3,7 @@ type: snippet
 tags: ['fp']
 status: release
 ctime: 2025-02-02
-mtime: 2025-02-02
+mtime: 2026-10-29
 ---
 
 import QuoteLink from '@components/QuoteLink.astro'
@@ -51,7 +51,7 @@ const compose =
 1. **함수 조합(Composition)**: 작은 함수들을 조합하여 새로운 함수를 만들며, 예를 들어 `compose(f, g, h)`는 `f(g(h(x)))`로 실행
 2. **`compose`**: 오른쪽에서 왼쪽으로 함수를 실행하며, `compose(square, double)(3)`은 36을 반환
 3. **`pipe`**: 왼쪽에서 오른쪽으로 함수를 실행하여, `pipe(double, square)(3)`의 결과는 36
-4. **커링(Currying)**: `f(a, b, c)`를 `f(a)(b)(c)` 형태로 변환하고, 예를 들어 `add(1)(2)(3)`의 결과는 6
+4. **커링(Currying)**: `f(a, b, c)`를 `f(a)(b)(c)` 형태로 변환하고, 예를 들어 `add(1)(2)(3)`의 결과는 6[^385-length]
 5. **부분 적용(Partial Application)**: 일부 인자만 미리 적용하여 새로운 함수를 만들 수 있으며, `const double = multiply(2, _)`로 정의
 6. **포인트-프리 스타일**: 변수를 사용하지 않고 함수를 조합하여 작성하며, 예를 들면 `compose(square, double)`와 같은 형태
 7. **데이터 마지막 원칙(Data Last)**: 데이터를 마지막 인자로 배치하여 조합성을 높이는데, 예를 들어 `const halve = divideDataLast(2)`와 같이 사용
@@ -61,3 +61,5 @@ const compose =
 - [Higher-Order Functions](https://eloquentjavascript.net/05_higher_order.html)
 - [How to compose JavaScript functions that take multiple parameters (the epic guide)](https://jrsinclair.com/articles/2024/how-to-compose-functions-that-take-multiple-parameters-epic-guide/)
 - [JavaScript function composition: What’s the big deal?](https://jrsinclair.com/articles/2022/javascript-function-composition-whats-the-big-deal/)
+
+[^385-length]: [Function: length - MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/length): *"The `length` data property of a [`Function`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function) instance indicates the number of parameters expected by the function."*
