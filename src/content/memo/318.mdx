@@ -3,7 +3,7 @@ type: snippet
 tags: ['blob', 'script']
 status: release
 ctime: 2024-09-16
-mtime: 2024-09-16
+mtime: 2026-10-29
 ---
 
 import { Blockquote } from '@components/Blockquote'
@@ -18,6 +18,8 @@ Blob URL 방식은 Firefox 58+에서 CSP 제한이 있는 페이지에서도 스
 이 방식을 사용할 때, 비동기성 때문에 발생할 수 있는 문제를 방지하려면 초기화 코드가 준비된 후 스크립트를 전달해야 합니다.
 </Blockquote>
 
+`src` 로 넣은 스크립트는 내용을 가져온 뒤에야 돈다(비동기).[^blob-async]
+
 ```ts
 const b = new Blob([script], { type: 'text/javascript' })
 const u = URL.createObjectURL(b)
@@ -27,3 +29,7 @@ document.body.appendChild(s)
 document.body.removeChild(s)
 URL.revokeObjectURL(u)
 ```
+
+---
+
+[^blob-async]: [Inject scripts with Blob URLs](https://violentmonkey.github.io/posts/inject-scripts-with-blob-urls/): *"Because the `textContent` way is synchronous while the `src` way is asynchronous."*

@@ -3,7 +3,7 @@ type: snippet
 tags: ['ffmpeg', 'video']
 status: release
 ctime: 2022-04-09
-mtime: 2026-10-06
+mtime: 2026-10-29
 ---
 
 import QuoteLink from '@components/QuoteLink.astro'
@@ -37,8 +37,8 @@ frameToVideo() {
 # $1 = 인코딩할 영상 video.mp4
 # $2 = output 파일명
 encodingVideo() {
-  ffmpeg -an -i $1 -vcodec libx264 -pix_fmt yuv420p -profile:v baseline -level 3 "${$2}.mp4"
-  ffmpeg -i "${$2}.mp4" -vcodec libvpx-vp9 -b:v 1M -acodec libvorbis "${$2}.webm"
+  ffmpeg -an -i $1 -vcodec libx264 -pix_fmt yuv420p -profile:v baseline -level 3 "$2.mp4"
+  ffmpeg -i "$2.mp4" -vcodec libvpx-vp9 -b:v 1M -acodec libvorbis "$2.webm"
 }
 
 # $1 = 자를 영상, $2 = 시작, $3 = 끝, $4 = output 파일

@@ -5,12 +5,12 @@ title: 요청 취소의 경계
 tags: ['http', 'abort', 'cancellation']
 status: release
 ctime: 2026-06-23
-mtime: 2026-10-01
+mtime: 2026-10-29
 generated: { by: claude/opus-5, at: 2026-08-20T02:30:00Z }
 sources:
   - id: fetch-abort
-    resource: https://fetch.spec.whatwg.org/#abort-fetch
-    title: 'Fetch Standard — abort a fetch'
+    resource: https://fetch.spec.whatwg.org/#concept-http-network-fetch
+    title: 'Fetch Standard — HTTP-network fetch'
   - id: mdn-abortcontroller
     resource: https://developer.mozilla.org/en-US/docs/Web/API/AbortController
     title: 'AbortController — MDN'
@@ -47,6 +47,6 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
   title="취소한 시점이 전송 완료 전이냐 후냐에 따라 promise reject·서버 도달·서버 처리가 어떻게 갈리는지"
 />
 
-[^fetch-abort]: Fetch 표준의 abort 알고리즘은 controller 상태를 `aborted`로 바꾸고 이유를 기록할 뿐, 서버로 무엇을 보내라고 정하지 않는다. 연결을 닫거나 응답 읽기를 멈추는 건 구현 재량이다. ([Fetch Standard — abort a fetch](https://fetch.spec.whatwg.org/#abort-fetch))
+[^fetch-abort]: 표준은 연결을 끊으라고(HTTP/2면 RST_STREAM, 아니면 성능에 나쁘지 않으면 닫으라고) 할 뿐, 서버가 받은 것을 되돌리는 단계는 없다. [Fetch Standard — HTTP-network fetch](https://fetch.spec.whatwg.org/#concept-http-network-fetch): *"If connection uses HTTP/2, then transmit an RST_STREAM frame. Otherwise, the user agent should close connection unless it would be bad for performance to do so."*
 
 [^abort-observed]: Chrome 154 headless 에서 raw CDP 로 실측 (2026-10-01). 로컬 Node 서버가 요청 수신·본문 바이트·`end`·응답 완료를 기록했고, 페이지는 `AbortController` 로 POST 를 취소했다. 네 경우 모두 promise `AbortError`, `Network.loadingFailed` `canceled: true` `net::ERR_ABORTED` 로 같았다. `uploadThroughput` 스로틀링은 localhost 요청에도 걸렸다.

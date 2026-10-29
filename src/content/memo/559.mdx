@@ -5,13 +5,13 @@ title: 이벤트 루프 한 턴 — 마이크로태스크가 setTimeout(0) 보�
 tags: ['javascript', 'event-loop', 'microtask']
 status: release
 ctime: 2026-06-18
-mtime: 2026-10-01
+mtime: 2026-10-29
 generated: { by: claude/opus-4.8, at: 2026-06-28T14:49:32Z }
 ---
 
 import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
 
-**마이크로태스크 큐는 매 턴 끝까지 비워진다** — 그래서 `then`·`queueMicrotask`는 항상 `setTimeout(0)`보다 먼저다.
+**마이크로태스크 큐는 매 턴 끝까지 비워진다** — 그래서 `then`·`queueMicrotask`는 항상 `setTimeout(0)`보다 먼저다.[^microtask]
 
 ![한 턴은 ① task queue 에서 가장 오래된 매크로태스크 1개 실행 → ② microtask checkpoint, 큐가 빌 때까지 전부 드레인(드레인 중 추가된 것도 같은 체크포인트에서 처리) → ③ 필요하면 렌더링 → 다음 턴의 ① 로 돌아간다. 매크로는 드레인 도중 끼어들 수 없어 then·queueMicrotask 는 항상 setTimeout(0) 보다 먼저다. 예: setTimeout(timeout), then(then 안에서 queueMicrotask(nested)), 동기 log(sync) 를 실행하면 순서는 sync → then → nested → timeout 이다 — 스크립트 자체가 첫 매크로이고, then 과 그 안에서 추가된 nested 가 같은 드레인에서 돌고, timeout 은 다음 턴의 매크로다. 중첩이 끝없으면 렌더링과 다음 매크로가 굶는다.](/svg/event_loop_one_turn.svg)
 
@@ -21,3 +21,7 @@ import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
   src="/iframe/event-loop-sim.html"
   title="queueMicrotask 이벤트 루프 시뮬레이터"
 />
+
+---
+
+[^microtask]: [In depth: Microtasks and the JavaScript runtime environment — MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide/In_depth): *"execution of microtasks continues until the queue is empty—even if new ones are scheduled in the interim. In other words, microtasks can enqueue new microtasks and those new microtasks will execute before the next task begins to run"*

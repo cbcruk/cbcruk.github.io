@@ -3,21 +3,22 @@ type: snippet
 tags: ['date', 'random', 'test', 'flaky']
 status: release
 ctime: 2024-09-01
-mtime: 2024-01-09
+mtime: 2026-10-29
 ---
 
-Flaky 테스트 방지 - `Date`, `Math.random` 같은 비순수 함수를 props로 주입
+Flaky 테스트 방지 — 기본 매개변수는 호출할 때마다 평가된다. 인자를 안 넘기면 `new Date()`, 넘기면 그 값이라 `Date`·`Math.random` 같은 비순수 값을 props 기본값으로 주입한다[^default-param]
 
 - `new Date()`, `Math.random()` 같은 비순수 함수는 매번 다른 결과 → 테스트 불안정
 - 해결: 기본 매개변수로 주입하면 프로덕션 동작 유지 + 테스트에서 제어 가능
 
 ```js
-function Date({ date = new Date() }) {
-  const [date, setDate] = React.useState(date)
+function DateInput({ now = new Date() }) {
+  const [date, setDate] = React.useState(now.toLocaleDateString('sv-SE')) // 로컬 YYYY-MM-DD (toISOString 은 UTC 라 KST 오전 9시 전엔 하루 밀린다)
 
   return (
     <input
       type="date"
+      aria-label="날짜"
       onChange={(e) => setDate(e.target.value)}
       defaultValue={date}
     />
@@ -34,11 +35,11 @@ function Random({ randomizer = Math.random }) {
 테스트:
 
 ```tsx
-describe('Date Component', () => {
-  it('should update state on date change', () => {
-    render(<Date date={new Date('2023-01-01')} />)
+describe('DateInput', () => {
+  it('주입한 날짜로 렌더한다', () => {
+    render(<DateInput now={new Date(2023, 0, 1)} />)
 
-    const input = screen.getByRole('textbox')
+    const input = screen.getByLabelText('날짜')
 
     expect(input.value).toBe('2023-01-01')
   })
@@ -56,3 +57,7 @@ describe('Random Component', () => {
   })
 })
 ```
+
+---
+
+[^default-param]: [Default parameters - MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters): *"Default function parameters allow named parameters to be initialized with default values if no value or `undefined` is passed."* · *"The default argument is evaluated at _call time_."*
