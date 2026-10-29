@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 290" width="100%" role="img">
 <title>TRow 후보 줍기 — Props 와 넘긴 값을 나란히 놓는다</title>
-<desc>Props&lt;TRow&gt; 와 넘긴 props 를 칸마다 나란히 놓는다. rows: TRow[] 자리에는 { name: string }[] 이 와서 배열 안의 맨몸 TRow 자리에서 { name: string } 을 후보로 줍는다. renderRow 의 row 는 타입을 안 적었으니 주울 게 없다. extends Record&lt;string, any&gt; 는 넘긴 값이 아니라 후보가 아니고 검사에만 쓰인다. 후보로 TRow = { name: string } 이 정해지면 그 타입이 거꾸로 renderRow 의 row 로 흘러가서 row.name 을 쓸 수 있다.</desc>
+<desc>Props&lt;TRow&gt; 와 넘긴 props 를 칸마다 나란히 놓는다. rows: TRow[] 자리에는 { name: string }[] 이 와서 배열 안의 맨몸 TRow 자리에서 { name: string } 을 후보로 줍는다. renderRow 의 row 는 타입을 안 적었으니 주울 게 없다. extends Record&lt;string, any&gt; 는 넘긴 값이 아니라 후보가 아니다. 후보에서 고른 TRow 를 제약에 맞춰 보고, 안 맞으면 TRow 를 제약으로 바꿔 끼운 채 검사해 에러를 낸다. 후보로 TRow = { name: string } 이 정해지면 그 타입이 거꾸로 renderRow 의 row 로 흘러가서 row.name 을 쓸 수 있다.</desc>
 <style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
 <defs>
 <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
@@ -32,7 +32,8 @@
 <rect x="20" y="158" width="270" height="48" rx="7" fill="#FFFFFF" stroke="#2F6DB5" stroke-width="1.5" stroke-dasharray="4 3"/>
 <text x="155" y="187" text-anchor="middle" class="m">TRow extends Record&lt;string, any&gt;</text>
 <text x="330" y="187" class="s">넘긴 값이 아니다</text>
-<text x="640" y="187" class="s">후보 아님 — 검사에만</text>
+<text x="640" y="180" class="s">후보 아님 — 고른 뒤 맞춰 본다</text>
+<text x="640" y="196" class="s">안 맞으면 제약으로 바꿔 끼운다</text>
 
 <line x1="740" y1="86" x2="740" y2="100" stroke="#555" stroke-width="1.5"/>
 <path d="M740 100 L850 100 L850 236 L844 236" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>

@@ -1,41 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" width="100%" role="img">
-<title>TRow 고르기 — 내주는 쪽과 받는 쪽</title>
-<desc>rows={dogs} 에서는 값을 내주는 쪽(공변) 후보 Dog, renderRow={(row: Animal) =&gt; …} 에서는 값을 받는 쪽(반변) 후보 Animal 이 나온다. 고르기는 받는 쪽이 기본으로 이기지만, 내주는 쪽이 더 좁으면(하위 타입이면) 더 정확한 내주는 쪽이 이긴다. Dog 는 Animal 의 하위 타입이라 TRow = Dog.</desc>
-<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.o{font-size:12px;fill:#C2621A}.r{font-size:12px;fill:#B3261E}.g{font-size:12px;fill:#2E7D32}</style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 236" width="100%" role="img">
+<title>TRow 고르기 — renderRow 의 매개변수를 다 적었는가</title>
+<desc>rows={dogs} 는 두 경우 모두 내주는 쪽(공변) 후보 Dog 를 낸다. renderRow 의 매개변수를 다 적으면(row: Animal, index: number) 함수 타입끼리 비교해 Animal 이 받는 쪽(반변) 후보가 되고, Dog 가 Animal 에 들어가니 내주는 쪽이 이겨 TRow = Dog. 하나라도 덜 적으면((row: Animal) 또는 index 에 타입 없음) 적힌 타입만 읽어 Animal 을 내주는 쪽 후보로 넣고, Dog 와 Animal 의 공통 상위 타입을 골라 TRow = Animal. 화살표 함수 리터럴일 때 얘기다 — 이미 만든 함수를 넘기면 덜 적어도 Dog, function 표현식은 다 적어도 Animal.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.mb{font-size:12px;font-weight:600;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}</style>
 <defs>
 <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
-<marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#C2621A"/></marker>
 </defs>
-<rect width="860" height="210" fill="#FFFFFF"/>
-<text x="20" y="26" class="b">넘긴 값</text>
-<text x="320" y="26" class="b">후보 두 줄</text>
-<text x="570" y="26" class="b">고르기</text>
+<rect width="860" height="236" fill="#FFFFFF"/>
+<text x="20" y="26" class="b">renderRow 에 넘긴 값</text>
+<text x="330" y="26" class="b">후보 (rows={dogs} → 내주는 쪽 Dog 는 공통)</text>
+<text x="660" y="26" class="b">고르기</text>
 
-<rect x="20" y="38" width="250" height="48" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
-<text x="145" y="58" text-anchor="middle" class="m">rows={dogs}</text>
-<text x="145" y="76" text-anchor="middle" class="s">값을 내준다</text>
-<rect x="20" y="98" width="250" height="48" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
-<text x="145" y="118" text-anchor="middle" class="m">renderRow={(row: Animal) =&gt; …}</text>
-<text x="145" y="136" text-anchor="middle" class="s">값을 받는다</text>
+<rect x="20" y="40" width="280" height="76" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="160" y="66" text-anchor="middle" class="m">(row: Animal, index: number) =&gt; …</text>
+<text x="160" y="88" text-anchor="middle" class="s">매개변수를 다 적었다</text>
+<text x="160" y="104" text-anchor="middle" class="s">→ 함수 타입끼리 비교</text>
+<rect x="330" y="40" width="300" height="76" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="480" y="66" text-anchor="middle" class="s">내주는 쪽 (공변) Dog</text>
+<text x="480" y="90" text-anchor="middle" class="s">받는 쪽 (반변) Animal</text>
+<rect x="660" y="40" width="180" height="76" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="750" y="62" text-anchor="middle" class="s">Dog 가 Animal 에 들어가면</text>
+<text x="750" y="80" text-anchor="middle" class="s">내주는 쪽이 이긴다</text>
+<text x="750" y="104" text-anchor="middle" class="mb">TRow = Dog</text>
+<line x1="300" y1="78" x2="326" y2="78" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="630" y1="78" x2="656" y2="78" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
 
-<rect x="320" y="38" width="200" height="48" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
-<text x="420" y="58" text-anchor="middle" class="s">내주는 쪽 (공변)</text>
-<text x="420" y="76" text-anchor="middle" class="b">Dog</text>
-<rect x="320" y="98" width="200" height="48" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
-<text x="420" y="118" text-anchor="middle" class="s">받는 쪽 (반변)</text>
-<text x="420" y="136" text-anchor="middle" class="b">Animal</text>
-<line x1="270" y1="62" x2="316" y2="62" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
-<line x1="270" y1="122" x2="316" y2="122" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
-
-<rect x="570" y="38" width="270" height="108" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
-<text x="705" y="62" text-anchor="middle" class="s">① 기본은 받는 쪽이 이긴다</text>
-<text x="705" y="84" text-anchor="middle" class="s">② 단, 내주는 쪽이 더 좁으면</text>
-<text x="705" y="102" text-anchor="middle" class="s">더 정확하니까 내주는 쪽이 이긴다</text>
-<text x="705" y="130" text-anchor="middle" class="s">Dog 는 Animal 의 하위 타입 → ②</text>
-<line x1="520" y1="62" x2="566" y2="80" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
-<line x1="520" y1="122" x2="566" y2="104" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
-
-<line x1="705" y1="146" x2="705" y2="160" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
-<rect x="605" y="164" width="200" height="36" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
-<text x="705" y="187" text-anchor="middle" class="mb">TRow = Dog</text>
+<rect x="20" y="132" width="280" height="76" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="160" y="158" text-anchor="middle" class="m">(row: Animal) =&gt; …</text>
+<text x="160" y="180" text-anchor="middle" class="s">덜 적었다 (index 에 타입이 없어도)</text>
+<text x="160" y="196" text-anchor="middle" class="s">→ 적힌 타입만 읽는다</text>
+<rect x="330" y="132" width="300" height="76" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="480" y="158" text-anchor="middle" class="s">내주는 쪽 (공변) Dog</text>
+<text x="480" y="182" text-anchor="middle" class="s">내주는 쪽 (공변) Animal</text>
+<rect x="660" y="132" width="180" height="76" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="750" y="154" text-anchor="middle" class="s">같은 줄 후보끼리는</text>
+<text x="750" y="172" text-anchor="middle" class="s">공통 상위 타입</text>
+<text x="750" y="196" text-anchor="middle" class="mb">TRow = Animal</text>
+<line x1="300" y1="170" x2="326" y2="170" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="630" y1="170" x2="656" y2="170" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="228" class="s">tsc 5.9.3 로 확인: Props 가 renderRow: (row: TRow, index: number) =&gt; … 일 때, 화살표 함수 리터럴 기준</text>
 </svg>
