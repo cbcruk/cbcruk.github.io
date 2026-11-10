@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>curry · pipe · compose: 작은 함수를 이어 붙인다</title>
+<desc>compose(square, double)(3) 은 오른쪽부터 double 을 먼저 해 6, 그다음 square 로 36 이다. pipe(double, square)(3) 은 왼쪽부터 같은 순서라 역시 36. curry 는 인자가 함수의 length 만큼 모일 때까지 함수를 돌려줘서 add(1)(2)(3) 이 6 이 된다. 인자를 다 받기 전의 함수가 부분 적용이고, 데이터를 마지막 인자로 두면(data last) 부분 적용한 함수를 그대로 조합에 끼울 수 있다 — 변수 없이 함수만 잇는 포인트 프리 스타일이 된다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<rect x="30" y="30" width="370" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="215" y="59" text-anchor="middle" class="b">compose — 오른쪽부터</text>
+<text x="215" y="79" text-anchor="middle" class="m">compose(square, double)(3) = 36</text>
+<rect x="460" y="30" width="370" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="645" y="59" text-anchor="middle" class="b">pipe — 왼쪽부터</text>
+<text x="645" y="79" text-anchor="middle" class="m">pipe(double, square)(3) = 36</text>
+<rect x="30" y="130" width="370" height="90" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="215" y="159" text-anchor="middle" class="b">curry — length 만큼 모일 때까지</text>
+<text x="215" y="179" text-anchor="middle" class="m">add(1)(2)(3) = 6</text>
+<text x="215" y="199" text-anchor="middle" class="s">덜 받은 함수 = 부분 적용</text>
+<rect x="460" y="130" width="370" height="90" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="645" y="149" text-anchor="middle" class="b">data last</text>
+<text x="645" y="169" text-anchor="middle" class="m">halve = divide(2)</text>
+<text x="645" y="189" text-anchor="middle" class="m">pipe(halve, square)</text>
+<text x="645" y="209" text-anchor="middle" class="s">변수 없이 잇는다 — 포인트 프리</text>
+</svg>

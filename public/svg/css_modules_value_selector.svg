@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>CSS Modules @value 는 셀렉터 안에서도 치환된다</title>
+<desc>b.module.css 의 클래스 b 를 @value b from "./b.module.css" 로 가져오면, 이 파일의 :global(.b) 안 b 가 그 모듈의 해시된 클래스(._b_15lvz_1)로 바뀐다 — @value 는 선언 값뿐 아니라 규칙의 셀렉터에서도 치환되기 때문이다. @value 줄이 없으면 문자 그대로 .b 라 아무것도 잡지 못한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="280" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="170" y="69" text-anchor="middle" class="b">b.module.css</text>
+<text x="170" y="89" text-anchor="middle" class="m">.b → ._b_15lvz_1</text>
+<path d="M310 75 H376" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="343" y="32" text-anchor="middle" class="s">@value b from</text>
+<rect x="380" y="40" width="450" height="70" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="605" y="69" text-anchor="middle" class="m">.root :global(.b)  →  .root ._b_15lvz_1</text>
+<text x="605" y="89" text-anchor="middle" class="s">셀렉터도 치환된다</text>
+<rect x="380" y="140" width="450" height="56" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="605" y="162" text-anchor="middle" class="m">@value 없으면 .root .b</text>
+<text x="605" y="182" text-anchor="middle" class="r">아무것도 안 잡힌다</text>
+</svg>

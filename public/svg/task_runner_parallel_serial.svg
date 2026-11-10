@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>콜백 태스크 러너: 병렬은 개수로, 직렬은 다음을 콜백에서</title>
+<desc>태스크는 콜백으로 결과를 돌려주는 함수다. 병렬 러너는 모두 한꺼번에 시작하고 결과가 올 때마다 쌓아 개수가 태스크 수와 같아지면 끝 콜백을 부른다 — 결과는 끝난 순서다. 직렬 러너는 하나를 시작하고 그 콜백 안에서 다음을 시작해, 인덱스가 끝에 닿으면 끝 콜백을 부른다 — 결과는 넣은 순서다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<text x="30" y="45" text-anchor="start" class="b">병렬</text>
+<rect x="100" y="60" width="300" height="16" fill="#2F6DB5"/>
+<rect x="100" y="84" width="180" height="16" fill="#2F6DB5"/>
+<rect x="100" y="108" width="240" height="16" fill="#2F6DB5"/>
+<line x1="400" y1="55" x2="400" y2="130" stroke="#2E7D32" stroke-dasharray="4 3"/>
+<text x="410" y="120" text-anchor="start" class="g">results.length == 3 → 끝</text>
+<text x="30" y="175" text-anchor="start" class="b">직렬</text>
+<rect x="100" y="165" width="120" height="16" fill="#8A8A8A"/>
+<rect x="220" y="189" width="100" height="16" fill="#8A8A8A"/>
+<rect x="320" y="213" width="160" height="16" fill="#8A8A8A"/>
+<line x1="480" y1="160" x2="480" y2="235" stroke="#2E7D32" stroke-dasharray="4 3"/>
+<text x="490" y="225" text-anchor="start" class="g">index == 3 → 끝</text>
+<text x="560" y="70" text-anchor="start" class="s">결과 순서 = 끝난 순서</text>
+<text x="600" y="195" text-anchor="start" class="s">결과 순서 = 넣은 순서</text>
+</svg>

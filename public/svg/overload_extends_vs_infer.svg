@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" width="100%" role="img">
+<title>오버로드: T extends R 은 "R 처럼 불러도 받아내나"</title>
+<desc>Year 의 year 는 인자 없이 부르면 number, 문자열을 주면 string 인 오버로드다. T extends R 은 R 처럼 불렀을 때 T 의 시그니처 중 하나라도 받아내는지를 묻는다 — 받아내려면 R 보다 인자를 더 요구하지 않고, 받는 인자 타입이 맞고, 돌려주는 값이 R 의 반환 자리에 들어가야 한다. 그래서 () =&gt; number 와 (u: string) =&gt; string 은 둘 다 통과하고, (u: number) =&gt; number 도 year() 가 u 를 버리고 받아내 통과한다. 반면 ReturnType 과 infer 는 묻지 않고 마지막 시그니처에서 꺼내서, ReturnType 은 string 이고 () =&gt; infer R 은 never 다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="260" fill="#FFFFFF"/>
+<rect x="30" y="30" width="280" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="170" y="54" text-anchor="middle" class="b">year 오버로드</text>
+<text x="170" y="74" text-anchor="middle" class="m">(): number</text>
+<text x="170" y="94" text-anchor="middle" class="m">(u: string): string</text>
+<rect x="380" y="20" width="260" height="36" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="510" y="42" text-anchor="middle" class="m">() =&gt; number</text>
+<text x="660" y="43" text-anchor="start" class="s">통과</text>
+<path d="M310 70 L376 38" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="380" y="62" width="260" height="36" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="510" y="84" text-anchor="middle" class="m">(u: string) =&gt; string</text>
+<text x="660" y="85" text-anchor="start" class="s">통과</text>
+<path d="M310 70 L376 80" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="380" y="104" width="260" height="36" rx="7" fill="#FFF4DE" stroke="#B7791F" stroke-width="1.5"/>
+<text x="510" y="126" text-anchor="middle" class="m">(u: number) =&gt; number</text>
+<text x="660" y="127" text-anchor="start" class="s">통과 — u 를 버린다</text>
+<path d="M310 70 L376 122" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="30" y="160" width="800" height="70" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="430" y="189" text-anchor="middle" class="b">infer · ReturnType 은 묻지 않고 꺼낸다 — 마지막 시그니처만</text>
+<text x="430" y="209" text-anchor="middle" class="m">ReturnType&lt;year&gt; = string   ·   year extends () =&gt; infer R ? R : never = never</text>
+</svg>

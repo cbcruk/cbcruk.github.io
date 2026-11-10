@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>select 의 placeholder: 값이 빈 첫 option</title>
+<desc>select 에는 placeholder 속성이 없다. 값이 빈 문자열인 첫 option 을 두고 disabled 로 다시 고르지 못하게, hidden 으로 목록에서 숨긴다. required 이면 스펙상 그 option 이 placeholder label option 이 되어 고르지 않고 제출하면 막힌다. React 에서는 option 의 selected 대신 select 의 defaultValue="" 로 처음에 그것을 고른다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="330" height="110" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="195" y="79" text-anchor="middle" class="m">&lt;select defaultValue="" required&gt;</text>
+<text x="195" y="99" text-anchor="middle" class="m">&lt;option value="" disabled hidden&gt;</text>
+<text x="195" y="119" text-anchor="middle" class="s">placeholder label option</text>
+<path d="M360 70 H496" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+<text x="428" y="58" text-anchor="middle" class="s">안 고르고 제출</text>
+<rect x="500" y="40" width="330" height="45" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="665" y="66" text-anchor="middle" class="s">막힌다 — required</text>
+<path d="M360 120 H496" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="428" y="138" text-anchor="middle" class="s">목록을 열면</text>
+<rect x="500" y="100" width="330" height="45" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="665" y="126" text-anchor="middle" class="s">안 보인다 (hidden) · 못 고른다 (disabled)</text>
+</svg>

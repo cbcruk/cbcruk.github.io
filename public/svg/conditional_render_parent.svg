@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240" width="100%" role="img">
+<title>조건부 렌더링: 컴포넌트가 null 을 돌려주기보다 부모가 고른다</title>
+<desc>같은 조건부 렌더링을 두 자리에서 할 수 있다. A 는 Item 에 isPacked 를 넘기고 Item 이 안에서 null 을 돌려준다 — 부모 JSX 만 보면 Item 이 그려질 것 같아 디버깅이 어렵다. B 는 부모가 isPacked ? &lt;Item/&gt; : null 로 넣을지 말지를 정한다. react.dev 도 B 가 더 흔하다고 한다. If·Then·Else 컴포넌트는 children 을 type 으로 골라 B 를 선언적으로 쓰는 시도다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="240" fill="#FFFFFF"/>
+<rect x="30" y="30" width="370" height="90" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="215" y="59" text-anchor="middle" class="b">A — Item 안에서 null</text>
+<text x="215" y="79" text-anchor="middle" class="m">&lt;Item isPacked name=… /&gt;</text>
+<text x="215" y="99" text-anchor="middle" class="r">부모만 보면 그려질 것 같다</text>
+<rect x="460" y="30" width="370" height="90" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="645" y="59" text-anchor="middle" class="b">B — 부모가 고른다</text>
+<text x="645" y="79" text-anchor="middle" class="m">{isPacked ? &lt;Item/&gt; : null}</text>
+<text x="645" y="99" text-anchor="middle" class="s">react.dev: 이쪽이 흔하다</text>
+<rect x="30" y="150" width="800" height="60" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="174" text-anchor="middle" class="b">If · Then · Else</text>
+<text x="430" y="194" text-anchor="middle" class="m">&lt;If condition={c}&gt;&lt;Then&gt;…&lt;/Then&gt;&lt;Else&gt;…&lt;/Else&gt;&lt;/If&gt;  — children 을 type 으로 고른다</text>
+</svg>

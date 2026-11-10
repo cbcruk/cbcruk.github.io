@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240" width="100%" role="img">
+<title>Jest setupFiles 는 프레임워크 전, setupFilesAfterEnv 는 후</title>
+<desc>테스트 파일 하나마다 순서는 setupFiles → 테스트 프레임워크 설치 → setupFilesAfterEnv → 테스트 코드다. setupFiles 시점엔 jest 객체는 있지만 expect·beforeEach 는 아직 없어 환경 변수·폴리필에 쓴다. setupFilesAfterEnv 는 그 뒤라 jest-dom matcher, jest.setTimeout, 전역 beforeEach 를 둔다. 둘 다 테스트 코드보다 먼저 돌아서 어느 쪽에서 넣은 process.env 든 테스트가 import 하는 모듈에 보인다 — 나누는 건 용도 때문이다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="240" fill="#FFFFFF"/>
+<rect x="30" y="50" width="170" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="115" y="79" text-anchor="middle" class="b">setupFiles</text>
+<text x="115" y="99" text-anchor="middle" class="s">env · 폴리필</text>
+<path d="M200 85 H236" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="240" y="50" width="170" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="325" y="79" text-anchor="middle" class="b">프레임워크 설치</text>
+<text x="325" y="99" text-anchor="middle" class="s">expect · beforeEach 생김</text>
+<path d="M410 85 H446" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="450" y="50" width="170" height="70" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="535" y="79" text-anchor="middle" class="b">setupFilesAfterEnv</text>
+<text x="535" y="99" text-anchor="middle" class="s">jest-dom · 전역 beforeEach</text>
+<path d="M620 85 H656" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="660" y="50" width="170" height="70" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="745" y="79" text-anchor="middle" class="b">테스트 코드</text>
+<text x="745" y="99" text-anchor="middle" class="s">둘 다 보인다</text>
+<text x="30" y="170" text-anchor="start" class="s">setupFiles 시점: jest 객체는 있다, expect·beforeEach 는 없다</text>
+<text x="30" y="195" text-anchor="start" class="s">process.env 는 setupFiles 에 — 용도 구분일 뿐, 어느 쪽이든 테스트 코드보다 먼저다</text>
+</svg>

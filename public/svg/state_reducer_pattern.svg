@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>State Reducer 패턴: reducer 를 밖에서 받는다</title>
+<desc>커스텀 훅이 reducer 를 인자로 받으면 상태 갱신 규칙을 호출하는 쪽으로 넘길 수 있다. 넘긴 reducer 가 돌려준 값이 곧 다음 state 이므로, 호출자는 기본 reducer 를 불러 그 결과를 돌려주면 기본 동작을 유지하면서 그 앞뒤에 끼어들 수 있다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="100" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="74" text-anchor="middle" class="b">호출자의 reducer</text>
+<text x="155" y="94" text-anchor="middle" class="m">log(state, action)</text>
+<text x="155" y="114" text-anchor="middle" class="m">return toggleReducer(…)</text>
+<path d="M280 90 H326" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="303" y="30" text-anchor="middle" class="s">{ reducer }</text>
+<rect x="330" y="40" width="250" height="100" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="455" y="84" text-anchor="middle" class="m">useToggle</text>
+<text x="455" y="104" text-anchor="middle" class="m">useReducer(reducer, {})</text>
+<path d="M580 90 H626" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="630" y="40" width="200" height="100" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="730" y="84" text-anchor="middle" class="b">다음 state</text>
+<text x="730" y="104" text-anchor="middle" class="s">= 넘긴 reducer 의 반환값</text>
+</svg>

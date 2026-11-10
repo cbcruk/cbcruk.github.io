@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>Prettify: 교차 타입을 한 객체로 펼쳐 보여준다</title>
+<desc>{ a: 1 } &amp; { b: 2 } 같은 교차 타입이나 ComponentProps 는 에디터 툴팁에 별칭 이름이나 &amp; 로 이어진 조각으로 보인다. 매핑 타입 { [K in keyof T]: T[K] } 가 속성을 한 객체로 다시 모으고, 거기에 &amp; {} 를 붙여야 별칭 이름 대신 펼친 모양 { a: 1; b: 2 } 이 뜬다. 왜 &amp; {} 가 필요한지는 공식 설명이 없는 컴파일러의 특이점이다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="50" width="240" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="150" y="79" text-anchor="middle" class="m">{ a: 1 } &amp; { b: 2 }</text>
+<text x="150" y="99" text-anchor="middle" class="s">조각으로 보인다</text>
+<path d="M270 85 H336" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="303" y="42" text-anchor="middle" class="s">[K in keyof T]</text>
+<rect x="340" y="50" width="220" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="450" y="79" text-anchor="middle" class="m">Prettify&lt;…&gt;</text>
+<text x="450" y="99" text-anchor="middle" class="s">&amp; {} 없으면 별칭 이름</text>
+<path d="M560 85 H626" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="593" y="42" text-anchor="middle" class="s">&amp; {}</text>
+<rect x="630" y="50" width="200" height="70" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="730" y="89" text-anchor="middle" class="m">{ a: 1; b: 2 }</text>
+<text x="430" y="170" text-anchor="middle" class="s">왜 &amp; {} 인지는 공식 설명이 없다 — 컴파일러의 특이점 (&amp; unknown 도 같다)</text>
+</svg>

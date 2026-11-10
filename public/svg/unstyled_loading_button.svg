@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>스타일 없는 컴포넌트: 동작만 뽑고 스타일은 호출부에</title>
+<desc>공유할 게 로딩 UI 라는 동작뿐이면 그것만 스타일 없는 LoadingButton 으로 뽑는다. disabled 이면 Spinner 를 겹쳐 띄우고 Label 은 invisible 로 자리만 지킨다. 스타일은 className 으로 호출부가 정하고, 다르게 배치하고 싶으면 children 을 함수로 넘겨 Spinner·Label 을 직접 조립한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="110" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="155" y="79" text-anchor="middle" class="b">LoadingButton</text>
+<text x="155" y="99" text-anchor="middle" class="s">동작만</text>
+<text x="155" y="119" text-anchor="middle" class="m">disabled → Spinner</text>
+<path d="M280 95 H326" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="330" y="40" width="230" height="110" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="445" y="69" text-anchor="middle" class="b">기본 children</text>
+<text x="445" y="89" text-anchor="middle" class="m">Spinner</text>
+<text x="445" y="109" text-anchor="middle" class="m">Label invisible</text>
+<text x="445" y="129" text-anchor="middle" class="s">폭이 안 흔들린다</text>
+<rect x="600" y="40" width="230" height="110" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="715" y="69" text-anchor="middle" class="b">함수 children</text>
+<text x="715" y="89" text-anchor="middle" class="m">LoadingButton.Spinner</text>
+<text x="715" y="109" text-anchor="middle" class="m">LoadingButton.Label</text>
+<text x="715" y="129" text-anchor="middle" class="s">호출부가 조립</text>
+<text x="30" y="190" text-anchor="start" class="s">스타일은 className 으로 호출부가 — 스타일까지 묶으면 섣부른 추상화</text>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 190" width="100%" role="img">
+<title>저장소 둘 합치기: 공통 조상이 없어도 merge</title>
+<desc>다른 저장소를 remote 로 추가하고 fetch 한 뒤 그 브랜치를 merge 한다. 두 히스토리는 공통 조상이 없어서 git merge 가 기본으로 거부하므로, --allow-unrelated-histories 로 그 안전장치를 끈다. 양쪽 커밋 히스토리가 모두 남는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="190" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="90" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="130" y="79" text-anchor="middle" class="b">repo A</text>
+<text x="130" y="99" text-anchor="middle" class="s">main</text>
+<rect x="30" y="140" width="200" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="164" text-anchor="middle" class="m">remote add · fetch B</text>
+<path d="M230 85 H436" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="333" y="58" text-anchor="middle" class="s">--allow-unrelated-histories</text>
+<rect x="440" y="40" width="390" height="90" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="635" y="69" text-anchor="middle" class="b">merged</text>
+<text x="635" y="89" text-anchor="middle" class="s">양쪽 히스토리가 다 남는다</text>
+<text x="635" y="109" text-anchor="middle" class="s">공통 조상 없음 — 기본은 거부</text>
+</svg>

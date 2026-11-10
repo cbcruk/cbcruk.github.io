@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>취소 가능한 fetch: signal 을 넘기고 abort 하면 AbortError</title>
+<desc>createCancelableFetch 는 AbortController 하나를 만들어 run 과 cancel 을 돌려준다. run 은 그 signal 을 넘겨 fetch 하고, 응답이 ok 가 아니면 HTTP 에러를 던지고, 아니면 JSON 을 돌려준다. cancel 은 abort() 를 부르고, 그러면 진행 중인 fetch 가 AbortError 로 reject 된다 — run 을 받은 쪽의 catch 로 간다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="240" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="150" y="69" text-anchor="middle" class="b">createCancelableFetch</text>
+<text x="150" y="89" text-anchor="middle" class="m">AbortController 하나</text>
+<path d="M270 60 H336" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<path d="M270 92 H336" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="340" y="30" width="250" height="46" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="465" y="57" text-anchor="middle" class="m">run → fetch(url, { signal })</text>
+<rect x="340" y="82" width="250" height="46" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="465" y="109" text-anchor="middle" class="m">cancel → abort()</text>
+<path d="M590 105 H646" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+<rect x="650" y="82" width="180" height="46" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="740" y="109" text-anchor="middle" class="m">AbortError</text>
+<path d="M590 52 H646" stroke="#2E7D32" stroke-width="1.4" fill="none" marker-end="url(#ag)"/>
+<rect x="650" y="30" width="180" height="46" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="740" y="57" text-anchor="middle" class="m">ok ? json : throw</text>
+<text x="340" y="170" text-anchor="start" class="s">cancel 하면 run 의 Promise 가 AbortError 로 reject — 받은 쪽 catch 로</text>
+</svg>

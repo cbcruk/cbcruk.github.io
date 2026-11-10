@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 180" width="100%" role="img">
+<title>file: 의존성: 로컬 디렉터리를 패키지로</title>
+<desc>npm install --save ../foo/bar 처럼 로컬 디렉터리를 설치하면 package.json 에 상대 경로로 정규화되어 "bar": "file:../foo/bar" 로 저장된다. 레지스트리를 거치지 않고 파일 시스템의 패키지를 의존성으로 건다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="180" fill="#FFFFFF"/>
+<rect x="30" y="40" width="330" height="90" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="195" y="79" text-anchor="middle" class="m">npm install --save</text>
+<text x="195" y="99" text-anchor="middle" class="m">  ../foo/bar</text>
+<path d="M360 85 H426" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="393" y="30" text-anchor="middle" class="s">상대 경로로</text>
+<rect x="430" y="40" width="400" height="90" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="630" y="79" text-anchor="middle" class="m">"bar": "file:../foo/bar"</text>
+<text x="630" y="99" text-anchor="middle" class="s">레지스트리를 거치지 않는다</text>
+</svg>

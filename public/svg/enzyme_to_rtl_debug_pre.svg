@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>Enzyme 에서 RTL 로: state·props 를 화면에 찍어 읽는다</title>
+<desc>Enzyme 은 컴포넌트 인스턴스의 state·props 를 직접 읽었지만 React Testing Library 는 화면만 본다. 그래서 테스트 환경에서만 props 와 state 를 JSON 으로 pre 에 렌더하고 getByTestId 로 그 텍스트를 읽어 비교했다. 구현 세부를 화면에 내보내는 우회라 Enzyme 제거라는 목표만 달성한 임시 방편이다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="230" height="90" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="145" y="69" text-anchor="middle" class="b">Enzyme</text>
+<text x="145" y="89" text-anchor="middle" class="m">wrapper.state()</text>
+<text x="145" y="109" text-anchor="middle" class="s">인스턴스를 직접</text>
+<path d="M260 85 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="310" y="40" width="300" height="90" rx="7" fill="#FFF4DE" stroke="#B7791F" stroke-width="1.5"/>
+<text x="460" y="79" text-anchor="middle" class="m">NODE_ENV === "test"</text>
+<text x="460" y="99" text-anchor="middle" class="m">&lt;pre data-testid&gt;{JSON}&lt;/pre&gt;</text>
+<path d="M610 85 H656" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="633" y="30" text-anchor="middle" class="s">getByTestId</text>
+<rect x="660" y="40" width="170" height="90" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="745" y="79" text-anchor="middle" class="m">JSON.parse</text>
+<text x="745" y="99" text-anchor="middle" class="s">state·props</text>
+<text x="30" y="170" text-anchor="start" class="s">화면만 보는 RTL 에 구현 세부를 내보내는 우회 — 임시 방편</text>
+</svg>

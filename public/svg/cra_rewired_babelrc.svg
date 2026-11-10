@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>CRA 에 바벨 플러그인: react-app-rewired 로 .babelrc 를 쓰게 한다</title>
+<desc>CRA 는 바벨 설정을 숨긴다. react-app-rewired 로 start·build·test 스크립트를 바꾸고, config-overrides.js 에서 customize-cra 의 useBabelRc() 를 override 에 넣으면 CRA 의 바벨 설정 대신 .babelrc 를 써서 decorators·class-properties 같은 플러그인이 들어간다. 지금은 CRACO 로 구성하는 편이 맞다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="230" height="100" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145" y="84" text-anchor="middle" class="m">react-app-rewired</text>
+<text x="145" y="104" text-anchor="middle" class="m">start · build · test</text>
+<path d="M260 90 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="283" y="30" text-anchor="middle" class="s">config-overrides.js</text>
+<rect x="310" y="40" width="250" height="100" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="435" y="84" text-anchor="middle" class="m">override(useBabelRc())</text>
+<text x="435" y="104" text-anchor="middle" class="s">CRA 바벨 설정 대신</text>
+<path d="M560 90 H606" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="610" y="40" width="220" height="100" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="720" y="74" text-anchor="middle" class="m">.babelrc</text>
+<text x="720" y="94" text-anchor="middle" class="s">decorators (legacy)</text>
+<text x="720" y="114" text-anchor="middle" class="s">class-properties</text>
+<text x="30" y="175" text-anchor="start" class="r">지금은 CRACO 로 구성하는 게 맞다</text>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>가짜 타이머로 오늘을 고정한다</title>
+<desc>beforeEach 에서 vi.useFakeTimers 로 Date 를 가짜로 바꾸고 vi.setSystemTime 으로 오늘을 2024-07-20 으로 고정한다. 그러면 isSameDate 는 같은 날짜에 true, 하루 전·후에 false 를 늘 같게 낸다. afterEach 에서 useRealTimers 로 되돌린다. vitest 와 jest 둘 다 내부적으로 @sinonjs/fake-timers 를 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="90" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="155" y="69" text-anchor="middle" class="b">beforeEach</text>
+<text x="155" y="89" text-anchor="middle" class="m">useFakeTimers()</text>
+<text x="155" y="109" text-anchor="middle" class="m">setSystemTime('2024-07-20')</text>
+<path d="M280 85 H326" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="330" y="40" width="260" height="90" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="460" y="69" text-anchor="middle" class="b">isSameDate</text>
+<text x="460" y="89" text-anchor="middle" class="m">'2024-07-20' → true</text>
+<text x="460" y="109" text-anchor="middle" class="m">'07-19' · '07-21' → false</text>
+<path d="M590 85 H636" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="640" y="40" width="190" height="90" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="735" y="79" text-anchor="middle" class="b">afterEach</text>
+<text x="735" y="99" text-anchor="middle" class="m">useRealTimers()</text>
+<text x="30" y="170" text-anchor="start" class="s">내부는 @sinonjs/fake-timers</text>
+</svg>

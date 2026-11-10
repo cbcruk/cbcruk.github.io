@@ -1,36 +1,31 @@
 ---
 type: note
+title: 'loadingButton :: Bool -> Children -> Html'
 kind: Explainer
 tags: ['react']
 status: release
 ctime: 2024-08-13
-mtime: 2026-10-29
+mtime: 2026-11-09
 generated: { by: human:cbcruk, at: 2024-08-24T18:51:43Z }
 verified: { by: claude/opus-5, at: 2026-08-19T00:00:00Z }
 sources:
   - id: buildui-posts-avoiding-premature
     resource: https://buildui.com/posts/avoiding-premature-abstraction-with-unstyled-react-components
     title: "buildui.com"
+  - id: buildui-unstyled-311
+    resource: https://buildui.com/posts/avoiding-premature-abstraction-with-unstyled-react-components
+    title: 'Avoiding premature abstraction with Unstyled React Components'
 ---
 
-import {
-  transformerNotationFocus,
-  transformerMetaHighlight,
-} from '@shikijs/transformers'
-import { Code } from 'astro:components'
-import { code } from './311.code'
+![공유할 게 로딩 UI 라는 동작뿐이면 그것만 스타일 없는 LoadingButton 으로 뽑는다. disabled 이면 Spinner 를 겹쳐 띄우고 Label 은 invisible 로 자리만 지킨다. 스타일은 className 으로 호출부가 정하고, 다르게 배치하고 싶으면 children 을 함수로 넘겨 Spinner·Label 을 직접 조립한다.](/svg/unstyled_loading_button.svg)
 
-> Avoiding premature abstraction with Unstyled React Components ([buildui.com](https://buildui.com/posts/avoiding-premature-abstraction-with-unstyled-react-components))
+```haskell
+-- 공유할 게 동작(로딩 UI)뿐이면 그것만 뽑는다 — 스타일은 호출부가
+data Children = Render (() -> Html) | Node Html
 
-공유할 것이 동작(로딩 UI)뿐이면 그것만 스타일 없는 컴포넌트로 뽑고, 스타일은 호출부에 맡긴다 — 스타일까지 묶은 섣부른 추상화를 피한다[^311-1].
-
-<Code
-  code={code}
-  lang="tsx"
-  transformers={[transformerMetaHighlight()]}
-  meta="{}"
-/>
-
----
-
-[^311-1]: [Avoiding premature abstraction with Unstyled React Components](https://buildui.com/posts/avoiding-premature-abstraction-with-unstyled-react-components): *"This is really what we're trying to share, and it's a perfect use case for extracting an Unstyled Component."* … *"They're unstyled, so the caller is responsible for all the styling code."*
+loadingButton :: Bool -> Children -> Html
+loadingButton _        (Render f) = button (f ())                      -- 호출부가 Spinner·Label 을 조립
+loadingButton disabled (Node c)   = button ([spinner | disabled]        -- absolute inset-0 로 겹친다
+                                        ++ [label (invisibleIf disabled) c])  -- 자리를 지켜 폭이 안 흔들린다
+-- LoadingButton.Spinner = spinner · LoadingButton.Label = label · className 은 그대로 넘긴다
+```

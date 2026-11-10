@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 180" width="100%" role="img">
+<title>obj[['a']] 가 되는 이유: 키는 문자열로 바뀐다</title>
+<desc>속성 키는 문자열이나 Symbol 뿐이라 그 밖의 값은 문자열로 바뀐다. 배열 ['a'] 는 문자열로 'a' 가 되므로 obj[['a']] 는 obj.a 다. 원소가 둘이면 'a,b' 가 되어 다른 키가 된다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="180" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="84" text-anchor="middle" class="m">obj[['a']]</text>
+<path d="M230 80 H276" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="253" y="30" text-anchor="middle" class="s">String(…)</text>
+<rect x="280" y="40" width="200" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="380" y="84" text-anchor="middle" class="m">'a'</text>
+<path d="M480 80 H526" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="530" y="40" width="300" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="680" y="74" text-anchor="middle" class="m">obj.a == 1</text>
+<text x="680" y="94" text-anchor="middle" class="m">['a','b'] → 'a,b'</text>
+</svg>

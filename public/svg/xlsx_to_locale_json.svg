@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>엑셀 시트 → 언어별 JSON</title>
+<desc>xlsx 로 시트를 header: 1 로 읽으면 행이 객체가 아니라 배열로 나와 열을 인덱스로 자를 수 있다. 머리글 행을 빼고 2~4번째 열(키·영어·한국어)만 잘라, 빈 행은 [] 로 남으므로 걸러 내고, 키를 소문자·밑줄로 바꿔 en.json 과 ko.json 두 파일로 나눠 쓴다. CSV 와는 다르다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="100" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="74" text-anchor="middle" class="m">sheet_to_json</text>
+<text x="130" y="94" text-anchor="middle" class="m">{ header: 1 }</text>
+<text x="130" y="114" text-anchor="middle" class="s">행 = 배열</text>
+<path d="M230 90 H276" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="253" y="30" text-anchor="middle" class="s">slice · filter</text>
+<rect x="280" y="40" width="230" height="100" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="395" y="84" text-anchor="middle" class="m">[key, en, ko]</text>
+<text x="395" y="104" text-anchor="middle" class="s">빈 행 [] 은 걸러 낸다</text>
+<path d="M510 70 H596" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<path d="M510 110 H596" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="600" y="30" width="230" height="50" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="715" y="59" text-anchor="middle" class="m">en.json</text>
+<rect x="600" y="95" width="230" height="50" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="715" y="124" text-anchor="middle" class="m">ko.json</text>
+</svg>

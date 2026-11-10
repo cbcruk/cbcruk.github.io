@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 180" width="100%" role="img">
+<title>brew bundle: Brewfile 로 떠 두고 그대로 설치</title>
+<desc>지금 설치된 formula·cask·tap 을 brew bundle dump 로 Brewfile 에 써 두고, 새 기기에서는 그 파일이 있는 곳에서 brew bundle 로 한 번에 설치한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="180" fill="#FFFFFF"/>
+<rect x="30" y="40" width="230" height="90" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145" y="79" text-anchor="middle" class="b">지금 기기</text>
+<text x="145" y="99" text-anchor="middle" class="s">formula · cask · tap</text>
+<path d="M260 85 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="283" y="30" text-anchor="middle" class="s">bundle dump</text>
+<rect x="310" y="40" width="230" height="90" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="425" y="89" text-anchor="middle" class="m">Brewfile</text>
+<path d="M540 85 H586" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="563" y="30" text-anchor="middle" class="s">bundle</text>
+<rect x="590" y="40" width="240" height="90" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="710" y="79" text-anchor="middle" class="b">새 기기</text>
+<text x="710" y="99" text-anchor="middle" class="s">한 번에 설치</text>
+</svg>

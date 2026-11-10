@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240" width="100%" role="img">
+<title>delete: configurable 한 자기 속성만 지운다</title>
+<desc>delete obj.age 는 속성을 지우고 true 다. 없는 속성을 지워도 true. configurable: false 로 정의한 속성은 못 지워서 non-strict 에선 false, strict(모듈·클래스)에선 TypeError 다. 변수는 지울 수 없어 non-strict 에선 false, strict 에선 SyntaxError. 배열 요소를 지우면 길이는 그대로고 그 자리가 빈 칸(hole)이 된다 — 배열은 splice 를 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="240" fill="#FFFFFF"/>
+<rect x="30" y="20" width="300" height="36" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="180" y="42" text-anchor="middle" class="m">delete obj.age</text>
+<text x="350" y="43" text-anchor="start" class="s">true</text>
+<rect x="30" y="62" width="300" height="36" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="180" y="84" text-anchor="middle" class="m">delete obj.city (없음)</text>
+<text x="350" y="85" text-anchor="start" class="s">true</text>
+<rect x="30" y="104" width="300" height="36" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="180" y="126" text-anchor="middle" class="m">configurable: false</text>
+<text x="350" y="127" text-anchor="start" class="s">false · strict 면 TypeError</text>
+<rect x="30" y="146" width="300" height="36" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="180" y="168" text-anchor="middle" class="m">delete 변수</text>
+<text x="350" y="169" text-anchor="start" class="s">false · strict 면 SyntaxError</text>
+<rect x="30" y="188" width="300" height="36" rx="7" fill="#FFF4DE" stroke="#B7791F" stroke-width="1.5"/>
+<text x="180" y="210" text-anchor="middle" class="m">delete arr[1]</text>
+<text x="350" y="211" text-anchor="start" class="s">[1, &lt;empty&gt;, 3] — splice 를 쓴다</text>
+</svg>

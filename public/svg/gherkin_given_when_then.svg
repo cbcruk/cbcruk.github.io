@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>Gherkin: 스토리 → 시나리오 → Given·When·Then</title>
+<desc>스토리는 as a(누가) · I want(무엇을) · so that(왜) 로 쓴다. 기능(Feature) 하나에 시나리오 여럿, 시나리오 하나에 단계 여럿이다. Given 은 초기 상태로 보통 과거에 일어난 일, When 은 이벤트나 동작, Then 은 기대 결과다. 단계를 이을 때 And·But 을 쓴다. 예: 검은 스웨터 3개가 있을 때(Given) 환불로 하나가 돌아오면(When) 4개가 돼야 한다(Then).</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="30" width="800" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="430" y="59" text-anchor="middle" class="m">as a 가게 주인 · I want 반품을 재고에 · so that 인벤토리를 추적</text>
+<rect x="30" y="110" width="240" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="150" y="144" text-anchor="middle" class="b">Given</text>
+<text x="150" y="164" text-anchor="middle" class="s">검은 스웨터 3개</text>
+<rect x="310" y="110" width="240" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="144" text-anchor="middle" class="b">When</text>
+<text x="430" y="164" text-anchor="middle" class="s">환불로 1개 반환</text>
+<path d="M270 150 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="590" y="110" width="240" height="80" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="710" y="144" text-anchor="middle" class="b">Then</text>
+<text x="710" y="164" text-anchor="middle" class="s">재고 4개</text>
+<path d="M550 150 H586" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+</svg>

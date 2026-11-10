@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>JSON 태그 빈도: json_each 로 펼치고 묶어서 센다</title>
+<desc>tags 가 JSON 배열인 행들을 json_each 로 원소 하나당 한 행으로 펼치고, 태그로 묶어 개수를 센 뒤 빈도 내림차순·이름 오름차순으로 정렬한다. 다시 JSON 배열로 모을 때 바깥 ORDER BY 는 집계 안의 순서를 보장하지 않으므로, json_group_array(tag ORDER BY …) 처럼 집계 안에 ORDER BY 를 넣는다(SQLite 3.44+).</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="220" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="140" y="64" text-anchor="middle" class="b">행</text>
+<text x="140" y="84" text-anchor="middle" class="m">["a","b"]</text>
+<text x="140" y="104" text-anchor="middle" class="m">["a","c"]</text>
+<path d="M250 80 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="278" y="32" text-anchor="middle" class="s">json_each</text>
+<rect x="310" y="40" width="170" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="395" y="74" text-anchor="middle" class="m">a · b · a · c</text>
+<text x="395" y="94" text-anchor="middle" class="s">원소당 한 행</text>
+<path d="M480 80 H536" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="508" y="32" text-anchor="middle" class="s">GROUP BY</text>
+<rect x="540" y="40" width="290" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="685" y="84" text-anchor="middle" class="m">a 2 · b 1 · c 1</text>
+<rect x="310" y="150" width="520" height="50" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="570" y="169" text-anchor="middle" class="m">json_group_array(tag ORDER BY frequency DESC, tag)</text>
+<text x="570" y="189" text-anchor="middle" class="s">순서는 집계 안 ORDER BY 로만 — 3.44+</text>
+</svg>

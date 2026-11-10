@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>chrono 파서와 inclusive-dates: 자연어를 날짜로</title>
+<desc>chrono 는 "Last Friday", "5 days ago", "17 August 2013 - 19 August 2013", ISO 8601 같은 글에서 날짜를 뽑는다. parse 는 기준 날짜로 컨텍스트를 만들고, 모든 파서를 돌려 결과를 모으고, 글 안의 위치로 정렬한 뒤, 리파이너로 겹치거나 이어지는 결과를 다듬는다. inclusive-dates 는 이 chrono 를 써서 자연어 입력을 받는 접근성 높은 데이트피커다 — locale·minDate·maxDate·referenceDate 를 넘긴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<rect x="30" y="40" width="170" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="115" y="74" text-anchor="middle" class="m">"next friday"</text>
+<text x="115" y="94" text-anchor="middle" class="s">텍스트</text>
+<rect x="230" y="40" width="140" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="300" y="74" text-anchor="middle" class="m">parsers</text>
+<text x="300" y="94" text-anchor="middle" class="s">전부 실행</text>
+<path d="M200 80 H226" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="390" y="40" width="140" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="460" y="74" text-anchor="middle" class="m">sort</text>
+<text x="460" y="94" text-anchor="middle" class="s">위치 순</text>
+<path d="M360 80 H386" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="550" y="40" width="140" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="620" y="74" text-anchor="middle" class="m">refiners</text>
+<text x="620" y="94" text-anchor="middle" class="s">겹침 다듬기</text>
+<path d="M520 80 H546" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<path d="M690 80 H716" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="720" y="40" width="110" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="775" y="84" text-anchor="middle" class="m">[Parsed]</text>
+<rect x="230" y="150" width="600" height="50" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="530" y="169" text-anchor="middle" class="b">inclusive-dates</text>
+<text x="530" y="189" text-anchor="middle" class="m">chronoParseDate(text, { locale, minDate, maxDate, referenceDate })</text>
+</svg>

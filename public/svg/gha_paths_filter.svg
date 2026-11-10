@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>GitHub Actions paths 필터: 하나라도 맞으면 돈다</title>
+<desc>모노레포에서 서비스별로 따로 배포하려면 워크플로마다 on.push.paths 를 건다. 푸시에 바뀐 파일 중 하나라도 패턴(예: **.js)에 맞으면 그 워크플로가 실행되고, 하나도 안 맞으면 실행되지 않는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="280" height="100" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="170" y="74" text-anchor="middle" class="b">바뀐 파일</text>
+<text x="170" y="94" text-anchor="middle" class="m">README.md</text>
+<text x="170" y="114" text-anchor="middle" class="m">services/a/index.js</text>
+<path d="M310 90 H376" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="343" y="30" text-anchor="middle" class="s">paths: '**.js'</text>
+<rect x="380" y="40" width="200" height="100" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="480" y="84" text-anchor="middle" class="b">실행</text>
+<text x="480" y="104" text-anchor="middle" class="s">하나라도 맞으면</text>
+<rect x="630" y="40" width="200" height="100" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="730" y="84" text-anchor="middle" class="b">README.md 만이면</text>
+<text x="730" y="104" text-anchor="middle" class="s">실행 안 함</text>
+</svg>

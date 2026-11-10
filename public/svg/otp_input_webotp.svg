@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" width="100%" role="img">
+<title>OTP 입력: autocomplete 힌트와 WebOTP</title>
+<desc>autocomplete="one-time-code" 는 이 칸이 일회용 코드라고 브라우저에 알리는 힌트라, SMS 로 온 코드를 OS·키보드가 제안한다. JS 로 직접 받으려면 WebOTP 의 navigator.credentials.get({ otp: { transport: ["sms"] } }) 를 쓰는데, SMS 마지막 줄이 @도메인 #코드 형식이어야 한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="210" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="90" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="69" text-anchor="middle" class="b">SMS</text>
+<text x="155" y="89" text-anchor="middle" class="m">…</text>
+<text x="155" y="109" text-anchor="middle" class="m">@example.com #123456</text>
+<path d="M280 70 H446" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="363" y="58" text-anchor="middle" class="s">autocomplete 힌트</text>
+<rect x="450" y="40" width="380" height="45" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="640" y="66" text-anchor="middle" class="m">&lt;input autocomplete="one-time-code"&gt;</text>
+<path d="M280 110 H446" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="363" y="128" text-anchor="middle" class="s">WebOTP</text>
+<rect x="450" y="95" width="380" height="45" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="640" y="122" text-anchor="middle" class="m">credentials.get({ otp })  → otp.code</text>
+<text x="30" y="180" text-anchor="start" class="s">마지막 줄: @ + 사이트 도메인, 공백, # + 코드 — WebOTP 는 이 형식만 받는다</text>
+</svg>

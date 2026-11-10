@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>browser-sync 프록시: 떠 있는 서버 앞에 두고 정적 파일만 감시</title>
+<desc>서버와 프론트가 한 프로젝트인 환경에서, 이미 8080 에 떠 있는 서버 앞에 browser-sync 를 8081 로 프록시로 둔다. /resources 경로만 소스 폴더에서 직접 서빙하고 그 폴더를 감시해, CSS·이미지는 주입하고 나머지는 브라우저를 새로 고친다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="100" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="84" text-anchor="middle" class="b">브라우저</text>
+<text x="130" y="104" text-anchor="middle" class="m">:8081</text>
+<path d="M230 90 H286" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="290" y="40" width="250" height="100" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="415" y="74" text-anchor="middle" class="b">browser-sync</text>
+<text x="415" y="94" text-anchor="middle" class="m">proxy · serveStatic</text>
+<text x="415" y="114" text-anchor="middle" class="s">files 감시 → 주입 / 새로 고침</text>
+<path d="M540 70 H606" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="573" y="58" text-anchor="middle" class="s">그 밖</text>
+<rect x="610" y="30" width="220" height="50" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="720" y="59" text-anchor="middle" class="m">서버 :8080</text>
+<path d="M540 120 H606" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="573" y="140" text-anchor="middle" class="s">/resources</text>
+<rect x="610" y="95" width="220" height="50" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="720" y="114" text-anchor="middle" class="m">src/main/webapp/</text>
+<text x="720" y="134" text-anchor="middle" class="m">resources</text>
+</svg>

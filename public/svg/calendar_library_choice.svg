@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240" width="100%" role="img">
+<title>캘린더 라이브러리: 상황으로 고른다</title>
+<desc>완전히 커스텀한 UI 가 필요하면 react-aria(Adobe 의 headless, 로직과 접근성만)로 직접 만든다. 기본 기능을 빨리 원하면 react-big-calendar(구글 캘린더 스타일, 날짜 라이브러리 선택 가능). 모던한 DX 와 가벼움을 원하면 Schedule-X(드래그·리사이즈, 레퍼런스 적음). 타임라인·리소스 뷰 같은 엔터프라이즈 기능이 필요하면 FullCalendar(플러그인 구조, 일부 유료, 번들 큼). 날짜 선택만이면 react-day-picker·dayzed·react-datepicker, headless 로는 use-lilius·h6s.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="240" fill="#FFFFFF"/>
+<rect x="30" y="30" width="300" height="38" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="180" y="53" text-anchor="middle" class="s">완전 커스텀 UI</text>
+<path d="M330 49 H376" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="380" y="30" width="450" height="38" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="605" y="53" text-anchor="middle" class="m">react-aria + 직접</text>
+<rect x="30" y="75" width="300" height="38" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="180" y="98" text-anchor="middle" class="s">빠르게 기본 기능</text>
+<path d="M330 94 H376" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="380" y="75" width="450" height="38" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="605" y="98" text-anchor="middle" class="m">react-big-calendar</text>
+<rect x="30" y="120" width="300" height="38" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="180" y="143" text-anchor="middle" class="s">모던 DX · 가벼움</text>
+<path d="M330 139 H376" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="380" y="120" width="450" height="38" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="605" y="143" text-anchor="middle" class="m">Schedule-X</text>
+<rect x="30" y="165" width="300" height="38" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="180" y="188" text-anchor="middle" class="s">엔터프라이즈 기능</text>
+<path d="M330 184 H376" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="380" y="165" width="450" height="38" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="605" y="188" text-anchor="middle" class="m">FullCalendar</text>
+<text x="30" y="225" text-anchor="start" class="s">날짜 선택: react-day-picker · dayzed · react-datepicker  ·  headless: use-lilius · h6s</text>
+</svg>

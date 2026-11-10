@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>변수 prefix 넷: 언제 정해지고 무엇에 쓰나</title>
+<desc>initial 은 처음 생길 때의 값으로 다시 정할 일이 드물다. default 는 값이 없을 때 대신 쓰는 값으로 교체할 수 있다. base 는 계산·비교의 기준점이다. original 은 바꾸기 전 원래 값을 보존해 되돌리는 데 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<rect x="30" y="30" width="390" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="225" y="54" text-anchor="middle" class="b">initial*</text>
+<text x="225" y="74" text-anchor="middle" class="s">처음 생길 때의 값</text>
+<text x="225" y="94" text-anchor="middle" class="m">initialState · initialCount</text>
+<rect x="440" y="30" width="390" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="635" y="54" text-anchor="middle" class="b">default*</text>
+<text x="635" y="74" text-anchor="middle" class="s">값이 없을 때 대신</text>
+<text x="635" y="94" text-anchor="middle" class="m">defaultTheme · defaultPageSize</text>
+<rect x="30" y="125" width="390" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="225" y="149" text-anchor="middle" class="b">base*</text>
+<text x="225" y="169" text-anchor="middle" class="s">계산·비교의 기준점</text>
+<text x="225" y="189" text-anchor="middle" class="m">baseUrl · baseSalary</text>
+<rect x="440" y="125" width="390" height="80" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="635" y="149" text-anchor="middle" class="b">original*</text>
+<text x="635" y="169" text-anchor="middle" class="s">바꾸기 전, 되돌리기용</text>
+<text x="635" y="189" text-anchor="middle" class="m">originalText · originalImage</text>
+</svg>

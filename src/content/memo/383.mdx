@@ -1,34 +1,51 @@
 ---
 type: snippet
+title: 'hasAudio = isInfixOf ("hdlr" <> zeros 8 <> "soun")'
 tags: ['mp4', 'file-reader', 'hdlr', 'ffmpeg']
 embed: https://stackblitz.com/edit/vitejs-vite-zmgejjyi?file=src%2FApp.tsx
 status: release
 ctime: 2025-01-31
-mtime: 2026-10-06
+mtime: 2026-11-09
+sources:
+  - id: apple-hdlr
+    resource: https://developer.apple.com/documentation/quicktime-file-format/metadata_handler_atom
+    title: 'Metadata handler atom — Apple'
+  - id: mdn-range
+    resource: https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Range
+    title: 'Range — MDN'
+  - id: mdn-filereader
+    resource: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+    title: 'FileReader — MDN'
+  - id: ffmpeg
+    resource: https://www.ffmpeg.org/
+    title: 'FFmpeg'
+  - id: lycorp-mp4-audio
+    resource: https://techblog.lycorp.co.jp/ko/check-mp4-file-has-audio-using-filereader-in-front-end
+    title: '프런트엔드 영역에서 FileReader를 이용해 MP4 파일 내 오디오 존재 여부 확인하기 — LY'
 ---
 
 ![1 MP4 는 아톰의 계층이고 moov 안의 트랙(trak)마다 mdia 안에 hdlr 아톰이 하나 있다. hdlr 은 크기 4바이트, 타입 'hdlr' 4바이트, version 1 과 flags 3, component type 4, component subtype 4 순이다. MP4 에서는 version·flags·component type 이 모두 0 이라 'hdlr' 바로 8바이트 뒤가 subtype 이고, 오디오 트랙이면 'soun', 비디오 트랙이면 'vide' 다. 그래서 파일 바이트에 hdlr 다음 0 이 8개, 그다음 soun 이 이어진 16바이트가 있으면 오디오가 있다. MOV 는 component type 에 'mhlr' 이 들어갈 수 있어 이 패턴이 맞지 않는다. 2 파일 전체를 받지 않고 Range 로 앞에서부터 66KB 를 받아 패턴을 찾는다. 있으면 오디오 있음. 없는데 응답이 요청한 만큼 꽉 찼고 다음 단계가 남았으면 범위를 1MB, 2MB, 4MB, 8MB, 16MB 로 늘려 다시 받는다. 응답이 덜 왔거나(파일 끝) 마지막 단계까지 없으면 오디오 없음. soun 은 큰 파일일수록 뒤에 있다: 13MB 파일은 7.3KB, 742MB 파일은 573KB 안에서 나왔다. 3 함정: Range 헤더는 예전에는 CORS safelist 밖이라 교차 출처 요청에 preflight 가 나가고, 서버의 Access-Control-Allow-Headers 에 Range 가 없으면 실패한다. safelist 에 들어온 건 Chrome 99, Safari iOS 16.1, Firefox 117 부터다.](/svg/mp4_audio_hdlr.svg)
 
-- 프런트엔드(클라이언트)에서 MP4 파일의 오디오 존재 여부를 확인하기
-- 브라우저 API 사용 시 호환성 문제 발생 (Chrome, Safari, Firefox 각각 다른 API 사용)
-  - MP4 파일의 구조를 분석하는 방법으로 방향 전환
-    - [hdlr](https://developer.apple.com/documentation/quicktime-file-format/metadata_handler_atom) 아톰에서 오디오 존재 여부를 나타내는 `Component subtype` 필드가 `soun`일 경우 오디오가 존재할 것임.
-    - MP4 파일의 특정 바이트를 선택적으로 요청하기 위해 [Range](https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Range) 필드 사용.
-    - 다양한 파일 크기에 따라 'soun'의 예상 위치를 조사하고, 적절한 범위 값 설정.
-- [FileReader API](https://developer.mozilla.org/en-US/docs/Web/API/FileReader)를 사용하여 서버에서 응답받은 바이너리 데이터를 읽고, 이를 분석해 오디오 여부 확인.
-  - 오디오 정보가 발견되지 않으면 추가 데이터 요청하여 확인 범위를 증가시켜 반복.
+```haskell
+-- 프런트엔드에서 MP4 에 오디오가 있는지 — 브라우저 API 는 셋이 제각각이라 파일 구조로 판정한다
+-- trak 마다 hdlr 아톰: size 4 · "hdlr" 4 · version 1 + flags 3 · component type 4 · subtype 4
+-- MP4 는 version·flags·type 이 0 이라 "hdlr" 8바이트 뒤가 subtype — 오디오면 "soun"
+hasAudio :: Bytes -> Bool
+hasAudio = isInfixOf ("hdlr" <> zeros 8 <> "soun")     -- MOV 는 type 에 "mhlr" 이 올 수 있어 안 맞는다
 
----
+-- 파일 전체가 아니라 Range 로 앞에서부터, 없으면 넓혀서
+probe :: Url -> IO Bool
+probe url = go [66 KB, 1 MB, 2 MB, 4 MB, 8 MB, 16 MB]
+  where
+    go []       = pure False
+    go (n : ns) = do
+      b <- fetchRange url 0 n                    -- FileReader 로 읽는다
+      if hasAudio b then pure True
+      else if size b < n then pure False         -- 파일 끝
+      else go ns
+-- soun 은 큰 파일일수록 뒤: 13MB → 7.3KB 안, 742MB → 573KB 안
+-- 함정: Range 는 예전엔 CORS safelist 밖 → preflight, Allow-Headers 에 Range 가 없으면 실패
+--       (Chrome 99 · Safari iOS 16.1 · Firefox 117 부터 safelist)
 
-```ts
-await ffmpeg.writeFile('input.mp4', await fetchFile(file))
-await ffmpeg.ffprobe(['-i', 'input.mp4', '-show_streams', '-o', 'output.txt'])
-
-const data = await ffmpeg.readFile('output.txt')
+-- ...그래도 확실한 건 ffmpeg: ffprobe -i input.mp4 -show_streams
 ```
-
-...하지만 [ffmpeg](https://www.ffmpeg.org/)의 중요성을 깨달았다.
-
----
-
-- [프런트엔드 영역에서 FileReader를 이용해 MP4 파일 내 오디오 존재 여부 확인하기](https://techblog.lycorp.co.jp/ko/check-mp4-file-has-audio-using-filereader-in-front-end)

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>큰 Next.js 앱을 유지하는 아홉 가지</title>
+<desc>TypeScript 를 쓰고, 모노레포(Lerna·Nx·Rush·Turborepo·yarn workspaces)로 나누고, Hygen 같은 생성기로 상용구를 찍고, Redux Toolkit 처럼 잘 정해진 패턴을 쓰고, 비동기 데이터는 React Query·SWR 로, 커밋은 Husky·Commitizen·Semantic Release 로, UI 는 Storybook 으로 보이고, 처음부터 유지할 수 있는 테스트를 쓰고, Dependabot 으로 패키지를 자동 갱신한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="30" width="250" height="50" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="155" y="59" text-anchor="middle" class="b">TypeScript</text>
+<rect x="305" y="30" width="250" height="50" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="49" text-anchor="middle" class="b">모노레포</text>
+<text x="430" y="69" text-anchor="middle" class="s">Nx · Turborepo · …</text>
+<rect x="580" y="30" width="250" height="50" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="705" y="49" text-anchor="middle" class="b">생성기</text>
+<text x="705" y="69" text-anchor="middle" class="s">Hygen</text>
+<rect x="30" y="90" width="250" height="50" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="155" y="109" text-anchor="middle" class="b">정해진 패턴</text>
+<text x="155" y="129" text-anchor="middle" class="s">Redux Toolkit</text>
+<rect x="305" y="90" width="250" height="50" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="109" text-anchor="middle" class="b">비동기 데이터</text>
+<text x="430" y="129" text-anchor="middle" class="s">React Query · SWR</text>
+<rect x="580" y="90" width="250" height="50" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="705" y="109" text-anchor="middle" class="b">커밋</text>
+<text x="705" y="129" text-anchor="middle" class="s">Husky · Commitizen</text>
+<rect x="30" y="150" width="250" height="50" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="155" y="169" text-anchor="middle" class="b">UI</text>
+<text x="155" y="189" text-anchor="middle" class="s">Storybook</text>
+<rect x="305" y="150" width="250" height="50" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="169" text-anchor="middle" class="b">테스트</text>
+<text x="430" y="189" text-anchor="middle" class="s">처음부터</text>
+<rect x="580" y="150" width="250" height="50" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="705" y="169" text-anchor="middle" class="b">의존성</text>
+<text x="705" y="189" text-anchor="middle" class="s">Dependabot</text>
+</svg>

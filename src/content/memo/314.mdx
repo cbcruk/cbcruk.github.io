@@ -1,63 +1,28 @@
 ---
 type: snippet
+title: 'dateInput :: Maybe Date -> IO Html'
 tags: ['date', 'random', 'test', 'flaky']
 status: release
 ctime: 2024-09-01
-mtime: 2026-10-29
+mtime: 2026-11-09
+sources:
+  - id: mdn-default-params
+    resource: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters
+    title: 'Default parameters — MDN'
 ---
 
-Flaky 테스트 방지 — 기본 매개변수는 호출할 때마다 평가된다. 인자를 안 넘기면 `new Date()`, 넘기면 그 값이라 `Date`·`Math.random` 같은 비순수 값을 props 기본값으로 주입한다[^default-param]
+![new Date() 나 Math.random() 을 컴포넌트 안에서 바로 부르면 테스트마다 결과가 달라진다. 기본 매개변수로 받으면 인자를 안 넘긴 프로덕션에서는 호출할 때마다 new Date() 가 평가되고, 테스트에서는 new Date(2023, 0, 1) 이나 () => 0.5 를 넘겨 결과를 고정한다. 날짜는 toLocaleDateString("sv-SE") 로 로컬 YYYY-MM-DD 를 만든다 — toISOString 은 UTC 라 KST 오전 9시 전엔 하루 밀린다.](/svg/inject_impure_defaults.svg)
 
-- `new Date()`, `Math.random()` 같은 비순수 함수는 매번 다른 결과 → 테스트 불안정
-- 해결: 기본 매개변수로 주입하면 프로덕션 동작 유지 + 테스트에서 제어 가능
+```haskell
+-- 비순수 값(Date·Math.random)은 기본 매개변수로 받는다 — 기본값은 호출할 때마다 평가된다
+dateInput :: Maybe Date -> IO Html
+dateInput now = do
+  d <- maybe newDate pure now                   -- { now = new Date() }
+  pure (input "date" (localYmd d))              -- toLocaleDateString('sv-SE'); toISOString 은 UTC 라 하루 밀린다
 
-```js
-function DateInput({ now = new Date() }) {
-  const [date, setDate] = React.useState(now.toLocaleDateString('sv-SE')) // 로컬 YYYY-MM-DD (toISOString 은 UTC 라 KST 오전 9시 전엔 하루 밀린다)
+random :: IO Double -> IO Html
+random randomizer = div . show <$> randomizer   -- { randomizer = Math.random }
 
-  return (
-    <input
-      type="date"
-      aria-label="날짜"
-      onChange={(e) => setDate(e.target.value)}
-      defaultValue={date}
-    />
-  )
-}
-
-function Random({ randomizer = Math.random }) {
-  const [state, setState] = React.useState(randomizer())
-
-  return <div>{state}</div>
-}
+-- 테스트: 값을 넘겨 고정한다
+-- dateInput (Just (Date 2023 0 1)) → "2023-01-01" · random (pure 0.5) → "0.5"
 ```
-
-테스트:
-
-```tsx
-describe('DateInput', () => {
-  it('주입한 날짜로 렌더한다', () => {
-    render(<DateInput now={new Date(2023, 0, 1)} />)
-
-    const input = screen.getByLabelText('날짜')
-
-    expect(input.value).toBe('2023-01-01')
-  })
-})
-
-describe('Random Component', () => {
-  it('should render a random number', () => {
-    const mockRandomizer = () => 0.5
-
-    render(<Random randomizer={mockRandomizer} />)
-
-    const div = screen.getByText('0.5')
-
-    expect(div).toBeInTheDocument()
-  })
-})
-```
-
----
-
-[^default-param]: [Default parameters - MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters): *"Default function parameters allow named parameters to be initialized with default values if no value or `undefined` is passed."* · *"The default argument is evaluated at _call time_."*

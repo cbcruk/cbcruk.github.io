@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 290" width="100%" role="img">
+<title>스크롤 동기화: 되먹임 이벤트는 다음 렌더링에 온다</title>
+<desc>두 박스의 가로 스크롤을 비율로 맞춘다. box1 을 스크롤하면 box1 의 비율(scrollLeft ÷ 스크롤 가능 폭)을 box2 의 폭에 곱해 box2.scrollLeft 에 넣는다. 그러면 box2 에도 scroll 이벤트가 오는데, 그건 넣는 순간이 아니라 다음 렌더링 때 온다 — 그래서 isSyncing 처럼 동기로 켰다 끄는 플래그는 이벤트가 올 때 이미 꺼져 있어 되먹임을 못 막는다. 대신 다음에 올 이벤트 하나(ignore = box2)를 표시해 두고 그 이벤트에서 지운다. 넣을 값이 지금 값과 같으면 이벤트가 안 오므로 표시도 하지 않는다 — 표시하면 다음 사용자 스크롤을 삼킨다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="290" fill="#FFFFFF"/>
+<rect x="30" y="30" width="200" height="60" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="130" y="54" text-anchor="middle" class="b">box1 스크롤</text>
+<text x="130" y="74" text-anchor="middle" class="s">사용자</text>
+<path d="M230 60 H316" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="273" y="50" text-anchor="middle" class="s">비율 × 폭</text>
+<rect x="320" y="30" width="220" height="60" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="430" y="54" text-anchor="middle" class="m">box2.scrollLeft = next</text>
+<text x="430" y="74" text-anchor="middle" class="s">ignore = box2</text>
+<path d="M430 90 V136" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="440" y="118" text-anchor="start" class="s">다음 렌더링</text>
+<rect x="320" y="140" width="220" height="60" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="430" y="164" text-anchor="middle" class="b">box2 scroll 이벤트</text>
+<text x="430" y="184" text-anchor="middle" class="s">ignore 와 같다 → 지우고 끝</text>
+<rect x="590" y="30" width="240" height="60" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="710" y="54" text-anchor="middle" class="b">동기 플래그는 못 막는다</text>
+<text x="710" y="74" text-anchor="middle" class="m">isSyncing = true … false</text>
+<text x="600" y="112" text-anchor="start" class="r">이벤트가 올 때 이미 false</text>
+<rect x="30" y="225" width="800" height="46" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="252" text-anchor="middle" class="s">next == 지금 값이면 이벤트가 안 온다 → ignore 를 세우지 않는다 (세우면 다음 사용자 스크롤을 삼킨다)</text>
+</svg>

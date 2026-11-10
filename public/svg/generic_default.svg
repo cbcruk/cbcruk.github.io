@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>제네릭 기본값: 생략하면 기본값, 기본값은 제약을 만족해야 한다</title>
+<desc>SelectProps 의 T 는 single 또는 multiple 이고 기본값은 multiple 이다. SelectProps 라고만 쓰면 T 가 multiple 로 정해져 value 가 string[] 이 되고, SelectProps&lt;single&gt; 로 명시하면 value 가 string 이 된다. 기본값은 제약(single | multiple)을 만족해야 한다. 가장 자주 쓰는 경우를 기본값으로 두면 매번 제네릭을 적지 않아도 된다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<rect x="30" y="40" width="300" height="60" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="180" y="64" text-anchor="middle" class="m">SelectProps</text>
+<text x="180" y="84" text-anchor="middle" class="s">생략</text>
+<path d="M330 70 H396" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="363" y="60" text-anchor="middle" class="s">= multiple</text>
+<rect x="400" y="40" width="430" height="60" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="615" y="74" text-anchor="middle" class="m">{ mode: 'multiple', value: string[] }</text>
+<rect x="30" y="130" width="300" height="60" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="180" y="154" text-anchor="middle" class="m">SelectProps&lt;'single'&gt;</text>
+<text x="180" y="174" text-anchor="middle" class="s">명시</text>
+<path d="M330 160 H396" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="400" y="130" width="430" height="60" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="615" y="164" text-anchor="middle" class="m">{ mode: 'single', value: string }</text>
+</svg>

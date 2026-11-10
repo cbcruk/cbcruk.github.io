@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>빈 파일을 FormData 에: File 은 Blob 이다</title>
+<desc>new File([""], "default.csv", { type: "text/csv" }) 는 크기 0 인 파일이다. File 은 Blob 이라 FormData.append 가 문자열이 아니라 파일 필드로 받고, 파일명은 File 의 이름(default.csv)이 그대로 간다. MIME 타입을 지정해 서버가 기대하는 형식의 빈 파일을 보낼 수 있어서, 파일 필드가 필수인 API 를 테스트하거나 기본값을 채울 때 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="50" width="300" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="180" y="69" text-anchor="middle" class="m">new File([''], 'default.csv',</text>
+<text x="180" y="89" text-anchor="middle" class="m">  { type: 'text/csv' })</text>
+<text x="180" y="109" text-anchor="middle" class="s">size 0</text>
+<path d="M330 85 H396" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="363" y="42" text-anchor="middle" class="s">append</text>
+<rect x="400" y="50" width="430" height="70" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="615" y="69" text-anchor="middle" class="b">파일 필드</text>
+<text x="615" y="89" text-anchor="middle" class="m">filename="default.csv"</text>
+<text x="615" y="109" text-anchor="middle" class="s">File 은 Blob — 이름이 그대로 간다</text>
+<text x="430" y="160" text-anchor="middle" class="s">파일 필드가 필수인 API 테스트 · 기본값 채우기</text>
+</svg>

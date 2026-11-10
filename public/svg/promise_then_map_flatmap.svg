@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" width="100%" role="img">
+<title>콜백 → Promise → async/await, then 은 map 과 flatMap 을 한 메서드로</title>
+<desc>같은 세 단계(fetch → process → display)를 콜백은 안으로 중첩하고, Promise 는 then 으로 옆으로 잇고, async/await 는 위에서 아래로 쓴다. then 에 넘긴 함수가 값을 돌려주면 Promise 로 감싸고(map), Promise 를 돌려주면 풀어서 잇는다(flatMap). 한 메서드가 둘 다 해서 Promise 안의 Promise 는 만들어지지 않는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="300" fill="#FFFFFF"/>
+<rect x="30" y="30" width="250" height="110" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="59" text-anchor="middle" class="b">콜백</text>
+<text x="155" y="79" text-anchor="middle" class="m">fetch(() =&gt;</text>
+<text x="155" y="99" text-anchor="middle" class="m">  process(() =&gt;</text>
+<text x="155" y="119" text-anchor="middle" class="m">    display()))</text>
+<rect x="305" y="30" width="250" height="110" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="430" y="59" text-anchor="middle" class="b">Promise</text>
+<text x="430" y="79" text-anchor="middle" class="m">fetch()</text>
+<text x="430" y="99" text-anchor="middle" class="m">  .then(process)</text>
+<text x="430" y="119" text-anchor="middle" class="m">  .then(display)</text>
+<rect x="580" y="30" width="250" height="110" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="705" y="59" text-anchor="middle" class="b">async/await</text>
+<text x="705" y="79" text-anchor="middle" class="m">d = await fetch()</text>
+<text x="705" y="99" text-anchor="middle" class="m">p = await process(d)</text>
+<text x="705" y="119" text-anchor="middle" class="m">await display(p)</text>
+<path d="M280 85 H301" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<path d="M555 85 H576" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="30" y="185" text-anchor="start" class="b">p.then(f) 에서 f 가 돌려주는 것</text>
+<rect x="30" y="200" width="370" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="215" y="229" text-anchor="middle" class="m">f x = 값</text>
+<text x="215" y="249" text-anchor="middle" class="s">감싼다 — map</text>
+<rect x="430" y="200" width="400" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="630" y="229" text-anchor="middle" class="m">f x = Promise</text>
+<text x="630" y="249" text-anchor="middle" class="s">풀어서 잇는다 — flatMap · Promise&lt;Promise&lt;T&gt;&gt; 는 없다</text>
+</svg>

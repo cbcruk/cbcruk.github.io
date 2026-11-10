@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 190" width="100%" role="img">
+<title>선택 개수를 CSS 카운터로</title>
+<desc>다중 선택 필터에서 선택된 개수는 JS 없이 CSS 카운터로 센다. 컨테이너에서 counter-reset 으로 0 부터 시작하고, :checked 인 항목마다 counter-increment 로 하나씩 올리고, ::after 의 content: counter(filters) 로 보여 준다. 모바일 판별은 @media (pointer: coarse) 로 한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="190" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="100" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="84" text-anchor="middle" class="m">aside</text>
+<text x="155" y="104" text-anchor="middle" class="m">counter-reset: filters</text>
+<path d="M280 90 H326" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="303" y="30" text-anchor="middle" class="s">:checked 마다</text>
+<rect x="330" y="40" width="250" height="100" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="455" y="84" text-anchor="middle" class="m">counter-increment:</text>
+<text x="455" y="104" text-anchor="middle" class="m">  filters</text>
+<path d="M580 90 H626" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="630" y="40" width="200" height="100" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="730" y="74" text-anchor="middle" class="m">::after</text>
+<text x="730" y="94" text-anchor="middle" class="m">counter(filters)</text>
+<text x="730" y="114" text-anchor="middle" class="s">→ 3</text>
+<text x="30" y="170" text-anchor="start" class="s">모바일: @media (pointer: coarse)</text>
+</svg>

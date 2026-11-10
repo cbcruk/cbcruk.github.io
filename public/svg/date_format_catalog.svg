@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="100%" role="img">
+<title>날짜 표기 카탈로그: 배열 하나 → 닫힌 union → 진입점 하나</title>
+<desc>허용 표기를 as const 배열 하나에 두고, 거기서 닫힌 union 타입 DateFormat 을 파생해, 유일한 진입점 formatDate 의 인자로 쓴다. 이름과 포맷을 짝짓는 매핑 객체는 필요 없다 — dayjs 는 포맷 문자열이 곧 키이자 값이다. 새 표기는 여러 화면에서 통일이 필요할 때만 배열에 넣고, 일회성이면 raw dayjs().format 으로 둔다. 구멍이 둘 있다: raw 로 우회해도 타입이 못 막고, ddd 는 locale('ko') 없이 쓰면 Mon·Tue 로 경고 없이 나온다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="860" height="330" fill="#FFFFFF"/>
+
+<rect x="30" y="30" width="230" height="84" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="145" y="54" text-anchor="middle" class="b">DATE_FORMATS</text>
+<text x="145" y="76" text-anchor="middle" class="m">['YYYY-MM-DD', …] as const</text>
+<text x="145" y="100" text-anchor="middle" class="s">단일 출처 — 여기만 고친다</text>
+
+<rect x="315" y="30" width="230" height="84" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="430" y="54" text-anchor="middle" class="b">DateFormat</text>
+<text x="430" y="76" text-anchor="middle" class="m">typeof DATE_FORMATS[number]</text>
+<text x="430" y="100" text-anchor="middle" class="s">닫힌 union — 손댈 곳 없음</text>
+
+<rect x="600" y="30" width="230" height="84" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="715" y="54" text-anchor="middle" class="b">formatDate</text>
+<text x="715" y="76" text-anchor="middle" class="m">(date, format) → string</text>
+<text x="715" y="100" text-anchor="middle" class="s">유일한 진입점</text>
+
+<path d="M260 72 H311" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<path d="M545 72 H596" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="287" y="64" text-anchor="middle" class="s">파생</text>
+<text x="572" y="64" text-anchor="middle" class="s">인자</text>
+
+<!-- 기각 -->
+<rect x="30" y="140" width="230" height="64" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="145" y="164" text-anchor="middle" class="x">{ DATE: 'YYYY-MM-DD' }</text>
+<text x="145" y="188" text-anchor="middle" class="s">포맷 문자열이 곧 키이자 값 — 불필요</text>
+
+<!-- 새 표기 -->
+<text x="315" y="160" class="b">새 표기가 필요하면</text>
+<text x="315" y="184" class="s">여러 화면에서 통일해야 하나?</text>
+<text x="315" y="204" class="m">예 → DATE_FORMATS 에 추가</text>
+<text x="315" y="222" class="m">아니오 → raw dayjs().format</text>
+
+<!-- 구멍 -->
+<rect x="600" y="140" width="230" height="160" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="715" y="164" text-anchor="middle" class="b">구멍 둘</text>
+<text x="615" y="192" class="m">dayjs().format('YYYY-MM-DD')</text>
+<text x="615" y="211" class="r">raw 우회는 타입이 못 막는다</text>
+<text x="615" y="228" class="r">린트 규칙 전까지는 관행일 뿐</text>
+<text x="615" y="258" class="m">'YYYY.MM.DD(ddd)'</text>
+<text x="615" y="277" class="r">locale('ko') 없으면 Mon·Tue</text>
+<text x="615" y="294" class="r">예외도 타입 오류도 없다</text>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>빈 PDF 만들기: 세 가지 도구</title>
+<desc>A4(595 × 842 포인트) 빈 PDF 가 필요할 때. skia-canvas 는 그 크기로 캔버스를 만들고 아무것도 그리지 않은 채 toBuffer("pdf") 로 내보낸다 — 형식은 캔버스를 만들 때가 아니라 내보낼 때 정한다(createCanvas(w, h, "pdf") 는 node-canvas API 다). 명령줄이면 Ghostscript 의 pdfwrite 로 빈 페이지 하나를 찍거나, ImageMagick 으로 흰 A4 를 PDF 로 바꾼다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="110" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="155" y="69" text-anchor="middle" class="b">skia-canvas</text>
+<text x="155" y="89" text-anchor="middle" class="m">new Canvas(595, 842)</text>
+<text x="155" y="109" text-anchor="middle" class="m">toBuffer('pdf')</text>
+<text x="155" y="129" text-anchor="middle" class="s">형식은 내보낼 때</text>
+<rect x="305" y="40" width="250" height="110" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="430" y="69" text-anchor="middle" class="b">Ghostscript</text>
+<text x="430" y="89" text-anchor="middle" class="m">-sDEVICE=pdfwrite</text>
+<text x="430" y="109" text-anchor="middle" class="m">PageSize [595 842]</text>
+<text x="430" y="129" text-anchor="middle" class="m">showpage</text>
+<rect x="580" y="40" width="250" height="110" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="705" y="79" text-anchor="middle" class="b">ImageMagick</text>
+<text x="705" y="99" text-anchor="middle" class="m">convert xc:white</text>
+<text x="705" y="119" text-anchor="middle" class="m">-page A4 empty.pdf</text>
+<text x="30" y="190" text-anchor="start" class="s">A4 = 595 × 842 pt · createCanvas(w, h, "pdf") 는 node-canvas 쪽 API</text>
+</svg>

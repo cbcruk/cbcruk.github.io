@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>보임 상태: visibilitychange, 잠들었다 깨면 입력으로 보충</title>
+<desc>탭 전환·최소화·앱 전환으로 보임 상태가 바뀌면 document 에 visibilitychange 가 오고 visibilityState 가 visible 또는 hidden 이 된다. 그런데 시스템이 잠들었다 깨면 이 이벤트가 안 올 때가 있어, hidden 상태일 때만 mouseenter·keydown 을 걸어 두고 입력이 오면 visible 로 되돌린다. React 훅은 상태가 실제로 바뀔 때만 set 한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="66" text-anchor="middle" class="b">visible</text>
+<text x="130" y="86" text-anchor="middle" class="m">visibilityState</text>
+<path d="M230 60 H346" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="288" y="52" text-anchor="middle" class="s">visibilitychange</text>
+<rect x="350" y="40" width="200" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="450" y="66" text-anchor="middle" class="b">hidden</text>
+<text x="450" y="86" text-anchor="middle" class="s">탭 전환 · 최소화 · 앱 전환</text>
+<path d="M350 88 H234" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="600" y="40" width="230" height="64" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="715" y="66" text-anchor="middle" class="b">잠들었다 깨면</text>
+<text x="715" y="86" text-anchor="middle" class="r">이벤트가 안 올 때가 있다</text>
+<rect x="350" y="150" width="480" height="56" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="590" y="172" text-anchor="middle" class="m">hidden 일 때만 mouseenter · keydown → visible</text>
+<text x="590" y="192" text-anchor="middle" class="s">use-visibility-state</text>
+<path d="M450 104 V146" stroke="#2E7D32" stroke-width="1.4" fill="none" marker-end="url(#ag)"/>
+</svg>

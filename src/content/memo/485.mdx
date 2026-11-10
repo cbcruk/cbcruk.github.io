@@ -1,74 +1,38 @@
 ---
 type: snippet
+title: 'serial = foldr (\t k rs -> t (\r -> k (rs ++ [r]))) done'
 tags: ['parallel', 'serial']
 status: release
 ctime: 2025-03-05
-mtime: 2026-10-29
+mtime: 2026-11-09
+sources:
+  - id: taskrunner-test
+    resource: https://stackblitz.com/edit/vitest-dev-vitest-jtqzu5sy?file=test%2Fbasic.test.ts
+    title: 'TaskRunner Test — StackBlitz'
+  - id: muffinman-parallel
+    resource: https://muffinman.io/blog/node-script-to-run-multiple-commands-in-parallel/
+    title: 'Node.js script to run multiple commands in parallel — Muffin Man'
+  - id: concurrently
+    resource: https://github.com/open-cli-tools/concurrently
+    title: 'concurrently'
 ---
 
-import QuoteLink from '@components/QuoteLink.astro'
+![태스크는 콜백으로 결과를 돌려주는 함수다. 병렬 러너는 모두 한꺼번에 시작하고 결과가 올 때마다 쌓아 개수가 태스크 수와 같아지면 끝 콜백을 부른다 — 결과는 끝난 순서다. 직렬 러너는 하나를 시작하고 그 콜백 안에서 다음을 시작해, 인덱스가 끝에 닿으면 끝 콜백을 부른다 — 결과는 넣은 순서다.](/svg/task_runner_parallel_serial.svg)
 
-<QuoteLink url="https://stackblitz.com/edit/vitest-dev-vitest-jtqzu5sy?file=test%2Fbasic.test.ts">
-  TaskRunner Test
-</QuoteLink>
+```haskell
+-- 태스크 = 결과를 콜백으로 돌려주는 함수
+type Task = (String -> IO ()) -> IO ()
 
-```ts
-type Task = (callback: (result: string) => void) => void
+-- 병렬: 한꺼번에 시작, 결과가 태스크 수만큼 모이면 끝 — 결과는 끝난 순서
+parallel :: [Task] -> ([String] -> IO ()) -> IO ()
+parallel ts done = do
+  rs <- newRef []
+  forM_ ts $ \t -> t $ \r -> do
+    modify rs (++ [r])
+    n <- length <$> read rs
+    when (n == length ts) (done =<< read rs)
 
-type TasksCallback = (results: string[]) => void
-
-class TaskRunner {
-  protected tasks: Task[] = []
-
-  protected results: Array<string> = []
-
-  addTask(task: Task) {
-    this.tasks.push(task)
-  }
-}
-
-class ParallelTaskRunner extends TaskRunner {
-  run(callback: TasksCallback) {
-    const totalTasks = this.tasks.length
-
-    this.tasks.forEach((task) => {
-      task((result) => {
-        this.results.push(result)
-
-        if (this.results.length === totalTasks) {
-          callback([...this.results])
-        }
-      })
-    })
-  }
-}
-
-class SerialTaskRunner extends TaskRunner {
-  index = 0
-
-  run(callback: TasksCallback) {
-    const executeTask = () => {
-      if (this.index >= this.tasks.length) {
-        callback([...this.results])
-        return
-      }
-
-      this.tasks[this.index]((result) => {
-        this.results.push(result)
-
-        this.index++
-
-        executeTask()
-      })
-    }
-
-    executeTask()
-  }
-}
+-- 직렬: 다음 태스크를 앞 태스크의 콜백에서 시작 — 결과는 넣은 순서
+serial :: [Task] -> ([String] -> IO ()) -> IO ()
+serial ts done = foldr (\t k rs -> t (\r -> k (rs ++ [r]))) done ts []
 ```
-
-- [Node.js script to run multiple commands in parallel · Muffin Man](https://muffinman.io/blog/node-script-to-run-multiple-commands-in-parallel/)[^485-1]
-
----
-
-[^485-1]: [concurrently](https://github.com/open-cli-tools/concurrently)

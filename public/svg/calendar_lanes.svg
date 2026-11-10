@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 290" width="100%" role="img">
+<title>캘린더 겹침: 시작 순으로 비어 있는 가장 낮은 레인에</title>
+<desc>이벤트를 시작 시각 순으로 보며, 이미 끝난 레인 중 가장 낮은 것에 넣고, 없으면 레인을 하나 늘린다. 이렇게 하면 레인 수가 동시에 겹치는 최대 개수와 같아진다(구간 그래프의 탐욕 색칠). 겹치는 것끼리 묶은 그룹마다 레인 수를 세어 너비를 100% ÷ 레인 수, 위치를 레인 ÷ 레인 수로 둔다. 예: A 9–11, B 10–12, C 11–13 이면 A·C 가 레인 0, B 가 레인 1 이고 레인은 둘이다. D 14–15 는 새 그룹이라 혼자 전체 폭이다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="290" fill="#FFFFFF"/>
+<text x="30" y="60" text-anchor="start" class="s">9:00</text>
+<text x="30" y="90" text-anchor="start" class="s">10:00</text>
+<text x="30" y="120" text-anchor="start" class="s">11:00</text>
+<text x="30" y="150" text-anchor="start" class="s">12:00</text>
+<text x="30" y="180" text-anchor="start" class="s">13:00</text>
+<text x="30" y="210" text-anchor="start" class="s">14:00</text>
+<text x="30" y="240" text-anchor="start" class="s">15:00</text>
+<line x1="80" y1="40" x2="80" y2="250" stroke="#BBB"/>
+<rect x="90" y="50" width="160" height="60" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="170" y="74" text-anchor="middle" class="b">A</text>
+<text x="170" y="94" text-anchor="middle" class="m">9–11 · 레인 0</text>
+<rect x="260" y="80" width="160" height="60" rx="7" fill="#FFF4DE" stroke="#B7791F" stroke-width="1.5"/>
+<text x="340" y="104" text-anchor="middle" class="b">B</text>
+<text x="340" y="124" text-anchor="middle" class="m">10–12 · 레인 1</text>
+<rect x="90" y="110" width="160" height="60" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="170" y="134" text-anchor="middle" class="b">C</text>
+<text x="170" y="154" text-anchor="middle" class="m">11–13 · 레인 0</text>
+<rect x="90" y="200" width="330" height="30" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="255" y="219" text-anchor="middle" class="m">D 14–15 · 새 그룹, 전체 폭</text>
+<rect x="470" y="50" width="360" height="180" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="650" y="94" text-anchor="middle" class="b">규칙</text>
+<text x="650" y="114" text-anchor="middle" class="s">시작 순으로 본다</text>
+<text x="650" y="134" text-anchor="middle" class="s">끝난 레인 중 가장 낮은 것, 없으면 새 레인</text>
+<text x="650" y="154" text-anchor="middle" class="s">레인 수 = 동시 최대 겹침</text>
+<text x="650" y="174" text-anchor="middle" class="m">left = lane / total</text>
+<text x="650" y="194" text-anchor="middle" class="m">width = 100% / total</text>
+</svg>

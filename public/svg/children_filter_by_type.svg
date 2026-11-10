@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" width="100%" role="img">
+<title>children 을 type 으로 골라 자리에 넣는다</title>
+<desc>Layout 의 children 에 Header·Content·Footer 가 섞여 들어온다. Children.toArray 로 펼친 뒤 요소이면서 type 이 Header 인 것만, Content 인 것만 골라 각 자리에 넣는다. 요소인지는 react-is 의 isElement 로 보는데, 이 용도에선 React.isValidElement 와 결과가 같아 react-is 가 없어도 된다. react-is 가 필요한 건 memo·forwardRef 처럼 typeof·instanceof 로 구분이 안 되는 타입을 가를 때다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="260" fill="#FFFFFF"/>
+<rect x="30" y="40" width="220" height="150" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="140" y="79" text-anchor="middle" class="b">children</text>
+<text x="140" y="99" text-anchor="middle" class="m">&lt;Header/&gt;</text>
+<text x="140" y="119" text-anchor="middle" class="m">&lt;Content/&gt;</text>
+<text x="140" y="139" text-anchor="middle" class="m">"text"</text>
+<text x="140" y="159" text-anchor="middle" class="m">&lt;Header/&gt;</text>
+<path d="M250 85 H376" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="313" y="75" text-anchor="middle" class="s">type === Header</text>
+<path d="M250 145 H376" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="313" y="135" text-anchor="middle" class="s">type === Content</text>
+<rect x="380" y="55" width="220" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="490" y="77" text-anchor="middle" class="m">.header</text>
+<text x="490" y="97" text-anchor="middle" class="s">Header 둘</text>
+<rect x="380" y="120" width="220" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="490" y="142" text-anchor="middle" class="m">.content</text>
+<text x="490" y="162" text-anchor="middle" class="s">Content 하나</text>
+<rect x="630" y="40" width="200" height="150" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="730" y="79" text-anchor="middle" class="b">요소인가</text>
+<text x="730" y="99" text-anchor="middle" class="m">isValidElement</text>
+<text x="730" y="119" text-anchor="middle" class="s">이 용도엔 충분</text>
+<text x="730" y="139" text-anchor="middle" class="s">react-is 는 memo·</text>
+<text x="730" y="159" text-anchor="middle" class="s">forwardRef 를 가를 때</text>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>react-spring: onRest 는 멈췄을 때, onResolve 는 Promise 가 풀릴 때</title>
+<desc>x 를 0 에서 100 으로 보내는 업데이트 하나에 끝을 알리는 길이 둘 있다. onRest 는 애니메이션이 물리적으로 멈췄을 때 불려 화면 상태(예: stopped)를 바꾸는 데 쓴다. onResolve 는 그 업데이트의 Promise 가 풀릴 때 불려 비동기 흐름을 잇는 데 쓴다. api.start 가 그 Promise 를 돌려주므로 await 로 기다려도 된다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<rect x="30" y="40" width="220" height="60" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="140" y="64" text-anchor="middle" class="m">api.start({ x: 100 })</text>
+<text x="140" y="84" text-anchor="middle" class="s">업데이트 하나</text>
+<path d="M250 70 H316" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="283" y="60" text-anchor="middle" class="s">스프링</text>
+<rect x="320" y="40" width="200" height="60" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="420" y="64" text-anchor="middle" class="b">멈춤</text>
+<text x="420" y="84" text-anchor="middle" class="s">속도 0, 제자리</text>
+<path d="M520 60 H586" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<path d="M520 80 H586" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="590" y="30" width="240" height="40" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="710" y="54" text-anchor="middle" class="m">onRest → setStatus(stopped)</text>
+<rect x="590" y="76" width="240" height="40" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="710" y="100" text-anchor="middle" class="m">onResolve → Promise 흐름</text>
+<rect x="30" y="150" width="800" height="50" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="179" text-anchor="middle" class="m">await api.start({ x: 100 })   — onResolve 와 같은 자리를 await 로</text>
+</svg>

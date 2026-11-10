@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 280" width="100%" role="img">
+<title>Less 변수: 값, 이름 자리 보간, 변수의 변수, 맵, 이스케이프</title>
+<desc>Less 변수는 값만이 아니라 이름 자리에도 들어간다. @primary 는 값, .@{component} 는 선택자, background-@{property} 는 속성 이름, url("@{path}/icon.svg") 는 문자열 안에 보간된다. @@theme 은 theme 의 값("primary")을 이름으로 다시 찾아 @primary 의 값이 된다. 맵(3.5+)은 @colors[primary] 로 꺼낸다. ~"" 는 문자열을 따옴표 없이 그대로 내보낸다 — CSS 변수 이름을 조합할 때 쓴다. @component 에 따옴표를 넣으면 선택자가 .'button' 으로 나온다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="280" fill="#FFFFFF"/>
+<rect x="30" y="30" width="280" height="32" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="170" y="50" text-anchor="middle" class="m">@primary</text>
+<text x="330" y="51" text-anchor="start" class="s">값</text>
+<path d="M430 46 H486" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="490" y="30" width="340" height="32" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="660" y="50" text-anchor="middle" class="m">color: #3498db</text>
+<rect x="30" y="70" width="280" height="32" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="170" y="90" text-anchor="middle" class="m">.@{component}</text>
+<text x="330" y="91" text-anchor="start" class="s">선택자 보간</text>
+<path d="M430 86 H486" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="490" y="70" width="340" height="32" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="660" y="90" text-anchor="middle" class="m">.button</text>
+<rect x="30" y="110" width="280" height="32" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="170" y="130" text-anchor="middle" class="m">background-@{property}</text>
+<text x="330" y="131" text-anchor="start" class="s">속성 보간</text>
+<path d="M430 126 H486" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="490" y="110" width="340" height="32" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="660" y="130" text-anchor="middle" class="m">background-color</text>
+<rect x="30" y="150" width="280" height="32" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="170" y="170" text-anchor="middle" class="m">@@theme</text>
+<text x="330" y="171" text-anchor="start" class="s">변수의 변수</text>
+<path d="M430 166 H486" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="490" y="150" width="340" height="32" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="660" y="170" text-anchor="middle" class="m">@primary 의 값</text>
+<rect x="30" y="190" width="280" height="32" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="170" y="210" text-anchor="middle" class="m">@colors[primary]</text>
+<text x="330" y="211" text-anchor="start" class="s">맵 (3.5+)</text>
+<path d="M430 206 H486" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="490" y="190" width="340" height="32" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="660" y="210" text-anchor="middle" class="m">#3498db</text>
+<rect x="30" y="230" width="280" height="32" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="170" y="250" text-anchor="middle" class="m">~'--@{prefix}-color'</text>
+<text x="330" y="251" text-anchor="start" class="s">이스케이프</text>
+<path d="M430 246 H486" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="490" y="230" width="340" height="32" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="660" y="250" text-anchor="middle" class="m">--ui-color</text>
+</svg>

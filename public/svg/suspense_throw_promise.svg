@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>Suspense: 던진 promise 를 잡아 fallback, resolve 되면 다시 렌더</title>
+<desc>데이터가 없으면 컴포넌트가 promise 를 throw 한다 — 예외와 같은 메커니즘이다. 가장 가까운 Suspense 가 그것을 잡아 fallback 을 보이고, promise 가 resolve 되면 다시 렌더한다. throw fetch() 는 렌더할 때마다 새 promise 를 만들므로, 공식 경로는 캐시된 같은 promise 를 use 로 읽는 것이다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="230" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145" y="74" text-anchor="middle" class="m">if (!data)</text>
+<text x="145" y="94" text-anchor="middle" class="m">throw promise</text>
+<path d="M260 80 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="283" y="30" text-anchor="middle" class="s">throw</text>
+<rect x="310" y="40" width="230" height="80" rx="7" fill="#FFF4DE" stroke="#B7791F" stroke-width="1.5"/>
+<text x="425" y="74" text-anchor="middle" class="b">Suspense</text>
+<text x="425" y="94" text-anchor="middle" class="s">fallback</text>
+<path d="M540 80 H586" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="563" y="30" text-anchor="middle" class="s">resolve</text>
+<rect x="590" y="40" width="240" height="80" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="710" y="74" text-anchor="middle" class="b">다시 렌더</text>
+<text x="710" y="94" text-anchor="middle" class="s">이번엔 data 가 있다</text>
+<rect x="30" y="150" width="800" height="50" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="430" y="179" text-anchor="middle" class="m">throw fetch()  — 렌더마다 새 promise · 공식 경로는 캐시된 promise 를 use()</text>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" width="100%" role="img">
+<title>Children API 로 트리를 뒤지기 대신 Compound Component</title>
+<desc>Children API 로 children 을 재귀 순회하며 원하는 type 을 찾을 수 있다 — Fragment 는 풀고, 문자열·숫자는 isValidElement 로 거르고, props.children 으로 내려간다. 하지만 어디에 두든 찾아 주는 Tabs 는 암묵적 의존·약한 타입·매 렌더 순회로 예측하기 어렵다. React 문서도 Children 은 드물고 깨지기 쉽다고 한다. 대신 Tabs.Root &gt; Tabs.List &gt; Tabs.Trigger, Tabs.Content 처럼 구조를 소비자가 드러내는 Compound Component 로 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="260" fill="#FFFFFF"/>
+<rect x="30" y="30" width="380" height="190" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="220" y="69" text-anchor="middle" class="b">&lt;Tabs&gt; 가 뒤진다</text>
+<text x="220" y="89" text-anchor="middle" class="m">Children.forEach</text>
+<text x="220" y="109" text-anchor="middle" class="m">  Fragment → 풀고</text>
+<text x="220" y="129" text-anchor="middle" class="m">  !isValidElement → 건너뛰고</text>
+<text x="220" y="149" text-anchor="middle" class="m">  type === Tab → 찾았다</text>
+<text x="220" y="169" text-anchor="middle" class="m">  props.children → 내려간다</text>
+<text x="220" y="189" text-anchor="middle" class="r">암묵적 · 타입 약함 · 매 렌더 순회</text>
+<path d="M410 125 H446" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="450" y="30" width="380" height="190" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="640" y="79" text-anchor="middle" class="b">Compound Component</text>
+<text x="640" y="99" text-anchor="middle" class="m">&lt;Tabs.Root&gt;</text>
+<text x="640" y="119" text-anchor="middle" class="m">  &lt;Tabs.List&gt;</text>
+<text x="640" y="139" text-anchor="middle" class="m">    &lt;Tabs.Trigger value="a"/&gt;</text>
+<text x="640" y="159" text-anchor="middle" class="m">  &lt;Tabs.Content value="a"/&gt;</text>
+<text x="640" y="179" text-anchor="middle" class="s">구조를 소비자가 드러낸다</text>
+</svg>

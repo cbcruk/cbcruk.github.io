@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>gulp.src 가 잡는 파일을 보는 세 자리</title>
+<desc>gulp.src 가 어떤 파일을 잡는지 세 군데서 볼 수 있다. 파이프 전에 glob 패턴만 globSync 로 찍어 보고, 파이프 안에서 gulp-debug 로 파일 이름과 개수를 찍거나, through2 로 파일 객체를 받아 원하는 속성을 찍고 그대로 넘긴다. NODE_ENV=debug 일 때만 gulp-if 로 debug 를 끼운다. gulp-debug 5 는 ESM 전용이라 gulpfile.mjs 로 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="66" text-anchor="middle" class="b">glob 패턴</text>
+<text x="130" y="86" text-anchor="middle" class="m">globSync(...)</text>
+<path d="M230 72 H286" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="290" y="40" width="200" height="64" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="390" y="66" text-anchor="middle" class="b">gulp.src</text>
+<text x="390" y="86" text-anchor="middle" class="m">src/**/*.js</text>
+<path d="M490 72 H546" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="550" y="40" width="280" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="690" y="66" text-anchor="middle" class="b">pipe</text>
+<text x="690" y="86" text-anchor="middle" class="m">debug() · through2.obj</text>
+<text x="130" y="130" text-anchor="middle" class="s">① 파이프 전에</text>
+<text x="690" y="130" text-anchor="middle" class="s">② 이름·개수  ③ 파일 객체 그대로 넘김</text>
+<rect x="30" y="160" width="800" height="46" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="187" text-anchor="middle" class="m">gulpif(NODE_ENV === "debug", debug())   — gulp-debug 5 는 ESM 전용 (gulpfile.mjs)</text>
+</svg>

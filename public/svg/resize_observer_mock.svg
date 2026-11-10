@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" width="100%" role="img">
+<title>ResizeObserver mock: vi.hoisted 로 만들고, 콜백을 모아 직접 부른다</title>
+<desc>vi.mock 은 파일 맨 위로 끌어올려져 바깥 변수를 못 본다. 그래서 vi.hoisted 안에서 MockResizeObserver 를 만들고 vi.mock 이 그걸 resize-observer-polyfill 의 default 로 넣는다. new 로 불리므로 구현은 화살표가 아니라 function 이다 — 화살표면 is not a constructor. 생성될 때마다 콜백과 observer 를 배열에 쌓아 두고, 테스트에서 triggerResize(entries, index) 로 원하는 observer 의 콜백을 직접 부른다. beforeEach 에서 배열을 비운다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="260" fill="#FFFFFF"/>
+<rect x="30" y="30" width="360" height="90" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="210" y="59" text-anchor="middle" class="b">vi.hoisted</text>
+<text x="210" y="79" text-anchor="middle" class="m">MockResizeObserver = vi.fn(function…)</text>
+<text x="210" y="99" text-anchor="middle" class="s">화살표면 is not a constructor</text>
+<path d="M390 75 H456" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="423" y="65" text-anchor="middle" class="s">vi.mock</text>
+<rect x="460" y="30" width="370" height="90" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="645" y="69" text-anchor="middle" class="b">resize-observer-polyfill</text>
+<text x="645" y="89" text-anchor="middle" class="m">default: MockResizeObserver</text>
+<rect x="30" y="160" width="360" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="210" y="189" text-anchor="middle" class="b">new 마다 쌓는다</text>
+<text x="210" y="209" text-anchor="middle" class="m">observers.push({ callback, observer })</text>
+<path d="M390 195 H456" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="460" y="160" width="370" height="70" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="645" y="179" text-anchor="middle" class="b">테스트가 직접 부른다</text>
+<text x="645" y="199" text-anchor="middle" class="m">triggerResize(entries, index)</text>
+<text x="645" y="219" text-anchor="middle" class="s">beforeEach 에서 reset</text>
+</svg>

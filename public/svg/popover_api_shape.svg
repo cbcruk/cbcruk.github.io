@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>Popover API 를 컴포넌트처럼: 속성·상태·메서드·이벤트</title>
+<desc>popover 속성은 auto·hint·manual 중 하나고, 버튼의 popovertarget 이 가리키는 popover 를 popovertargetaction 의 hide·show·toggle 로 연다. 상태는 CSS 로 드러난다 — 열려 있으면 :popover-open, 배경은 ::backdrop. 스크립트로는 showPopover·hidePopover·togglePopover 를 부르고, 바뀌기 전 beforetoggle, 바뀐 뒤 toggle 이벤트가 온다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<rect x="30" y="40" width="185" height="130" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="122" y="79" text-anchor="middle" class="b">Props</text>
+<text x="122" y="99" text-anchor="middle" class="m">popover auto|hint|manual</text>
+<text x="122" y="119" text-anchor="middle" class="m">popovertarget</text>
+<text x="122" y="139" text-anchor="middle" class="m">…action hide|show|toggle</text>
+<rect x="232" y="40" width="185" height="130" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="324" y="89" text-anchor="middle" class="b">State (CSS)</text>
+<text x="324" y="109" text-anchor="middle" class="m">:popover-open</text>
+<text x="324" y="129" text-anchor="middle" class="m">::backdrop</text>
+<rect x="434" y="40" width="185" height="130" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="526" y="79" text-anchor="middle" class="b">Methods</text>
+<text x="526" y="99" text-anchor="middle" class="m">showPopover()</text>
+<text x="526" y="119" text-anchor="middle" class="m">hidePopover()</text>
+<text x="526" y="139" text-anchor="middle" class="m">togglePopover()</text>
+<rect x="636" y="40" width="185" height="130" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="728" y="89" text-anchor="middle" class="b">Events</text>
+<text x="728" y="109" text-anchor="middle" class="m">beforetoggle</text>
+<text x="728" y="129" text-anchor="middle" class="m">toggle</text>
+</svg>

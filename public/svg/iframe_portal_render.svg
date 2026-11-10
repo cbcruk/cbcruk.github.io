@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 270" width="100%" role="img">
+<title>iframe 안에 React 를 그린다: contentDocument.body 로 portal</title>
+<desc>iframe 이 로드되면(이미 complete 면 바로) contentDocument.body 를 마운트 지점으로 잡고 createPortal 로 children 을 그 안에 그린다. 간단히는 react-frame-component 가 이걸 해 준다. iframe 안에는 부모 CSS 가 적용되지 않아 스타일을 따로 넣어야 하고, DOM 이벤트는 iframe 밖으로 버블링되지 않는다. 다만 React 핸들러는 portal 이라 DOM 이 아니라 React 트리를 따라 부모 컴포넌트로 올라온다. 스타일 격리만 원하면 Shadow DOM 이 더 가볍다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="270" fill="#FFFFFF"/>
+<rect x="30" y="40" width="240" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="150" y="64" text-anchor="middle" class="b">부모 React 트리</text>
+<text x="150" y="84" text-anchor="middle" class="m">&lt;IframeRenderer&gt;</text>
+<text x="150" y="104" text-anchor="middle" class="m">  {children}</text>
+<path d="M270 80 H336" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="303" y="70" text-anchor="middle" class="s">createPortal</text>
+<rect x="340" y="30" width="250" height="100" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="465" y="64" text-anchor="middle" class="b">&lt;iframe&gt;</text>
+<text x="465" y="84" text-anchor="middle" class="m">load → contentDocument.body</text>
+<text x="465" y="104" text-anchor="middle" class="s">부모 CSS 없음 — 따로 주입</text>
+<path d="M590 60 H646" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+<text x="650" y="64" text-anchor="start" class="r">DOM 이벤트: 밖으로 안 나간다</text>
+<path d="M590 100 H646" stroke="#2E7D32" stroke-width="1.4" fill="none" marker-end="url(#ag)"/>
+<text x="650" y="104" text-anchor="start" class="g">React 이벤트: 부모로 올라온다</text>
+<rect x="30" y="175" width="800" height="56" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="197" text-anchor="middle" class="m">&lt;Frame head={&lt;style&gt;…&lt;/style&gt;}&gt;  — react-frame-component</text>
+<text x="430" y="217" text-anchor="middle" class="s">스타일 격리만이면 Shadow DOM</text>
+</svg>

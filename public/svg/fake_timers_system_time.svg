@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>Fake timers: 시스템 시각을 정해 놓고 테스트한다</title>
+<desc>영업시간에 따라 결과가 달라지는 purchase 를 테스트한다. 각 테스트 전에 useFakeTimers 로 Date·setTimeout 을 가짜로 바꾸고, setSystemTime 으로 13시를 넣으면 Success, 19시를 넣으면 Error 를 기대한다. 끝나면 useRealTimers 로 되돌린다. Vitest 와 Jest 모두 @sinonjs/fake-timers 위에 있어 API 이름만 vi·jest 로 다르다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="66" text-anchor="middle" class="m">useFakeTimers()</text>
+<text x="130" y="86" text-anchor="middle" class="s">Date · setTimeout 가짜</text>
+<path d="M230 72 H286" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="290" y="30" width="250" height="40" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="415" y="54" text-anchor="middle" class="m">setSystemTime(13시) → Success</text>
+<rect x="290" y="80" width="250" height="40" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="415" y="104" text-anchor="middle" class="m">setSystemTime(19시) → Error</text>
+<path d="M540 75 H596" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="600" y="40" width="230" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="715" y="66" text-anchor="middle" class="m">useRealTimers()</text>
+<text x="715" y="86" text-anchor="middle" class="s">되돌린다</text>
+<text x="30" y="170" text-anchor="start" class="s">vi · jest 둘 다 @sinonjs/fake-timers 기반</text>
+</svg>

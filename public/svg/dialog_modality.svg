@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240" width="100%" role="img">
+<title>대화 상자: 무엇을 막느냐로 가른다</title>
+<desc>대화 상자는 정보를 알리고 응답을 받는 창이다. 모달은 닫기 전까지 무언가를 막는다 — 시스템 모달은 컴퓨터 전체, 애플리케이션 모달은 그 프로그램, 문서 모달은 부모 창 하나(macOS 시트). 모덜리스는 아무것도 막지 않아 열어 둔 채 작업한다(툴바). 모달은 흐름을 끊고 습관적으로 확인을 누르게 만들어 작업을 잃게 하므로, 경고 대신 실행 취소를 준다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="240" fill="#FFFFFF"/>
+<rect x="30" y="30" width="180" height="80" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="120" y="64" text-anchor="middle" class="b">System modal</text>
+<text x="120" y="84" text-anchor="middle" class="s">전체를 막는다</text>
+<rect x="230" y="30" width="180" height="80" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="320" y="64" text-anchor="middle" class="b">Application</text>
+<text x="320" y="84" text-anchor="middle" class="s">그 프로그램</text>
+<rect x="430" y="30" width="180" height="80" rx="7" fill="#FFF4DE" stroke="#B7791F" stroke-width="1.5"/>
+<text x="520" y="64" text-anchor="middle" class="b">Document</text>
+<text x="520" y="84" text-anchor="middle" class="s">부모 창 하나 · 시트</text>
+<rect x="630" y="30" width="200" height="80" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="730" y="64" text-anchor="middle" class="b">Modeless</text>
+<text x="730" y="84" text-anchor="middle" class="s">막지 않는다 · 툴바</text>
+<text x="30" y="135" text-anchor="start" class="s">← 막는 범위가 넓다</text>
+<text x="830" y="135" text-anchor="end" class="s">좁다 →</text>
+<rect x="30" y="160" width="800" height="55" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="430" y="182" text-anchor="middle" class="b">경고 대신 실행 취소</text>
+<text x="430" y="202" text-anchor="middle" class="s">모달 확인은 습관으로 눌린다 — 지운 뒤 되돌릴 수 있게 한다</text>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 190" width="100%" role="img">
+<title>파일이 React 컴포넌트인가: JSX 로 파싱해 JSXIdentifier 를 찾는다</title>
+<desc>acorn 을 acorn-jsx 로 확장한 파서로 파일을 모듈로 파싱하고, 나온 AST 에 JSXIdentifier 노드가 하나라도 있으면 JSX 를 쓰는 파일로 본다. CRA 에서 Vite 로 옮길 때 .js 를 .jsx 로 바꿀 파일을 고르는 데 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="190" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="90" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="89" text-anchor="middle" class="m">file.js</text>
+<path d="M230 85 H276" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="253" y="30" text-anchor="middle" class="s">acorn + acorn-jsx</text>
+<rect x="280" y="40" width="250" height="90" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="405" y="79" text-anchor="middle" class="b">AST</text>
+<text x="405" y="99" text-anchor="middle" class="s">sourceType module</text>
+<path d="M530 85 H576" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="553" y="30" text-anchor="middle" class="s">JSXIdentifier ?</text>
+<rect x="580" y="40" width="250" height="90" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="705" y="79" text-anchor="middle" class="m">.js → .jsx</text>
+<text x="705" y="99" text-anchor="middle" class="s">CRA → Vite</text>
+</svg>

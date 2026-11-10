@@ -1,41 +1,33 @@
 ---
 type: snippet
-title: React 밖 상태를 useSyncExternalStore로 구독하기
+title: 'useSyncExternalStore :: Subscribe -> IO a -> a'
 tags: ['react', 'usesyncexternalstore', 'event-target']
 status: release
 ctime: 2026-06-21
-mtime: 2026-10-29
+mtime: 2026-11-09
+sources:
+  - id: bone-singletons
+    resource: https://dev.to/link2twenty/react-singletons-arent-as-evil-as-you-think-44m8
+    title: "React: Singletons aren't as evil as you think — Andrew Bone"
+  - id: react-usesyncexternalstore
+    resource: https://react.dev/reference/react/useSyncExternalStore
+    title: 'useSyncExternalStore — React'
 ---
-
-```js
-class ToastManager extends EventTarget {
-  get toasts() {
-    return this._toasts // 새로 만들지 않는다 — 같은 참조면 안 바뀐 것
-  }
-  set toasts(value) {
-    this._toasts = [...value] // 새 참조 = "바뀌었다"는 신호
-    this.dispatchEvent(new Event('changed'))
-  }
-  // add·remove … 는 전부 이 setter 를 거친다 — 변경과 발행이 한 곳이라 발행 누락이 없다
-}
-```
-
-```jsx
-const subscribe = (cb) => {
-  toastManager.addEventListener('changed', cb)
-  return () => toastManager.removeEventListener('changed', cb)
-}
-
-// useEffect + useState 로 손으로 복사하던 동기화를 React 가 맡는다.
-// changed 마다 getSnapshot 을 불러 참조를 비교하고, 다를 때만 리렌더한다.
-const toasts = useSyncExternalStore(subscribe, () => toastManager.toasts)
-```
 
 ![어디서든 add 를 부르면 setter 가 새 배열을 만들고 changed 를 발행한다. React 는 getSnapshot 으로 다시 읽어 이전 값과 Object.is 로 비교해 다르면 리렌더, 같으면 건너뛴다. getter 는 내부 배열을 그대로 돌려주므로 안 바뀌면 같은 참조다. getSnapshot 이 매번 새 배열을 만들면 항상 달라 무한 루프가 된다.](/svg/external_store_flow.svg)
 
----
+```haskell
+-- React 밖 상태: 변경과 발행을 setter 한 곳에 둔다 (add·remove 도 전부 여기를 지난다)
+set :: Store -> [Toast] -> IO ()
+set store xs = do
+  writeRef (toasts store) (copy xs)   -- 새 참조 = "바뀌었다"
+  emit store Changed
 
-- 출처: [React: Singletons aren't as evil as you think — Andrew Bone](https://dev.to/link2twenty/react-singletons-arent-as-evil-as-you-think-44m8)
-- 원리: [useSyncExternalStore — React](https://react.dev/reference/react/useSyncExternalStore)[^react-usesyncexternalstore]
+getSnapshot :: Store -> IO [Toast]
+getSnapshot = readRef . toasts        -- 새로 만들지 않는다: 같은 참조면 안 바뀐 것
 
-[^react-usesyncexternalstore]: *"While the store has not changed, repeated calls to `getSnapshot` must return the same value. If the store changes and the returned value is different (as compared by `Object.is`), React re-renders the component."* / *"if you always return a different value, you will enter an infinite loop"*
+-- Changed 마다 getSnapshot 을 불러 이전 값과 Object.is 로 비교, 다를 때만 리렌더
+useSyncExternalStore :: Subscribe -> IO a -> a
+
+-- 법칙: 안 바뀌었으면 getSnapshot 두 번이 같은 참조. 매번 새 값이면 무한 루프
+```

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>Google Sheets API 를 쓰기까지: 밟는 차례</title>
+<desc>서비스 계정 설정부터 정하고, Google Cloud 에서 프로젝트를 만들고, Google Sheets API 를 켜고, 서비스 계정을 만들어 키를 받고, 그 키를 환경 변수에 넣으면 google-spreadsheet 로 시트를 다룰 수 있다. 각 단계의 방법이 아니라 밟는 차례를 기억하려고 적어 둔 것이다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="50" width="102" height="60" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="81" y="74" text-anchor="middle" class="s">1</text>
+<text x="81" y="94" text-anchor="middle" class="s">서비스 계정 설정</text>
+<rect x="146" y="50" width="102" height="60" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="197" y="74" text-anchor="middle" class="s">2</text>
+<text x="197" y="94" text-anchor="middle" class="s">프로젝트</text>
+<path d="M129 80 H143" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="262" y="50" width="102" height="60" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="313" y="74" text-anchor="middle" class="s">3</text>
+<text x="313" y="94" text-anchor="middle" class="s">Sheets API 켜기</text>
+<path d="M245 80 H259" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="378" y="50" width="102" height="60" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="429" y="74" text-anchor="middle" class="s">4</text>
+<text x="429" y="94" text-anchor="middle" class="s">자격 증명</text>
+<path d="M361 80 H375" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="494" y="50" width="102" height="60" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="545" y="74" text-anchor="middle" class="s">5</text>
+<text x="545" y="94" text-anchor="middle" class="s">서비스 계정</text>
+<path d="M477 80 H491" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="610" y="50" width="102" height="60" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="661" y="74" text-anchor="middle" class="s">6</text>
+<text x="661" y="94" text-anchor="middle" class="s">계정 키</text>
+<path d="M593 80 H607" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="726" y="50" width="102" height="60" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="777" y="74" text-anchor="middle" class="s">7</text>
+<text x="777" y="94" text-anchor="middle" class="s">환경 변수</text>
+<path d="M709 80 H723" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="30" y="160" text-anchor="start" class="s">방법은 링크에, 여기엔 차례만 — 이 순서로 가면 막히지 않는다</text>
+</svg>

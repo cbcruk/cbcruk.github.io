@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>Grid View: 표 형식 보기 컨트롤이 흔히 하는 넷</title>
+<desc>그리드 뷰(데이터그리드)는 데이터를 표로 보여 주는 컨트롤이다. 대개 머리글을 눌러 정렬하고, 머리글을 끌어 열 크기와 순서를 바꾸고, 셀을 그 자리에서 편집하고, 구분선과 줄무늬 배경을 준다. 라이브러리로는 react-data-grid, glide-data-grid, perspective, teable 이 있다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="185" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="122" y="74" text-anchor="middle" class="b">정렬</text>
+<text x="122" y="94" text-anchor="middle" class="s">머리글 클릭</text>
+<rect x="232" y="40" width="185" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="324" y="74" text-anchor="middle" class="b">열 크기·순서</text>
+<text x="324" y="94" text-anchor="middle" class="s">머리글 끌기</text>
+<rect x="434" y="40" width="185" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="526" y="74" text-anchor="middle" class="b">제자리 편집</text>
+<text x="526" y="94" text-anchor="middle" class="s">셀에서 바로</text>
+<rect x="636" y="40" width="185" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="728" y="74" text-anchor="middle" class="b">구분·줄무늬</text>
+<text x="728" y="94" text-anchor="middle" class="s">행 배경 번갈아</text>
+<text x="30" y="160" text-anchor="start" class="m">react-data-grid · glide-data-grid · perspective · teable</text>
+</svg>

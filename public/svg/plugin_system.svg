@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 190" width="100%" role="img">
+<title>플러그인 시스템: 코어는 등록만 받는다</title>
+<desc>플러그인 시스템은 코어가 플러그인을 등록받아 정해진 지점에서 불러 주는 구조다. 기능을 코어에 직접 넣지 않고 플러그인으로 더하므로, 코어를 고치지 않고 안전하게 확장할 수 있고 추가 유지 보수 부담이 코어에 쌓이지 않는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="190" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="100" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="155" y="74" text-anchor="middle" class="b">코어</text>
+<text x="155" y="94" text-anchor="middle" class="m">register(plugin)</text>
+<text x="155" y="114" text-anchor="middle" class="s">정해진 지점에서 부른다</text>
+<rect x="360" y="40" width="140" height="100" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="94" text-anchor="middle" class="m">plugin A</text>
+<rect x="520" y="40" width="140" height="100" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="590" y="94" text-anchor="middle" class="m">plugin B</text>
+<rect x="680" y="40" width="140" height="100" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="750" y="94" text-anchor="middle" class="m">plugin C</text>
+<path d="M356 90 H284" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+</svg>

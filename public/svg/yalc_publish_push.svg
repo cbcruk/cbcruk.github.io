@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>yalc: symlink 대신 publish 될 파일만 복사</title>
+<desc>npm link 는 패키지 폴더를 symlink 해서 node_modules 해석·중복 React 같은 문제가 생긴다. yalc 는 패키지에서 yalc publish 하면 npm 에 올라갈 파일만 ~/.yalc 전역 저장소에 복사하고, 앱에서 yalc add 하면 그걸 .yalc 로 끌어와 의존성으로 건다. yalc push 는 저장하면서 연결된 모든 앱에 바로 반영한다 — tsup --watch --onSuccess "yalc push" 로 걸어 두면 저장할 때마다 앱이 갱신된다. .yalc 와 yalc.lock 은 gitignore 한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<rect x="30" y="40" width="220" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="140" y="69" text-anchor="middle" class="b">패키지</text>
+<text x="140" y="89" text-anchor="middle" class="m">yalc publish</text>
+<path d="M250 75 H316" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="283" y="65" text-anchor="middle" class="s">파일 복사</text>
+<rect x="320" y="40" width="220" height="70" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="430" y="69" text-anchor="middle" class="b">~/.yalc</text>
+<text x="430" y="89" text-anchor="middle" class="s">publish 될 파일만</text>
+<path d="M540 75 H606" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="573" y="65" text-anchor="middle" class="s">yalc add</text>
+<rect x="610" y="40" width="220" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="720" y="69" text-anchor="middle" class="b">앱</text>
+<text x="720" y="89" text-anchor="middle" class="m">.yalc · yalc.lock</text>
+<path d="M140 110 C 140 170, 720 170, 720 114" stroke="#2E7D32" stroke-width="1.4" fill="none" marker-end="url(#ag)"/>
+<text x="430" y="182" text-anchor="middle" class="g">yalc push = 저장 + 연결된 앱 전부에 반영 (watch 의 onSuccess 에)</text>
+<text x="430" y="212" text-anchor="middle" class="s">정리: yalc remove my-module &amp;&amp; npm install · .yalc 와 yalc.lock 은 gitignore</text>
+</svg>

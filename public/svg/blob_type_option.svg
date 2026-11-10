@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 180" width="100%" role="img">
+<title>Blob 으로 파일 다운로드: type 을 준다</title>
+<desc>new Blob(array) 로 다운로드 파일을 만들었는데 잘 안 됐다. 옵션에 type 을 빠뜨린 게 원인이었다 — new Blob(array, { type: "text/html" }) 처럼 MIME 타입을 함께 준다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="180" fill="#FFFFFF"/>
+<rect x="30" y="40" width="370" height="80" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="215" y="74" text-anchor="middle" class="m">new Blob(array)</text>
+<text x="215" y="94" text-anchor="middle" class="s">type 이 없다 — 다운로드가 잘 안 됐다</text>
+<path d="M400 80 H456" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="460" y="40" width="370" height="80" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="645" y="84" text-anchor="middle" class="m">new Blob(array, { type: 'text/html' })</text>
+</svg>

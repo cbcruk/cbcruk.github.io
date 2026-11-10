@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240" width="100%" role="img">
+<title>getDay: 로컬 시간 기준, 날짜만 쓴 문자열은 UTC 자정</title>
+<desc>getDay 는 로컬 시간 기준 요일을 0(일)~6(토)으로 준다. new Date(2024, 11, 25) 는 월이 0 부터라 12월 25일 로컬 자정이고 수요일(3)이다. new Date("2024-12-25") 처럼 날짜만 쓴 문자열은 UTC 자정으로 읽혀, UTC 보다 느린 시간대(미국 등)에선 로컬로 24일 저녁이라 화요일(2)이 나온다. 요일 이름은 [일, 월, 화, 수, 목, 금, 토] 배열에 getDay 로 꺼낸다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="240" fill="#FFFFFF"/>
+<rect x="30" y="40" width="360" height="60" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="210" y="64" text-anchor="middle" class="m">new Date(2024, 11, 25)</text>
+<text x="210" y="84" text-anchor="middle" class="s">로컬 자정 · 월은 0 부터 → 수 (3)</text>
+<rect x="30" y="130" width="360" height="60" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="210" y="154" text-anchor="middle" class="m">new Date('2024-12-25')</text>
+<text x="210" y="174" text-anchor="middle" class="s">UTC 자정 → 미국에선 24일 저녁 → 화 (2)</text>
+<rect x="450" y="40" width="380" height="150" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="640" y="89" text-anchor="middle" class="b">요일 이름</text>
+<text x="640" y="109" text-anchor="middle" class="m">['일','월','화','수','목','금','토']</text>
+<text x="640" y="129" text-anchor="middle" class="m">  [d.getDay()]</text>
+<text x="640" y="149" text-anchor="middle" class="s">0 = 일요일 · 로컬 시간 기준</text>
+</svg>

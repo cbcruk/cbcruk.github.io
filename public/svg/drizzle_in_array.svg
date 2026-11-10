@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>Drizzle inArray: 빈 배열이면 false 조건, 앞에서 끊으면 왕복이 없다</title>
+<desc>inArray(authors.id, [1, 2, 3]) 은 WHERE id IN (1, 2, 3) 이 된다. 빈 배열을 넘기면 에러 없이 WHERE false 가 되어 빈 결과가 돌아오지만 쿼리 왕복은 한 번 생긴다. 그래서 배열이 비었으면 쿼리 없이 바로 [] 를 돌려준다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="240" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="150" y="72" text-anchor="middle" class="m">[1, 2, 3]</text>
+<path d="M270 68 H326" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="330" y="40" width="500" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="580" y="72" text-anchor="middle" class="m">WHERE id IN (1, 2, 3)</text>
+<rect x="30" y="130" width="240" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="150" y="162" text-anchor="middle" class="m">[]</text>
+<path d="M270 158 H326" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="330" y="130" width="240" height="56" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="450" y="152" text-anchor="middle" class="m">WHERE false</text>
+<text x="450" y="172" text-anchor="middle" class="s">에러는 없다, 왕복 1번</text>
+<rect x="600" y="130" width="230" height="56" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="715" y="152" text-anchor="middle" class="m">length &gt; 0 ? … : []</text>
+<text x="715" y="172" text-anchor="middle" class="s">왕복 0번</text>
+</svg>

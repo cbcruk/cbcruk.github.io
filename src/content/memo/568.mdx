@@ -1,10 +1,11 @@
 ---
 type: note
+title: 'sum [n / (n - i + 1) | i <- [1..n]]'
 kind: Explainer
 tags: ['probability', 'coupon-collector', 'math']
 status: release
 ctime: 2026-06-23
-mtime: 2026-08-23
+mtime: 2026-11-09
 generated: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
 sources:
@@ -13,25 +14,19 @@ sources:
     title: "Coupon collector's problem — Wikipedia"
 ---
 
-import AutoIframe from '@components/AutoIframe/AutoIframe.astro'
+![목록 90개에서 매번 무작위로 하나를 뽑을 때, i 번째 새 항목을 만나기까지의 평균 대기는 90/(90-i+1) 번이다. 앞쪽 절반은 거의 매번 새것이 나오지만 끝으로 갈수록 대기가 급격히 길어지고, 마지막 한 개는 평균 90번을 기다린다 — 섞어서 한 바퀴 돌면 90개 전부를 보는 횟수다. 다 합치면 평균 457번으로, 섞어 도는 90번의 약 5배다.](/svg/coupon_collector_tail.svg)
 
-목록 90개에서 매번 무작위로 하나를 뽑아 보여준다고 하자 (작업 중에 문구를 바꿔 띄우는 스피너 같은 것). **90개를 다 보려면 90번쯤이면 될까.**
+```haskell
+-- 목록 n 개에서 매번 무작위로 하나를 뽑는다 (작업 중 문구를 바꿔 띄우는 스피너 같은 것)
+-- n 개를 다 보려면 몇 번? — 섞어서 한 바퀴 돌면 n 번이지만, 매번 전체에서 다시 뽑는다
 
-아니다. **평균 457번**이다. 5배다. 1초에 하나씩이면 7분 반.
+-- i 번째 새 항목: 남은 n - i + 1 개 중 하나가 걸릴 때까지
+wait :: Double -> Double -> Double
+wait n i = n / (n - i + 1)
 
-목록을 한 번 섞어서 처음부터 끝까지 도는 게 아니라 **매번 90개 전체에서 다시 뽑기** 때문이다. 그러면 이미 본 것이 계속 다시 나온다. 섞어 돌았다면 90번에 정확히 끝났을 일이다.
+expected :: Double -> Double
+expected n = sum [wait n i | i <- [1..n]]   -- = n × H_n (쿠폰 수집가)
 
-**꼬리가 어디서 생기는지가 핵심이다.** 89개를 모았을 때, 남은 마지막 하나가 뽑힐 확률은 90분의 1이다. 그 **한 개를 만나는 데만 평균 90번** — 섞어서 돌았다면 90개 전부를 봤을 횟수다.[^wikipedia-coupon-collector]
-
-이게 쿠폰 수집가 문제(coupon collector)다. 전부 모으는 데 걸리는 평균 횟수는
-
+expected 90 ≈ 457   -- 5배. 1초에 하나면 7분 반
+wait 90 90  = 90    -- 꼬리: 마지막 한 개에만 섞어 돌 때의 전부만큼
 ```
-n × (1 + 1/2 + 1/3 + … + 1/n)
-```
-
-<AutoIframe
-  src="/iframe/coupon_collector_explorer.html"
-  title="목록 크기를 바꿔가며, 뽑기 횟수가 늘수록 서로 다른 것을 몇 개나 보게 되는지 보여주는 곡선"
-/>
-
-[^wikipedia-coupon-collector]: 전부 모으는 기대 횟수는 `n·H_n`(`H_n`은 조화수). 그리고 `i`번째 새 쿠폰까지의 기대 대기는 `n/(n-i+1)` 이므로 **마지막 한 장은 `n/1 = n`** — 단계 중 가장 오래 걸린다. ([Coupon collector's problem — Wikipedia](https://en.wikipedia.org/wiki/Coupon_collector%27s_problem))

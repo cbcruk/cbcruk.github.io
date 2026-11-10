@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>BDD 세 관행: 발견 → 공식화 → 자동화</title>
+<desc>BDD 는 시스템이 해야 할 행동을 함께 정하고 그 명세로 구현을 이끄는 방식이다. 스토리마다 먼저 필요한 행동의 범위를 함께 발견하고, 합의되면 비즈니스가 읽을 수 있는 언어로 공식화하고, 마지막으로 그 명세를 Cucumber 로 자동화해 시스템이 정말 그렇게 도는지 확인한다. 그래서 명세는 앱과 어긋나면 스스로 알려 주는 살아 있는 문서가 된다 — 테스트가 문서를 만들어 주지는 않는다, 여전히 써야 한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="240" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="150" y="74" text-anchor="middle" class="b">발견</text>
+<text x="150" y="94" text-anchor="middle" class="s">행동의 범위를 함께</text>
+<rect x="310" y="40" width="240" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="74" text-anchor="middle" class="b">공식화</text>
+<text x="430" y="94" text-anchor="middle" class="s">비즈니스가 읽는 언어로</text>
+<path d="M270 80 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="590" y="40" width="240" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="710" y="74" text-anchor="middle" class="b">자동화</text>
+<text x="710" y="94" text-anchor="middle" class="s">Cucumber 로 실행</text>
+<path d="M550 80 H586" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="30" y="150" width="800" height="50" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="430" y="169" text-anchor="middle" class="b">살아 있는 문서</text>
+<text x="430" y="189" text-anchor="middle" class="s">앱과 어긋나면 스스로 알린다 — 테스트가 써 주지는 않는다</text>
+</svg>

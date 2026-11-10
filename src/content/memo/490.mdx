@@ -1,62 +1,36 @@
 ---
 type: snippet
+title: 'visible :: Event -> Visibility -> Visibility'
 tags: ['visibility-state']
 status: release
 ctime: 2025-03-25
-mtime: 2026-10-29
+mtime: 2026-11-09
+sources:
+  - id: use-visibility-state
+    resource: https://github.com/nkzw-tech/use-visibility-state/
+    title: 'use-visibility-state'
+  - id: mdn-visibilitychange
+    resource: https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event
+    title: 'Document: visibilitychange event — MDN'
+  - id: mdn-visibilitystate
+    resource: https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilityState
+    title: 'Document.visibilityState — MDN'
+  - id: use-visibility-state-sleep
+    resource: https://github.com/nkzw-tech/use-visibility-state/blob/e4caf2ab50a7bd0d19d0dff7d04bf60b67469857/src/index.tsx#L22-L27
+    title: 'use-visibility-state/src/index.tsx — sleep 처리'
 ---
 
-import QuoteLink from '@components/QuoteLink.astro'
+![탭 전환·최소화·앱 전환으로 보임 상태가 바뀌면 document 에 visibilitychange 가 오고 visibilityState 가 visible 또는 hidden 이 된다. 그런데 시스템이 잠들었다 깨면 이 이벤트가 안 올 때가 있어, hidden 상태일 때만 mouseenter·keydown 을 걸어 두고 입력이 오면 visible 로 되돌린다. React 훅은 상태가 실제로 바뀔 때만 set 한다.](/svg/visibility_state_wake.svg)
 
-<QuoteLink url="https://github.com/nkzw-tech/use-visibility-state/">
-  use-visibility-state
-</QuoteLink>
+```haskell
+-- 탭 전환·최소화·앱 전환으로 보임 상태가 바뀌면 document 에 visibilitychange
+visible :: Event -> Visibility -> Visibility
+visible VisibilityChange _      = visibilityState document   -- "visible" | "hidden"
+visible (Input _)        Hidden = Visible                    -- 잠들었다 깨면 visibilitychange 가 안 올 때가 있다
+visible _                v      = v                          -- 그래서 hidden 일 때만 mouseenter·keydown 을 건다
 
-`visibilitychange` 는 탭 전환·최소화·앱 전환처럼 보임 상태가 바뀔 때 document 에서 발생한다.[^490-1]
-
-```ts
-const isVisible = document.visibilityState === 'visible'
-const isHidden = document.visibilityState === 'hidden'
-
-document.addEventListener('visibilitychange', onChange)
+-- React: 실제로 바뀔 때만 set
+onChange = do
+  v <- (/= Hidden) <$> visibilityState document
+  when (v /= isVisible) (setIsVisible v)
 ```
-
----
-
-시스템이 잠들면 `visibilitychange` 가 안 올 때가 있다 — hidden 상태일 때만 입력으로 복귀를 잡는다.[^490-2]
-
-```ts
-if (document.visibilityState === 'hidden') {
-  document.addEventListener('mouseenter', setVisible)
-  document.addEventListener('keydown', setVisible)
-}
-```
-
----
-
-```ts
-const [isVisible, setIsVisible] = useState(true)
-
-useEffect(() => {
-  const onChange = () => {
-    const newState = document.visibilityState !== 'hidden'
-
-    if (newState !== isVisible) {
-      setIsVisible(newState)
-    }
-  }
-
-  // addEventListener
-
-  return () => {
-    // removeEventListener
-  }
-}, [isVisible])
-```
-
----
-
-- [`document.visibilityState`](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilityState)
-
-[^490-1]: [Document: visibilitychange event - MDN](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event): *"The visibilitychange event is fired at the document when its visibility status changes — for example, when the user switches browser tabs, navigates to a new page, minimizes or closes the browser, or on mobile, switches to a different app."*
-[^490-2]: [use-visibility-state/src/index.tsx](https://github.com/nkzw-tech/use-visibility-state/blob/e4caf2ab50a7bd0d19d0dff7d04bf60b67469857/src/index.tsx#L22-L27): *"When the system goes to sleep, sometimes the `visibilitychange` event is not fired. In that case, we can use `mouseenter` or `keydown` to detect when the window is focused."*

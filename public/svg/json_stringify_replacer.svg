@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 190" width="100%" role="img">
+<title>JSON.stringify 의 replacer 와 space</title>
+<desc>JSON.stringify 는 열거 가능한 자기 속성만 보므로 Set·Map 은 {} 가 된다. 두 번째 인자 replacer 로 값이 Set 이면 배열로 바꿔 넣는다. 세 번째 인자 space 에 문자열을 주면 그것으로 들여 쓰는데, 10자에서 잘린다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="190" fill="#FFFFFF"/>
+<rect x="30" y="40" width="230" height="100" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145" y="94" text-anchor="middle" class="m">new Set([1, 2])</text>
+<path d="M260 70 H426" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+<text x="343" y="58" text-anchor="middle" class="s">그냥</text>
+<rect x="430" y="40" width="400" height="40" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="630" y="64" text-anchor="middle" class="m">{}</text>
+<path d="M260 115 H426" stroke="#2E7D32" stroke-width="1.4" fill="none" marker-end="url(#ag)"/>
+<text x="343" y="133" text-anchor="middle" class="s">replacer: Set → [...v]</text>
+<rect x="430" y="95" width="400" height="45" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="630" y="122" text-anchor="middle" class="m">[1, 2]</text>
+<text x="30" y="175" text-anchor="start" class="s">space: 문자열이면 그걸로 들여 쓴다 — 10자에서 잘린다</text>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>슬랙에서 구글시트로: 밟는 차례</title>
+<desc>사람들이 슬랙에서 추천한 책을 구글시트에 기록한다. 슬랙에 /book 슬래시 커맨드를 만들어 요청 URL 에 구글 앱스 스크립트 웹 앱 URL 을 연결하면, 커맨드를 칠 때 슬랙이 그 URL 로 POST 하고 스크립트의 doPost 가 받은 값으로 시트에 행을 쓴다. 방법은 링크에 있고 여기엔 차례만 적었다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="50" width="180" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="120" y="84" text-anchor="middle" class="b">/book 제목</text>
+<text x="120" y="104" text-anchor="middle" class="s">슬랙에서 추천</text>
+<rect x="235" y="50" width="180" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="325" y="84" text-anchor="middle" class="b">슬래시 커맨드</text>
+<text x="325" y="104" text-anchor="middle" class="s">요청 URL = 앱스 스크립트</text>
+<path d="M210 90 H231" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="440" y="50" width="180" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="530" y="84" text-anchor="middle" class="b">doPost(e)</text>
+<text x="530" y="104" text-anchor="middle" class="s">POST 로 받는다</text>
+<path d="M415 90 H436" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="645" y="50" width="180" height="80" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="735" y="84" text-anchor="middle" class="b">구글시트</text>
+<text x="735" y="104" text-anchor="middle" class="s">행 추가</text>
+<path d="M620 90 H641" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="30" y="170" text-anchor="start" class="s">방법은 링크에, 여기엔 차례만</text>
+</svg>

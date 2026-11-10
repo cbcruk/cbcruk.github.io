@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>overflow 테스트는 레이아웃이 있는 곳에서만</title>
+<desc>부모 폭 300 에 자식 폭 500 을 넣으면 scrollWidth 500 이 clientWidth 300 보다 커서 가로 스크롤이 생긴다 — 이걸 단언하는 테스트는 실제 브라우저(Vitest browser mode·Playwright)에서만 통과한다. jsdom 은 레이아웃을 하지 않아 scrollWidth·clientWidth·getBoundingClientRect 가 전부 0 이라 0 &gt; 0 이 false 다. jsdom 에서 돌려야 하면 Object.defineProperty 로 두 값을 모킹한다(515).</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="69" text-anchor="middle" class="b">렌더</text>
+<text x="155" y="89" text-anchor="middle" class="m">parent 300 · child 500</text>
+<path d="M280 60 H346" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<path d="M280 95 H346" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+<rect x="350" y="30" width="480" height="48" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="590" y="58" text-anchor="middle" class="m">브라우저  scrollWidth 500 &gt; clientWidth 300 → true</text>
+<rect x="350" y="82" width="480" height="48" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="590" y="110" text-anchor="middle" class="m">jsdom     0 &gt; 0 → false  (레이아웃 없음)</text>
+<rect x="30" y="165" width="800" height="50" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="194" text-anchor="middle" class="s">jsdom 에서 돌려야 하면 Object.defineProperty 로 scrollWidth·clientWidth 를 모킹 (515) · getBoundingClientRect 도 0</text>
+</svg>

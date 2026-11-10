@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>0.1 + 0.2 ≠ 0.3: 이진수로 끝나지 않는 수를 근사한다</title>
+<desc>JS 의 Number 는 IEEE 754 64비트 부동소수점이다. 0.1 은 이진법으로 0.000110011… 이 끝없이 반복돼 가장 가까운 값으로 잘려 저장되고, 그 오차가 더해져 0.1 + 0.2 가 0.30000000000000004 가 된다. 피하는 길은 셋: 정수로 바꿔 계산 후 나누기, toFixed 로 자른 뒤 parseFloat, 비교할 때 크기에 비례한 허용 오차(EPSILON × 크기). EPSILON 은 1 근처에서만 맞는다 — 1.1 + 0.1 − 1.2 는 정확히 EPSILON 이라 그대로 쓰면 &lt; 비교가 false 다. 정밀 계산은 decimal.js·big.js. Python·Java·C++ 도 같다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<rect x="30" y="30" width="260" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="160" y="56" text-anchor="middle" class="m">0.1 (십진)</text>
+<text x="160" y="76" text-anchor="middle" class="s">이진: 0.000110011… 반복</text>
+<path d="M290 62 H346" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="318" y="20" text-anchor="middle" class="s">64비트로 자름</text>
+<rect x="350" y="30" width="230" height="64" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="465" y="56" text-anchor="middle" class="m">0.1000000000000000055…</text>
+<text x="465" y="76" text-anchor="middle" class="s">근사치</text>
+<path d="M580 62 H626" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="630" y="30" width="200" height="64" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="730" y="56" text-anchor="middle" class="m">0.1 + 0.2</text>
+<text x="730" y="76" text-anchor="middle" class="m">= 0.30000000000000004</text>
+<rect x="30" y="130" width="250" height="90" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="155" y="169" text-anchor="middle" class="b">정수로</text>
+<text x="155" y="189" text-anchor="middle" class="m">(1.1*10 + 0.1*10) / 10</text>
+<rect x="305" y="130" width="250" height="90" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="169" text-anchor="middle" class="b">잘라서</text>
+<text x="430" y="189" text-anchor="middle" class="m">+(1.1 + 0.1).toFixed(1)</text>
+<rect x="580" y="130" width="250" height="90" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="705" y="159" text-anchor="middle" class="b">비교는 크기 비례</text>
+<text x="705" y="179" text-anchor="middle" class="m">|a − b| &lt; ε × 1.2</text>
+<text x="705" y="199" text-anchor="middle" class="r">ε 만 쓰면 false</text>
+</svg>

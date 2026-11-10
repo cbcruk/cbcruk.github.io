@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>요청 본문을 누가 먼저 읽었나: 읽기 메서드를 Proxy 로</title>
+<desc>요청 본문 스트림은 한 번 읽으면 disturbed 가 되어 다시 읽을 수 없다. 누가 먼저 읽어 버렸는지 찾으려면 arrayBuffer·blob·formData·text·json 다섯 메서드를 Proxy 로 감싸, 불릴 때마다 console.trace 로 호출 스택을 찍고 원래 메서드를 그대로 부른다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="110" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="79" text-anchor="middle" class="b">request</text>
+<text x="155" y="99" text-anchor="middle" class="m">arrayBuffer · blob</text>
+<text x="155" y="119" text-anchor="middle" class="m">formData · text · json</text>
+<path d="M280 95 H326" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="303" y="30" text-anchor="middle" class="s">Proxy apply</text>
+<rect x="330" y="40" width="250" height="110" rx="7" fill="#FFF4DE" stroke="#B7791F" stroke-width="1.5"/>
+<text x="455" y="79" text-anchor="middle" class="m">console.trace(…)</text>
+<text x="455" y="99" text-anchor="middle" class="m">Reflect.apply(…)</text>
+<text x="455" y="119" text-anchor="middle" class="s">스택을 찍고 그대로 호출</text>
+<rect x="620" y="40" width="210" height="110" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="725" y="79" text-anchor="middle" class="b">body 는 한 번만</text>
+<text x="725" y="99" text-anchor="middle" class="s">읽으면 disturbed</text>
+<text x="725" y="119" text-anchor="middle" class="s">두 번째 읽기는 실패</text>
+</svg>

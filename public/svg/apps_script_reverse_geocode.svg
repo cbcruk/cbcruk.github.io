@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 190" width="100%" role="img">
+<title>앱스 스크립트 역지오코딩: 좌표 → 주소</title>
+<desc>Apps Script 의 Maps.newGeocoder() 에 setLanguage("ko") 로 언어를 정하고 reverseGeocode(위도, 경도) 를 부르면 그 좌표의 주소 후보들이 results 로 온다. 각 결과에서 formatted_address 와 geometry.location 의 lat·lng 를 꺼낸다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="190" fill="#FFFFFF"/>
+<rect x="30" y="40" width="230" height="90" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145" y="89" text-anchor="middle" class="m">40.758577, -73.984464</text>
+<path d="M260 85 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="283" y="30" text-anchor="middle" class="s">setLanguage('ko')</text>
+<rect x="310" y="40" width="230" height="90" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="425" y="79" text-anchor="middle" class="m">reverseGeocode</text>
+<text x="425" y="99" text-anchor="middle" class="s">Maps.newGeocoder()</text>
+<path d="M540 85 H586" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="590" y="40" width="240" height="90" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="710" y="79" text-anchor="middle" class="m">[{ formatted_address,</text>
+<text x="710" y="99" text-anchor="middle" class="m">   lat, lng }]</text>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240" width="100%" role="img">
+<title>Next.js prefetch 와 CSS chunk 실패</title>
+<desc>Next.js 의 prefetchViaDom 은 같은 href 의 prefetch·preload link 나 script 가 이미 있으면 건너뛰고, 없으면 link rel=prefetch 를 만들어 head 에 붙인다. 속성 순서가 의도적이라 href 를 맨 마지막에 넣는다 — href 를 넣는 순간 요청이 나가므로 그 전에 as·crossOrigin·onload·onerror 가 준비돼 있어야 한다. mini-css-extract-plugin 은 CSS chunk 의 link 가 실패하면 ChunkLoadError 를 만들고 그 link 태그를 DOM 에서 지운 뒤 reject 한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="240" fill="#FFFFFF"/>
+<rect x="30" y="30" width="250" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="64" text-anchor="middle" class="b">이미 있나?</text>
+<text x="155" y="84" text-anchor="middle" class="m">link[href^=…] · script</text>
+<path d="M280 70 H326" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="303" y="22" text-anchor="middle" class="s">없으면</text>
+<rect x="330" y="30" width="500" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="580" y="64" text-anchor="middle" class="m">as → rel → crossOrigin → onload/onerror → href</text>
+<text x="580" y="84" text-anchor="middle" class="s">href 를 넣는 순간 요청 — 그래서 맨 마지막</text>
+<rect x="30" y="140" width="250" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="174" text-anchor="middle" class="b">CSS chunk link</text>
+<text x="155" y="194" text-anchor="middle" class="s">onerror</text>
+<path d="M280 180 H326" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="330" y="140" width="500" height="80" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="580" y="174" text-anchor="middle" class="m">ChunkLoadError · CSS_CHUNK_LOAD_FAILED</text>
+<text x="580" y="194" text-anchor="middle" class="s">link 태그를 지우고 reject</text>
+</svg>

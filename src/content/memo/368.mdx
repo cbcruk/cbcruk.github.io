@@ -1,39 +1,27 @@
 ---
 type: snippet
+title: 'parse :: String -> Maybe Url'
 tags: ['url']
 status: release
 ctime: 2025-01-16
-mtime: 2026-10-29
+mtime: 2026-11-09
+sources:
+  - id: mdn-url-parse
+    resource: https://developer.mozilla.org/en-US/docs/Web/API/URL/parse_static
+    title: 'URL: parse() static method — MDN'
 ---
 
-import QuoteLink from '@components/QuoteLink.astro'
+![같은 URL 파싱인데 실패를 알리는 방식만 다르다. new URL(null) 은 TypeError 를 던지고, URL.canParse(null) 은 false 를 돌려주고, URL.parse(null) 은 null 을 돌려준다. parse 는 try...catch 로 생성자를 감싸거나 canParse 로 먼저 확인하던 것을 한 번에 한다. 두 번째 인자 base 로 상대 URL 을 해석한다.](/svg/url_parse_failure.svg)
 
-<QuoteLink url="https://developer.mozilla.org/en-US/docs/Web/API/URL/parse_static">
-URL: parse() static method
-</QuoteLink>
+```haskell
+-- 같은 파싱, 실패를 알리는 방식만 다르다
+new      :: String -> Url          -- 실패하면 TypeError 를 던진다
+canParse :: String -> Bool         -- 실패하면 False
+parse    :: String -> Maybe Url    -- 실패하면 null
+parse s = if canParse s then Just (new s) else Nothing   -- try…catch 로 감싸던 걸 한 번에
 
-`URL()` 생성자는 던지고 `canParse()` 는 `false`, `parse()` 는 `null` — 같은 파싱인데 실패를 알리는 방식만 다르다[^url-parse]
-
-- `URL.parse(url)` 메서드는 주어진 URL에 따라 새 URL 객체를 생성
-- 두 번째 파라미터 base는 상대 URL을 해석하기 위한 기준 URL로 사용되며, 이를 통해 URL의 경로가 올바르게 조정됨
-- URL 객체나 다른 문자열을 파라미터로 사용할 수 있으며, 내부에서 문자열로 변환됨
-
-```ts
-describe('null 입력에 대한 URL API 동작 테스트', () => {
-  test('new URL(null)은 TypeError를 발생시킨다', () => {
-    expect(() => new URL(null)).toThrow(TypeError)
-  })
-
-  test('URL.canParse(null)은 false를 반환한다', () => {
-    expect(URL.canParse(null)).toBe(false)
-  })
-
-  test('URL.parse(null)은 null을 반환한다', () => {
-    expect(URL.parse(null)).toBe(null)
-  })
-})
+new      null   -- throws TypeError
+canParse null == False
+parse    null == Nothing
+-- 두 번째 인자 base: 상대 URL 을 해석할 기준. URL 객체도 문자열로 바꿔 받는다
 ```
-
----
-
-[^url-parse]: [URL: parse() static method - MDN](https://developer.mozilla.org/en-US/docs/Web/API/URL/parse_static): *"This is an alternative to using the URL() constructor to construct a `URL` within a try...catch block, or using canParse() to check the parameters and returning `null` if the method returns `false`."*

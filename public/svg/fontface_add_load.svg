@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>FontFace 는 add 해야 쓰이고 load 해야 받는다</title>
+<desc>new FontFace(family, url) 로 만든 글꼴은 그것만으로는 글자에 쓰이지 않는다. document.fonts 에 add 해야 렌더링에 쓰이고, URL 소스는 검증만 되고 자동으로 받지 않으므로 load 를 불러야 내려받는다. add 와 load 의 순서는 상관없지만 둘 다 해야 한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="230" height="90" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145" y="79" text-anchor="middle" class="m">new FontFace(</text>
+<text x="145" y="99" text-anchor="middle" class="m">  family, url)</text>
+<path d="M260 85 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="310" y="40" width="230" height="90" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="425" y="69" text-anchor="middle" class="m">document.fonts</text>
+<text x="425" y="89" text-anchor="middle" class="m">.add(face)</text>
+<text x="425" y="109" text-anchor="middle" class="s">그려질 때 쓰인다</text>
+<rect x="580" y="40" width="250" height="90" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="705" y="79" text-anchor="middle" class="m">await face.load()</text>
+<text x="705" y="99" text-anchor="middle" class="s">URL 은 자동으로 안 받는다</text>
+<text x="30" y="170" text-anchor="start" class="r">둘 중 하나만 하면 글꼴이 안 바뀐다 — 순서는 상관없다</text>
+</svg>

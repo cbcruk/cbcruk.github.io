@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 180" width="100%" role="img">
+<title>특수 기호 제거: 목록에 든 기호만 지운다</title>
+<desc>정규식 문자 클래스에 나열한 기호(!@#$%^&amp;*()_+-=[]{};':"\|,.&lt;&gt;/?)를 전부 지운다. 영문·숫자·한글·공백은 목록에 없으니 남는다. Hello_World123! 안녕하세요? 는 HelloWorld123 안녕하세요 가 된다 — 밑줄도 목록에 있어 지워진다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="180" fill="#FFFFFF"/>
+<rect x="30" y="50" width="300" height="60" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="180" y="84" text-anchor="middle" class="m">Hello_World123! 안녕하세요?</text>
+<path d="M330 80 H396" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="363" y="40" text-anchor="middle" class="s">기호 목록만</text>
+<rect x="400" y="50" width="300" height="60" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="550" y="84" text-anchor="middle" class="m">HelloWorld123 안녕하세요</text>
+<text x="720" y="85" text-anchor="start" class="s">_ 도 지워진다</text>
+</svg>

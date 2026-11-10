@@ -1,32 +1,29 @@
 ---
 type: snippet
+title: 'data Expr = Binary Field Op Value | And [Expr] | Or [Expr]'
 tags: ['dsl', 'permissions', 'typescript']
 status: release
 ctime: 2025-01-29
-mtime: 2025-01-29
+mtime: 2026-11-09
+sources:
+  - id: figma-permissions-dsl
+    resource: https://www.figma.com/blog/how-we-rolled-out-our-own-permissions-dsl-at-figma/
+    title: 'How we built a custom permissions DSL at Figma'
 ---
 
-import QuoteLink from '@components/QuoteLink.astro'
+![Figma 는 흩어진 권한 로직(불필요한 복잡성·계층 권한 비효율·DB 부하·여러 진실 소스)을 JSON 으로 직렬화되는 DSL 로 모았다. 식은 셋뿐이다: [필드, 연산자, 값] 꼴의 이항 식, 그리고 그걸 묶는 and·or. 예: file.id 가 null 이 아니고 team.permission 이 open 이면. 정책이 데이터라 어디로든 보낼 수 있고, TypeScript 평가 엔진이 하나로 판정한다.](/svg/figma_permissions_dsl.svg)
 
-<QuoteLink url="https://www.figma.com/blog/how-we-rolled-out-our-own-permissions-dsl-at-figma/">
-How we built a custom permissions DSL at Figma
-</QuoteLink>
+```haskell
+-- Figma 권한 DSL: 정책을 JSON 으로 직렬화되는 식으로, 평가는 TypeScript 엔진 하나로
+-- (이전: 불필요한 복잡성 · 계층 권한 비효율 · DB 부하 · 여러 진실 소스)
+data Expr = Binary Field Op Value   -- ['file.id', '<>', null]
+          | And [Expr]              -- { and: [...] }
+          | Or  [Expr]              -- { or: [...] }
 
-Figma의 권한 관리 DSL - JSON 직렬화 가능한 DSL로 정책 표현, TypeScript 기반 평가 엔진 구현.
+eval :: Row -> Expr -> Bool
+eval r (Binary f op v) = apply op (r ! f) v
+eval r (And es)        = all (eval r) es
+eval r (Or es)         = any (eval r) es
 
-기존 문제: 불필요한 복잡성, 계층적 권한 비효율, DB 부하, 여러 진실 소스
-
-```ts
-type ExpressionDef = BinaryExpressionDef | OrExpressionDef | AndExpressionDef
-
-// 바이너리 표현식: [필드, 연산자, 값]
-const binaryExpression = ['file.id', '<>', null] satisfies ExpressionDef
-
-// AND/OR 조합
-const andExpression = {
-  and: [
-    ['file.id', '<>', null],
-    ['team.permission', '=', 'open'],
-  ],
-} satisfies ExpressionDef
+canView = And [ Binary "file.id" "<>" Null, Binary "team.permission" "=" "open" ]
 ```

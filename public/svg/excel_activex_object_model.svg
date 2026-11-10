@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>Node 에서 Excel 을: ActiveX 로 객체 모델을 탄다</title>
+<desc>Windows 에서는 ActiveXObject("Excel.Application") 로 실행 중인 Excel 을 COM 객체로 잡는다. Node 에서는 node-activex 가 같은 일을 한다. 그다음은 Excel 객체 모델을 따라 내려간다 — Application 에서 Workbook, Worksheet, Range 순. Excel View 는 이렇게 활성 셀의 행 전체를 읽어 별도 창에 띄운다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="69" text-anchor="middle" class="m">node-activex</text>
+<text x="130" y="89" text-anchor="middle" class="s">ActiveXObject</text>
+<path d="M230 75 H266" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="270" y="40" width="125" height="70" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="332" y="79" text-anchor="middle" class="b">Application</text>
+<rect x="413" y="40" width="125" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="476" y="79" text-anchor="middle" class="b">Workbook</text>
+<path d="M395 75 H409" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="556" y="40" width="125" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="618" y="79" text-anchor="middle" class="b">Worksheet</text>
+<path d="M538 75 H552" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="699" y="40" width="125" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="762" y="79" text-anchor="middle" class="b">Range</text>
+<path d="M681 75 H695" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="270" y="140" width="560" height="50" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="550" y="159" text-anchor="middle" class="m">ActiveCell.EntireRow</text>
+<text x="550" y="179" text-anchor="middle" class="s">Excel View: 활성 셀의 행 전체를 별도 창에</text>
+</svg>

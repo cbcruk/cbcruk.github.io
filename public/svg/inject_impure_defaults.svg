@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" width="100%" role="img">
+<title>flaky 테스트 방지: 비순수 값을 기본 매개변수로 주입</title>
+<desc>new Date() 나 Math.random() 을 컴포넌트 안에서 바로 부르면 테스트마다 결과가 달라진다. 기본 매개변수로 받으면 인자를 안 넘긴 프로덕션에서는 호출할 때마다 new Date() 가 평가되고, 테스트에서는 new Date(2023, 0, 1) 이나 () =&gt; 0.5 를 넘겨 결과를 고정한다. 날짜는 toLocaleDateString("sv-SE") 로 로컬 YYYY-MM-DD 를 만든다 — toISOString 은 UTC 라 KST 오전 9시 전엔 하루 밀린다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="210" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="90" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="79" text-anchor="middle" class="m">{ now = new Date() }</text>
+<text x="155" y="99" text-anchor="middle" class="m">{ randomizer = Math.random }</text>
+<path d="M280 70 H446" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="363" y="58" text-anchor="middle" class="s">인자 없음 (프로덕션)</text>
+<path d="M280 110 H446" stroke="#2E7D32" stroke-width="1.4" fill="none" marker-end="url(#ag)"/>
+<text x="363" y="128" text-anchor="middle" class="s">주입 (테스트)</text>
+<rect x="450" y="40" width="380" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="640" y="64" text-anchor="middle" class="m">호출할 때마다 평가 — 매번 다르다</text>
+<rect x="450" y="90" width="380" height="40" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="640" y="114" text-anchor="middle" class="m">new Date(2023,0,1) · () =&gt; 0.5 — 고정</text>
+<text x="30" y="175" text-anchor="start" class="s">toLocaleDateString('sv-SE') = 로컬 YYYY-MM-DD · toISOString 은 UTC</text>
+</svg>

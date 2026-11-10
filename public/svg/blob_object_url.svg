@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>Blob 을 화면에: createObjectURL</title>
+<desc>캔버스로 동영상 프레임을 캡처하거나, 텍스트를 서버에 보내 음성 파일을 응답으로 받으면 둘 다 Blob 이 된다. URL.createObjectURL(blob) 로 그 Blob 을 가리키는 blob: URL 을 만들어 img 의 src 나 audio 의 src 에 넣으면 바로 보이고 들린다. axios 로 받을 땐 responseType 을 blob 으로 준다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="30" width="250" height="55" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="62" text-anchor="middle" class="s">캔버스 프레임 캡처</text>
+<rect x="30" y="100" width="250" height="55" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="132" text-anchor="middle" class="s">텍스트 → 서버 → 음성 파일</text>
+<path d="M280 57 H336" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<path d="M280 127 H336" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="340" y="40" width="200" height="105" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="440" y="86" text-anchor="middle" class="m">Blob</text>
+<text x="440" y="106" text-anchor="middle" class="m">createObjectURL</text>
+<path d="M540 92 H586" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="563" y="30" text-anchor="middle" class="s">blob:…</text>
+<rect x="590" y="40" width="240" height="105" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="710" y="86" text-anchor="middle" class="m">&lt;img src&gt;</text>
+<text x="710" y="106" text-anchor="middle" class="m">&lt;audio src&gt;</text>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240" width="100%" role="img">
+<title>흰색을 몇 % 덮어야 목표색이 되나: 합성식을 α 로 푼다</title>
+<desc>불투명한 바탕 위에 색을 α 만큼 덮으면 결과 = 덮는색·α + 바탕·(1 − α) 다. 덮는 색이 흰색(255)이면 α = (목표 − 바탕) / (255 − 바탕) 으로 역산된다. 검정 위에서 #D1D7DE 를 만들려면 R·G·B 가 각각 0.82·0.84·0.87 이라 하나의 α 로는 정확히 못 맞춘다 — 평균 0.84 를 쓰면 rgb(214, 214, 214) 가 나오고 목표는 rgb(209, 215, 222) 다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="240" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="69" text-anchor="middle" class="b">바탕</text>
+<text x="130" y="89" text-anchor="middle" class="m">#000000</text>
+<text x="250" y="80" text-anchor="start" class="b">+ 흰색 × α</text>
+<rect x="360" y="40" width="200" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="460" y="69" text-anchor="middle" class="b">목표</text>
+<text x="460" y="89" text-anchor="middle" class="m">#D1D7DE</text>
+<rect x="600" y="30" width="230" height="90" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="715" y="59" text-anchor="middle" class="b">채널마다 α</text>
+<text x="715" y="79" text-anchor="middle" class="m">R .82  G .84  B .87</text>
+<text x="715" y="99" text-anchor="middle" class="s">(목표 − 바탕) / (255 − 바탕)</text>
+<rect x="30" y="150" width="800" height="60" rx="7" fill="#FFF4DE" stroke="#B7791F" stroke-width="1.5"/>
+<text x="430" y="174" text-anchor="middle" class="m">평균 .84 → rgb(214, 214, 214)   목표 rgb(209, 215, 222)</text>
+<text x="430" y="194" text-anchor="middle" class="s">채널별 α 가 다르면 하나로는 못 맞춘다</text>
+</svg>

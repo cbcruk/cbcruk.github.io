@@ -1,33 +1,26 @@
 ---
 type: snippet
+title: 'data JsonValue = Prim JsonPrimitive | Obj (Map String JsonValue) | Arr [JsonValue]'
 tags: ['typescript', 'json']
 status: release
 ctime: 2025-01-19
-mtime: 2025-01-19
+mtime: 2026-11-09
+sources:
+  - id: type-fest-basic
+    resource: https://github.com/sindresorhus/type-fest/blob/49605b9770a344bac28ce8504045541dc0bdbd4b/source/basic.d.ts#L38-L68
+    title: 'type-fest basic.d.ts'
+  - id: type-fest-jsonify
+    resource: https://github.com/sindresorhus/type-fest/blob/main/source/jsonify.d.ts
+    title: 'type-fest jsonify.d.ts'
 ---
 
-import QuoteLink from '@components/QuoteLink.astro'
+![JSON 값은 셋 중 하나다. 기본값(string·number·boolean·null), 문자열 키에 JSON 값을 담은 객체, JSON 값의 배열. 객체와 배열이 다시 JSON 값을 담아 재귀한다. type-fest 의 JsonObject 는 선택 속성이 undefined 일 수 있게 한 겹 더 열어 두고, JsonArray 는 readonly 배열도 받는다.](/svg/json_value_type.svg)
 
-<QuoteLink url="https://github.com/sindresorhus/type-fest/blob/49605b9770a344bac28ce8504045541dc0bdbd4b/source/basic.d.ts#L38-L68">
-  basic.d.ts
-</QuoteLink>
-
-```ts
-type JsonPrimitive = string | number | boolean | null
-type JsonObject = { [Key in string]: JsonValue } & {
-  [Key in string]?: JsonValue | undefined
-}
-type JsonArray = JsonValue[] | readonly JsonValue[]
-type JsonValue = JsonPrimitive | JsonObject | JsonArray
+```haskell
+-- JSON 값 = 기본값 | 객체 | 배열, 객체·배열이 다시 JSON 값을 담는다
+data JsonPrimitive = JString String | JNumber Double | JBool Bool | JNull
+data JsonValue     = Prim JsonPrimitive
+                   | Obj (Map String JsonValue)   -- type-fest: 선택 속성은 undefined 도 허용
+                   | Arr [JsonValue]              -- readonly 배열도
+-- 직렬화 결과 타입까지 필요하면 type-fest 의 Jsonify
 ```
-
-예전에 JSON 타입 정의가 필요해서 찾아봤던 내용
-
-- `JsonObject`: 문자열 키와 JsonValue 타입의 값을 가진 JSON 객체를 정의
-- `JsonArray`: JsonValue 타입의 요소를 포함하는 JSON 배열을 정의
-- `JsonPrimitive`: 문자열, 숫자, 불린, 또는 null과 같은 유효한 JSON 기본 값을 정의
-- `JsonValue`: 유효한 JSON 값을 나타내며, JsonPrimitive, JsonObject, 또는 JsonArray로 구성
-
----
-
-- https://github.com/sindresorhus/type-fest/blob/main/source/jsonify.d.ts

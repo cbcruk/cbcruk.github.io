@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>psd.js: PSD 를 트리로 읽는다</title>
+<desc>psd.js 는 Photoshop PSD 파일을 노드와 브라우저에서 파싱해 문서를 레이어·폴더 트리로 다루게 한다. 문서 구조와 크기, 레이어·폴더의 크기·위치·이름·가시성·불투명도, psd-enginedata 를 거친 텍스트 내용과 글꼴 이름·크기·색상, 색상 모드와 비트 심도, 벡터 마스크, 병합된 이미지, 레이어 컴포지션을 꺼낼 수 있다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="140" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="114" text-anchor="middle" class="m">file.psd</text>
+<path d="M230 110 H276" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="253" y="60" text-anchor="middle" class="s">psd.js</text>
+<rect x="280" y="40" width="230" height="140" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="395" y="84" text-anchor="middle" class="b">Document</text>
+<text x="395" y="104" text-anchor="middle" class="s">크기 · 색상 모드</text>
+<text x="395" y="124" text-anchor="middle" class="s">비트 심도 · 병합 이미지</text>
+<text x="395" y="144" text-anchor="middle" class="s">레이어 컴포지션</text>
+<rect x="540" y="40" width="290" height="65" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="685" y="66" text-anchor="middle" class="b">Layer / Group</text>
+<text x="685" y="86" text-anchor="middle" class="s">크기 · 위치 · 이름 · 가시성 · 불투명도</text>
+<rect x="540" y="115" width="290" height="65" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="685" y="142" text-anchor="middle" class="b">Text</text>
+<text x="685" y="162" text-anchor="middle" class="s">내용 · 글꼴 이름·크기·색상 (enginedata)</text>
+<line x1="510" y1="72" x2="540" y2="72" stroke="#E0E0E0"/>
+<line x1="510" y1="147" x2="540" y2="147" stroke="#E0E0E0"/>
+</svg>

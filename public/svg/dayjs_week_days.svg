@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>그 날짜가 든 주의 7일: isoWeek 는 월요일, week 는 로케일</title>
+<desc>2025-10-28(화)이 든 주를 구한다. startOf(isoWeek) 는 ISO 8601 이라 월요일 10-27 부터 일요일 11-02 까지다 — 캘린더 UI 에 주로 쓴다. startOf(week) 는 로케일을 따라 기본 en·ko 에선 일요일 10-26 부터, en-gb 에선 월요일부터다. 시작일에 0~6일을 더해 7개를 만든다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<text x="30" y="62" text-anchor="start" class="b">isoWeek</text>
+<rect x="130" y="40" width="90" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="175" y="64" text-anchor="middle" class="m">월 27</text>
+<rect x="230" y="40" width="90" height="40" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="275" y="64" text-anchor="middle" class="m">화 28</text>
+<rect x="330" y="40" width="90" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="375" y="64" text-anchor="middle" class="m">수 29</text>
+<rect x="430" y="40" width="90" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="475" y="64" text-anchor="middle" class="m">목 30</text>
+<rect x="530" y="40" width="90" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="575" y="64" text-anchor="middle" class="m">금 31</text>
+<rect x="630" y="40" width="90" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="675" y="64" text-anchor="middle" class="m">토 1</text>
+<rect x="730" y="40" width="90" height="40" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="775" y="64" text-anchor="middle" class="m">일 2</text>
+<text x="30" y="142" text-anchor="start" class="b">week (ko)</text>
+<rect x="130" y="120" width="90" height="40" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="175" y="144" text-anchor="middle" class="m">일 26</text>
+<rect x="230" y="120" width="90" height="40" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="275" y="144" text-anchor="middle" class="m">월 27</text>
+<rect x="330" y="120" width="90" height="40" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="375" y="144" text-anchor="middle" class="m">화 28</text>
+<rect x="430" y="120" width="90" height="40" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="475" y="144" text-anchor="middle" class="m">수 29</text>
+<rect x="530" y="120" width="90" height="40" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="575" y="144" text-anchor="middle" class="m">목 30</text>
+<rect x="630" y="120" width="90" height="40" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="675" y="144" text-anchor="middle" class="m">금 31</text>
+<rect x="730" y="120" width="90" height="40" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="775" y="144" text-anchor="middle" class="m">토 1</text>
+<text x="130" y="195" text-anchor="start" class="s">시작일 + 0..6 일  ·  en-gb 는 week 도 월요일 시작</text>
+</svg>

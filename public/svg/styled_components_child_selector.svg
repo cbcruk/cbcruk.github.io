@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>styled-components: &amp;-header 는 HTML 에서 못 고른다, ${Header} 로 고른다</title>
+<desc>styled-components 의 &amp; 는 컴포넌트에 붙은 생성 클래스(예: .sc-a1b2)라 &amp;-header 는 .sc-a1b2-header 가 되고, HTML 의 className="header" 와는 절대 맞지 않는다. 대신 그냥 .header 자식 선택자를 쓰거나, Header 를 styled 컴포넌트로 따로 만들어 Container 안에서 ${Header} 로 고른다 — styled() 로 만든 컴포넌트는 고정 클래스가 있어 선택자에 끼울 수 있다. 추천은 뒤쪽이다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="70" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="155" y="69" text-anchor="middle" class="m">&amp;-header { … }</text>
+<text x="155" y="89" text-anchor="middle" class="r">.sc-a1b2-header 가 된다</text>
+<path d="M280 75 H346" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+<text x="350" y="80" text-anchor="start" class="r">className="header" 와 안 맞는다</text>
+<rect x="30" y="140" width="380" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="220" y="164" text-anchor="middle" class="b">일반 클래스</text>
+<text x="220" y="184" text-anchor="middle" class="m">.header { color: red }</text>
+<text x="220" y="204" text-anchor="middle" class="s">className="header"</text>
+<rect x="450" y="140" width="380" height="80" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="640" y="164" text-anchor="middle" class="b">styled 컴포넌트 (추천)</text>
+<text x="640" y="184" text-anchor="middle" class="m">${Header} { margin-bottom: 20px }</text>
+<text x="640" y="204" text-anchor="middle" class="s">styled() 는 고정 클래스를 받는다</text>
+</svg>

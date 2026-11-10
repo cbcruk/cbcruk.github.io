@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>mock 을 어디서 가로채나: 브라우저면 서비스워커, 서버면 Node</title>
+<desc>서비스워커는 fetch 이벤트로 브라우저에서 나가는 요청을 받아 respondWith 로 응답을 직접 줄 수 있다 — 이게 MSW 같은 mock 의 원리다. 하지만 서비스워커는 브라우저 요청만 보므로 getServerSideProps 처럼 서버에서 나가는 요청은 nock 같은 도구로 Node 쪽에서 가로챈다. 직접 만들기보다 이미 잘 만든 라이브러리를 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="220" height="110" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="140" y="89" text-anchor="middle" class="b">요청은 어디서</text>
+<text x="140" y="109" text-anchor="middle" class="s">나가나?</text>
+<path d="M250 70 H416" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="333" y="58" text-anchor="middle" class="s">브라우저</text>
+<rect x="420" y="40" width="410" height="45" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="625" y="66" text-anchor="middle" class="m">fetch → respondWith(mock)</text>
+<path d="M250 120 H416" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="333" y="138" text-anchor="middle" class="s">서버 (SSR)</text>
+<rect x="420" y="100" width="410" height="45" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="625" y="126" text-anchor="middle" class="m">Node 에서 가로챈다 — nock</text>
+<text x="420" y="180" text-anchor="start" class="s">서비스워커 = MSW 의 원리 · 직접 만들기보다 라이브러리</text>
+</svg>

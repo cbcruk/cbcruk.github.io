@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" width="100%" role="img">
+<title>프롬프트: 원칙 둘, 전술 넷</title>
+<desc>원칙은 둘이다 — 명확하고 구체적으로 지시하고, 모델에게 생각할 시간을 준다. 전술로는 입력 경계를 구분자(```, """, &lt;tag&gt;)로 표시하고, JSON·HTML 같은 구조화된 출력을 요청하고, 조건이 충족됐는지 모델에게 먼저 확인시키고, few-shot 예시로 스타일을 고정한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="210" fill="#FFFFFF"/>
+<rect x="30" y="40" width="370" height="60" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="215" y="74" text-anchor="middle" class="b">명확하고 구체적으로</text>
+<rect x="460" y="40" width="370" height="60" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="645" y="74" text-anchor="middle" class="b">생각할 시간을 준다</text>
+<rect x="30" y="120" width="185" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="122" y="149" text-anchor="middle" class="b">구분자</text>
+<text x="122" y="169" text-anchor="middle" class="m">``` · """ · &lt;tag&gt;</text>
+<rect x="232" y="120" width="185" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="324" y="149" text-anchor="middle" class="b">구조화된 출력</text>
+<text x="324" y="169" text-anchor="middle" class="m">JSON · HTML</text>
+<rect x="434" y="120" width="185" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="526" y="149" text-anchor="middle" class="b">조건 확인</text>
+<text x="526" y="169" text-anchor="middle" class="m">충족됐나 먼저</text>
+<rect x="636" y="120" width="185" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="728" y="149" text-anchor="middle" class="b">few-shot</text>
+<text x="728" y="169" text-anchor="middle" class="m">예시로 스타일</text>
+</svg>

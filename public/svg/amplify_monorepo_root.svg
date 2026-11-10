@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>Amplify 모노레포: 루트에서 설치하고 appRoot 로 되짚는다</title>
+<desc>Amplify 는 빌드 명령을 appRoot(apps/app)에서 실행한다. 모노레포 의존성은 루트에서 설치해야 하므로 preBuild 에서 cd ../../ 로 루트로 올라가 yarn install 한다. 그다음 build 단계는 루트에 있으니 앱 파일은 AMPLIFY_MONOREPO_APP_ROOT(= appRoot)로 경로를 되짚는다 — 개발 환경이면 .env.development 를 .env.production 으로 복사하고 build:앱 을 돌린다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="74" text-anchor="middle" class="m">apps/app</text>
+<text x="130" y="94" text-anchor="middle" class="s">appRoot 에서 시작</text>
+<path d="M230 80 H276" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="253" y="30" text-anchor="middle" class="s">cd ../../</text>
+<rect x="280" y="40" width="200" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="380" y="74" text-anchor="middle" class="m">/ (루트)</text>
+<text x="380" y="94" text-anchor="middle" class="m">yarn install</text>
+<path d="M480 80 H526" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="503" y="30" text-anchor="middle" class="s">build</text>
+<rect x="530" y="40" width="300" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="680" y="74" text-anchor="middle" class="m">./$AMPLIFY_MONOREPO_APP_ROOT/…</text>
+<text x="680" y="94" text-anchor="middle" class="s">= appRoot, 앱 경로를 되짚는다</text>
+<text x="30" y="160" text-anchor="start" class="s">appRoot 키와 AMPLIFY_MONOREPO_APP_ROOT 는 같은 값이어야 한다</text>
+</svg>

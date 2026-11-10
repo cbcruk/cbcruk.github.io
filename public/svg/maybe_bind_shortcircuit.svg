@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240" width="100%" role="img">
+<title>Maybe 의 bind: Nothing 이 한 번 나오면 뒤는 건너뛴다</title>
+<desc>Just 10 에 bind 로 safeDivide _ 2 를 이으면 Just 5 가 된다. safeDivide _ 0 을 이으면 0 으로 나눌 수 없어 Nothing 이 되고, 그 뒤에 무엇을 bind 해도 함수를 부르지 않고 Nothing 이 그대로 흐른다. 중간마다 null 검사를 쓰지 않아도 실패가 끝까지 전파된다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="240" fill="#FFFFFF"/>
+<rect x="30" y="40" width="140" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="100" y="72" text-anchor="middle" class="m">Just 10</text>
+<path d="M170 68 H246" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="208" y="58" text-anchor="middle" class="s">bind (/2)</text>
+<rect x="250" y="40" width="140" height="56" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="320" y="72" text-anchor="middle" class="m">Just 5</text>
+<path d="M390 68 H466" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="428" y="58" text-anchor="middle" class="s">bind f</text>
+<rect x="470" y="40" width="140" height="56" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="540" y="72" text-anchor="middle" class="m">f 5</text>
+<rect x="30" y="140" width="140" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="100" y="172" text-anchor="middle" class="m">Just 10</text>
+<path d="M170 168 H246" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="208" y="158" text-anchor="middle" class="s">bind (/0)</text>
+<rect x="250" y="140" width="140" height="56" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="320" y="172" text-anchor="middle" class="m">Nothing</text>
+<path d="M390 168 H466" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+<text x="428" y="158" text-anchor="middle" class="s">bind f</text>
+<rect x="470" y="140" width="140" height="56" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="540" y="172" text-anchor="middle" class="m">Nothing</text>
+<text x="640" y="160" text-anchor="start" class="r">f 를 부르지 않는다</text>
+<text x="640" y="180" text-anchor="start" class="r">실패가 끝까지 흐른다</text>
+</svg>

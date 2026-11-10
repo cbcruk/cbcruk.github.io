@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>Puppeteer 요청 헤더 바꾸기: 두 길</title>
+<desc>모든 요청에 같은 헤더를 붙이려면 page.setExtraHTTPHeaders 를 부른다. 요청마다 다르게 바꾸려면 setRequestInterception(true) 로 가로채는데, 켜는 순간 모든 요청이 멈추므로 request 이벤트에서 헤더를 고쳐 request.continue({ headers }) 로 반드시 내보내야 한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="370" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="215" y="74" text-anchor="middle" class="m">setExtraHTTPHeaders(headers)</text>
+<text x="215" y="94" text-anchor="middle" class="s">모든 요청에 같은 헤더</text>
+<rect x="460" y="40" width="370" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="645" y="74" text-anchor="middle" class="m">setRequestInterception(true)</text>
+<text x="645" y="94" text-anchor="middle" class="m">request.continue({ headers })</text>
+<rect x="460" y="135" width="370" height="45" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="645" y="162" text-anchor="middle" class="s">켜면 모든 요청이 멈춘다 — continue 를 빠뜨리면 멈춘 채</text>
+</svg>

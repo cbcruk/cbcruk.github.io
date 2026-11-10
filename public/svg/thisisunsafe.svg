@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>thisisunsafe: 경고 페이지가 키 입력을 직접 받는다</title>
+<desc>크롬 인증서 경고(이 연결은 비공개로 설정되지 않았습니다, NET::ERR_CERT_…)에서 고급 → 계속이 없거나 번거로울 때, 페이지 아무 곳이나 클릭해 포커스를 준 뒤 입력창 없이 thisisunsafe 를 타이핑한다. 경고 페이지의 keypress 핸들러가 한 글자씩 BYPASS_SEQUENCE 와 대조하고, 다 맞으면 CMD_PROCEED 를 보낸다 — 계속을 누른 것과 같은 명령이다. 마지막 글자에서 넘어가고, 안 넘어가면 포커스가 주소창에 있는 것이니 클릭부터 다시.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="69" text-anchor="middle" class="b">경고 화면 클릭</text>
+<text x="130" y="89" text-anchor="middle" class="s">포커스를 준다</text>
+<path d="M230 75 H286" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="290" y="40" width="250" height="70" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="415" y="69" text-anchor="middle" class="m">t h i s i s u n s a f e</text>
+<text x="415" y="89" text-anchor="middle" class="s">입력창 없이 그대로</text>
+<path d="M540 75 H596" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="568" y="30" text-anchor="middle" class="s">= BYPASS_SEQUENCE</text>
+<rect x="600" y="40" width="230" height="70" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="715" y="69" text-anchor="middle" class="m">CMD_PROCEED</text>
+<text x="715" y="89" text-anchor="middle" class="s">"계속" 과 같은 명령</text>
+<rect x="290" y="140" width="250" height="50" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="415" y="169" text-anchor="middle" class="r">안 넘어가면 포커스가 주소창 — 클릭부터</text>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>preflight: 단순 요청을 벗어나면 OPTIONS 가 먼저 간다</title>
+<desc>요청이 단순 요청 조건을 벗어나면 브라우저는 본 요청 전에 OPTIONS 메서드로 preflight 요청을 자동으로 보내 보내도 되는지 묻는다. CloudFront 는 기본으로 GET·HEAD 만 허용하므로 캐시 동작에 OPTIONS 를 허용해 두지 않으면 preflight 가 실패하고 본 요청은 나가지 않는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="220" height="100" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="140" y="84" text-anchor="middle" class="b">요청</text>
+<text x="140" y="104" text-anchor="middle" class="s">단순 요청 조건 밖</text>
+<path d="M250 90 H296" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="273" y="30" text-anchor="middle" class="s">자동으로</text>
+<rect x="300" y="40" width="200" height="100" rx="7" fill="#FFF4DE" stroke="#B7791F" stroke-width="1.5"/>
+<text x="400" y="84" text-anchor="middle" class="m">OPTIONS</text>
+<text x="400" y="104" text-anchor="middle" class="s">preflight</text>
+<path d="M500 70 H596" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+<text x="548" y="58" text-anchor="middle" class="s">GET·HEAD 만</text>
+<rect x="600" y="40" width="230" height="45" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="715" y="66" text-anchor="middle" class="s">CloudFront 기본 — 실패</text>
+<path d="M500 115 H596" stroke="#2E7D32" stroke-width="1.4" fill="none" marker-end="url(#ag)"/>
+<text x="548" y="133" text-anchor="middle" class="s">OPTIONS 허용</text>
+<rect x="600" y="95" width="230" height="45" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="715" y="122" text-anchor="middle" class="s">본 요청이 나간다</text>
+</svg>

@@ -1,10 +1,11 @@
 ---
 type: note
+title: 'size (FieldSizing Content) el = contentSize el'
 kind: Reference
 tags: ['field-sizing', 'input', 'textarea', 'select']
 status: release
 ctime: 2025-01-12
-mtime: 2025-01-12
+mtime: 2026-11-09
 generated: { by: human:cbcruk, at: 2025-03-01T04:55:13Z }
 verified: { by: claude/opus-5, at: 2026-08-19T00:00:00Z }
 sources:
@@ -13,16 +14,13 @@ sources:
     title: "CSS 필드 크기 조정"
 ---
 
-import QuoteLink from '@components/QuoteLink.astro'
+![textarea·select·input 은 기본적으로 고정 크기라 내용이 넘치면 스크롤된다. CSS 한 줄 field-sizing: content 를 주면 내용에 맞춰 크기가 정해져, 글을 칠수록 textarea 가 늘어나고 input 도 글자 수만큼 넓어진다. JS 로 높이를 재던 자동 크기 조절이 필요 없다.](/svg/css_field_sizing.svg)
 
-<QuoteLink url="https://developer.chrome.com/docs/css-ui/css-field-sizing?&hl=ko">
-CSS 필드 크기 조정
-</QuoteLink>
+```haskell
+-- CSS 한 줄로 내용 기반 크기 조절 — textarea 뿐 아니라 select·input 에도
+size :: FieldSizing -> Element -> Size
+size Fixed   el = defaultSize el      -- 기본: 고정 크기, 넘치면 스크롤
+size Content el = contentSize el      -- 내용만큼 — JS 로 높이를 재던 자동 크기 조절이 필요 없다
 
-
-
-> `field-sizing`를 사용하면 콘텐츠를 기반으로 크기 조절을 사용 설정하는 데 CSS 한 줄이 필요합니다. 이 콘텐츠 기반 크기 조절 스타일은 `textarea` 외에도 다른 요소에도 적용됩니다.
-
-<textarea style={{ padding: '10px', fieldSizing: 'content' }}>{`textarea, select, input {
-\tfield-sizing: content;
-}`}</textarea>
+-- textarea, select, input { field-sizing: content; }
+```

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" width="100%" role="img">
+<title>tuple-it: await 결과를 [error, data] 로</title>
+<desc>await tuple(promise) 는 던지는 대신 배열을 돌려준다. 성공하면 [null, 결과], 실패하면 [error]. reject 된 값이 Error 가 아니면(문자열·undefined 등) TupleItError 로 감싸서, if (error) 하나로 성공과 실패가 갈린다. try...catch 대신 쓰는 이 모양을 언어 문법으로 넣자는 제안이 safe assignment operator 다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="210" fill="#FFFFFF"/>
+<rect x="30" y="50" width="240" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="150" y="89" text-anchor="middle" class="m">await tuple(p)</text>
+<path d="M270 70 H336" stroke="#2E7D32" stroke-width="1.4" fill="none" marker-end="url(#ag)"/>
+<path d="M270 100 H336" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+<rect x="340" y="30" width="300" height="44" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="490" y="56" text-anchor="middle" class="m">[null, data]</text>
+<rect x="340" y="82" width="300" height="64" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="490" y="108" text-anchor="middle" class="m">[error]</text>
+<text x="490" y="128" text-anchor="middle" class="s">Error 가 아니면 TupleItError 로 감싼다</text>
+<rect x="670" y="50" width="160" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="750" y="79" text-anchor="middle" class="m">if (error)</text>
+<text x="750" y="99" text-anchor="middle" class="s">하나로 갈린다</text>
+</svg>

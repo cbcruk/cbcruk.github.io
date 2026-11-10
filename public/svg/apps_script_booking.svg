@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240" width="100%" role="img">
+<title>Apps Script 캘린더 예약: freebusy 를 두 번 본다</title>
+<desc>예약 가능한 슬롯은 근무 요일·근무 시간 슬롯에서 Calendar.Freebusy.query 로 받은 바쁜 구간과 겹치는 것을 뺀 것이다. 예약할 때는 그 슬롯을 freebusy 로 한 번 더 조회해 그새 일정이 생겼으면 Timeslot not available 로 거절하고, 비어 있으면 CalendarApp.getCalendarById(…).createEvent 로 이벤트를 만든다. 초대 메일은 sendInvites: true 를 줘야 간다 — 기본은 꺼져 있다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="240" fill="#FFFFFF"/>
+<rect x="30" y="30" width="250" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="64" text-anchor="middle" class="b">근무 슬롯</text>
+<text x="155" y="84" text-anchor="middle" class="s">요일 · 시간</text>
+<text x="300" y="75" text-anchor="start" class="b">−</text>
+<rect x="320" y="30" width="250" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="445" y="64" text-anchor="middle" class="b">Freebusy.query</text>
+<text x="445" y="84" text-anchor="middle" class="s">바쁜 구간</text>
+<path d="M570 70 H616" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="620" y="30" width="210" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="725" y="74" text-anchor="middle" class="b">예약 가능 슬롯</text>
+<rect x="30" y="150" width="540" height="70" rx="7" fill="#FFF4DE" stroke="#B7791F" stroke-width="1.5"/>
+<text x="300" y="179" text-anchor="middle" class="b">예약할 때 다시 조회</text>
+<text x="300" y="199" text-anchor="middle" class="s">그새 busy 면 Timeslot not available</text>
+<path d="M570 185 H616" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="620" y="150" width="210" height="70" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="725" y="169" text-anchor="middle" class="m">createEvent(…)</text>
+<text x="725" y="189" text-anchor="middle" class="m">sendInvites: true</text>
+<text x="725" y="209" text-anchor="middle" class="s">기본은 false</text>
+</svg>

@@ -1,35 +1,26 @@
 ---
 type: snippet
+title: 'inject :: String -> IO ()'
 tags: ['blob', 'script']
 status: release
 ctime: 2024-09-16
-mtime: 2026-10-29
+mtime: 2026-11-09
+sources:
+  - id: violentmonkey-blob
+    resource: https://violentmonkey.github.io/posts/inject-scripts-with-blob-urls/
+    title: 'Inject scripts with Blob URLs — Violentmonkey'
 ---
 
-import { Blockquote } from '@components/Blockquote'
+![스크립트 문자열을 text/javascript Blob 으로 만들고 URL.createObjectURL 로 URL 을 얻어 script 의 src 로 넣는다. CSP 때문에 인라인 textContent 가 막힌 페이지에서도 된다(Firefox 58+). 다만 textContent 는 동기로 바로 돌지만 src 는 내용을 가져온 뒤에야 도는 비동기라, 주입한 코드가 쓸 초기화가 먼저 준비돼 있어야 한다.](/svg/blob_url_script_inject.svg)
 
-<Blockquote 
-  cite={{
-    url: "https://violentmonkey.github.io/posts/inject-scripts-with-blob-urls/",
-    title: "Inject scripts with Blob URLs"
-  }}
->
-Blob URL 방식은 Firefox 58+에서 CSP 제한이 있는 페이지에서도 스크립트를 주입할 수 있는 방법입니다.
-이 방식을 사용할 때, 비동기성 때문에 발생할 수 있는 문제를 방지하려면 초기화 코드가 준비된 후 스크립트를 전달해야 합니다.
-</Blockquote>
+```haskell
+-- CSP 로 인라인이 막힌 페이지에 Blob URL 로 스크립트를 넣는다 (Firefox 58+)
+inject :: String -> IO ()
+inject code = do
+  u <- createObjectURL (Blob [code] "text/javascript")
+  s <- createElement "script"
+  setSrc s u >> append body s >> remove body s >> revokeObjectURL u
 
-`src` 로 넣은 스크립트는 내용을 가져온 뒤에야 돈다(비동기).[^blob-async]
-
-```ts
-const b = new Blob([script], { type: 'text/javascript' })
-const u = URL.createObjectURL(b)
-const s = document.createElement('script')
-s.src = u
-document.body.appendChild(s)
-document.body.removeChild(s)
-URL.revokeObjectURL(u)
+-- textContent = 동기(즉시), src = 비동기(가져온 뒤)
+-- → 주입한 코드가 기대는 초기화는 그 전에 준비돼 있어야 한다
 ```
-
----
-
-[^blob-async]: [Inject scripts with Blob URLs](https://violentmonkey.github.io/posts/inject-scripts-with-blob-urls/): *"Because the `textContent` way is synchronous while the `src` way is asynchronous."*

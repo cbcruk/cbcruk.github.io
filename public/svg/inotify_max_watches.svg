@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 190" width="100%" role="img">
+<title>inotify 감시 개수 상한: 모자라면 webpack 이 변경을 못 본다</title>
+<desc>리눅스는 사용자당 만들 수 있는 inotify 감시 개수에 상한(max_user_watches)이 있다. 파일이 많아 상한을 넘으면 System limit for number of file watchers reached 가 나고 webpack 의 파일 감시가 변경을 알아채지 못한다. /etc/sysctl.conf 에 fs.inotify.max_user_watches=524288 을 넣고 sysctl -p 로 적용한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="190" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="100" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="84" text-anchor="middle" class="b">감시할 파일</text>
+<text x="155" y="104" text-anchor="middle" class="s">node_modules 포함</text>
+<path d="M280 90 H326" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="303" y="30" text-anchor="middle" class="s">&gt; max_user_watches</text>
+<rect x="330" y="40" width="230" height="100" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="445" y="84" text-anchor="middle" class="s">file watchers reached</text>
+<text x="445" y="104" text-anchor="middle" class="s">변경을 못 알아챈다</text>
+<rect x="600" y="40" width="230" height="100" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="715" y="74" text-anchor="middle" class="m">max_user_watches</text>
+<text x="715" y="94" text-anchor="middle" class="m">= 524288</text>
+<text x="715" y="114" text-anchor="middle" class="s">sysctl -p</text>
+</svg>

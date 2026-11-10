@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>next-sitemap: SSR 로 XML 사이트맵</title>
+<desc>Pages Router 의 getServerSideProps 에서 getServerSideSitemapLegacy 에 필드 목록을 넘기면 사이트맵 XML 문자열을 만들고, withXMLResponseLegacy 가 응답에 Content-Type: text/xml 을 걸고 그 문자열을 쓰고 끝낸다. 요청마다 서버에서 사이트맵을 만든다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="60" width="190" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="125" y="99" text-anchor="middle" class="m">getServerSideProps</text>
+<path d="M220 95 H236" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="240" y="60" width="190" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="335" y="89" text-anchor="middle" class="m">getServerSideSitemapLegacy</text>
+<text x="335" y="109" text-anchor="middle" class="s">fields → XML</text>
+<path d="M430 95 H446" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="450" y="60" width="190" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="545" y="99" text-anchor="middle" class="m">withXMLResponseLegacy</text>
+<path d="M640 95 H656" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="660" y="60" width="190" height="70" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="755" y="89" text-anchor="middle" class="m">res</text>
+<text x="755" y="109" text-anchor="middle" class="s">text/xml · write · end</text>
+</svg>

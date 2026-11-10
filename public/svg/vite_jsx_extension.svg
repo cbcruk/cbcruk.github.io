@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>Vite 가 JSX 에 .jsx 를 요구하는 이유, 그리고 일괄 이름 바꾸기</title>
+<desc>.js 에서 JSX 를 허용하면 제공하는 모든 .js 파일을 JSX 가 있을지 몰라 전체 AST 변환해야 한다. 대부분의 .js 는 그런 변환 없이 브라우저에서 돌아야 하므로 Vite 는 JSX 를 .jsx 에서만 처리한다. 옮길 때는 JSX 태그가 있는 .js·.ts 파일을 찾아 git mv 로 확장자 끝에 x 를 붙인다 — 히스토리가 이어진다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="370" height="100" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="215" y="74" text-anchor="middle" class="b">.js 에서 JSX 허용하면</text>
+<text x="215" y="94" text-anchor="middle" class="s">모든 .js 를 전체 AST 변환</text>
+<text x="215" y="114" text-anchor="middle" class="s">→ Vite 는 .jsx 만</text>
+<rect x="460" y="40" width="370" height="100" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="645" y="74" text-anchor="middle" class="m">find src -name "*.[jt]s"</text>
+<text x="645" y="94" text-anchor="middle" class="m">| grep JSX 태그 | git mv $1 $1x</text>
+<text x="645" y="114" text-anchor="middle" class="s">히스토리를 잇는다</text>
+</svg>

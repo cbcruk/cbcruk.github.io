@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>process.env 를 zod 로 parse: 시작할 때 터지고 선언한 키만 남는다</title>
+<desc>process.env 를 z.object 스키마로 parse 하면 빠지거나 형식이 틀린 값은 앱이 시작할 때 ZodError 로 바로 터진다 — 쓰는 순간이 아니라. 통과하면 결과에는 스키마에 선언한 키만 남고 나머지 환경 변수는 걸러진다. NODE_ENV 처럼 default 를 주면 없을 때 그 값이 들어간다. window 전역도 같은 방식으로 읽는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="230" height="110" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145" y="79" text-anchor="middle" class="b">process.env</text>
+<text x="145" y="99" text-anchor="middle" class="m">REACT_APP_A=…</text>
+<text x="145" y="119" text-anchor="middle" class="m">PATH=… HOME=…</text>
+<path d="M260 95 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="283" y="30" text-anchor="middle" class="s">parse</text>
+<rect x="310" y="40" width="230" height="110" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="425" y="79" text-anchor="middle" class="b">envSchema</text>
+<text x="425" y="99" text-anchor="middle" class="m">z.object({…})</text>
+<text x="425" y="119" text-anchor="middle" class="s">NODE_ENV default</text>
+<path d="M540 70 H586" stroke="#2E7D32" stroke-width="1.4" fill="none" marker-end="url(#ag)"/>
+<rect x="590" y="30" width="240" height="55" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="710" y="52" text-anchor="middle" class="m">ENV</text>
+<text x="710" y="72" text-anchor="middle" class="s">선언한 키만 — 나머지는 strip</text>
+<path d="M540 120 H586" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+<rect x="590" y="95" width="240" height="55" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="710" y="116" text-anchor="middle" class="m">ZodError</text>
+<text x="710" y="136" text-anchor="middle" class="s">시작할 때 바로</text>
+</svg>

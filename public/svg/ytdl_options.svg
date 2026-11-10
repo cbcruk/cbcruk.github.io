@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" width="100%" role="img">
+<title>youtube-dl 옵션 다섯 (지금은 yt-dlp)</title>
+<desc>youtube-dl 이 업데이트되지 않아 느려져 같은 옵션을 받는 yt-dlp 로 바꿔 쓴다. -a 로 주소 목록 파일을 한꺼번에, -i 로 중간 에러를 건너뛰고, --write-sub --sub-lang ko 로 자막을, --write-auto-sub 로 자동 자막을 받는다. 플레이리스트는 -o 템플릿에 playlist_index 를 넣어 순서를 파일 이름에 남긴다. 평소엔 dm, 오디오만은 da(-x --audio-format mp3) 로 줄여 쓴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="210" fill="#FFFFFF"/>
+<rect x="30" y="40" width="185" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="122" y="69" text-anchor="middle" class="m">-a list.txt</text>
+<text x="122" y="89" text-anchor="middle" class="s">여러 주소</text>
+<rect x="232" y="40" width="185" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="324" y="69" text-anchor="middle" class="m">-i</text>
+<text x="324" y="89" text-anchor="middle" class="s">에러 건너뛰기</text>
+<rect x="434" y="40" width="185" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="526" y="69" text-anchor="middle" class="m">--write-sub --sub-lang ko</text>
+<text x="526" y="89" text-anchor="middle" class="s">자막</text>
+<rect x="636" y="40" width="185" height="70" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="728" y="69" text-anchor="middle" class="m">--write-auto-sub</text>
+<text x="728" y="89" text-anchor="middle" class="s">자동 자막</text>
+<rect x="30" y="130" width="500" height="55" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="280" y="162" text-anchor="middle" class="m">-o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s'</text>
+<rect x="560" y="130" width="270" height="55" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="695" y="162" text-anchor="middle" class="m">dm · da = -x --audio-format mp3</text>
+</svg>

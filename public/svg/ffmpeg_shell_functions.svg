@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>ffmpeg 셸 함수 다섯</title>
+<desc>영상을 30fps 프레임 이미지로 뽑고(extractFrames), 프레임 이미지들을 투명도를 살린 VP9 webm 으로 잇고(concatFrames), 이미지 한 장을 10초짜리 mp4 로 만들고(frameToVideo), 영상을 소리 없이 baseline 프로필 mp4 와 VP9 webm 두 가지로 인코딩하고(encodingVideo), 시작~끝 구간을 재인코딩 없이 잘라 낸다(cutVideo).</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<rect x="30" y="30" width="250" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="155" y="64" text-anchor="middle" class="m">extractFrames</text>
+<text x="155" y="84" text-anchor="middle" class="s">영상 → PNG (fps=30)</text>
+<rect x="305" y="30" width="250" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="64" text-anchor="middle" class="m">concatFrames</text>
+<text x="430" y="84" text-anchor="middle" class="s">PNG → webm (VP9, yuva420p)</text>
+<rect x="580" y="30" width="250" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="705" y="64" text-anchor="middle" class="m">frameToVideo</text>
+<text x="705" y="84" text-anchor="middle" class="s">이미지 1장 → 10초 mp4</text>
+<rect x="30" y="130" width="385" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="222" y="164" text-anchor="middle" class="m">encodingVideo</text>
+<text x="222" y="184" text-anchor="middle" class="s">소리 없이 mp4 (baseline) + webm (VP9)</text>
+<rect x="445" y="130" width="385" height="80" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="638" y="164" text-anchor="middle" class="m">cutVideo</text>
+<text x="638" y="184" text-anchor="middle" class="s">-ss ~ -to, copy — 재인코딩 없이</text>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" width="100%" role="img">
+<title>기울어진 면의 높이 = 너비 × tan(각도)</title>
+<desc>너비 100 인 면을 각도만큼 기울이면 생기는 높이는 100 × tan(각도) 다. 원래 코드는 빗변을 sin 으로 구한 뒤 피타고라스로 높이를 다시 구하지만 결과는 같다. Math.tan 은 라디안을 받으므로 도(°)에 π/180 을 곱해 넣는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="220" fill="#FFFFFF"/>
+<line x1="100" y1="170" x2="500" y2="170" stroke="#2F6DB5" stroke-width="1.6"/>
+<line x1="500" y1="170" x2="500" y2="70" stroke="#B3261E" stroke-width="1.6"/>
+<line x1="100" y1="170" x2="500" y2="70" stroke="#2F6DB5" stroke-width="1.6"/>
+<text x="300" y="195" text-anchor="start" class="m">a = 100 (너비)</text>
+<text x="510" y="125" text-anchor="start" class="m">b = 높이</text>
+<text x="140" y="160" text-anchor="start" class="s">angle</text>
+<rect x="560" y="60" width="270" height="110" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="695" y="99" text-anchor="middle" class="m">b = a × tan(angle)</text>
+<text x="695" y="119" text-anchor="middle" class="m">angle × π / 180</text>
+<text x="695" y="139" text-anchor="middle" class="s">빗변을 거쳐도 같다</text>
+</svg>

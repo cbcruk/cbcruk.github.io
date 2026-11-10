@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="100%" role="img">
+<title>NonEmptyString: T extends string 이 리터럴을 붙잡아야 막힌다</title>
+<desc>Image 의 src 타입은 Exclude&lt;T, ''&gt; 이다. T extends string 제약이 있으면 src="" 를 넘길 때 T 가 리터럴 '' 로 추론돼 Exclude&lt;'', ''&gt; 가 never 가 되어 막히고, "ab" 는 그대로 통과한다. 제약을 빼면 T 가 string 으로 넓어져 '' 도 통과한다. 또 string 타입 변수를 넘기면 T = string 이라 Exclude&lt;string, ''&gt; 도 string 이어서 값이 '' 여도 통과한다 — 인자 타입이 리터럴 '' 일 때만 막는 가드다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="250" fill="#FFFFFF"/>
+<rect x="30" y="30" width="260" height="60" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="160" y="54" text-anchor="middle" class="m">src=""</text>
+<text x="160" y="74" text-anchor="middle" class="s">T extends string</text>
+<path d="M290 60 H346" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="350" y="30" width="480" height="60" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="590" y="54" text-anchor="middle" class="m">T = ''  →  Exclude&lt;'', ''&gt; = never</text>
+<text x="590" y="74" text-anchor="middle" class="r">막힌다</text>
+<rect x="30" y="110" width="260" height="60" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="160" y="144" text-anchor="middle" class="m">src="ab"</text>
+<path d="M290 140 H346" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="350" y="110" width="480" height="60" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="590" y="134" text-anchor="middle" class="m">T = 'ab'  →  'ab'</text>
+<text x="590" y="154" text-anchor="middle" class="g">통과</text>
+<rect x="30" y="190" width="260" height="44" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="160" y="216" text-anchor="middle" class="m">src={s}  (s: string)</text>
+<path d="M290 212 H346" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="350" y="190" width="480" height="44" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="590" y="216" text-anchor="middle" class="m">T = string → Exclude&lt;string,''&gt; = string — '' 여도 통과</text>
+</svg>

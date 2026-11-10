@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240" width="100%" role="img">
+<title>중첩 타입 고치기: 바깥에서 빼고, 같은 키로 다시 붙이며 안쪽만 바꾼다</title>
+<desc>O 의 actions 안 b 만 선택 속성으로 바꾸려면, 바깥에서 Omit 으로 actions 를 빼고, 같은 키 actions 를 매핑 타입으로 다시 붙이면서 그 안쪽을 Omit(b) &amp; Partial(Pick(b)) 로 만든다. 결과는 actions 가 { a: string; b?: number }. 덮어쓰기는 안쪽을 Omit(덮을 키) &amp; 새 타입으로. 한두 곳에만 쓸 거면 손으로 쓰는 게 더 명확하다. 값을 바꿀 때도 라이브러리 객체를 직접 고치지 말고 펼쳐서 새로 만든다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="240" fill="#FFFFFF"/>
+<rect x="30" y="40" width="230" height="80" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="145" y="74" text-anchor="middle" class="b">O</text>
+<text x="145" y="94" text-anchor="middle" class="m">actions: { a; b }</text>
+<path d="M260 80 H316" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="288" y="28" text-anchor="middle" class="s">Omit actions</text>
+<rect x="320" y="40" width="200" height="80" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="420" y="74" text-anchor="middle" class="b">O − actions</text>
+<text x="420" y="94" text-anchor="middle" class="m">{ }</text>
+<path d="M520 80 H576" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="548" y="28" text-anchor="middle" class="s">&amp; 다시 붙인다</text>
+<rect x="580" y="40" width="250" height="80" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="705" y="74" text-anchor="middle" class="b">actions 만 다시</text>
+<text x="705" y="94" text-anchor="middle" class="m">{ a: string; b?: number }</text>
+<rect x="30" y="160" width="800" height="56" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="182" text-anchor="middle" class="m">info.actions.x = undefined  ✗      { ...info, actions: { ...info.actions, x: undefined } }  ✓</text>
+<text x="430" y="202" text-anchor="middle" class="s">한두 곳이면 손으로 쓰는 게 더 명확하다</text>
+</svg>

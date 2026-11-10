@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" width="100%" role="img">
+<title>상태별 색: 불리언 사슬 대신 상태 하나로 가른다</title>
+<desc>isUnchecked &amp;&amp; … || isChecked &amp;&amp; … || 기본값 사슬은 짧지만 상태가 늘면 어떤 조합이 어디로 가는지 읽기 어렵다. 상태를 UNCHECKED·CHECKED·DEFAULT 중 하나인 값으로 두고 switch 하나로 색을 고르면 상태 하나에 색 하나가 대응한다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="210" fill="#FFFFFF"/>
+<rect x="30" y="40" width="370" height="120" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="215" y="74" text-anchor="middle" class="b">불리언 사슬</text>
+<text x="215" y="94" text-anchor="middle" class="m">(isUnchecked &amp;&amp; A) ||</text>
+<text x="215" y="114" text-anchor="middle" class="m">(isChecked &amp;&amp; B) || C</text>
+<text x="215" y="134" text-anchor="middle" class="s">상태가 늘면 조합을 읽기 어렵다</text>
+<path d="M400 100 H446" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="450" y="40" width="380" height="120" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="640" y="74" text-anchor="middle" class="b">상태 하나 → 색 하나</text>
+<text x="640" y="94" text-anchor="middle" class="m">UNCHECKED → label.alternative</text>
+<text x="640" y="114" text-anchor="middle" class="m">CHECKED   → primary.normal</text>
+<text x="640" y="134" text-anchor="middle" class="m">DEFAULT   → label.normal</text>
+</svg>

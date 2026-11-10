@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 270" width="100%" role="img">
+<title>npm install 이 막힐 때: 원인별 플래그</title>
+<desc>npm install 실패는 원인에 따라 플래그가 다르다. Node 버전이 engines 와 안 맞는 경우 npm 은 기본이 경고(EBADENGINE)뿐이라, 막혔다면 engine-strict 가 켜진 것이니 --engine-strict=false 로 끈다. --ignore-engines 는 yarn 플래그라 npm 은 무시한다. 가장 흔한 peer dependency 충돌(예: React 18 프로젝트에 peer 가 react 16.8·17 인 react-beautiful-dnd — 실제로는 돈다)은 --legacy-peer-deps 로 peer 를 무시한다. 프로젝트 전체에 적용하려면 .npmrc 에 legacy-peer-deps=true. --force 는 마지막 수단이다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="270" fill="#FFFFFF"/>
+<rect x="30" y="30" width="220" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="140" y="62" text-anchor="middle" class="b">engines 불일치</text>
+<path d="M250 58 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="310" y="30" width="250" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="435" y="62" text-anchor="middle" class="m">--engine-strict=false</text>
+<text x="580" y="63" text-anchor="start" class="s">npm 은 기본 경고뿐 · --ignore-engines 는 yarn</text>
+<rect x="30" y="105" width="220" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="140" y="137" text-anchor="middle" class="b">peer 충돌 (가장 흔함)</text>
+<path d="M250 133 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="310" y="105" width="250" height="56" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="435" y="137" text-anchor="middle" class="m">--legacy-peer-deps</text>
+<text x="580" y="138" text-anchor="start" class="s">.npmrc 에 legacy-peer-deps=true</text>
+<rect x="30" y="180" width="220" height="56" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="140" y="212" text-anchor="middle" class="b">그래도 안 되면</text>
+<path d="M250 208 H306" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="310" y="180" width="250" height="56" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="435" y="212" text-anchor="middle" class="m">--force</text>
+<text x="580" y="213" text-anchor="start" class="s">권장 안 함 — 마지막 수단</text>
+</svg>

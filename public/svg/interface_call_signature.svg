@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 180" width="100%" role="img">
+<title>함수 타입을 인터페이스의 호출 시그니처로</title>
+<desc>interface 안에 이름 없는 (a, b) =&gt; 반환 형태의 호출 시그니처를 두면 그 인터페이스가 함수 타입이 된다. const sum: MathFn = (a, b) =&gt; a + b 처럼 변수에 타입을 붙이면 매개변수 a·b 의 타입은 문맥에서 추론된다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="180" fill="#FFFFFF"/>
+<rect x="30" y="40" width="370" height="90" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="215" y="69" text-anchor="middle" class="m">interface MathFn {</text>
+<text x="215" y="89" text-anchor="middle" class="m">  (a: number, b: number): number</text>
+<text x="215" y="109" text-anchor="middle" class="m">}</text>
+<path d="M400 85 H466" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="470" y="40" width="360" height="90" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="650" y="79" text-anchor="middle" class="m">const sum: MathFn = (a, b) =&gt; a + b</text>
+<text x="650" y="99" text-anchor="middle" class="s">a · b 는 문맥에서 추론</text>
+</svg>

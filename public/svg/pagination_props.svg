@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>페이지네이션 props: 필수 셋, 선택 셋</title>
+<desc>현재 페이지·전체 페이지 수·페이지 변경 콜백 셋이면 페이지네이션이 돈다. 이전·다음 표시, 번호 표시, 페이지당 항목 수는 선택이다. 라이브러리들은 기능이 많지만 필요한 건 이만큼이라 최대한 단순한 컴포넌트로 만들었다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="40" width="390" height="120" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="225" y="84" text-anchor="middle" class="b">필수</text>
+<text x="225" y="104" text-anchor="middle" class="m">currentPage · totalPages</text>
+<text x="225" y="124" text-anchor="middle" class="m">onPageChange(n)</text>
+<rect x="440" y="40" width="390" height="120" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="635" y="74" text-anchor="middle" class="b">선택</text>
+<text x="635" y="94" text-anchor="middle" class="m">showPreviousNext?</text>
+<text x="635" y="114" text-anchor="middle" class="m">showPageNumbers?</text>
+<text x="635" y="134" text-anchor="middle" class="m">pageSize?</text>
+</svg>

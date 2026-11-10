@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="100%" role="img">
+<title>Apps Script 팝업: onOpen 에서 메뉴를 붙인다</title>
+<desc>onOpen 은 사용자가 편집 권한이 있는 스프레드시트를 열 때 저절로 도는 예약 이름(단순 트리거)이다. 거기서 팝업 메뉴를 만들고 항목 팝업 띄우기를 showAlert 함수에 잇는다. 메뉴를 누르면 showAlert 가 ui.alert 로 제목·본문·OK 버튼이 있는 대화 상자를 띄운다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="200" fill="#FFFFFF"/>
+<rect x="30" y="50" width="200" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="69" text-anchor="middle" class="b">파일 열기</text>
+<text x="130" y="89" text-anchor="middle" class="m">onOpen()</text>
+<text x="130" y="109" text-anchor="middle" class="s">단순 트리거</text>
+<path d="M230 85 H286" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<rect x="290" y="50" width="250" height="70" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="415" y="69" text-anchor="middle" class="b">메뉴</text>
+<text x="415" y="89" text-anchor="middle" class="m">팝업 메뉴 &gt; 팝업 띄우기</text>
+<text x="415" y="109" text-anchor="middle" class="s">→ showAlert</text>
+<path d="M540 85 H596" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="568" y="40" text-anchor="middle" class="s">클릭</text>
+<rect x="600" y="50" width="230" height="70" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="715" y="79" text-anchor="middle" class="b">ui.alert</text>
+<text x="715" y="99" text-anchor="middle" class="m">제목 · 텍스트 · OK</text>
+</svg>

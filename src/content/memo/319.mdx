@@ -1,42 +1,30 @@
 ---
 type: snippet
+title: 'step :: State -> Event -> State'
 tags: ['mermaid', 'state', 'react']
 status: release
 ctime: 2024-09-17
-mtime: 2026-10-29
+mtime: 2026-11-09
+sources:
+  - id: typestates
+    resource: https://massimilianomirra.com/notes/expressive-components-in-vanilla-react-part-1-type-states
+    title: 'Expressive components in vanilla React, part 1: TypeStates'
 ---
 
-import { Blockquote } from '@components/Blockquote'
+![Mounting 에서 이메일 입력 대기나 코드 입력 대기로 간다. 이메일을 제출하면 SubmittingEmail 이 되고, 성공하면 코드 입력 대기로, 실패하면 다시 이메일 입력 대기로 돌아간다. 코드를 제출하면 SubmittingCode 가 되고, 성공하면 Success, 실패하면 코드 입력 대기로 돌아간다. 불리언 여러 개로 짜도 상태 머신은 생긴다 — 암시적이냐 명시적이냐의 차이다.](/svg/email_login_states.svg)
 
-<Blockquote
-  cite={{
-    url: 'https://massimilianomirra.com/notes/expressive-components-in-vanilla-react-part-1-type-states',
-    title: 'Expressive components in vanilla React, part 1: TypeStates',
-  }}
->
-  이건 그냥 상태 머신 아닌가? 그렇다! … "불리언 수프"에 기대는 컴포넌트도
-  마찬가지다. 선택은 상태 머신을 만드느냐 마느냐가 아니라, 암시적으로
-  만드느냐 명시적으로 만드느냐다.
-</Blockquote>
+```haskell
+-- 불리언 수프도 상태 머신이다 — 암시적이냐 명시적이냐의 차이
+data State = Mounting | AwaitingEmail | SubmittingEmail | AwaitingCode | SubmittingCode | Success
 
-```mermaid
-stateDiagram-v2
-  [*] --> Mounting
-
-  Mounting --> AwaitingEmailInput
-  Mounting --> AwaitingCodeInput
-
-  AwaitingEmailInput --> SubmittingEmail
-
-  SubmittingEmail --> AwaitingCodeInput
-  SubmittingEmail --> AwaitingEmailInput
-
-  AwaitingCodeInput --> SubmittingCode
-
-  SubmittingCode --> Success
-  SubmittingCode --> AwaitingCodeInput
-
-  Success --> [*]
+step :: State -> Event -> State
+step Mounting        HasEmail   = AwaitingEmail
+step Mounting        HasPending = AwaitingCode
+step AwaitingEmail   Submit     = SubmittingEmail
+step SubmittingEmail Ok         = AwaitingCode
+step SubmittingEmail Fail       = AwaitingEmail
+step AwaitingCode    Submit     = SubmittingCode
+step SubmittingCode  Ok         = Success
+step SubmittingCode  Fail       = AwaitingCode
+step s               _          = s              -- 그 밖의 조합은 일어나지 않는다
 ```
-
-![](https://mermaid.ink/svg/pako:eNqFkktPhDAUhf8KuUsDZJjyKF2YGHVh4mycneKiQmUah5aUVh0J_93ymHFmDMqioed89_bkti3ksmBAoNFUsxtOS0Ur732ZCcd-BVcs11wK5_5hVMb16eLZ8bxLZyWN0FyUmRj1_X4wrz4o7ze3FeXbO1Eb_Qd0bVNMzEj9rh74tXmpuD4Ye_pMnmv9H3oc9TTGoclZil4_nsypM8F5zppm1p8dwVQ4QHbi4ELFlE1Y2OtqeyQDvWEVy4DY34Kqtwwy0VmOGi3XO5ED0cowF0xd_NwukFe6baxaUwGkhU8gXoCwH0RpmIQ4wmGyiFzYAQlj7CeLECNklyBNUdy58CWlbRH4SRJEcbBEC4QjZGuHfo-DOR7KCq6lWo3Pa3hlLihpys0UoPsGYNnNCQ)

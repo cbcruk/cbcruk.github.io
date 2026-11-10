@@ -1,33 +1,28 @@
 ---
 type: snippet
+title: 'replaceSymbols :: Map Name String -> Rule -> Rule'
 tags: ['css']
 status: release
 ctime: 2025-01-17
-mtime: 2026-10-29
+mtime: 2026-11-09
+sources:
+  - id: css-modules-values
+    resource: https://github.com/css-modules/css-modules/blob/master/docs/values-variables.md
+    title: 'Exporting values variables — CSS Modules'
+  - id: icss-replace-symbols
+    resource: https://github.com/css-modules/icss-utils/blob/c4e53fefa32df5db7786dd0fc6f053963f12ea02/src/replaceSymbols.js#L7-L11
+    title: 'icss-utils replaceSymbols.js'
 ---
 
-import QuoteLink from '@components/QuoteLink.astro'
+![b.module.css 의 클래스 b 를 @value b from "./b.module.css" 로 가져오면, 이 파일의 :global(.b) 안 b 가 그 모듈의 해시된 클래스(._b_15lvz_1)로 바뀐다 — @value 는 선언 값뿐 아니라 규칙의 셀렉터에서도 치환되기 때문이다. @value 줄이 없으면 문자 그대로 .b 라 아무것도 잡지 못한다.](/svg/css_modules_value_selector.svg)
 
-<QuoteLink url="https://github.com/css-modules/css-modules/blob/master/docs/values-variables.md">
-Exporting values variables
-</QuoteLink>
+```haskell
+-- @value 로 가져온 이름은 선언 값뿐 아니라 셀렉터 안에서도 치환된다
+replaceSymbols :: Map Name String -> Rule -> Rule
+replaceSymbols defs (Rule sel decls) = Rule (subst defs sel) (map (subst defs) decls)
+                                       -- icss-utils: decl 뿐 아니라 rule.selector 도 돈다
 
-```css
-@value b from "./b.module.css";
-
-.root {
-  color: aquamarine;
-}
-
-.root :global(.b) {
-  text-decoration: line-through;
-}
+defs = fromList [("b", "_b_15lvz_1")]   -- @value b from "./b.module.css"
+replaceSymbols defs ".root :global(.b)" == ".root ._b_15lvz_1"   -- 다른 모듈의 해시된 클래스
+replaceSymbols empty ".root :global(.b)" == ".root .b"           -- @value 없으면 아무것도 안 잡힌다
 ```
-
-
-`@value` 로 가져온 이름은 선언 값뿐 아니라 셀렉터 안에서도 치환된다[^icss-selector] — 다른 모듈의 클래스 `b` 를 가져오면 `:global(.b)` 가 그 모듈의 해시된 클래스(`._b_15lvz_1`)가 된다. `@value` 줄이 없으면 문자 그대로 `.b` 라 아무것도 안 잡힌다.
-
----
-
-[^icss-selector]: [icss-utils `replaceSymbols.js`](https://github.com/css-modules/icss-utils/blob/c4e53fefa32df5db7786dd0fc6f053963f12ea02/src/replaceSymbols.js#L7-L11) — `postcss-modules-values` 가 모은 정의를 이 함수로 치환하는데, 선언(`decl`)뿐 아니라 규칙의 셀렉터(`rule.selector`)도 돈다.
-

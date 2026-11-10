@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>남은 시간: Date − Date = 밀리초</title>
+<desc>목표 시각 "18:30:00" 을 오늘 날짜에 맞춘 Date 로 만들고 지금을 뺀다. Date 끼리 빼면 숫자 문맥이라 둘 다 밀리초 타임스탬프가 되어 차가 밀리초로 나온다. 음수면 이미 지났으니 null. 아니면 3,600,000 으로 나눠 시, 60,000 으로 나눈 나머지 60 이 분, 1,000 으로 나눈 나머지 60 이 초다. 예: 16:14:30 에 부르면 2시간 15분 30초.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<rect x="30" y="40" width="200" height="60" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="130" y="64" text-anchor="middle" class="b">target</text>
+<text x="130" y="84" text-anchor="middle" class="m">오늘 18:30:00</text>
+<text x="250" y="76" text-anchor="middle" class="b">−</text>
+<rect x="270" y="40" width="200" height="60" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="370" y="64" text-anchor="middle" class="b">now</text>
+<text x="370" y="84" text-anchor="middle" class="m">오늘 16:14:30</text>
+<path d="M470 70 H526" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="498" y="60" text-anchor="middle" class="s">숫자 문맥</text>
+<rect x="530" y="40" width="300" height="60" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="680" y="64" text-anchor="middle" class="m">diff = 8,130,000 ms</text>
+<text x="680" y="84" text-anchor="middle" class="s">음수면 null — 이미 지났다</text>
+<rect x="30" y="140" width="800" height="56" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="430" y="172" text-anchor="middle" class="m">⌊diff / 3,600,000⌋ = 2시   ⌊diff / 60,000⌋ mod 60 = 15분   ⌊diff / 1,000⌋ mod 60 = 30초</text>
+</svg>

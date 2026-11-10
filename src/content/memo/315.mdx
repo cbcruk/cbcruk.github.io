@@ -1,10 +1,11 @@
 ---
 type: note
+title: 'isSameDate d = d == today'
 kind: Explainer
 tags: ['date', 'test']
 status: release
 ctime: 2024-09-03
-mtime: 2024-09-03
+mtime: 2026-11-09
 generated: { by: human:cbcruk, at: 2025-01-12T22:27:54Z }
 verified: { by: claude/opus-5, at: 2026-08-19T00:00:00Z }
 sources:
@@ -17,38 +18,16 @@ sources:
     resource: https://vitest.dev/guide/mocking#dates
 ---
 
-import { transformerMetaHighlight } from '@shikijs/transformers'
-import { Code } from 'astro:components'
+![beforeEach 에서 vi.useFakeTimers 로 Date 를 가짜로 바꾸고 vi.setSystemTime 으로 오늘을 2024-07-20 으로 고정한다. 그러면 isSameDate 는 같은 날짜에 true, 하루 전·후에 false 를 늘 같게 낸다. afterEach 에서 useRealTimers 로 되돌린다. vitest 와 jest 둘 다 내부적으로 @sinonjs/fake-timers 를 쓴다.](/svg/fake_timers_set_system_time.svg)
 
-vitest와 jest에서 가짜 타이머를 사용하는 방법. 내부적으로는 [@sinonjs/fake-timers](https://github.com/sinonjs/fake-timers)를 사용.
-vitest와 jest 모두 시스템 시간을 조작할 수 있도록 하여 테스트가 일관되게 실행되도록 하고 다양한 시간과 날짜를 시뮬레이션하여 다양한 조건에서 코드가 예상대로 작동하는지 확인할 수 있음.
+```haskell
+-- 오늘이 바뀌면 결과가 바뀌는 함수: 가짜 타이머로 "오늘" 을 고정한다
+isSameDate :: Date -> Bool
+isSameDate d = d == today          -- today 는 new Date() — 테스트에서는 setSystemTime 이 정한다
 
-<Code
-  code={`describe('isSameDate', () => {
-    beforeEach(() => {
-      vi.useFakeTimers()
-      vi.setSystemTime('2024-07-20')
-    })
-
-    afterEach(() => {
-      vi.useRealTimers()
-    })
-
-    it('현재 날짜와 동일한 날짜를 전달하면 true를 반환한다', () => {
-      expect(isSameDate('2024-07-20')).toBe(true)
-    })
-
-    it('현재 날짜와 다른 날짜를 전달하면 false를 반환한다', () => {
-      expect(isSameDate('2024-07-19')).toBe(false)
-      expect(isSameDate('2024-07-21')).toBe(false)
-    })
-})`}
-  lang="tsx"
-  transformers={[transformerMetaHighlight()]}
-  meta="{3,4,8}"
-/>
-
----
-
-- https://jestjs.io/blog/2020/05/05/jest-26#new-fake-timers
-- https://vitest.dev/guide/mocking#dates
+-- beforeEach: useFakeTimers >> setSystemTime "2024-07-20"
+isSameDate "2024-07-20" == True
+isSameDate "2024-07-19" == False
+isSameDate "2024-07-21" == False
+-- afterEach: useRealTimers · vitest·jest 둘 다 내부는 @sinonjs/fake-timers
+```

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" width="100%" role="img">
+<title>판별 유니온은 갈래 중심, 속성 표는 속성 중심</title>
+<desc>판별 유니온 Button 은 type 이 submit 이면 color 가, reset 이면 text 가 있다. 코드에서는 type 을 보는 순간 나머지 속성이 정해져 타입 검사와 자동완성이 된다. 그런데 속성 표로 문서화하면 속성마다 한 줄이라 color·text 의 조건을 "type 이 무엇일 때 필수" 라는 글로 적어야 하고, 갈래가 늘면 표가 복잡해진다. 표는 속성 중심, 유니온은 갈래 중심이라 모양이 맞지 않는다. typedoc·api-extractor 로 타입에서 문서를 생성하는 쪽이 낫다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="260" fill="#FFFFFF"/>
+<rect x="30" y="40" width="360" height="180" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="210" y="104" text-anchor="middle" class="b">코드 — 갈래마다</text>
+<text x="210" y="124" text-anchor="middle" class="m">type: "submit"  →  color</text>
+<text x="210" y="144" text-anchor="middle" class="m">type: "reset"   →  text</text>
+<text x="210" y="164" text-anchor="middle" class="s">type 을 보면 나머지가 정해진다</text>
+<rect x="450" y="40" width="380" height="180" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="640" y="94" text-anchor="middle" class="b">문서 표 — 속성마다</text>
+<text x="640" y="114" text-anchor="middle" class="m">type   필수</text>
+<text x="640" y="134" text-anchor="middle" class="m">color  type = submit 일 때 필수</text>
+<text x="640" y="154" text-anchor="middle" class="m">text   type = reset 일 때 필수</text>
+<text x="640" y="174" text-anchor="middle" class="r">조건을 글로 적는다 · 갈래가 늘면 복잡</text>
+<path d="M390 130 H446" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="100%" role="img">
+<title>증기 계란 조리기: 물의 양이 곧 조리 시간</title>
+<desc>증기 조리기에서 물은 다 끓어 없어질 때까지가 조리 시간이라, 물의 양이 곧 시간이다. 완숙 기준 계란 1개는 117ml, 6개는 96ml 로 계란이 많을수록 물이 적다. 계란끼리 열을 나눠 유지하고, 좁은 공간에 증기가 몰려 효율이 오르고, 열을 잃는 표면이 개수에 비해 줄기 때문이다. 물에 삶을 때와 달리 증기 조리는 얼마나 빽빽이 담느냐에 따라 열 효율이 크게 달라진다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker></defs>
+<rect width="860" height="230" fill="#FFFFFF"/>
+<rect x="30" y="40" width="180" height="70" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="120" y="69" text-anchor="middle" class="b">계란 1개</text>
+<text x="120" y="89" text-anchor="middle" class="m">117 ml</text>
+<rect x="250" y="40" width="180" height="70" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="340" y="69" text-anchor="middle" class="b">계란 6개</text>
+<text x="340" y="89" text-anchor="middle" class="m">96 ml</text>
+<rect x="480" y="30" width="350" height="90" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="655" y="69" text-anchor="middle" class="b">물의 양 = 조리 시간</text>
+<text x="655" y="89" text-anchor="middle" class="s">다 끓어 없어지면 끝</text>
+<rect x="30" y="150" width="800" height="56" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="430" y="182" text-anchor="middle" class="s">많을수록 덜: 서로 열을 나눠 유지 · 좁은 공간에 증기 집중 · 열 잃는 표면이 개수에 비해 작다</text>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" width="100%" role="img">
+<title>헤드리스 브라우저에서 이미지 꺼내기: 세 길</title>
+<desc>페이지 안 JS 로 캔버스에서 꺼내거나 서버에서 다시 받는 길이 있고, DevTools 프로토콜로 꺼내는 길이 있다. CDP 는 Page.getResourceTree 로 프레임의 리소스 목록을 얻고 Page.getResourceContent 로 각 리소스의 내용을 받는다(base64 면 디코딩). 또는 page.on("response") 로 응답이 올 때마다 response.buffer() 를 받는다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="210" fill="#FFFFFF"/>
+<rect x="30" y="40" width="250" height="110" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="155" y="79" text-anchor="middle" class="b">페이지 JS</text>
+<text x="155" y="99" text-anchor="middle" class="s">캔버스에서 꺼내기</text>
+<text x="155" y="119" text-anchor="middle" class="s">서버에서 다시 받기</text>
+<rect x="310" y="40" width="260" height="110" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="440" y="69" text-anchor="middle" class="b">CDP</text>
+<text x="440" y="89" text-anchor="middle" class="m">Page.getResourceTree</text>
+<text x="440" y="109" text-anchor="middle" class="m">Page.getResourceContent</text>
+<text x="440" y="129" text-anchor="middle" class="s">base64 면 디코딩</text>
+<rect x="600" y="40" width="230" height="110" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5"/>
+<text x="715" y="79" text-anchor="middle" class="b">응답 가로채기</text>
+<text x="715" y="99" text-anchor="middle" class="m">page.on('response')</text>
+<text x="715" y="119" text-anchor="middle" class="m">response.buffer()</text>
+</svg>
