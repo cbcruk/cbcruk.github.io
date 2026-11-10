@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="100%" role="img">
+<title>gauntlet loop: 만드는 쪽 → 평가자(가린 채 기준작과 비교) → 이길 때까지</title>
+<desc>일을 작은 조각으로 나누고, 조각마다 만드는 쪽이 결과물을 낸다. 만든 과정을 전혀 모르는 평가자가 그 결과물과 기준작(바, 실제로 구해 온 진짜 작품)을 누구 것인지 가린 채 나란히 놓고 어느 쪽이 나은지 하나만 고른다. 기준작이 이기면 가장 큰 차이 하나만 만드는 쪽에 돌려보내 다시 만들게 한다. 끝나는 길은 둘뿐이다 — 평가자가 우리 것을 고르거나, 사용자가 직접 멈추거나. 몇 번 돌았는지는 끝낼 이유가 아니다. 기준작은 Stripe 가격 페이지처럼 이름을 댈 수 있고, 평가자가 실물을 구해 볼 수 있고, 나란히 놓고 하나를 고를 수 있어야 한다. 실물을 못 구하면 평가자가 비교를 지어내 전부 통과시킨다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}.r{font-size:11.5px;fill:#B3261E}.g{font-size:11.5px;fill:#2E7D32}.x{font-size:12px;font-family:ui-monospace,Menlo,monospace;fill:#999;text-decoration:line-through}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#B3261E"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E7D32"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2F6DB5"/></marker></defs>
+<rect width="860" height="330" fill="#FFFFFF"/>
+<rect x="30" y="40" width="170" height="84" rx="7" fill="#F2F2F2" stroke="#8A8A8A" stroke-width="1.5"/>
+<text x="115" y="66" text-anchor="middle" class="b">만드는 쪽</text>
+<text x="115" y="86" text-anchor="middle" class="s">작은 조각 하나를 만든다</text>
+<text x="115" y="106" text-anchor="middle" class="s">(지난번 지적을 고쳐서)</text>
+<rect x="270" y="40" width="300" height="84" rx="7" fill="#DCEBFA" stroke="#2F6DB5" stroke-width="1.5"/>
+<text x="420" y="66" text-anchor="middle" class="b">평가자 — 만든 과정을 모르는 남</text>
+<text x="420" y="86" text-anchor="middle" class="s">우리 것 · 기준작 (누구 것인지 가림)</text>
+<text x="420" y="106" text-anchor="middle" class="s">어느 쪽이 나은가? 하나만 고른다</text>
+<rect x="640" y="40" width="190" height="84" rx="7" fill="#E3F1E4" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="735" y="66" text-anchor="middle" class="b">우리 것이 이김</text>
+<text x="735" y="86" text-anchor="middle" class="s">이 조각은 여기서 끝</text>
+<text x="735" y="106" text-anchor="middle" class="s">(사용자가 멈춰도 끝)</text>
+<path d="M200 82 H266" stroke="#555" stroke-width="1.4" fill="none" marker-end="url(#a)"/>
+<text x="233" y="74" text-anchor="middle" class="s">결과물</text>
+<path d="M570 82 H636" stroke="#2E7D32" stroke-width="1.4" fill="none" marker-end="url(#ag)"/>
+<rect x="330" y="170" width="180" height="64" rx="7" fill="#FCE8E6" stroke="#B3261E" stroke-width="1.5"/>
+<text x="420" y="196" text-anchor="middle" class="b">기준작이 이김</text>
+<text x="420" y="216" text-anchor="middle" class="s">가장 큰 차이 하나만 들려</text>
+<path d="M420 124 V166" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+<path d="M330 202 H115 V128" stroke="#B3261E" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+<text x="220" y="194" text-anchor="middle" class="s">다시 만들게 한다</text>
+<text x="30" y="272" text-anchor="start" class="b">기준작(바) — 나란히 놓고 겨룰 진짜 작품 — 의 조건</text>
+<text x="30" y="294" text-anchor="start" class="s">이름이 있다 — 막연한 부류가 아니라 특정한 것 ("Stripe 가격 페이지" O / "수상작급 SaaS" X)</text>
+<text x="30" y="312" text-anchor="start" class="s">실물을 구할 수 있다 — 못 구하면 평가자가 비교를 지어내 다 통과시킨다 · 나란히 놓고 하나를 고를 수 있다</text>
+<rect x="640" y="170" width="190" height="64" rx="7" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="735" y="196" text-anchor="middle" class="b">끝내는 기준이 아님</text>
+<text x="735" y="216" text-anchor="middle" class="x">N 번 돌면 끝</text>
+</svg>
