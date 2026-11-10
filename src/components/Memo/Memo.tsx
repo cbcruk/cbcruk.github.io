@@ -13,29 +13,15 @@ import { MemoId } from '@components/Memo/MemoId'
 import { MemoEmbedLink } from '@components/Memo/MemoEmbedLink'
 import { MemoRaw } from '@components/Memo/MemoRaw'
 import { MemoSources } from '@components/Memo/MemoSources'
-import {
-  getSummary,
-  getUnlinkedSources,
-  getWhen,
-  isLongMemo,
-} from '@components/Memo/Memo.utils'
+import { getUnlinkedSources } from '@components/Memo/Memo.utils'
 import type { Props } from './Memo.types'
-import { match, P } from 'ts-pattern'
 
 export function Memo({ raw = false, preview = false, memo, children }: Props) {
-  // 긴 메모는 목록에서 전문 대신 요약 한 줄만 낸다. 짧은 메모는 접을 이유가 없다
-  const folded = preview && isLongMemo(memo)
-  const summary = folded ? getSummary(memo) : ''
-  const when = folded ? getWhen(memo) : ''
-  const sources = folded ? [] : getUnlinkedSources(memo)
+  // 출처는 메모 페이지에서만 낸다. 목록(preview)에서는 길이와 무관하게 뺀다
+  const sources = preview ? [] : getUnlinkedSources(memo)
 
   return (
     <MemoPrimitive>
-      {match(memo.data.title)
-        .with(P.string.minLength(1), (title) => (
-          <h2 className="font-bold text-base mb-4">{title}</h2>
-        ))
-        .otherwise(() => null)}
       <>
         <MemoBody>{children}</MemoBody>
         <MemoSources sources={sources} />
