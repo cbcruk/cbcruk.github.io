@@ -5,7 +5,7 @@ title: 'block :: NavType -> Index -> Index -> Action'
 tags: ['navigation-api', 'router']
 status: release
 ctime: 2026-06-15
-mtime: 2026-11-09
+mtime: 2026-11-11
 generated: { by: claude/opus-5, at: 2026-08-21T03:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-21T03:00:00Z }
 sources:
@@ -38,6 +38,7 @@ go n h | 0 <= i && i < length (entries h) = h { cursor = i }
 
 go 1 (back h) == h   -- 커서 C → B → C, 겉보기엔 아무 일도 없었다
 -- 안 일어난 이동을 되돌리면 진짜로 움직인다 (이 패턴에선 이동이 없으면 navigate 가 안 뜬다)
+-- 브라우저가 사용자를 위해 막아둔 걸 되돌리는 우회라 정말 붙잡아야 할 때만 쓴다
 
 -- 확인: 블로커를 켜고 다섯 이동을 다 해본다
 --   push·replace·reload → 안 움직인다 · 뒤로·앞으로 → 움직였다 제자리로

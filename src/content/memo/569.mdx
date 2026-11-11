@@ -5,7 +5,7 @@ title: 'setHref :: Url -> JS ()'
 tags: ['javascript', 'event-loop', 'navigation']
 status: release
 ctime: 2026-06-23
-mtime: 2026-11-09
+mtime: 2026-11-11
 generated: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-21T00:00:00Z }
 sources:
@@ -22,6 +22,7 @@ setHref :: Url -> JS ()                  -- Promise 가 아니다: 이동 요청
 setHref = enqueueNavigation
 
 -- 실험: 실행됨 1·2 가 둘 다 찍히면 await 가 아니다 (CDP 로 확인)
+-- await 였다면 첫 줄에서 멈춰 실행됨 1 도 안 찍히고 /a 로 가야 한다
 experiment = do
   setHref "/a"; log "실행됨 1"
   setHref "/b"; log "실행됨 2"
@@ -31,6 +32,7 @@ arrived :: [Url] -> Url
 arrived = last                           -- 덮어써서가 아니라 /a 가 시작됐다 끊겨서
 
 -- 버려진 이동도 서버에는 갔다 (서버 기록 ["/a","/b"]) — 취소는 클라이언트에서만, 572
+-- 서버 부수효과가 있는 URL(로그아웃 링크 같은)이면 "결국 /b 로 갔으니 /a 는 없던 일" 이 아니다
 serverSaw :: [Url] -> [Url]
 serverSaw = id
 ```

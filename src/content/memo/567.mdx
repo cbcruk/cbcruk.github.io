@@ -4,7 +4,7 @@ title: 'allowsRenderBlocking doc = isNothing (body doc)'
 tags: ['performance', 'rendering', 'fouc', 'html']
 status: release
 ctime: 2026-06-23
-mtime: 2026-11-09
+mtime: 2026-11-11
 generated: { by: claude/opus-5, at: 2026-09-01T00:00:00Z }
 verified: { by: claude/opus-5, at: 2026-08-23T00:00:00Z }
 sources:
@@ -18,6 +18,7 @@ sources:
 ```haskell
 -- 새로고침 때 스타일이 붙기 전 default 가 한 프레임 보인다: 파서를 멈추는 것 ≠ paint 를 멈추는 것
 -- render-blocking 등록 창은 <body> 가 열리기 전까지다 — "head 안에" 가 아니라 body == null
+-- 그래서 컴포넌트 마크업 안이면 이미 늦다
 allowsRenderBlocking :: Document -> Bool
 allowsRenderBlocking doc = isNothing (body doc)
 
@@ -31,5 +32,6 @@ works :: Fcp -> ResponseEnd -> Bool         -- first-contentful-paint, slow.js �
 works fcp done = fcp >= done
 -- 실측 (Chrome 154, slow.js 800ms): <head> 836 ≥ 816 ✓ · <body> 16 < 807 ✗
 
--- 다크 테마 흰 화면은 다른 축이다: 서버가 낸 HTML 이 이미 다른 값 → 594
+-- 다크 테마 흰 화면은 다른 축이다: 서버가 사용자 상태를 몰라 기본값으로 렌더했다
+--   서버가 낸 HTML 자체가 이미 다른 값이라 렌더를 막아도 안 고쳐진다 → 첫 페인트 전 인라인 스크립트, 594
 ```

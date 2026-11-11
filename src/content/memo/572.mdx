@@ -5,7 +5,7 @@ title: 'clientSees = const AbortError'
 tags: ['http', 'abort', 'cancellation']
 status: release
 ctime: 2026-06-23
-mtime: 2026-11-09
+mtime: 2026-11-11
 generated: { by: claude/opus-5, at: 2026-08-20T02:30:00Z }
 sources:
   - id: fetch-abort
@@ -32,6 +32,8 @@ clientSees :: Stage -> Error
 clientSees = const AbortError
 
 -- clientSees 로 serverGot 을 되돌릴 수 없다: 정답은 서버 로그에만
--- Partial 이 부수효과를 내는지는 서버가 본문 끝(end)을 기다리나에 달렸다
+-- Partial 에서 핸들러가 안 돈 건 본문이 끝나야(end) 처리하는 서버라서일 뿐이다
+-- 헤더만 보고 일을 시작하는 서버라면 전송 완료 전 취소도 부수효과를 낸다
+--   "경계는 전송 완료" 는 본문까지 받고 처리하는 서버에서의 이야기다
 -- 구간 일으키기 (CDP): Fetch.enable requestStage Request·Response, emulateNetworkConditions uploadThroughput
 ```

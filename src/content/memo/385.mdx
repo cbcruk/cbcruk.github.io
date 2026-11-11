@@ -4,7 +4,7 @@ title: 'compose = foldr (.) id ; pipe = foldl (flip (.)) id'
 tags: ['fp']
 status: release
 ctime: 2025-02-02
-mtime: 2026-11-09
+mtime: 2026-11-11
 sources:
   - id: janhesters-fp
     resource: https://janhesters.com/blog/unleash-javascripts-potential-with-functional-programming
@@ -36,6 +36,7 @@ compose [square, double] 3 == 36
 pipe    [double, square] 3 == 36
 
 -- curry: 인자가 fn.length 만큼 모일 때까지 함수를 돌려준다 (Haskell 은 원래 이렇다)
+--   모인 인자 수가 fn 이 기대하는 매개변수 수(fn.length) 이상이면 호출, 모자라면 나머지를 받을 함수를 돌려준다
 add a b c = a + b + c
 add 1 2 3 == ((add 1) 2) 3 == 6
 double = multiply 2                    -- 부분 적용

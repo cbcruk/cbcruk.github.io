@@ -4,7 +4,7 @@ title: 'serial = foldr (\t k rs -> t (\r -> k (rs ++ [r]))) done'
 tags: ['parallel', 'serial']
 status: release
 ctime: 2025-03-05
-mtime: 2026-11-09
+mtime: 2026-11-11
 sources:
   - id: taskrunner-test
     resource: https://stackblitz.com/edit/vitest-dev-vitest-jtqzu5sy?file=test%2Fbasic.test.ts
@@ -21,6 +21,7 @@ sources:
 
 ```haskell
 -- 태스크 = 결과를 콜백으로 돌려주는 함수
+-- 두 실행기는 같은 부모(TaskRunner)에서 tasks·results 목록과 addTask 를 물려받고, run 만 다르다
 type Task = (String -> IO ()) -> IO ()
 
 -- 병렬: 한꺼번에 시작, 결과가 태스크 수만큼 모이면 끝 — 결과는 끝난 순서

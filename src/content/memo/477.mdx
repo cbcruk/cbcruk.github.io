@@ -4,7 +4,7 @@ title: 'concatMap (fromCodePoint . readHex) . splitOn "-"'
 tags: ['emoji']
 status: release
 ctime: 2025-03-05
-mtime: 2026-11-09
+mtime: 2026-11-11
 sources:
   - id: emoji-picker-parse
     resource: https://github.com/ealush/emoji-picker-react/blob/master/src/dataUtils/parseNativeEmoji.ts#L1
@@ -23,5 +23,6 @@ sources:
 -- 이모지 데이터의 unified("1F468-200D-1F469")를 문자로
 parseNativeEmoji :: String -> String
 parseNativeEmoji = concatMap (fromCodePoint . readHex) . splitOn "-"
+-- "-" 로 나눠 코드 포인트를 하나씩 얻고, 16진수를 정수로 바꿔 그 문자를 얻고, 이어 붙여 하나의 문자열로
 -- fromCodePoint 는 0xFFFF 를 넘는 코드 포인트도 받아 서로게이트 쌍을 만든다 — fromCharCode 는 못 한다
 ```
