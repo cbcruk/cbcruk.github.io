@@ -4,11 +4,11 @@ import Layout from '@layouts/Layout.astro'
 import { MemoLayout } from '@components/MemoLayout/MemoLayout'
 import { Memo } from '@components/Memo/Memo'
 import { PaginationLatest } from '@components/Pagination/PaginationLatest'
-import { getReleaseMemoCollection } from '@collection/memo'
+import { getListMemoCollection } from '@collection/memo'
 
 export const prerender = true
 
-const memoCollection = await getReleaseMemoCollection()
+const memoCollection = await getListMemoCollection()
 
 const PAGE_TITLE = `메모 리스트 | eunsoolee`
 const PAGE_DESCRIPTION = ''

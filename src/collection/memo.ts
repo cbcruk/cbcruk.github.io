@@ -3,6 +3,13 @@ import { getCollection, type CollectionEntry } from 'astro:content'
 export const getReleaseMemoCollection = () =>
   getCollection('memo', ({ data }) => data.status === 'release')
 
+// 목록(/memos) 용 — bookmarks 는 /type/bookmarks 에서만 본다
+export const getListMemoCollection = () =>
+  getCollection(
+    'memo',
+    ({ data }) => data.status === 'release' && data.type !== 'bookmarks'
+  )
+
 export const getRandomMemoCollection = async () => {
   const memoCollection = await getReleaseMemoCollection()
   const memos = memoCollection.toSorted(() => Math.random() - 0.5).slice(0, 10)
