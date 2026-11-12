@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="100%" role="img">
+<title>Go 와 웹뷰 페이지가 함수를 주고받는 법</title>
+<desc>OS 웹뷰가 주는 통로는 둘뿐이고 둘 다 문자열만 나른다. Go 는 JS 코드를 문자열로 넘겨 실행시키고(Eval), 페이지는 postMessage 로 문자열을 보낸다. 페이지에서 함수를 부르면 id 를 하나 만들어 Promise 를 걸어두고, id·함수 이름·인자를 JSON 문자열로 보낸다. Go 는 그 함수를 따로 실행한 뒤, 같은 id 와 결과를 넣은 onReply 호출을 Eval 로 돌려보낸다. 페이지는 id 로 기다리던 Promise 를 찾아 끝낸다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="760" height="420" fill="#FFFFFF"/>
+<text x="20" y="26" class="b">OS 웹뷰가 주는 통로는 둘 — 둘 다 문자열만 나른다</text>
+<rect x="20" y="44" width="180" height="260" rx="8" fill="#EAF1FB" stroke="#3B6FB6" stroke-width="1.5"/>
+<text x="110" y="66" text-anchor="middle" class="b">Go</text>
+<rect x="560" y="44" width="180" height="260" rx="8" fill="#FFF4D6" stroke="#B07D00" stroke-width="1.5"/>
+<text x="650" y="66" text-anchor="middle" class="b">페이지 JS</text>
+<rect x="230" y="44" width="300" height="260" rx="8" fill="#F6F6F6" stroke="#BBB" stroke-dasharray="4 3"/>
+<text x="380" y="66" text-anchor="middle" class="s">OS 웹뷰</text>
+<text x="650" y="96" text-anchor="middle" class="m">await myFn(1, 2)</text>
+<text x="650" y="114" text-anchor="middle" class="s">id 를 만들어 Promise 를 걸어둔다</text>
+<line x1="556" y1="140" x2="204" y2="140" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<text x="380" y="132" text-anchor="middle" class="b">① postMessage</text>
+<text x="380" y="158" text-anchor="middle" class="m">{"id","method":"myFn","params":[1,2]}</text>
+<text x="110" y="184" text-anchor="middle" class="m">bindings["myFn"]</text>
+<text x="110" y="202" text-anchor="middle" class="s">고루틴에서 실행</text>
+<line x1="204" y1="228" x2="556" y2="228" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<text x="380" y="220" text-anchor="middle" class="b">② Eval</text>
+<text x="380" y="246" text-anchor="middle" class="m">onReply(id, status, result)</text>
+<text x="650" y="272" text-anchor="middle" class="s">id 로 Promise 를 찾아</text>
+<text x="650" y="290" text-anchor="middle" class="s">resolve · reject 하고 지운다</text>
+<text x="20" y="336" class="s">Go → OS 웹뷰: C 컴파일러 없이 라이브러리를 열어 부른다 (macOS objc_msgSend · Linux C 함수 · Windows COM)</text>
+<text x="20" y="356" class="s">웹뷰는 UI 스레드에서만 만질 수 있다 — Eval 도 메인 스레드로 넘겨서 부른다.</text>
+<text x="20" y="384" class="s">webframe 은 이 위에서 console·예외를 Go 로 보내 stdout·stderr 로 내보낸다.</text>
+<text x="20" y="404" class="s">Go 쪽이 고루틴마다 따로 돌아 순서가 섞이므로, 한 번에 한 묶음만 보낸다.</text>
+</svg>

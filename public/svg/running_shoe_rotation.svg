@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="100%" role="img">
+<title>러닝화 로테이션</title>
+<desc>신발은 두 가지로 고른다. 하나는 오늘 달릴 메뉴의 목적이다: 레이스, 스피드와 폼(인터벌·실전 연습·스프린트), 페이스와 거리(거리주·빠른 조깅·페이스주), 데일리 조깅(회복 조깅). 가장 자주 신는 데일리 조깅화에는 쿠션과 서포트가 필요하다. 다른 하나는 목표 레이스에서 거꾸로 센 시기다: 봄 기초기에는 카본 없는 신발로 다리 힘과 접지 감각을 기르고, 여름 단련기에는 카본 없이 토대를 만들다 점점 카본에 익히고, 가을·겨울 레이스기에는 연습에서도 카본화를 신는 일이 늘어난다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:12px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11.5px;fill:#555}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="760" height="400" fill="#FFFFFF"/>
+<text x="20" y="26" class="b">① 오늘 메뉴의 목적</text>
+<rect x="20" y="40" width="170" height="74" rx="7" fill="#FBE9E7" stroke="#B3261E" stroke-width="1.4"/>
+<text x="105" y="62" text-anchor="middle" class="m">RACE</text>
+<text x="105" y="82" text-anchor="middle" class="s">레이스 당일</text>
+<rect x="200" y="40" width="170" height="74" rx="7" fill="#FFF4D6" stroke="#B07D00" stroke-width="1.4"/>
+<text x="285" y="62" text-anchor="middle" class="m">SPEED &amp; FORM</text>
+<text x="285" y="82" text-anchor="middle" class="s">인터벌 · 실전 연습</text>
+<text x="285" y="99" text-anchor="middle" class="s">스프린트</text>
+<rect x="380" y="40" width="170" height="74" rx="7" fill="#EAF1FB" stroke="#3B6FB6" stroke-width="1.4"/>
+<text x="465" y="62" text-anchor="middle" class="m">PACE &amp; DISTANCE</text>
+<text x="465" y="82" text-anchor="middle" class="s">거리주 · 빠른 조깅</text>
+<text x="465" y="99" text-anchor="middle" class="s">페이스주</text>
+<rect x="560" y="40" width="180" height="74" rx="7" fill="#E3F3E6" stroke="#2E8B4E" stroke-width="1.4"/>
+<text x="650" y="62" text-anchor="middle" class="m">DAILY JOG</text>
+<text x="650" y="82" text-anchor="middle" class="s">회복 조깅 · 가장 자주</text>
+<text x="650" y="99" text-anchor="middle" class="s">→ 쿠션 + 서포트</text>
+<line x1="20" y1="140" x2="740" y2="140" stroke="#DDD"/>
+<text x="20" y="168" class="b">② 목표 레이스에서 거꾸로 센 시기 (期分け)</text>
+<rect x="20" y="184" width="220" height="82" rx="7" fill="#F3F3F3" stroke="#888" stroke-width="1.2"/>
+<text x="130" y="206" text-anchor="middle" class="b">봄 · 기초기 (트랙)</text>
+<text x="130" y="228" text-anchor="middle" class="m">카본 없음</text>
+<text x="130" y="248" text-anchor="middle" class="s">다리 힘 · 접지 감각</text>
+<line x1="244" y1="225" x2="266" y2="225" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<rect x="270" y="184" width="220" height="82" rx="7" fill="#F3F3F3" stroke="#888" stroke-width="1.2"/>
+<text x="380" y="206" text-anchor="middle" class="b">여름 · 단련기 (합숙)</text>
+<text x="380" y="228" text-anchor="middle" class="m">카본 없음 → 점점 카본</text>
+<text x="380" y="248" text-anchor="middle" class="s">토대를 만들며 익힌다</text>
+<line x1="494" y1="225" x2="516" y2="225" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<rect x="520" y="184" width="220" height="82" rx="7" fill="#F3F3F3" stroke="#888" stroke-width="1.2"/>
+<text x="630" y="206" text-anchor="middle" class="b">가을·겨울 · 레이스기 (로드)</text>
+<text x="630" y="228" text-anchor="middle" class="m">카본</text>
+<text x="630" y="248" text-anchor="middle" class="s">연습에서도 실전용을</text>
+<text x="20" y="306" class="s">왜 일부러 반발이 적은 신발인가: 신발에 기대지 않고 '자기 다리'를 단련한다 —</text>
+<text x="20" y="326" class="s">발가락으로 땅을 제대로 잡는 감각, 다치기 어려운 토대.</text>
+<text x="20" y="366" class="b">한 켤레 = ① 목적 × ② 시기</text>
+</svg>

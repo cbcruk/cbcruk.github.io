@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 344" width="100%" role="img">
+<title>왜 unpdf 인가</title>
+<desc>브라우저 밖에서 PDF 의 텍스트나 이미지를 꺼내려고 PDF.js(pdfjs-dist)를 직접 쓰면 할 일이 따라온다. 워커 경로를 맞추거나 워커를 꺼야 하고, Node 에서는 legacy 빌드를 쓰라는 경고가 나오고, Cloudflare Workers 에는 PDF.js 가 쓰는 전역이 없고 실행 중 WASM 컴파일이 막혀 있으며, 이미지 디코더 WASM 을 URL 로 서빙해야 하고, 텍스트는 페이지를 돌며 조각을 이어 붙여야 한다. unpdf 는 이걸 미리 해둔 PDF.js 번들과 함수를 준다: 워커는 번들에 넣어 같은 스레드에서 돌리고, 경고 줄은 지우고 빠진 최신 API 는 폴리필하고, PDF.js 보다 먼저 전역을 채우고, Workers 에서는 JS 디코더만 싣고, 디코더는 번들 조각을 로더로 불러오고, 텍스트는 extractText 가 이어 붙인다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11px;fill:#555}.r{fill:#B3261E}.g{fill:#2E8B4E}.w{font-size:12px;font-weight:600}.f{font-size:11px;fill:#1F6B3A;font-weight:600}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+<marker id="g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#2E8B4E"/></marker>
+<marker id="d" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9z" fill="#999"/></marker>
+</defs>
+<rect width="760" height="344" fill="#FFFFFF"/>
+
+<!-- pdfjs-dist 직접 -->
+<text x="20" y="24" class="b">pdfjs-dist 를 직접 — 가는 길마다 내가 뚫는다</text>
+<rect x="20" y="58" width="76" height="50" rx="7" fill="#F3F3F3" stroke="#888"/>
+<text x="58" y="80" text-anchor="middle" class="w">내 코드</text>
+<text x="58" y="97" text-anchor="middle" class="s">서버 · Workers</text>
+<rect x="664" y="58" width="76" height="50" rx="7" fill="#F3F3F3" stroke="#888"/>
+<text x="702" y="80" text-anchor="middle" class="w">텍스트</text>
+<text x="702" y="97" text-anchor="middle" class="s">이미지</text>
+<line x1="98" y1="83" x2="660" y2="83" stroke="#555" stroke-width="1.4" marker-end="url(#a)"/>
+<g fill="#B3261E">
+<rect x="140" y="64" width="7" height="38" rx="2"/>
+<rect x="225" y="64" width="7" height="38" rx="2"/>
+<rect x="310" y="64" width="7" height="38" rx="2"/>
+<rect x="395" y="64" width="7" height="38" rx="2"/>
+<rect x="480" y="64" width="7" height="38" rx="2"/>
+<rect x="565" y="64" width="7" height="38" rx="2"/>
+</g>
+<text x="143" y="54" text-anchor="middle" class="s r">워커 경로</text>
+<text x="228" y="122" text-anchor="middle" class="s r">legacy 경고</text>
+<text x="313" y="54" text-anchor="middle" class="s r">빠진 전역</text>
+<text x="398" y="122" text-anchor="middle" class="s r">WASM 막힘</text>
+<text x="483" y="54" text-anchor="middle" class="s r">디코더 URL</text>
+<text x="568" y="122" text-anchor="middle" class="s r">페이지 루프</text>
+
+<!-- 문제 → 처리 -->
+<g stroke="#999" stroke-width="1.1" stroke-dasharray="3 3">
+<line x1="143" y1="106" x2="143" y2="182" marker-end="url(#d)"/>
+<line x1="228" y1="128" x2="228" y2="182" marker-end="url(#d)"/>
+<line x1="313" y1="106" x2="313" y2="182" marker-end="url(#d)"/>
+<line x1="398" y1="128" x2="398" y2="182" marker-end="url(#d)"/>
+<line x1="483" y1="106" x2="483" y2="182" marker-end="url(#d)"/>
+<line x1="568" y1="128" x2="568" y2="182" marker-end="url(#d)"/>
+</g>
+<text x="20" y="160" class="b">unpdf 가</text>
+<text x="20" y="176" class="b">미리 한 일</text>
+
+<rect x="104" y="186" width="508" height="118" rx="12" fill="#E3F3E6" stroke="#2E8B4E" stroke-width="1.5"/>
+<text x="143" y="208" text-anchor="middle" class="f">번들에 넣고</text>
+<text x="143" y="223" text-anchor="middle" class="f">같은 스레드로</text>
+<text x="228" y="208" text-anchor="middle" class="f">경고 줄 삭제</text>
+<text x="228" y="223" text-anchor="middle" class="f">+ 폴리필</text>
+<text x="313" y="208" text-anchor="middle" class="f">PDF.js 전에</text>
+<text x="313" y="223" text-anchor="middle" class="f">전역 채움</text>
+<text x="398" y="208" text-anchor="middle" class="f">Workers 는</text>
+<text x="398" y="223" text-anchor="middle" class="f">JS 디코더만</text>
+<text x="483" y="208" text-anchor="middle" class="f">번들 조각을</text>
+<text x="483" y="223" text-anchor="middle" class="f">로더로</text>
+<text x="568" y="208" text-anchor="middle" class="f">extractText</text>
+<text x="568" y="223" text-anchor="middle" class="f">가 이어 붙임</text>
+
+<rect x="20" y="230" width="76" height="50" rx="7" fill="#F3F3F3" stroke="#888"/>
+<text x="58" y="252" text-anchor="middle" class="w">내 코드</text>
+<text x="58" y="269" text-anchor="middle" class="s">서버 · Workers</text>
+<rect x="664" y="230" width="76" height="50" rx="7" fill="#F3F3F3" stroke="#888"/>
+<text x="702" y="252" text-anchor="middle" class="w">텍스트</text>
+<text x="702" y="269" text-anchor="middle" class="s">이미지</text>
+<line x1="98" y1="255" x2="660" y2="255" stroke="#2E8B4E" stroke-width="1.8" marker-end="url(#g)"/>
+<text x="358" y="284" text-anchor="middle" class="m">extractText(pdf, { mergePages: true })</text>
+<text x="358" y="324" text-anchor="middle" class="s">이미지 PNG · 페이지 렌더 · 스캔 페이지 찾기도 함수 하나 · 한 번 연 문서를 여러 함수에 재사용</text>
+
+</svg>
