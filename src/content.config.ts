@@ -12,7 +12,12 @@ const okfSource = z.object({
 })
 
 const memo = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/memo' }),
+  // bookmarks 는 bookmarks/ 폴더에 둔다. id 는 파일명 숫자만 — 폴더가 URL(/memo/474)에 들어가지 않게
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/memo',
+    generateId: ({ entry }) => entry.replace(/^.*\//, '').replace(/\.mdx?$/, ''),
+  }),
   schema: z.object({
     type: z.enum(['bookmarks', 'snippet', 'note']),
     title: z.string().optional(),

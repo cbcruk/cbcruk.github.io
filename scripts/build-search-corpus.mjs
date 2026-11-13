@@ -18,7 +18,7 @@ const tags = (frontmatter) =>
  * 목록·계보·검색에서 갈라지지 않는다.
  */
 const corpus = fs
-  .readdirSync(DIR)
+  .readdirSync(DIR, { recursive: true })
   .filter((file) => /\.mdx?$/.test(file))
   .flatMap((file) => {
     const raw = fs.readFileSync(path.join(DIR, file), 'utf8')
@@ -38,7 +38,7 @@ const corpus = fs
 
     return [
       {
-        i: file.replace(/\.mdx?$/, ''),
+        i: path.basename(file).replace(/\.mdx?$/, ''),
         ...(title ? { t: title } : {}),
         k: tags(frontmatter),
         c: field(frontmatter, 'ctime'),

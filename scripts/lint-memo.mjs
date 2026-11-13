@@ -199,10 +199,15 @@ const checkSpecDrift = () => {
 const findings = []
 const add = (level, file, message) => findings.push({ level, file, message })
 
+// bookmarks 는 bookmarks/ 하위 폴더에 있다 — 파일명(숫자)이 곧 id 라 폴더를 건너 겹치면 안 된다
+const BOOKMARKS_DIR = 'bookmarks'
 const files = fs
-  .readdirSync(DIR)
+  .readdirSync(DIR, { recursive: true })
   .filter((file) => /\.mdx?$/.test(file))
-  .toSorted((a, b) => parseInt(a, 10) - parseInt(b, 10))
+  .toSorted(
+    (a, b) => parseInt(path.basename(a), 10) - parseInt(path.basename(b), 10)
+  )
+const seenIds = new Map()
 
 for (const file of files) {
   const target = path.join(DIR, file)
@@ -215,6 +220,24 @@ for (const file of files) {
 
   const declared = field(analyzed.frontmatter, 'type')
   const status = field(analyzed.frontmatter, 'status')
+
+  const id = path.basename(file).replace(/\.mdx?$/, '')
+  if (seenIds.has(id)) {
+    add('error', target, `id ${id} 가 ${seenIds.get(id)} 와 겹친다`)
+  }
+  seenIds.set(id, target)
+
+  // 폴더가 형태를 따른다 — bookmarks 만 bookmarks/ 에
+  const inBookmarks = path.dirname(file) === BOOKMARKS_DIR
+  if ((declared === 'bookmarks') !== inBookmarks) {
+    add(
+      'error',
+      target,
+      declared === 'bookmarks'
+        ? `type: bookmarks 는 ${BOOKMARKS_DIR}/ 에 둔다`
+        : `${BOOKMARKS_DIR}/ 에는 type: bookmarks 만 둔다 (지금 ${declared})`
+    )
+  }
 
   // 작성 중(draft)은 아직 형태가 안 잡혔을 수 있으므로 경고로만 본다
   const level = status === 'draft' ? 'warn' : 'error'

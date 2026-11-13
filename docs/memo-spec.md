@@ -10,8 +10,8 @@
 
 ## 파일 구조
 
-- **위치**: `src/content/memo/`
-- **파일명**: 숫자 ID (`1.md`, `2.md`, …). ID가 곧 URL(`/memo/1`)
+- **위치**: `src/content/memo/`. `type: bookmarks` 만 `src/content/memo/bookmarks/` 에 둔다 — 폴더와 `type` 이 어긋나면 `pnpm lint:memo` 가 잡는다
+- **파일명**: 숫자 ID (`1.md`, `2.md`, …). ID가 곧 URL(`/memo/1`) — 폴더는 URL에 들어가지 않으므로 ID는 폴더를 건너 겹치지 않는다
 - **확장자**: `.md` 기본. `.mdx`는 **컴포넌트 임포트가 필요할 때만** — 임포트를 걷어냈으면 `.md`로 되돌린다
 
 ## Frontmatter

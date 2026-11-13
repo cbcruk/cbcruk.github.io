@@ -127,7 +127,7 @@ const mapWithLimit = async (items, limit, worker) => {
 
 const main = async () => {
   const dir = process.env.MEMO_DIR ?? './src/content/memo'
-  const entries = await fg.glob(`${dir}/*.{md,mdx}`)
+  const entries = await fg.glob(`${dir}/**/*.{md,mdx}`)
   const memos = []
 
   for (const path of entries) {

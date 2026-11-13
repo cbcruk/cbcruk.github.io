@@ -18,7 +18,8 @@ node scripts/create-memo.mjs note        # 산문이 주인공 (기본값)
 ```
 
 스크립트는 다음을 자동으로 처리:
-- `src/content/memo/` 내 가장 큰 숫자 ID + 1
+- `src/content/memo/` 내 가장 큰 숫자 ID + 1 (`bookmarks/` 폴더 포함)
+- `bookmarks` 는 `src/content/memo/bookmarks/` 에 만든다
 - `ctime`, `mtime`을 오늘 날짜로 설정
 - 빈 `tags: []`
 - `status`: `bookmarks`는 `archive`, 나머지는 `draft` (Status 기준은 docs/memo-spec.md 참고)

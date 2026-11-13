@@ -86,7 +86,7 @@ async function main() {
   }
 
   const includeUnpublished = process.argv.includes('--all')
-  const entries = await fg.glob('./src/content/memo/*.{md,mdx}')
+  const entries = await fg.glob('./src/content/memo/**/*.{md,mdx}')
   const memos = await Promise.all(
     entries.map(async (path) => {
       const raw = await fs.readFile(path, 'utf-8')

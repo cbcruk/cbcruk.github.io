@@ -3,7 +3,7 @@ import { format } from '@formkit/tempo'
 import fg from 'fast-glob'
 
 async function getNextIndex() {
-  const entries = await fg.glob('./src/content/memo/*.{md,mdx}')
+  const entries = await fg.glob('./src/content/memo/**/*.{md,mdx}')
   const [latest] = entries
     .map((entry) => {
       const [, id] = entry.match(/\/(\d+)\.(md|mdx)$/)
@@ -41,7 +41,7 @@ async function main() {
     const type = getType()
 
     await fs.writeFile(
-      `src/content/memo/${nextIndex}.md`,
+      `src/content/memo/${type === 'bookmarks' ? 'bookmarks/' : ''}${nextIndex}.md`,
       `---
 type: ${type}
 tags: []
@@ -53,7 +53,7 @@ mtime: ${formattedTime}
       `
     )
 
-    console.log(`${nextIndex}.md`)
+    console.log(`${type === 'bookmarks' ? 'bookmarks/' : ''}${nextIndex}.md`)
   } catch (error) {
     console.error(error)
   }
