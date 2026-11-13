@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" width="100%" role="img">
+<title>Freeze 의 구조와 커밋 순서</title>
+<desc>Freeze 는 바깥부터 Fragment, Suspense, 그 안의 Suspend 와 children 으로 되어 있다. frozen 이 되면 Suspend 가 끝나지 않는 promise 로 Suspense 를 중단시킨다. 그러면 React 는 안쪽을 계속 렌더하지만 DOM 에 커밋하지 않아 내용이 그대로 멈춘다. 한 번의 커밋 안에서 React 는 자식을 먼저 처리하므로, Suspense 가 바로 아래 요소에 display none 을 붙이고 안쪽의 layout effect 를 정리하고 ref 를 뗀 다음에 Freeze 의 insertion effect 가 돌아 display 를 되돌린다. 숨긴 모습은 한 번도 그려지지 않는다. 되돌릴 요소는 Fragment ref 에 가짜 관찰자를 넣어 미리 모아 둔다. 텍스트 노드는 모으지 못해 얼어 있는 동안 비어 보인다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11.5px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11px;fill:#555}.w{font-size:12px;font-weight:600}.r{fill:#B3261E}.g{fill:#2E8B4E}.bl{fill:#3B6FB6}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="760" height="430" fill="#FFFFFF"/>
+
+<!-- anatomy -->
+<text x="20" y="24" class="b">구조</text>
+<rect x="20" y="38" width="320" height="236" rx="10" fill="#EAF1FB" stroke="#3B6FB6" stroke-width="1.4"/>
+<text x="34" y="60" class="m bl">&lt;Fragment ref&gt;</text>
+<text x="34" y="78" class="s">바로 아래 요소를 Set 에 모은다 (가짜 관찰자)</text>
+<rect x="40" y="92" width="280" height="166" rx="8" fill="#F7F7F7" stroke="#888"/>
+<text x="54" y="114" class="m">&lt;Suspense&gt;</text>
+<text x="54" y="132" class="s">fallback 없음 — 대신 그려지는 것 없음</text>
+<rect x="56" y="146" width="248" height="44" rx="6" fill="#FFF4D6" stroke="#B07D00"/>
+<text x="68" y="165" class="m">{frozen &amp;&amp; &lt;Suspend /&gt;}</text>
+<text x="68" y="182" class="s">끝나지 않는 promise 를 use → 계속 중단</text>
+<rect x="56" y="198" width="248" height="44" rx="6" fill="#E3F3E6" stroke="#2E8B4E"/>
+<text x="68" y="217" class="m">{children}</text>
+<text x="68" y="234" class="s g">렌더는 계속, 커밋은 안 함 → 얼어 있다</text>
+
+<!-- commit order -->
+<text x="380" y="24" class="b">frozen 이 true 가 되는 커밋 하나</text>
+<rect x="380" y="38" width="360" height="44" rx="7" fill="#F3F3F3" stroke="#888"/>
+<text x="392" y="57" class="w">렌더</text>
+<text x="392" y="74" class="s">Suspend 가 throw → Suspense 중단. children 은 상태 그대로</text>
+<line x1="560" y1="84" x2="560" y2="96" stroke="#555" stroke-width="1.3" marker-end="url(#a)"/>
+<rect x="380" y="98" width="360" height="66" rx="7" fill="#FBE9E7" stroke="#B3261E"/>
+<text x="392" y="117" class="w">커밋 ① 자식 먼저 — Suspense 가 숨긴다</text>
+<text x="392" y="135" class="m r">display: none !important</text>
+<text x="392" y="153" class="s">텍스트는 nodeValue = '' · layout effect 정리 · ref 떼기</text>
+<line x1="560" y1="166" x2="560" y2="178" stroke="#555" stroke-width="1.3" marker-end="url(#a)"/>
+<rect x="380" y="180" width="360" height="48" rx="7" fill="#E3F3E6" stroke="#2E8B4E"/>
+<text x="392" y="199" class="w">커밋 ② 그다음 Freeze — useInsertionEffect</text>
+<text x="392" y="217" class="m g">모아 둔 요소마다 style.display = ''</text>
+<line x1="560" y1="230" x2="560" y2="242" stroke="#555" stroke-width="1.3" marker-end="url(#a)"/>
+<rect x="380" y="244" width="360" height="30" rx="7" fill="#F3F3F3" stroke="#888"/>
+<text x="392" y="264" class="s">그리기 — 숨긴 모습은 한 번도 화면에 안 나온다</text>
+
+<line x1="20" y1="296" x2="740" y2="296" stroke="#DDD"/>
+<text x="20" y="320" class="b">얼어 있는 동안 · 풀릴 때</text>
+<text x="20" y="342" class="s">안쪽 업데이트는 렌더만 되고 쌓인다. 다시 숨기는 건 보임↔숨김이 바뀔 때뿐이라 effect 는 [frozen] 이면 된다.</text>
+<text x="20" y="362" class="s">풀리면 쌓인 최신 렌더가 한 번에 커밋되고, React 가 style prop 의 display(없으면 '')로 되돌린다.</text>
+
+<text x="20" y="394" class="b r">다만</text>
+<text x="60" y="394" class="s">observeUsing 은 react-dom 19.3 부터 · 텍스트 자식은 비어 보인다 · 퇴장 중엔 ref 가 떨어져 있다</text>
+<text x="60" y="414" class="s">원래 인라인 display 를 지운다 · React 내부 동작에 기댄 트릭이다</text>
+</svg>

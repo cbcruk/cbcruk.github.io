@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 450" width="100%" role="img">
+<title>실마리에서 주소로</title>
+<desc>원작 .exe 에서 기능을 찾을 때는 손에 쥔 실마리에 따라 길을 고른다. 화면 문구를 알면 EXE 안의 그 문구 바이트를 찾고, 그 주소를 참조하는 코드를 찾아 함수로 바로 간다. 값을 알면 지금 값을 가진 메모리를 전부 잡아 두고 게임을 한 걸음 진행해 바뀐 것만 남긴다. 값을 모르는 화면 상태는 들어갈 때 바뀐 바이트와 나올 때 바뀐 바이트의 교집합으로 좁힌다. 배열은 비슷한 값이 일정 간격으로 도시 수만큼 늘어선 곳으로 찾는다. 소스 없는 남의 플러그인 바이너리에서는 박혀 있는 주소를 긁는다. 데이터 주소를 얻으면 그 주소를 쓰는 코드를 잡아 함수로 간다. 함수는 디스어셈블해 읽고, 어떻게 찾았는지와 틀렸던 해석까지 함수 주소를 이름에 붙인 노트에 적은 뒤, 근거 주소를 주석에 달아 옮긴다.</desc>
+<style>text{font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.m{font-size:11px;font-family:ui-monospace,Menlo,monospace}.s{font-size:11px;fill:#555}.w{font-size:12px;font-weight:600}.r{fill:#B3261E}.g{fill:#2E8B4E}</style>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker>
+</defs>
+<rect width="760" height="450" fill="#FFFFFF"/>
+
+<text x="20" y="24" class="b">실마리 → 주소 → 함수 → 노트 → 옮기기</text>
+
+<!-- clues -->
+<rect x="20" y="40" width="240" height="48" rx="7" fill="#EAF1FB" stroke="#3B6FB6"/>
+<text x="32" y="59" class="w">화면 문구 「값을 깎는다」</text>
+<text x="32" y="77" class="s">CP949 바이트 → 그 주소를 참조하는 코드</text>
+
+<rect x="20" y="132" width="240" height="48" rx="7" fill="#F3F3F3" stroke="#888"/>
+<text x="32" y="151" class="w">아는 값 (오늘 날짜 19일)</text>
+<text x="32" y="169" class="s">19 인 곳 전부 → 하루 진행 → 20 이 된 곳</text>
+<rect x="20" y="188" width="240" height="48" rx="7" fill="#F3F3F3" stroke="#888"/>
+<text x="32" y="207" class="w">모르는 값 (지금 어느 화면)</text>
+<text x="32" y="225" class="s">들어갈 때 바뀜 ∩ 나올 때 바뀜</text>
+<rect x="20" y="244" width="240" height="48" rx="7" fill="#F3F3F3" stroke="#888"/>
+<text x="32" y="263" class="w">배열 (도시별 시세)</text>
+<text x="32" y="281" class="s">90~105 가 같은 간격으로 도시 수만큼</text>
+<rect x="20" y="300" width="240" height="48" rx="7" fill="#F3F3F3" stroke="#888"/>
+<text x="32" y="319" class="w">소스 없는 남의 플러그인</text>
+<text x="32" y="337" class="s">버전 비교 분기 안에 박힌 주소</text>
+
+<!-- data / function -->
+<rect x="300" y="200" width="160" height="56" rx="7" fill="#FFF4D6" stroke="#B07D00" stroke-width="1.5"/>
+<text x="380" y="222" text-anchor="middle" class="w">데이터 주소</text>
+<text x="380" y="241" text-anchor="middle" class="m">0x5A4D28 (일)</text>
+<g stroke="#555" stroke-width="1.3" fill="none">
+<line x1="262" y1="156" x2="298" y2="214" marker-end="url(#a)"/>
+<line x1="262" y1="212" x2="298" y2="222" marker-end="url(#a)"/>
+<line x1="262" y1="268" x2="298" y2="234" marker-end="url(#a)"/>
+<line x1="262" y1="324" x2="298" y2="246" marker-end="url(#a)"/>
+</g>
+
+<rect x="300" y="40" width="160" height="56" rx="7" fill="#E3F3E6" stroke="#2E8B4E" stroke-width="1.5"/>
+<text x="380" y="62" text-anchor="middle" class="w">함수</text>
+<text x="380" y="81" text-anchor="middle" class="m">0x4811E0 (흥정)</text>
+<line x1="262" y1="64" x2="298" y2="66" stroke="#555" stroke-width="1.3" marker-end="url(#a)"/>
+<line x1="380" y1="198" x2="380" y2="98" stroke="#555" stroke-width="1.3" marker-end="url(#a)"/>
+<text x="390" y="134" class="s">이 주소를 쓰는 코드</text>
+<text x="390" y="150" class="s">CE 로 잡거나 코드에서</text>
+<text x="390" y="166" class="s">4바이트 검색</text>
+
+<!-- note / port -->
+<line x1="462" y1="68" x2="508" y2="68" stroke="#555" stroke-width="1.3" marker-end="url(#a)"/>
+<text x="485" y="60" text-anchor="middle" class="s">읽기</text>
+<rect x="510" y="40" width="230" height="130" rx="7" fill="#F7F7F7" stroke="#BBB"/>
+<text x="522" y="60" class="m">TradeBargain-0x4811E0.md</text>
+<text x="522" y="84" class="s">· 기준 EXE (판·MD5·ImageBase)</text>
+<text x="522" y="104" class="s">· 찾은 길</text>
+<text x="522" y="124" class="s">· 호출 규약 · 시그니처 · 표 값</text>
+<text x="522" y="144" class="s r">· 틀렸던 해석도 남긴다</text>
+<line x1="625" y1="172" x2="625" y2="198" stroke="#555" stroke-width="1.3" marker-end="url(#a)"/>
+<rect x="510" y="200" width="230" height="56" rx="7" fill="#E3F3E6" stroke="#2E8B4E"/>
+<text x="522" y="222" class="w">C# 으로 옮긴다</text>
+<text x="522" y="241" class="s">주석에 근거 주소 · 문구는 원본 그대로</text>
+
+<line x1="20" y1="370" x2="740" y2="370" stroke="#DDD"/>
+<text x="20" y="394" class="b">밟은 것</text>
+<text x="20" y="416" class="s">문구가 서식으로 쪼개져 있으면(「[%s]의 %s%s 들어가겠습니까?」) 못 찾는다 → 아는 주소에서 거꾸로</text>
+<text x="20" y="436" class="s">일본판과 한국어판은 주소가 전혀 다르다 · 세이브 배치 ≠ 메모리 배치 · 직접 만든 HW 브레이크포인트는 게임을 죽였다</text>
+</svg>

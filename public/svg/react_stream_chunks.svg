@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="100%" role="img">
+<title>React 스트리밍 SSR 의 조각들</title>
+<desc>React 스트리밍 SSR 은 HTTP 응답 하나를 닫지 않고 조금씩 써 보낸다. 먼저 데이터를 기다리지 않는 부분인 셸을 보낸다. 아직 준비 안 된 Suspense 경계 자리에는 주석 표시와 빈 template, 그리고 fallback 이 들어간다. 경계의 데이터가 오면 같은 응답 뒤쪽에 숨긴 div 로 진짜 내용을 붙이고, 짧은 스크립트가 fallback 을 그 내용으로 바꿔 끼운다. 경계는 준비된 순서대로 오므로 느린 경계 하나가 뒤의 경계를 막지 않는다. 바꿔 끼우기는 바로 하지 않고 모아서 다음 프레임에 하고, 한 번 바꾼 뒤에는 300ms 가 지나야 다시 바꾼다. 마지막 경계가 와야 응답이 닫히고 브라우저의 문서 파싱이 끝난다. 사람에게는 셸이 되자마자 흘려보내고, 크롤러처럼 완성된 문서가 필요하면 모든 경계가 풀릴 때까지 기다렸다가 한 번에 보낸다.</desc>
+<style>text{white-space:pre;font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.w{font-size:12px;font-weight:600}.s{font-size:11px;fill:#555}.m{font-size:10.5px;font-family:ui-monospace,Menlo,monospace}.r{fill:#B3261E}.g{fill:#2E8B4E}.o{fill:#B07D00}.bl{fill:#3B6FB6}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker></defs>
+<rect width="760" height="420" fill="#FFFFFF"/>
+
+<text x="20" y="24" class="b">HTTP 응답 하나 — 닫지 않고 조각을 이어 쓴다</text>
+<line x1="20" y1="40" x2="740" y2="40" stroke="#555" marker-end="url(#a)"/>
+<text x="700" y="56" class="s">시간</text>
+
+<!-- chunk 1: shell -->
+<rect x="20" y="66" width="250" height="128" rx="6" fill="#EEF3FB" stroke="#3B6FB6"/>
+<text x="30" y="84" class="w bl">① 셸 (onShellReady)</text>
+<text x="30" y="104" class="m">&lt;header&gt;…&lt;/header&gt;</text>
+<text x="30" y="122" class="m">&lt;!--$?--&gt;&lt;template id="B:0"&gt;</text>
+<text x="30" y="138" class="m">  …fallback(게시물)…&lt;!--/$--&gt;</text>
+<text x="30" y="156" class="m">&lt;!--$?--&gt;&lt;template id="B:1"&gt;</text>
+<text x="30" y="172" class="m">  …fallback(추천)…&lt;!--/$--&gt;</text>
+
+<!-- chunk 2: B:1 first -->
+<rect x="285" y="66" width="220" height="128" rx="6" fill="#E3F3E6" stroke="#2E8B4E"/>
+<text x="295" y="84" class="w g">② 추천이 먼저 준비됐다</text>
+<text x="295" y="104" class="m">&lt;div hidden id="S:1"&gt;</text>
+<text x="295" y="120" class="m">  …추천…&lt;/div&gt;</text>
+<text x="295" y="140" class="m">&lt;script&gt;$RC=…;</text>
+<text x="295" y="156" class="m">$RC("B:1","S:1")&lt;/script&gt;</text>
+<text x="295" y="178" class="s">$RC 정의는 처음 한 번만</text>
+
+<!-- chunk 3: B:0 -->
+<rect x="520" y="66" width="220" height="128" rx="6" fill="#E3F3E6" stroke="#2E8B4E"/>
+<text x="530" y="84" class="w g">③ 게시물 (느린 질의)</text>
+<text x="530" y="104" class="m">&lt;div hidden id="S:0"&gt;</text>
+<text x="530" y="120" class="m">  …게시물…&lt;/div&gt;</text>
+<text x="530" y="140" class="m">&lt;script&gt;</text>
+<text x="530" y="156" class="m">$RC("B:0","S:0")&lt;/script&gt;</text>
+<text x="530" y="178" class="m">&lt;/body&gt;&lt;/html&gt;  ← 응답 끝</text>
+
+<text x="20" y="214" class="s">경계는 문서 순서가 아니라 준비된 순서로 온다 — 느린 게시물이 추천을 막지 않는다</text>
+
+<line x1="20" y1="228" x2="740" y2="228" stroke="#DDD"/>
+
+<!-- browser -->
+<text x="20" y="252" class="b">브라우저 — $RC 는 바로 바꾸지 않고 모아서 바꾼다</text>
+<g>
+<rect x="20" y="266" width="160" height="70" rx="6" fill="#FFF" stroke="#BBB"/>
+<text x="30" y="284" class="s">header</text>
+<rect x="30" y="292" width="140" height="16" fill="#EEE"/><text x="36" y="304" class="s">fallback</text>
+<rect x="30" y="312" width="140" height="16" fill="#EEE"/><text x="36" y="324" class="s">fallback</text>
+<text x="20" y="352" class="s">① 뒤</text>
+</g>
+<line x1="188" y1="300" x2="212" y2="300" stroke="#555" marker-end="url(#a)"/>
+<g>
+<rect x="220" y="266" width="160" height="70" rx="6" fill="#FFF" stroke="#BBB"/>
+<text x="230" y="284" class="s">header</text>
+<rect x="230" y="292" width="140" height="16" fill="#EEE"/><text x="236" y="304" class="s">fallback</text>
+<rect x="230" y="312" width="140" height="16" fill="#C9E7D0"/><text x="236" y="324" class="s">추천</text>
+<text x="220" y="352" class="s">② 뒤 · 다음 프레임에</text>
+</g>
+<line x1="388" y1="300" x2="412" y2="300" stroke="#555" marker-end="url(#a)"/>
+<g>
+<rect x="420" y="266" width="160" height="70" rx="6" fill="#FFF" stroke="#BBB"/>
+<text x="430" y="284" class="s">header</text>
+<rect x="430" y="292" width="140" height="16" fill="#C9E7D0"/><text x="436" y="304" class="s">게시물</text>
+<rect x="430" y="312" width="140" height="16" fill="#C9E7D0"/><text x="436" y="324" class="s">추천</text>
+<text x="420" y="352" class="s">③ 뒤 · 지난 바꾸기 300ms 뒤에</text>
+</g>
+<text x="600" y="284" class="s">$RC 가 하는 일</text>
+<text x="600" y="302" class="s">표시를 $~ 로, 대기열에</text>
+<text x="600" y="318" class="s">→ fallback 지우고</text>
+<text x="600" y="334" class="s">  S:n 자식을 옮겨 넣기</text>
+<text x="600" y="350" class="s">→ 표시 $ · 하이드레이트</text>
+
+<rect x="20" y="370" width="720" height="38" rx="6" fill="#FFF4D6" stroke="#B07D00"/>
+<text x="32" y="388" class="s">크롤러용은 onAllReady 에서 pipe: 작은 경계는 셸 안에 &lt;!--$--&gt; 로 완성돼 들어가고, 큰 경계(누적 12,800B 초과)는 여전히 뒤로 빠진다</text>
+<text x="32" y="402" class="s">마지막 조각이 와야 파싱이 끝난다 → defer 스크립트는 가장 느린 경계를 기다린다</text>
+</svg>

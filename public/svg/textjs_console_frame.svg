@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="100%" role="img">
+<title>Text.js 가 콘솔에 장면을 그리는 법</title>
+<desc>Text.js 는 React 화면을 브라우저 콘솔에 그린다. 화면을 글자 칸 격자로 만든 뒤, 한 줄 안에서 스타일이 같은 칸끼리 묶고, 묶음마다 %c 와 CSS 하나를 붙여 서식 문자열 하나로 만든다. 장면 하나가 console.log 한 번이다. 바뀐 칸이 없으면 아무것도 부르지 않는다. 다음 장면은 지우지 않고 아래에 덧붙인다. 장면 앞에 높이가 화면만 한 빈 줄을 넣어 앞 장면을 위로 밀어내면, 맨 아래를 따라가는 콘솔 스크롤이 장면을 바꿔 보여준다. 매번 지우면 DevTools 가 지우기는 바로, 새 메시지는 50ms 마다 묶어 그려서 빈 콘솔이 깜빡인다. 그래서 지우기는 첫 장면, 300 장째, 100 장이 쌓이고 1초 쉰 뒤에만 한다.</desc>
+<style>text{white-space:pre;font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;fill:#222}.b{font-size:13px;font-weight:600}.s{font-size:11px;fill:#555}.m{font-size:11px;font-family:ui-monospace,Menlo,monospace}.c{font-size:12px;font-family:ui-monospace,Menlo,monospace}.wh{fill:#FFF}.r{fill:#B3261E}.g{fill:#2E8B4E}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9z" fill="#555"/></marker></defs>
+<rect width="760" height="400" fill="#FFFFFF"/>
+
+<!-- 1. grid -->
+<text x="20" y="24" class="b">1. 글자 칸 격자</text>
+<g>
+<rect x="20" y="36" width="160" height="18" fill="#3B6FB6"/>
+<text x="26" y="49" class="c wh">▼ Hello</text>
+<rect x="20" y="54" width="160" height="18" fill="#F3F3F3"/>
+<text x="26" y="67" class="c" style="fill:#888">count = 1</text>
+<path d="M20 36H180M20 54H180M20 72H180" stroke="#BBB" stroke-width="0.5"/>
+<path d="M30 36V72M40 36V72M50 36V72M60 36V72M70 36V72M80 36V72M90 36V72M100 36V72M110 36V72M120 36V72M130 36V72M140 36V72M150 36V72M160 36V72M170 36V72" stroke="#FFF" stroke-opacity="0.35" stroke-width="0.5"/>
+</g>
+<text x="20" y="92" class="s">칸마다 글자 · 글자색 · 배경색 · 속성</text>
+<text x="20" y="108" class="s">바뀐 행만 다시 훑는다(행 해시)</text>
+
+<line x1="190" y1="54" x2="222" y2="54" stroke="#555" marker-end="url(#a)"/>
+
+<!-- 2. spans -->
+<text x="230" y="24" class="b">2. 같은 스타일끼리 묶는다</text>
+<rect x="230" y="36" width="160" height="18" rx="3" fill="#3B6FB6"/>
+<text x="236" y="49" class="m wh">묶음 1 · 굵게 · 파랑</text>
+<rect x="230" y="58" width="160" height="18" rx="3" fill="#F3F3F3" stroke="#BBB"/>
+<text x="236" y="71" class="m" style="fill:#666">묶음 2 · 회색</text>
+<text x="230" y="92" class="s">빈칸은 배경이 같은 이웃에 흡수</text>
+
+<line x1="400" y1="54" x2="432" y2="54" stroke="#555" marker-end="url(#a)"/>
+
+<!-- 3. one log -->
+<text x="440" y="24" class="b">3. console.log 한 번</text>
+<rect x="440" y="34" width="300" height="56" rx="6" fill="#F7F7F7" stroke="#CCC"/>
+<text x="450" y="52" class="m">console.log(</text>
+<text x="462" y="67" class="m">"%c▼ Hello%c\n%ccount = 1",</text>
+<text x="462" y="82" class="m">css1, "", css2)</text>
+<text x="440" y="108" class="s g">바뀐 칸이 0 개면 log 도 clear 도 안 부른다</text>
+
+<line x1="20" y1="126" x2="740" y2="126" stroke="#DDD"/>
+
+<!-- append vs clear -->
+<text x="20" y="150" class="b">장면 바꾸기 — 지우지 않고 아래에 덧붙인다</text>
+
+<!-- console viewport -->
+<rect x="40" y="196" width="300" height="172" fill="none" stroke="#333"/>
+
+<text x="40" y="386" class="s">콘솔 (맨 아래를 따라 스크롤)</text>
+<!-- old frame above, partly out -->
+<text x="264" y="184" class="s">← 장면 1: 콘솔 위로 밀려나 안 보인다</text>
+<rect x="56" y="172" width="200" height="16" fill="#3B6FB6" opacity="0.25"/>
+<text x="62" y="184" class="m" opacity="0.4">count = 0</text>
+<!-- curtain -->
+<rect x="44" y="198" width="292" height="104" fill="#FFF4D6" stroke="#B07D00" stroke-dasharray="4 3"/>
+<text x="56" y="246" class="s">장면 2 앞의 커튼: 폭 0 · margin-top:100vh 묶음</text>
+<text x="56" y="262" class="s">(Firefox · Safari 는 line-height:100vh)</text>
+<!-- new frame -->
+<rect x="56" y="310" width="200" height="18" fill="#3B6FB6"/>
+<text x="62" y="323" class="c wh">▼ Hello</text>
+<rect x="56" y="328" width="200" height="18" fill="#F3F3F3"/>
+<text x="62" y="341" class="c" style="fill:#888">count = 1</text>
+<text x="264" y="342" class="s g">← 장면 2</text>
+
+<!-- why not clear -->
+<rect x="440" y="200" width="300" height="104" rx="7" fill="#FBE9E7" stroke="#B3261E"/>
+<text x="452" y="220" class="b r">매번 clear 하면 깜빡인다</text>
+<text x="452" y="240" class="s">DevTools 는 clear 는 바로,</text>
+<text x="452" y="256" class="s">새 메시지는 50ms 마다 묶어 그린다</text>
+<text x="452" y="276" class="s">→ 그 사이 빈 콘솔이 보인다</text>
+<text x="452" y="294" class="s">clear 는 첫 장면 · 300 장째 · 100 장 + 1초 쉼</text>
+<text x="440" y="336" class="s">장면 간격 ≥ 66ms (~15fps)</text>
+<text x="440" y="354" class="s">clear 직후엔 한 번 110ms 기다린다</text>
+</svg>
